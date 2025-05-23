@@ -396,8 +396,12 @@ chrome.contextMenus.onClicked.addListener(async (info) => {
     } else if (info.menuItemId.startsWith("interval-")) {
         const value = parseInt(info.menuItemId.replace("interval-", ""), 10);
         await chrome.storage.local.set({ checkInterval: value });
-        // Пересоздаём аларм с новым интервалом
-        chrome.alarms.create('checkMail', { periodInMinutes: value });
+        // Пересоздаём аларм с новым интервалом (принудительно)
+        await chrome.alarms.clear('checkMail');
+        chrome.alarms.create('checkMail', {
+            delayInMinutes: value,
+            periodInMinutes: value
+        });
         updateIntervalMenuItems(value);
     }
 });
@@ -407,9 +411,22 @@ async function initAlarm() {
     const result = await chrome.storage.local.get(['unreadCount', 'lastError', 'errorType', 'lastCheck', 'checkInterval']);
     const interval = result.checkInterval || DEFAULT_INTERVAL;
 
-    chrome.alarms.create('checkMail', {
-        periodInMinutes: interval
-    });
+    // Проверяем, существует ли уже аларм — не пересоздаём, чтобы не сбрасывать таймер
+    const existing = await chrome.alarms.get('checkMail');
+    if (!existing) {
+        chrome.alarms.create('checkMail', {
+            delayInMinutes: interval,
+            periodInMinutes: interval
+        });
+    }
+
+    const existingTooltip = await chrome.alarms.get('updateTooltip');
+    if (!existingTooltip) {
+        chrome.alarms.create('updateTooltip', {
+            delayInMinutes: 1,
+            periodInMinutes: 1
+        });
+    }
 
     lastCheckTime = result.lastCheck || null;
 
@@ -423,9 +440,6 @@ async function initAlarm() {
         }
     }
 }
-
-// Периодическое обновление tooltip (время "N минут назад" устаревает)
-chrome.alarms.create('updateTooltip', { periodInMinutes: 1 });
 
 // Обработчик алармов
 chrome.alarms.onAlarm.addListener((alarm) => {
@@ -441,12 +455,23 @@ chrome.alarms.onAlarm.addListener((alarm) => {
     }
 });
 
-// Установка расширения
-chrome.runtime.onInstalled.addListener(() => {
+// Установка/обновление расширения — принудительно пересоздаём алармы
+chrome.runtime.onInstalled.addListener(async () => {
     createContextMenu();
-    initAlarm();
-    chrome.storage.local.get(['notificationsEnabled'], (result) => {
-        if (result.notificationsEnabled === undefined) {
+    // При установке/обновлении — сбрасываем алармы и создаём заново
+    await chrome.alarms.clearAll();
+    const result = await chrome.storage.local.get(['checkInterval']);
+    const interval = result.checkInterval || DEFAULT_INTERVAL;
+    chrome.alarms.create('checkMail', {
+        delayInMinutes: interval,
+        periodInMinutes: interval
+    });
+    chrome.alarms.create('updateTooltip', {
+        delayInMinutes: 1,
+        periodInMinutes: 1
+    });
+    chrome.storage.local.get(['notificationsEnabled'], (r) => {
+        if (r.notificationsEnabled === undefined) {
             chrome.storage.local.set({ notificationsEnabled: true });
         }
     });
