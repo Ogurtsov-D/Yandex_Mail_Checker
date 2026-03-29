@@ -4,10 +4,10 @@
   "version": "1.0",
   "description": "Проверяет количество непрочитанных писем в Yandex почте",
   "permissions": [
-    "activeTab",
     "storage",
     "alarms",
-    "contextMenus"
+    "contextMenus",
+    "notifications"
   ],
   "host_permissions": [
     "https://mail.yandex.ru/*"
