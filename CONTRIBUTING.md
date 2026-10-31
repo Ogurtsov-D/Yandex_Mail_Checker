@@ -27,7 +27,7 @@ npm test
 | `npm run lint` | ESLint и проверка форматирования Prettier |
 | `npm run format` | Отформатировать код Prettier |
 | `npm run build` | Собрать `dist/chrome/`, `dist/firefox/` и zip-архивы для релиза |
-| `npm run lint:firefox` | Собрать и проверить версию для Firefox официальным линтером Mozilla (`web-ext lint`) |
+| `npm run lint:firefox` | Собрать и проверить версию для Firefox официальным линтером Mozilla (`web-ext lint --self-hosted`) |
 | `npm run check` | Всё сразу — то же, что проверяет GitHub Actions |
 
 ## Структура проекта
@@ -54,6 +54,7 @@ npm test
 │   └── fixtures/          # образцы HTML-страниц lite-версии
 ├── scripts/
 │   ├── build.mjs          # сборка архивов
+│   ├── firefox-update-manifest.mjs  # updates.json для автообновления Firefox
 │   └── release-notes.mjs  # описание релиза из CHANGELOG.md
 ├── docs/
 │   ├── screenshot.png     # картинка для README
@@ -79,11 +80,38 @@ npm test
 
 ## Выпуск новой версии
 
-1. Обновите версию в `manifest.json` и `package.json` (одинаковую, например `1.5.0`).
+1. Обновите версию в `manifest.json` и `package.json` (одинаковую, например `1.5.0`). Каждая версия выпускается один раз: Mozilla не подпишет её повторно.
 2. Переименуйте `## [Не выпущено]` в `CHANGELOG.md` в `## [1.5.0] — ГГГГ-ММ-ДД`.
 3. Влейте изменения в `main` и дождитесь зелёной проверки.
 4. Создайте тег — любым способом:
     - в терминале: `git tag v1.5.0 && git push origin v1.5.0`;
     - на GitHub: **Releases → Draft a new release → Choose a tag → `v1.5.0` (Create new tag) → Publish release**.
 
-GitHub Actions проверит, что тег совпадает с версией в `manifest.json`, прогонит тесты, соберёт архивы для Chrome и Firefox и приложит их к релизу (описание берётся из `CHANGELOG.md`).
+GitHub Actions проверит, что тег совпадает с версией в `manifest.json`, прогонит тесты, соберёт архивы для Chrome и Firefox, подпишет Firefox-версию в Mozilla и приложит всё к релизу. Описание берётся из `CHANGELOG.md`, если вы не написали своё.
+
+## Подпись для Firefox
+
+Firefox навсегда устанавливает только дополнения, подписанные Mozilla. Релиз отправляет расширение на подпись **без публикации в каталоге** (канал `unlisted`): Mozilla автоматически проверяет его и возвращает подписанный `.xpi`, обычно за несколько минут. К релизу прикладываются:
+
+- `yandex-mail-checker-<версия>-firefox.xpi` — подписанное расширение;
+- `updates.json` — по нему установленный Firefox находит новые версии. Адрес файла (`…/releases/latest/download/updates.json`) прописывается в `update_url` при сборке для Firefox.
+
+### Настройка (один раз)
+
+1. Войдите на [addons.mozilla.org](https://addons.mozilla.org/) с аккаунтом Mozilla (создайте его, если нет).
+2. Откройте [Управление ключами API](https://addons.mozilla.org/developers/addon/api/key/), примите соглашение для разработчиков и нажмите **«Generate new credentials»**.
+3. Скопируйте **JWT issuer** (вида `user:12345678:123`) и **JWT secret**. Секрет показывается один раз.
+4. В репозитории на GitHub: **Settings → Secrets and variables → Actions → New repository secret** — создайте два секрета:
+    - `AMO_JWT_ISSUER` — JWT issuer;
+    - `AMO_JWT_SECRET` — JWT secret.
+
+Без этих секретов релиз собирается как раньше, просто без `.xpi`.
+
+### Если подпись не удалась
+
+Сбой подписи не останавливает релиз: архивы всё равно публикуются, а в журнале шага «Подпись для Firefox» видна причина. Частые случаи:
+
+- **Mozilla отправила версию на ручную проверку** и шаг не дождался ответа (ждёт 15 минут). Дождитесь одобрения в [кабинете разработчика](https://addons.mozilla.org/developers/addons), скачайте подписанный файл, переименуйте в `yandex-mail-checker-<версия>-firefox.xpi` и приложите к релизу вместе с `updates.json` (`node scripts/firefox-update-manifest.mjs <версия> > updates.json`).
+- **Версия уже отправлялась.** Mozilla не принимает одну версию дважды — выпустите следующую (например, `1.4.2`).
+
+`update_url` допустим только при распространении вне каталога. Если расширение когда-нибудь будет опубликовано в каталоге addons.mozilla.org, уберите `update_url` из сборки для Firefox (`scripts/build.mjs`): каталог обновляет расширения сам.
