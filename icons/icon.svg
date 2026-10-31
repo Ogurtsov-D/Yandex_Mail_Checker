@@ -1,6 +1,5 @@
 <!-- Исходник иконки расширения. PNG-версии: node scripts/render-icons.mjs -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="1" y="1" width="30" height="30" rx="8" fill="#FFCC00"/>
-  <rect x="6" y="9" width="20" height="14.5" rx="2.5" fill="#FFFFFF"/>
-  <path d="M7.5 10.8 L16 17.2 L24.5 10.8" fill="none" stroke="#FC3F1D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="1.5" y="5.5" width="29" height="21" rx="4" fill="#FFCC00"/>
+  <path d="M3.5 8 L16 17.5 L28.5 8" fill="none" stroke="#FC3F1D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
