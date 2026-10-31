@@ -132,15 +132,6 @@
       }
     }
   },
-  "errorHttp": {
-    "message": "HTTP error ($STATUS$)",
-    "description": "Error",
-    "placeholders": {
-      "status": {
-        "content": "$1"
-      }
-    }
-  },
   "errorTimeout": {
     "message": "Yandex did not respond in time",
     "description": "Error"

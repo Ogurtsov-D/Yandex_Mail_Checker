@@ -49,8 +49,8 @@ test('бейдж', () => {
 test('тексты ошибок по типу и HTTP-коду', () => {
     assert.equal(errorText({ errorType: 'server', errorStatus: 503 }), 'Ошибка сервера Яндекса (503)');
     assert.equal(errorText({ errorType: 'parse' }), 'Не удалось прочитать страницу почты');
-    // Состояние, сохранённое версией до 1.5.0, — с готовым текстом ошибки
-    assert.equal(errorText({ errorType: 'legacy', lastError: 'Старый текст' }), 'Старый текст');
+    assert.equal(errorText({ errorType: 'client', errorStatus: 404 }), 'Ошибка запроса (404)');
+    assert.equal(errorText({ errorType: 'unknown' }), 'Внутренняя ошибка расширения');
 });
 
 test('подсказка: успех, ошибка с последним результатом, ничего не известно', () => {
@@ -62,7 +62,7 @@ test('подсказка: успех, ошибка с последним рез�
         'Яндекс Почта: 3 непрочитанных письма\nПроверено в 14:32'
     );
     assert.equal(
-        tooltipText({ errorType: 'network', lastSuccess: at, lastGoodCount: 3 }, now),
+        tooltipText({ errorType: 'network', lastSuccess: at, unreadCount: 3 }, now),
         'Яндекс Почта: Нет подключения\nПоследняя успешная проверка в 14:32: 3 непрочитанных письма'
     );
     assert.equal(tooltipText({ errorType: 'auth' }, now), 'Яндекс Почта: Требуется вход в почту');

@@ -49,7 +49,7 @@ export function isLoginPage(html) {
 }
 
 // Похоже ли это на страницу входящих lite-версии (а не капчу, заглушку или другую вёрстку)
-export function isLiteInboxPage(html) {
+function isLiteInboxPage(html) {
     return html.includes('b-messages') || html.includes('href="/lite/inbox"');
 }
 

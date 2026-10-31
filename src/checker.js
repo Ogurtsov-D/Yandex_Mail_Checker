@@ -7,9 +7,9 @@ import { isLoginPage, parseUnreadCount, parseUnreadMessages } from './parser.js'
 import { RETRY_ALARM } from './settings.js';
 import { renderChecking, renderStatus } from './status.js';
 
-export class MailCheckError extends Error {
-    // type: auth | parse | server | client | http | timeout | network | internal
-    // status — HTTP-код для server/client/http. Текст для пользователя — errorText() в format.js
+class MailCheckError extends Error {
+    // type: auth | parse | server | client | timeout | network | internal
+    // status — HTTP-код для server/client. Текст для пользователя — errorText() в format.js
     constructor(type, status = null) {
         super(status ? `${type} ${status}` : type);
         this.name = 'MailCheckError';
@@ -48,14 +48,9 @@ async function fetchInboxHtml() {
         if (response.type === 'opaqueredirect' || response.status === 0) {
             throw new MailCheckError('auth');
         }
-        if (response.status >= 500) {
-            throw new MailCheckError('server', response.status);
-        }
-        if (response.status >= 400) {
-            throw new MailCheckError('client', response.status);
-        }
+        // Другие не-2xx невозможны: редиректы при redirect: 'manual' приходят как opaqueredirect
         if (!response.ok) {
-            throw new MailCheckError('http', response.status);
+            throw new MailCheckError(response.status >= 500 ? 'server' : 'client', response.status);
         }
 
         return await response.text();
@@ -90,11 +85,11 @@ async function handleSuccess(html) {
         throw new MailCheckError('parse');
     }
 
-    const prev = await ext.storage.local.get(['unreadCount', 'lastGoodCount', 'knownMessageIds']);
+    const prev = await ext.storage.local.get(['unreadCount', 'knownMessageIds']);
     // Первый запуск: запоминаем текущие письма, не уведомляя о старых
     const isFirstRun = prev.knownMessageIds === undefined;
     const knownIds = new Set(prev.knownMessageIds ?? []);
-    const prevCount = prev.lastGoodCount ?? Math.max(prev.unreadCount ?? 0, 0);
+    const prevCount = prev.unreadCount ?? 0;
 
     if (!isFirstRun) {
         // Новые письма определяем по ID, а не по росту счётчика:
@@ -110,10 +105,8 @@ async function handleSuccess(html) {
     const now = Date.now();
     const state = {
         unreadCount: count,
-        lastGoodCount: count,
         errorType: null,
         errorStatus: null,
-        lastError: null,
         lastCheck: now,
         lastSuccess: now
     };
@@ -142,11 +135,11 @@ async function handleFailure(error) {
     }
 
     // Храним тип ошибки, а не текст: подсказка покажет его на текущем языке браузера
-    const update = { errorType: type, errorStatus: error.status ?? null, lastError: null, lastCheck: Date.now() };
+    const update = { errorType: type, errorStatus: error.status ?? null, lastCheck: Date.now() };
     await ext.storage.local.set(update);
-    // Последний успешный результат сохраняется и показывается в подсказке
-    const { lastSuccess, lastGoodCount } = await ext.storage.local.get(['lastSuccess', 'lastGoodCount']);
-    return { ...update, lastSuccess, lastGoodCount };
+    // unreadCount при ошибке не меняется — это последний успешный результат, он показывается в подсказке
+    const { lastSuccess, unreadCount } = await ext.storage.local.get(['lastSuccess', 'unreadCount']);
+    return { ...update, lastSuccess, unreadCount };
 }
 
 // Проверить почту и обновить иконку. manual — проверка по команде пользователя (показывает «↻»)

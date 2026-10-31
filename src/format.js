@@ -28,7 +28,6 @@ const ERROR_MESSAGES = {
     auth: 'errorAuth',
     server: 'errorServer',
     client: 'errorClient',
-    http: 'errorHttp',
     timeout: 'errorTimeout',
     network: 'errorNetwork',
     parse: 'errorParse',
@@ -37,9 +36,8 @@ const ERROR_MESSAGES = {
 
 // Текст ошибки на текущем языке (в хранилище лежит только её тип и HTTP-код)
 export function errorText(state) {
-    const key = ERROR_MESSAGES[state.errorType];
-    if (key) return state.errorStatus ? t(key, state.errorStatus) : t(key);
-    return state.lastError || t('errorInternal'); // состояние от версий до 1.5.0
+    const key = ERROR_MESSAGES[state.errorType] ?? 'errorInternal';
+    return state.errorStatus ? t(key, state.errorStatus) : t(key);
 }
 
 // Текст на бейдже по сохранённому состоянию
@@ -58,7 +56,7 @@ export function tooltipText(state, now = Date.now()) {
     if (state.errorType) {
         const lines = [`${service}: ${errorText(state)}`];
         if (state.lastSuccess) {
-            lines.push(t('lastSuccess', formatCheckTime(state.lastSuccess, now), unreadText(state.lastGoodCount ?? 0)));
+            lines.push(t('lastSuccess', formatCheckTime(state.lastSuccess, now), unreadText(state.unreadCount ?? 0)));
         }
         return lines.join('\n');
     }

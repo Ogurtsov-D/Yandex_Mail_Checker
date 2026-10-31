@@ -4,7 +4,7 @@
 import { ext } from './api.js';
 import { checkMail, setLastCheckTime } from './checker.js';
 import { createContextMenu, handleMenuClick } from './menu.js';
-import { NOTIFICATION_ID, takeNotificationTarget } from './notifications.js';
+import { getNotificationTarget, NOTIFICATION_ID } from './notifications.js';
 import { CHECK_ALARM, RETRY_ALARM, scheduleCheckAlarm } from './settings.js';
 import { loadState, renderStatus } from './status.js';
 import { handleTabRemoved, handleTabUpdated, openMail } from './tabs.js';
@@ -19,7 +19,7 @@ async function restore() {
 
 // Установка или обновление расширения
 ext.runtime.onInstalled.addListener(async () => {
-    await ext.alarms.clearAll(); // убирает и будильники старых версий
+    await ext.alarms.clearAll(); // расписание с нуля: в новой версии оно могло измениться
     await scheduleCheckAlarm({ reset: true });
     await createContextMenu();
     await checkMail();
@@ -44,7 +44,7 @@ ext.action.onClicked.addListener(() => openMail());
 // Клик по уведомлению — открыть письмо (или почту, если писем несколько)
 ext.notifications.onClicked.addListener(async (notificationId) => {
     if (notificationId !== NOTIFICATION_ID) return;
-    const target = await takeNotificationTarget();
+    const target = await getNotificationTarget();
     await ext.notifications.clear(NOTIFICATION_ID);
     await openMail(target);
 });
