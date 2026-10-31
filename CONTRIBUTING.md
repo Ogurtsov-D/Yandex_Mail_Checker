@@ -38,7 +38,8 @@ npm test
 │   ├── background.js      # точка входа: регистрация обработчиков событий
 │   ├── checker.js         # проверка почты: запрос, разбор, уведомления, повторы при ошибках
 │   ├── parser.js          # разбор HTML lite-версии (чистые функции)
-│   ├── format.js          # тексты бейджа, подсказки, склонения (чистые функции)
+│   ├── format.js          # тексты бейджа и подсказки, формат времени
+│   ├── i18n.js            # переводы: t() и plural()
 │   ├── notifications.js   # системные уведомления
 │   ├── tabs.js            # открытие почты и письма, перепроверка после действий во вкладке
 │   ├── menu.js            # контекстное меню на иконке
@@ -47,7 +48,12 @@ npm test
 │   ├── api.js             # chrome.* / browser.*
 │   ├── config.js          # адреса, интервалы, таймауты, флаг DEBUG
 │   └── log.js             # отладочный вывод
-├── icons/                 # иконки 16, 32, 48, 128 px
+├── _locales/
+│   ├── ru/messages.json   # русский интерфейс
+│   └── en/messages.json   # английский интерфейс (используется по умолчанию)
+├── icons/
+│   ├── icon.svg           # исходник иконки
+│   └── icon*.png          # 16, 32, 48, 128 px — собираются из icon.svg
 ├── tests/
 │   ├── *.test.js          # автотесты
 │   ├── helpers/           # имитация API браузера и генератор страниц
@@ -55,20 +61,41 @@ npm test
 ├── scripts/
 │   ├── build.mjs          # сборка архивов
 │   ├── firefox-update-manifest.mjs  # updates.json для автообновления Firefox
+│   ├── render-icons.mjs   # PNG-иконки из icons/icon.svg
 │   └── release-notes.mjs  # описание релиза из CHANGELOG.md
 ├── docs/
-│   ├── screenshot.png     # картинка для README
-│   └── mockup.html        # её исходник
+│   ├── screenshot.png, screenshot-en.png  # картинки для README и README.en.md
+│   └── mockup.html, mockup-en.html        # их исходники
+├── README.md, README.en.md                # описание на русском и английском
 └── .github/               # GitHub Actions, Dependabot, шаблоны Issues и PR
 ```
 
 ## Как устроены тесты
 
-- `parser.test.js`, `format.test.js` — чистые функции, проверяются напрямую.
+- `parser.test.js` — разбор страниц, чистые функции.
+- `format.test.js`, `format-en.test.js` — тексты интерфейса на русском и английском.
 - `checker.test.js`, `background.test.js`, `firefox.test.js` — логика расширения на имитации API браузера (`tests/helpers/browser-mock.js`): хранилище, будильники, уведомления, вкладки и ответы Яндекса подменяются, таймеры управляются через `mock.timers`.
-- `manifest.test.js` — версии совпадают, файлы на месте, иконки нужных размеров.
+- `manifest.test.js` — версии совпадают, файлы на месте, иконки нужных размеров, переводы полные: каждый ключ из кода есть в обоих языках.
 
 **Если Яндекс изменил вёрстку**, сохраните новую страницу в `tests/fixtures/` (инструкция и требования к удалению личных данных — в [tests/fixtures/README.md](tests/fixtures/README.md)), добавьте тест и поправьте `src/parser.js`.
+
+## Переводы
+
+Все тексты интерфейса — в `_locales/ru/messages.json` и `_locales/en/messages.json`; в коде они берутся через `t('ключ')` и `plural('ключ', число)` из `src/i18n.js`. Язык выбирает браузер: русский — для русского интерфейса браузера, английский — для всех остальных.
+
+- Новый текст добавляйте **в оба файла** — иначе упадёт `manifest.test.js`.
+- Формы числа — отдельные ключи с суффиксами [правил Unicode](https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html): для русского `_one`, `_few`, `_many`, `_other` (1 письмо, 2 письма, 5 писем, 1,5 письма), для английского `_one`, `_other`.
+- Подстановки — через `placeholders` (`$COUNT$` → `$1`), как в [документации Chrome](https://developer.chrome.com/docs/extensions/reference/api/i18n).
+- Новый язык: создайте `_locales/<код>/messages.json` со всеми ключами и укажите код языка в ключе `locale`.
+
+## Иконка
+
+Исходник — `icons/icon.svg`. После правки пересоберите PNG (нужен Playwright, в проект он не входит):
+
+```bash
+npm install -g playwright && npx playwright install chromium
+NODE_PATH="$(npm root -g)" node scripts/render-icons.mjs
+```
 
 ## Обновления зависимостей
 
@@ -79,7 +106,8 @@ npm test
 - Перед отправкой запустите `npm run check`.
 - Новое поведение — с тестом.
 - Изменения, заметные пользователю, — в раздел `## [Не выпущено]` в начале `CHANGELOG.md` (создайте его, если нет).
-- Если изменились тексты меню, бейджа или уведомлений, обновите `docs/mockup.html` и пересоздайте `docs/screenshot.png`: откройте макет в Chrome → DevTools → Ctrl+Shift+P → «Capture full size screenshot».
+- Если изменились тексты меню, бейджа или уведомлений, обновите `docs/mockup.html` и `docs/mockup-en.html` и пересоздайте `docs/screenshot.png` и `docs/screenshot-en.png`: откройте макет в Chrome → DevTools → Ctrl+Shift+P → «Capture full size screenshot».
+- Если меняется README, обновите и английскую версию `README.en.md`.
 - Расширение не должно обращаться никуда, кроме `mail.yandex.ru`, и не должно выполнять действий в почте.
 
 ## Выпуск новой версии
