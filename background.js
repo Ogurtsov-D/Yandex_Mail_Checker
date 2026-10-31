@@ -1,25 +1,39 @@
+const INBOX_URL = 'https://mail.yandex.ru/lite/inbox';
 const DEFAULT_INTERVAL = 5; // минут по умолчанию
 const RETRY_INTERVAL_SEC = 30; // секунд между ретраями при ошибке
-const MAX_RETRIES = 2; // сколько быстрых ретраев перед переходом на 5-минутный интервал
+const MAX_RETRIES = 2; // сколько быстрых ретраев перед переходом на штатный интервал
+const FETCH_TIMEOUT_MS = 20000; // таймаут запроса к Яндексу
+const MAX_KNOWN_IDS = 100; // сколько ID писем помнить для дедупликации уведомлений
+
+// Ошибки, при которых быстрый ретрай бессмысленен (нужно действие пользователя или Яндекса)
+const NO_RETRY_ERRORS = new Set(['auth', 'parse']);
 
 let isChecking = false;
-let retryCount = 0;
 let lastCheckTime = null;
 
-// Функция для проверки почты
-async function checkYandexMail(isManualCheck = false) {
-    if (isChecking) return;
-    isChecking = true;
+// Счётчик ретраев хранится в storage.session: service worker выгружается между
+// ретраями, и переменная в памяти обнулялась бы, давая бесконечные повторы.
+async function getRetryCount() {
+    const { retryCount } = await chrome.storage.session.get('retryCount');
+    return retryCount ?? 0;
+}
 
-    if (isManualCheck) {
-        showLoadingIndicator();
-    }
+async function setRetryCount(value) {
+    await chrome.storage.session.set({ retryCount: value });
+}
+
+// Загрузка lite-версии входящих с таймаутом
+async function fetchInboxHtml() {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
 
     try {
-        const response = await fetch('https://mail.yandex.ru/lite/inbox', {
+        const response = await fetch(INBOX_URL, {
             method: 'GET',
             credentials: 'include',
-            redirect: 'manual'
+            redirect: 'manual',
+            cache: 'no-store',
+            signal: controller.signal
         });
 
         // redirect: 'manual' превращает редирект в opaqueredirect (type = 'opaqueredirect', status = 0)
@@ -37,30 +51,63 @@ async function checkYandexMail(isManualCheck = false) {
             throw { type: 'http', message: `HTTP ${status}` };
         }
 
+        return await response.text();
+    } catch (error) {
+        if (error && error.name === 'AbortError') {
+            throw { type: 'timeout', message: 'Яндекс не ответил вовремя' };
+        }
+        throw error;
+    } finally {
+        clearTimeout(timer);
+    }
+}
+
+// Функция для проверки почты
+async function checkYandexMail(isManualCheck = false) {
+    if (isChecking) return;
+    isChecking = true;
+
+    if (isManualCheck) {
+        showLoadingIndicator();
+    }
+
+    try {
+        const html = await fetchInboxHtml();
+
         // Проверяем, не вернули ли страницу логина вместо почты
-        const html = await response.text();
         if (html.includes('passport.yandex.ru') && !html.includes('b-messages')) {
             throw { type: 'auth', message: 'Требуется авторизация' };
         }
 
-        const count = parseUnreadCount(html);
         const newMessages = parseNewMessages(html);
-
-        // Получаем предыдущее значение для сравнения
-        const prev = await chrome.storage.local.get(['unreadCount', 'knownMessageIds']);
-        const prevCount = prev.unreadCount ?? 0;
-        const knownIds = new Set(prev.knownMessageIds ?? []);
-
-        // Уведомление если появились новые письма
-        if (count > 0 && count > prevCount) {
-            const unseen = newMessages.filter(m => !knownIds.has(m.id));
-            await showNotification(count, prevCount, unseen);
+        const count = parseUnreadCount(html, newMessages);
+        if (count === null) {
+            // Капча, изменившаяся вёрстка и т.п. — не выдаём это за «0 писем»
+            throw { type: 'parse', message: 'Не удалось прочитать страницу почты' };
         }
 
-        // Запоминаем ID показанных писем (храним последние 100)
-        const allIds = [...new Set([...knownIds, ...newMessages.map(m => m.id)])].slice(-100);
+        const prev = await chrome.storage.local.get(['unreadCount', 'lastGoodCount', 'knownMessageIds']);
+        // Первый запуск: запоминаем текущие письма, не засыпая пользователя уведомлениями о старых
+        const isFirstRun = prev.knownMessageIds === undefined;
+        const knownIds = new Set(prev.knownMessageIds ?? []);
+        const prevCount = prev.lastGoodCount ?? Math.max(prev.unreadCount ?? 0, 0);
 
-        retryCount = 0; // сбрасываем счётчик ретраев при успехе
+        if (!isFirstRun) {
+            // Новые письма определяем по ID, а не по росту счётчика:
+            // «прочитал одно + пришло одно» не меняет счётчик, но письмо новое.
+            const unseen = newMessages.filter(m => !knownIds.has(m.id));
+            if (unseen.length > 0) {
+                await showNotification(unseen);
+            } else if (newMessages.length === 0 && count > prevCount) {
+                // Детали писем распарсить не удалось — уведомляем хотя бы о количестве
+                await showCountNotification(count - prevCount);
+            }
+        }
+
+        // Запоминаем ID показанных писем (храним последние MAX_KNOWN_IDS)
+        const allIds = [...new Set([...knownIds, ...newMessages.map(m => m.id)])].slice(-MAX_KNOWN_IDS);
+
+        await setRetryCount(0); // сбрасываем счётчик ретраев при успехе
         lastCheckTime = Date.now();
 
         updateBadge(count);
@@ -68,6 +115,7 @@ async function checkYandexMail(isManualCheck = false) {
 
         await chrome.storage.local.set({
             unreadCount: count,
+            lastGoodCount: count,
             lastCheck: lastCheckTime,
             lastError: null,
             errorType: null,
@@ -77,27 +125,27 @@ async function checkYandexMail(isManualCheck = false) {
     } catch (error) {
         console.error('Error checking mail:', error);
 
-        const errorType = error.type || 'network';
-        const errorMessage = error.message || 'Нет подключения';
+        // Ошибки без type — это исключения fetch (TypeError: Failed to fetch), т.е. нет сети
+        const errorType = error?.type || 'network';
+        const errorMessage = error?.type ? error.message : 'Нет подключения';
 
         lastCheckTime = Date.now();
 
-        if (errorType === 'auth') {
-            // Авторизация — не ретраим, показываем сразу
-            retryCount = 0;
-            updateBadge(-1, 'auth');
-            updateTooltip(errorMessage);
+        updateBadge(-1, errorType);
+        updateTooltip(errorMessage);
+
+        if (NO_RETRY_ERRORS.has(errorType)) {
+            await setRetryCount(0);
         } else {
             // Сетевая/серверная ошибка — ретрай
-            retryCount++;
-            updateBadge(-1, 'error');
-            updateTooltip(errorMessage);
+            const retryCount = (await getRetryCount()) + 1;
+            await setRetryCount(retryCount);
 
             if (retryCount <= MAX_RETRIES) {
                 // Быстрый ретрай через 30 секунд
                 chrome.alarms.create('retryCheck', { delayInMinutes: RETRY_INTERVAL_SEC / 60 });
             }
-            // После MAX_RETRIES — просто ждём следующий штатный цикл (5 мин)
+            // После MAX_RETRIES — просто ждём следующий штатный цикл
         }
 
         await chrome.storage.local.set({
@@ -127,12 +175,12 @@ function parseNewMessages(html) {
         const id = idMatch ? idMatch[1].split(':')[0] : '';
 
         // Отправитель: span.b-messages__from__text > span.b-messages__from__text
-        const fromMatch = block.match(/class="b-messages__from__text"[^>]*><span class="b-messages__from__text">([^<]+)<\/span>/);
-        const from = fromMatch ? fromMatch[1].trim() : '';
+        const fromMatch = block.match(/class="b-messages__from__text"[^>]*><span class="b-messages__from__text">([\s\S]*?)<\/span>/);
+        const from = fromMatch ? cleanHtmlText(fromMatch[1]) : '';
 
         // Тема: span.b-messages__subject"><span>...</span>
-        const subjMatch = block.match(/class="b-messages__subject"><span>([^<]+)<\/span>/);
-        const subject = subjMatch ? subjMatch[1].trim() : '';
+        const subjMatch = block.match(/class="b-messages__subject"><span>([\s\S]*?)<\/span>/);
+        const subject = subjMatch ? cleanHtmlText(subjMatch[1]) : '';
 
         if (id) {
             messages.push({ id, from, subject });
@@ -142,52 +190,84 @@ function parseNewMessages(html) {
     return messages;
 }
 
-// Уведомление о новых письмах
-async function showNotification(count, prevCount, unseenMessages) {
+const NAMED_ENTITIES = {
+    amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ',
+    laquo: '«', raquo: '»', mdash: '—', ndash: '–', hellip: '…', copy: '©', reg: '®'
+};
+
+// Декодирование HTML-сущностей (&quot;, &amp;, &#39;, &#x2014; …).
+// В service worker нет DOMParser, поэтому делаем это вручную.
+function decodeHtmlEntities(text) {
+    return text.replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (match, entity) => {
+        if (entity[0] === '#') {
+            const isHex = entity[1] === 'x' || entity[1] === 'X';
+            const code = parseInt(entity.slice(isHex ? 2 : 1), isHex ? 16 : 10);
+            try {
+                return String.fromCodePoint(code);
+            } catch {
+                return match;
+            }
+        }
+        return NAMED_ENTITIES[entity.toLowerCase()] ?? match;
+    });
+}
+
+// Текст из фрагмента HTML: убираем теги, декодируем сущности, схлопываем пробелы
+function cleanHtmlText(fragment) {
+    return decodeHtmlEntities(fragment.replace(/<[^>]*>/g, ''))
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+function newMailTitle(n) {
+    return `${n} ${pluralize(n, 'новое письмо', 'новых письма', 'новых писем')}`;
+}
+
+// Уведомление о новых письмах (с отправителем и темой)
+async function showNotification(unseenMessages) {
     const settings = await chrome.storage.local.get(['notificationsEnabled']);
     if (settings.notificationsEnabled === false) return;
 
-    const newCount = count - Math.max(prevCount, 0);
+    // Показываем до 3 последних писем
+    const toShow = unseenMessages.slice(0, 3);
 
-    // Если удалось распарсить конкретные письма — показываем отправителя и тему
-    if (unseenMessages.length > 0) {
-        // Показываем до 3 последних писем
-        const toShow = unseenMessages.slice(0, 3);
-
-        if (toShow.length === 1) {
-            const m = toShow[0];
-            chrome.notifications.create('new-mail', {
-                type: 'basic',
-                iconUrl: 'icon128.png',
-                title: m.from || 'Новое письмо',
-                message: m.subject || '(без темы)',
-                priority: 1
-            });
-        } else {
-            const items = toShow.map(m => ({
-                title: m.from || 'Отправитель',
-                message: m.subject || '(без темы)'
-            }));
-            chrome.notifications.create('new-mail', {
-                type: 'list',
-                iconUrl: 'icon128.png',
-                title: `${newCount} ${pluralize(newCount, 'новое письмо', 'новых письма', 'новых писем')}`,
-                message: '',
-                items: items,
-                priority: 1
-            });
-        }
-    } else {
-        // Fallback: не удалось распарсить детали
-        const message = `${newCount} ${pluralize(newCount, 'новое письмо', 'новых письма', 'новых писем')}`;
+    if (toShow.length === 1) {
+        const m = toShow[0];
         chrome.notifications.create('new-mail', {
             type: 'basic',
             iconUrl: 'icon128.png',
-            title: message,
-            message: 'Откройте почту для просмотра',
+            title: m.from || 'Новое письмо',
+            message: m.subject || '(без темы)',
+            priority: 1
+        });
+    } else {
+        const items = toShow.map(m => ({
+            title: m.from || 'Отправитель',
+            message: m.subject || '(без темы)'
+        }));
+        chrome.notifications.create('new-mail', {
+            type: 'list',
+            iconUrl: 'icon128.png',
+            title: newMailTitle(unseenMessages.length),
+            message: '',
+            items: items,
             priority: 1
         });
     }
+}
+
+// Fallback-уведомление, когда детали писем распарсить не удалось
+async function showCountNotification(newCount) {
+    const settings = await chrome.storage.local.get(['notificationsEnabled']);
+    if (settings.notificationsEnabled === false) return;
+
+    chrome.notifications.create('new-mail', {
+        type: 'basic',
+        iconUrl: 'icon128.png',
+        title: newMailTitle(newCount),
+        message: 'Откройте почту для просмотра',
+        priority: 1
+    });
 }
 
 // Склонение слов
@@ -262,46 +342,53 @@ function formatTimeAgo(timestamp) {
     return `${hours} ${pluralize(hours, 'час', 'часа', 'часов')} назад`;
 }
 
-// Парсинг количества непрочитанных писем
-function parseUnreadCount(html) {
-    try {
-        // Извлекаем title для логирования
-        const titleTag = html.match(/<title>([^<]*)<\/title>/);
-        console.log('Page title:', titleTag ? titleTag[1] : 'not found');
+// Похоже ли это на страницу входящих lite-версии (а не капчу/заглушку/другую вёрстку)
+function isLiteInboxPage(html) {
+    return html.includes('b-messages') || html.includes('href="/lite/inbox"');
+}
 
-        // Метод 1: Поиск в <title> — "Входящие (47 новых писем)"
-        const titleRegex = /<title>[^\(]*Входящие[^\(]*\((\d+)[^\)]*нов/;
-        const titleMatch = html.match(titleRegex);
-        if (titleMatch && titleMatch[1]) {
-            const count = parseInt(titleMatch[1], 10);
-            console.log('Method 1 (title):', count);
-            return isNaN(count) ? 0 : Math.max(0, count);
-        }
+// Парсинг количества непрочитанных писем.
+// Возвращает число или null, если страницу распознать не удалось.
+function parseUnreadCount(html, parsedMessages = []) {
+    const titleTag = html.match(/<title>([^<]*)<\/title>/);
+    console.log('Page title:', titleTag ? titleTag[1] : 'not found');
 
-        // Метод 2: data-key="inbox" с data-count
-        const inboxRegex = /data-key="inbox"[^>]*data-count="(\d+)"/;
-        const inboxMatch = html.match(inboxRegex);
-        if (inboxMatch && inboxMatch[1]) {
-            const count = parseInt(inboxMatch[1], 10);
-            console.log('Method 2 (data-key):', count);
-            return isNaN(count) ? 0 : Math.max(0, count);
-        }
-
-        // Метод 3: Счётчик из aria-label ссылки "Входящие"
-        const ariaRegex = /href="\/lite\/inbox"[^>]*aria-label="Входящие,\s*(\d+)\s*нов/;
-        const ariaMatch = html.match(ariaRegex);
-        if (ariaMatch && ariaMatch[1]) {
-            const count = parseInt(ariaMatch[1], 10);
-            console.log('Method 3 (aria-label):', count);
-            return isNaN(count) ? 0 : Math.max(0, count);
-        }
-
-        console.log('No method matched, returning 0');
-        return 0;
-    } catch (error) {
-        console.error('Error parsing HTML:', error);
-        return -1;
+    // Метод 1: число в скобках в <title> — "Входящие (47 новых писем)", "Inbox (47 new)".
+    // Не завязываемся на слово «Входящие», чтобы работало при любом языке интерфейса.
+    const titleMatch = html.match(/<title>[^<(]*\((\d+)[^)<]*\)/);
+    if (titleMatch) {
+        console.log('Method 1 (title):', titleMatch[1]);
+        return parseInt(titleMatch[1], 10);
     }
+
+    // Метод 2: data-key="inbox" с data-count
+    const inboxMatch = html.match(/data-key="inbox"[^>]*data-count="(\d+)"/);
+    if (inboxMatch) {
+        console.log('Method 2 (data-key):', inboxMatch[1]);
+        return parseInt(inboxMatch[1], 10);
+    }
+
+    // Метод 3: счётчик из aria-label ссылки "Входящие"
+    const ariaMatch = html.match(/href="\/lite\/inbox"[^>]*aria-label="Входящие,\s*(\d+)\s*нов/);
+    if (ariaMatch) {
+        console.log('Method 3 (aria-label):', ariaMatch[1]);
+        return parseInt(ariaMatch[1], 10);
+    }
+
+    // Метод 4: считаем непрочитанные письма на первой странице списка
+    if (parsedMessages.length > 0) {
+        console.log('Method 4 (unread blocks):', parsedMessages.length);
+        return parsedMessages.length;
+    }
+
+    // Страница входящих распознана, но непрочитанных нет — это честный ноль
+    if (isLiteInboxPage(html)) {
+        console.log('Inbox page without unread messages');
+        return 0;
+    }
+
+    console.warn('Unrecognized page, cannot determine unread count');
+    return null;
 }
 
 // Создание контекстного меню
