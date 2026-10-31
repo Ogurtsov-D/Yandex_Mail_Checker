@@ -1,3 +1,9 @@
+// Firefox предоставляет promise-based `browser`, Chrome — `chrome` (тоже с промисами в MV3)
+const ext = globalThis.browser ?? globalThis.chrome;
+const IS_FIREFOX = typeof globalThis.browser?.runtime?.getBrowserInfo === 'function';
+
+const MAIL_URL = 'https://mail.yandex.ru/';
+const MAIL_TAB_PATTERN = 'https://mail.yandex.ru/*';
 const INBOX_URL = 'https://mail.yandex.ru/lite/inbox';
 const DEFAULT_INTERVAL = 5; // минут по умолчанию
 const RETRY_INTERVAL_SEC = 30; // секунд между ретраями при ошибке
@@ -14,12 +20,12 @@ let lastCheckTime = null;
 // Счётчик ретраев хранится в storage.session: service worker выгружается между
 // ретраями, и переменная в памяти обнулялась бы, давая бесконечные повторы.
 async function getRetryCount() {
-    const { retryCount } = await chrome.storage.session.get('retryCount');
+    const { retryCount } = await ext.storage.session.get('retryCount');
     return retryCount ?? 0;
 }
 
 async function setRetryCount(value) {
-    await chrome.storage.session.set({ retryCount: value });
+    await ext.storage.session.set({ retryCount: value });
 }
 
 // Загрузка lite-версии входящих с таймаутом
@@ -86,7 +92,7 @@ async function checkYandexMail(isManualCheck = false) {
             throw { type: 'parse', message: 'Не удалось прочитать страницу почты' };
         }
 
-        const prev = await chrome.storage.local.get(['unreadCount', 'lastGoodCount', 'knownMessageIds']);
+        const prev = await ext.storage.local.get(['unreadCount', 'lastGoodCount', 'knownMessageIds']);
         // Первый запуск: запоминаем текущие письма, не засыпая пользователя уведомлениями о старых
         const isFirstRun = prev.knownMessageIds === undefined;
         const knownIds = new Set(prev.knownMessageIds ?? []);
@@ -113,7 +119,7 @@ async function checkYandexMail(isManualCheck = false) {
         updateBadge(count);
         updateTooltip();
 
-        await chrome.storage.local.set({
+        await ext.storage.local.set({
             unreadCount: count,
             lastGoodCount: count,
             lastCheck: lastCheckTime,
@@ -143,12 +149,12 @@ async function checkYandexMail(isManualCheck = false) {
 
             if (retryCount <= MAX_RETRIES) {
                 // Быстрый ретрай через 30 секунд
-                chrome.alarms.create('retryCheck', { delayInMinutes: RETRY_INTERVAL_SEC / 60 });
+                ext.alarms.create('retryCheck', { delayInMinutes: RETRY_INTERVAL_SEC / 60 });
             }
             // После MAX_RETRIES — просто ждём следующий штатный цикл
         }
 
-        await chrome.storage.local.set({
+        await ext.storage.local.set({
             unreadCount: -1,
             lastCheck: lastCheckTime,
             lastError: errorMessage,
@@ -170,9 +176,11 @@ function parseNewMessages(html) {
         // Только непрочитанные
         if (!block.includes('b-messages__message_unread')) continue;
 
-        // ID: value="192247409093380563" или value="192247409093380553:3" (тред)
-        const idMatch = block.match(/name="(?:ids|tids)"[^>]*value="([^"]+)"/);
-        const id = idMatch ? idMatch[1].split(':')[0] : '';
+        // ID: name="ids" value="192247409093380563" (письмо)
+        // или name="tids" value="192247409093380553:3" (тред, после двоеточия — число писем)
+        const idMatch = block.match(/name="(ids|tids)"[^>]*value="([^"]+)"/);
+        const id = idMatch ? idMatch[2].split(':')[0] : '';
+        const isThread = idMatch ? idMatch[1] === 'tids' : false;
 
         // Отправитель: span.b-messages__from__text > span.b-messages__from__text
         const fromMatch = block.match(/class="b-messages__from__text"[^>]*><span class="b-messages__from__text">([\s\S]*?)<\/span>/);
@@ -183,7 +191,7 @@ function parseNewMessages(html) {
         const subject = subjMatch ? cleanHtmlText(subjMatch[1]) : '';
 
         if (id) {
-            messages.push({ id, from, subject });
+            messages.push({ id, isThread, from, subject });
         }
     }
 
@@ -223,51 +231,77 @@ function newMailTitle(n) {
     return `${n} ${pluralize(n, 'новое письмо', 'новых письма', 'новых писем')}`;
 }
 
+// Адрес письма в полной версии почты (относительно MAIL_URL): #message/<id> или #thread/t<id>
+function messageHash(m) {
+    return m.isThread ? `#thread/t${m.id}` : `#message/${m.id}`;
+}
+
+async function notificationsEnabled() {
+    const settings = await ext.storage.local.get(['notificationsEnabled']);
+    return settings.notificationsEnabled !== false;
+}
+
+// Создание уведомления с учётом различий браузеров.
+// target — hash письма для открытия по клику (null — просто открыть почту).
+async function createMailNotification(options, target) {
+    await ext.storage.session.set({ notificationTarget: target ?? null });
+
+    if (IS_FIREFOX) {
+        // Firefox поддерживает только type: 'basic' и не знает priority
+        const { priority, items, ...rest } = options;
+        if (options.type === 'list') {
+            rest.type = 'basic';
+            rest.message = items.map(i => `${i.title}: ${i.message}`).join('\n');
+        }
+        options = rest;
+    }
+
+    await ext.notifications.create('new-mail', options);
+}
+
 // Уведомление о новых письмах (с отправителем и темой)
 async function showNotification(unseenMessages) {
-    const settings = await chrome.storage.local.get(['notificationsEnabled']);
-    if (settings.notificationsEnabled === false) return;
+    if (!(await notificationsEnabled())) return;
 
     // Показываем до 3 последних писем
     const toShow = unseenMessages.slice(0, 3);
 
     if (toShow.length === 1) {
         const m = toShow[0];
-        chrome.notifications.create('new-mail', {
+        await createMailNotification({
             type: 'basic',
             iconUrl: 'icon128.png',
             title: m.from || 'Новое письмо',
             message: m.subject || '(без темы)',
             priority: 1
-        });
+        }, messageHash(m));
     } else {
         const items = toShow.map(m => ({
             title: m.from || 'Отправитель',
             message: m.subject || '(без темы)'
         }));
-        chrome.notifications.create('new-mail', {
+        await createMailNotification({
             type: 'list',
             iconUrl: 'icon128.png',
             title: newMailTitle(unseenMessages.length),
             message: '',
             items: items,
             priority: 1
-        });
+        }, null);
     }
 }
 
 // Fallback-уведомление, когда детали писем распарсить не удалось
 async function showCountNotification(newCount) {
-    const settings = await chrome.storage.local.get(['notificationsEnabled']);
-    if (settings.notificationsEnabled === false) return;
+    if (!(await notificationsEnabled())) return;
 
-    chrome.notifications.create('new-mail', {
+    await createMailNotification({
         type: 'basic',
         iconUrl: 'icon128.png',
         title: newMailTitle(newCount),
         message: 'Откройте почту для просмотра',
         priority: 1
-    });
+    }, null);
 }
 
 // Склонение слов
@@ -280,19 +314,116 @@ function pluralize(n, one, few, many) {
     return many;
 }
 
-// Клик по уведомлению — открыть почту
-chrome.notifications.onClicked.addListener((notificationId) => {
-    if (notificationId === 'new-mail') {
-        chrome.tabs.create({ url: 'https://mail.yandex.ru' });
-        chrome.notifications.clear('new-mail');
+// ---------- Открытие почты: переиспользуем уже открытую вкладку ----------
+
+function isLiteUrl(url) {
+    return new URL(url).pathname.startsWith('/lite');
+}
+
+// Вкладка, где пользователь пишет письмо: её нельзя уводить на другую страницу
+function isComposeUrl(url) {
+    return /compose/i.test(url);
+}
+
+// Самая недавно использованная вкладка из подходящих
+function mostRecentTab(tabs) {
+    return tabs.reduce((best, t) => (!best || (t.lastAccessed ?? 0) > (best.lastAccessed ?? 0) ? t : best), null);
+}
+
+async function focusTab(tab, url) {
+    await ext.tabs.update(tab.id, url ? { active: true, url } : { active: true });
+    await ext.windows.update(tab.windowId, { focused: true });
+}
+
+// Открыть почту. hash — конкретное письмо ('#message/123'), без него — просто почта.
+async function openMail(hash = null) {
+    const tabs = await ext.tabs.query({ url: MAIL_TAB_PATTERN });
+
+    if (!hash) {
+        const tab = mostRecentTab(tabs);
+        if (tab) {
+            await focusTab(tab);
+        } else {
+            await ext.tabs.create({ url: MAIL_URL });
+        }
+        return;
     }
+
+    // Для конкретного письма подходит вкладка с полной версией, где не пишется письмо.
+    // Меняем только hash — почта откроет письмо без перезагрузки и с тем же ?uid=.
+    const usable = tabs.filter(t => t.url && !isLiteUrl(t.url) && !isComposeUrl(t.url));
+    const tab = mostRecentTab(usable);
+    if (tab) {
+        await focusTab(tab, tab.url.split('#')[0] + hash);
+    } else {
+        await ext.tabs.create({ url: MAIL_URL + hash });
+    }
+}
+
+// Клик по уведомлению — открыть письмо (или почту, если писем несколько)
+ext.notifications.onClicked.addListener(async (notificationId) => {
+    if (notificationId !== 'new-mail') return;
+    const { notificationTarget } = await ext.storage.session.get('notificationTarget');
+    ext.notifications.clear('new-mail');
+    await openMail(notificationTarget ?? null);
+});
+
+// ---------- Перепроверка после действий во вкладке почты ----------
+
+const RECHECK_DELAY_MS = 3000; // ждём, пока Яндекс сохранит «прочитано»
+const MIN_RECHECK_GAP_MS = 15000; // не чаще одного запроса в 15 секунд
+let recheckTimer = null;
+
+function scheduleRecheck() {
+    // Уже запланирована — не откладываем её снова (иначе частые события,
+    // например мигающий заголовок вкладки, отодвигали бы проверку бесконечно)
+    if (recheckTimer) return;
+    const sinceLast = Date.now() - (lastCheckTime ?? 0);
+    const delay = Math.max(RECHECK_DELAY_MS, MIN_RECHECK_GAP_MS - sinceLast);
+    recheckTimer = setTimeout(() => {
+        recheckTimer = null;
+        checkYandexMail(false);
+    }, delay);
+}
+
+function isMailUrl(url) {
+    return typeof url === 'string' && url.startsWith(MAIL_URL);
+}
+
+// ID вкладок почты храним в storage.session: onRemoved не сообщает URL закрытой вкладки
+async function setMailTab(tabId, isMail) {
+    const { mailTabIds = [] } = await ext.storage.session.get('mailTabIds');
+    const had = mailTabIds.includes(tabId);
+    if (had === isMail) return had;
+    const next = isMail ? [...mailTabIds, tabId] : mailTabIds.filter(id => id !== tabId);
+    await ext.storage.session.set({ mailTabIds: next });
+    return had;
+}
+
+// Открыл письмо, вернулся в список, сменил папку — меняется URL; изменилось
+// число непрочитанных — Яндекс меняет заголовок вкладки. В обоих случаях перепроверяем.
+ext.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+    if (!changeInfo.url && !changeInfo.title) return;
+
+    const url = changeInfo.url ?? tab?.url;
+    if (isMailUrl(url)) {
+        await setMailTab(tabId, true);
+        scheduleRecheck();
+    } else if (changeInfo.url) {
+        // Ушли с почты в этой вкладке — тоже повод обновить счётчик
+        if (await setMailTab(tabId, false)) scheduleRecheck();
+    }
+});
+
+ext.tabs.onRemoved.addListener(async (tabId) => {
+    if (await setMailTab(tabId, false)) scheduleRecheck();
 });
 
 // Показываем индикатор загрузки
 function showLoadingIndicator() {
-    chrome.action.setBadgeText({ text: '↻' });
-    chrome.action.setBadgeBackgroundColor({ color: '#d14836' });
-    chrome.action.setTitle({ title: 'Проверка почты...' });
+    ext.action.setBadgeText({ text: '↻' });
+    ext.action.setBadgeBackgroundColor({ color: '#d14836' });
+    ext.action.setTitle({ title: 'Проверка почты...' });
 }
 
 // Обновление бейджа на иконке
@@ -312,8 +443,8 @@ function updateBadge(count, errorType) {
         color = '#d14836'; // красный — ошибка сети/сервера
     }
 
-    chrome.action.setBadgeText({ text });
-    chrome.action.setBadgeBackgroundColor({ color });
+    ext.action.setBadgeText({ text });
+    ext.action.setBadgeBackgroundColor({ color });
 }
 
 // Обновление подсказки с временем последней проверки
@@ -328,7 +459,7 @@ function updateTooltip(errorMessage) {
         tooltip += ` (${formatTimeAgo(lastCheckTime)})`;
     }
 
-    chrome.action.setTitle({ title: tooltip });
+    ext.action.setTitle({ title: tooltip });
 }
 
 // Форматирование "N минут назад"
@@ -393,64 +524,65 @@ function parseUnreadCount(html, parsedMessages = []) {
 
 // Создание контекстного меню
 async function createContextMenu() {
-    const settings = await chrome.storage.local.get(['notificationsEnabled', 'checkInterval']);
+    const settings = await ext.storage.local.get(['notificationsEnabled', 'checkInterval']);
     const notifEnabled = settings.notificationsEnabled !== false;
     const currentInterval = settings.checkInterval || DEFAULT_INTERVAL;
 
-    chrome.contextMenus.removeAll(() => {
-        chrome.contextMenus.create({
-            id: "check-now",
-            title: "Проверить сейчас",
+    // await вместо колбэка: в Firefox у `browser.*` колбэков нет
+    await ext.contextMenus.removeAll();
+
+    ext.contextMenus.create({
+        id: "check-now",
+        title: "Проверить сейчас",
+        contexts: ["action"]
+    });
+
+    ext.contextMenus.create({
+        id: "separator-1",
+        type: "separator",
+        contexts: ["action"]
+    });
+
+    // Подменю интервала
+    ext.contextMenus.create({
+        id: "interval",
+        title: "Интервал проверки",
+        contexts: ["action"]
+    });
+
+    const intervals = [
+        { id: "interval-1", value: 1, label: "1 минута" },
+        { id: "interval-5", value: 5, label: "5 минут" },
+        { id: "interval-15", value: 15, label: "15 минут" },
+        { id: "interval-30", value: 30, label: "30 минут" }
+    ];
+
+    for (const item of intervals) {
+        const mark = item.value === currentInterval ? " ✓" : "";
+        ext.contextMenus.create({
+            id: item.id,
+            parentId: "interval",
+            title: item.label + mark,
             contexts: ["action"]
         });
+    }
 
-        chrome.contextMenus.create({
-            id: "separator-1",
-            type: "separator",
-            contexts: ["action"]
-        });
+    ext.contextMenus.create({
+        id: "separator-2",
+        type: "separator",
+        contexts: ["action"]
+    });
 
-        // Подменю интервала
-        chrome.contextMenus.create({
-            id: "interval",
-            title: "Интервал проверки",
-            contexts: ["action"]
-        });
-
-        const intervals = [
-            { id: "interval-1", value: 1, label: "1 минута" },
-            { id: "interval-5", value: 5, label: "5 минут" },
-            { id: "interval-15", value: 15, label: "15 минут" },
-            { id: "interval-30", value: 30, label: "30 минут" }
-        ];
-
-        for (const item of intervals) {
-            const mark = item.value === currentInterval ? " ✓" : "";
-            chrome.contextMenus.create({
-                id: item.id,
-                parentId: "interval",
-                title: item.label + mark,
-                contexts: ["action"]
-            });
-        }
-
-        chrome.contextMenus.create({
-            id: "separator-2",
-            type: "separator",
-            contexts: ["action"]
-        });
-
-        chrome.contextMenus.create({
-            id: "toggle-notifications",
-            title: notifEnabled ? "🔔 Уведомления (выключить)" : "🔕 Уведомления (включить)",
-            contexts: ["action"]
-        });
+    ext.contextMenus.create({
+        id: "toggle-notifications",
+        title: notifEnabled ? "🔔 Уведомления (выключить)" : "🔕 Уведомления (включить)",
+        contexts: ["action"]
     });
 }
 
 // Обновить текст пункта меню уведомлений
 function updateNotificationMenuItem(enabled) {
-    chrome.contextMenus.update("toggle-notifications", {
+    ext.contextMenus.update("toggle-notifications", {
         title: enabled ? "🔔 Уведомления (выключить)" : "🔕 Уведомления (включить)"
     });
 }
@@ -466,26 +598,26 @@ function updateIntervalMenuItems(selectedValue) {
 
     for (const item of intervals) {
         const mark = item.value === selectedValue ? " ✓" : "";
-        chrome.contextMenus.update(item.id, { title: item.label + mark });
+        ext.contextMenus.update(item.id, { title: item.label + mark });
     }
 }
 
 // Обработчик контекстного меню
-chrome.contextMenus.onClicked.addListener(async (info) => {
+ext.contextMenus.onClicked.addListener(async (info) => {
     if (info.menuItemId === "check-now") {
         checkYandexMail(true);
     } else if (info.menuItemId === "toggle-notifications") {
-        const settings = await chrome.storage.local.get(['notificationsEnabled']);
+        const settings = await ext.storage.local.get(['notificationsEnabled']);
         const current = settings.notificationsEnabled !== false;
         const newValue = !current;
-        await chrome.storage.local.set({ notificationsEnabled: newValue });
+        await ext.storage.local.set({ notificationsEnabled: newValue });
         updateNotificationMenuItem(newValue);
     } else if (info.menuItemId.startsWith("interval-")) {
         const value = parseInt(info.menuItemId.replace("interval-", ""), 10);
-        await chrome.storage.local.set({ checkInterval: value });
+        await ext.storage.local.set({ checkInterval: value });
         // Пересоздаём аларм с новым интервалом (принудительно)
-        await chrome.alarms.clear('checkMail');
-        chrome.alarms.create('checkMail', {
+        await ext.alarms.clear('checkMail');
+        ext.alarms.create('checkMail', {
             delayInMinutes: value,
             periodInMinutes: value
         });
@@ -495,21 +627,21 @@ chrome.contextMenus.onClicked.addListener(async (info) => {
 
 // Инициализация аларма и восстановление состояния
 async function initAlarm() {
-    const result = await chrome.storage.local.get(['unreadCount', 'lastError', 'errorType', 'lastCheck', 'checkInterval']);
+    const result = await ext.storage.local.get(['unreadCount', 'lastError', 'errorType', 'lastCheck', 'checkInterval']);
     const interval = result.checkInterval || DEFAULT_INTERVAL;
 
     // Проверяем, существует ли уже аларм — не пересоздаём, чтобы не сбрасывать таймер
-    const existing = await chrome.alarms.get('checkMail');
+    const existing = await ext.alarms.get('checkMail');
     if (!existing) {
-        chrome.alarms.create('checkMail', {
+        ext.alarms.create('checkMail', {
             delayInMinutes: interval,
             periodInMinutes: interval
         });
     }
 
-    const existingTooltip = await chrome.alarms.get('updateTooltip');
+    const existingTooltip = await ext.alarms.get('updateTooltip');
     if (!existingTooltip) {
-        chrome.alarms.create('updateTooltip', {
+        ext.alarms.create('updateTooltip', {
             delayInMinutes: 1,
             periodInMinutes: 1
         });
@@ -529,51 +661,52 @@ async function initAlarm() {
 }
 
 // Обработчик алармов
-chrome.alarms.onAlarm.addListener((alarm) => {
+ext.alarms.onAlarm.addListener((alarm) => {
     if (alarm.name === 'checkMail') {
         checkYandexMail(false);
     } else if (alarm.name === 'retryCheck') {
         checkYandexMail(false);
     } else if (alarm.name === 'updateTooltip') {
         // Обновляем tooltip чтобы "N минут назад" было актуальным
-        chrome.storage.local.get(['lastError'], (result) => {
+        ext.storage.local.get(['lastError']).then((result) => {
             updateTooltip(result.lastError || undefined);
         });
     }
 });
 
 // Установка/обновление расширения — принудительно пересоздаём алармы
-chrome.runtime.onInstalled.addListener(async () => {
+ext.runtime.onInstalled.addListener(async () => {
     createContextMenu();
     // При установке/обновлении — сбрасываем алармы и создаём заново
-    await chrome.alarms.clearAll();
-    const result = await chrome.storage.local.get(['checkInterval']);
+    await ext.alarms.clearAll();
+    const result = await ext.storage.local.get(['checkInterval']);
     const interval = result.checkInterval || DEFAULT_INTERVAL;
-    chrome.alarms.create('checkMail', {
+    ext.alarms.create('checkMail', {
         delayInMinutes: interval,
         periodInMinutes: interval
     });
-    chrome.alarms.create('updateTooltip', {
+    ext.alarms.create('updateTooltip', {
         delayInMinutes: 1,
         periodInMinutes: 1
     });
-    chrome.storage.local.get(['notificationsEnabled'], (r) => {
-        if (r.notificationsEnabled === undefined) {
-            chrome.storage.local.set({ notificationsEnabled: true });
-        }
-    });
+    const r = await ext.storage.local.get(['notificationsEnabled']);
+    if (r.notificationsEnabled === undefined) {
+        await ext.storage.local.set({ notificationsEnabled: true });
+    }
     checkYandexMail(false);
 });
 
 // Запуск браузера
-chrome.runtime.onStartup.addListener(() => {
+ext.runtime.onStartup.addListener(() => {
+    // Firefox не всегда сохраняет пункты меню между запусками — пересоздаём (операция идемпотентна)
+    createContextMenu();
     initAlarm();
     checkYandexMail(false);
 });
 
-// Левый клик по иконке — открыть почту
-chrome.action.onClicked.addListener(() => {
-    chrome.tabs.create({ url: 'https://mail.yandex.ru' });
+// Левый клик по иконке — открыть почту (или переключиться на уже открытую вкладку)
+ext.action.onClicked.addListener(() => {
+    openMail();
 });
 
 // Инициализация при загрузке service worker (восстановление после выгрузки)
