@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Yandex Mail Checker",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Показывает количество непрочитанных писем Яндекс.Почты на иконке и уведомляет о новых письмах",
   "homepage_url": "https://github.com/Ogurtsov-D/Yandex_Mail_Checker",
   "minimum_chrome_version": "121",

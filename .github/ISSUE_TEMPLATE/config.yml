@@ -3,3 +3,6 @@ contact_links:
   - name: Решение проблем
     url: https://github.com/Ogurtsov-D/Yandex_Mail_Checker#решение-проблем
     about: Ответы на частые вопросы — бейдж «?», «!», уведомления не приходят
+  - name: Сообщить об уязвимости (закрыто)
+    url: https://github.com/Ogurtsov-D/Yandex_Mail_Checker/security/advisories/new
+    about: Проблемы безопасности — только закрытым сообщением, не публичным Issue
