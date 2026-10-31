@@ -6,6 +6,7 @@ import { cpSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFi
 import { join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { deflateRawSync } from 'node:zlib';
+import { UPDATE_URL } from './firefox-update-manifest.mjs';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const dist = join(root, 'dist');
@@ -23,6 +24,8 @@ const targets = {
     firefox: (m) => {
         delete m.minimum_chrome_version;
         m.background = { scripts: m.background.scripts, type: m.background.type };
+        // Подписанная версия из GitHub Releases обновляется сама (см. firefox-update-manifest.mjs)
+        m.browser_specific_settings.gecko.update_url = UPDATE_URL;
         return m;
     }
 };
