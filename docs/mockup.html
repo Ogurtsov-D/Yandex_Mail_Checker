@@ -17,7 +17,8 @@ body{font-family:Inter,"Noto Color Emoji",sans-serif;background:#eef0f3;color:#1
 .page{height:190px;background:linear-gradient(#fff,#fff);border-radius:0 0 12px 12px}
 .tooltip{position:absolute;background:#3c4043;color:#fff;font-size:12px;padding:5px 9px;border-radius:4px;white-space:nowrap}
 .menu{position:absolute;background:#fff;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,.18),0 8px 24px rgba(0,0,0,.14);padding:6px 0;font-size:13.5px;min-width:230px}
-.menu .it{padding:7px 16px;display:flex;justify-content:space-between;gap:18px;white-space:nowrap}
+.menu .it{padding:7px 16px 7px 10px;display:flex;justify-content:space-between;gap:18px;white-space:nowrap}
+.menu .it .ck{display:inline-block;width:20px;color:#1f1f1f}
 .menu .it.hl{background:#e8eaed}
 .menu .sep{height:1px;background:#e3e5e8;margin:5px 0}
 .states{display:flex;gap:18px;padding:16px 18px 18px;border-top:1px solid #eef0f3}
@@ -41,17 +42,17 @@ body{font-family:Inter,"Noto Color Emoji",sans-serif;background:#eef0f3;color:#1
     <div class="toolbar">
       <div class="omni">Поиск или адрес</div>
       <div class="btn"><div class="puzzle"></div></div>
-      <div class="btn active"><img src="../icon128.png"><span class="badge">3</span></div>
+      <div class="btn active"><img src="../icons/icon128.png"><span class="badge">3</span></div>
       <div class="btn"><div class="avatar"></div></div>
       <div class="btn"><div class="dots"></div></div>
     </div>
-    <div class="tooltip" style="top:52px;left:118px">Яндекс.Почта (2 минуты назад)</div>
-    <div style="height:62px"></div>
+    <div class="tooltip" style="top:52px;left:72px">Яндекс.Почта: 3 непрочитанных письма<br>Проверено в 14:32</div>
+    <div style="height:80px"></div>
     <div class="states">
-      <div class="state"><div class="btn"><img src="../icon128.png"><span class="badge">12</span></div>Есть письма</div>
-      <div class="state"><div class="btn"><img src="../icon128.png"></div>Нет новых</div>
-      <div class="state"><div class="btn"><img src="../icon128.png"><span class="badge">?</span></div>Нужен вход</div>
-      <div class="state"><div class="btn"><img src="../icon128.png"><span class="badge">!</span></div>Ошибка</div>
+      <div class="state"><div class="btn"><img src="../icons/icon128.png"><span class="badge">12</span></div>Есть письма</div>
+      <div class="state"><div class="btn"><img src="../icons/icon128.png"></div>Нет новых</div>
+      <div class="state"><div class="btn"><img src="../icons/icon128.png"><span class="badge">?</span></div>Нужен вход</div>
+      <div class="state"><div class="btn"><img src="../icons/icon128.png"><span class="badge">!</span></div>Ошибка</div>
     </div>
   </div>
 </div>
@@ -62,23 +63,23 @@ body{font-family:Inter,"Noto Color Emoji",sans-serif;background:#eef0f3;color:#1
     <div class="toolbar">
       <div class="omni">Поиск или адрес</div>
       <div class="btn"><div class="puzzle"></div></div>
-      <div class="btn active"><img src="../icon128.png"><span class="badge">3</span></div>
+      <div class="btn active"><img src="../icons/icon128.png"><span class="badge">3</span></div>
       <div class="btn"><div class="avatar"></div></div>
       <div class="btn"><div class="dots"></div></div>
     </div>
     <div class="page"></div>
     <div class="menu" style="top:44px;left:24px">
-      <div class="it">Проверить сейчас</div>
+      <div class="it"><span><span class="ck"></span>Проверить сейчас</span></div>
       <div class="sep"></div>
-      <div class="it hl"><span>Интервал проверки</span><span>›</span></div>
+      <div class="it hl"><span><span class="ck"></span>Интервал проверки</span><span>›</span></div>
       <div class="sep"></div>
-      <div class="it">🔔 Уведомления (выключить)</div>
+      <div class="it"><span><span class="ck">✓</span>Уведомления о новых письмах</span></div>
     </div>
-    <div class="menu" style="top:96px;left:252px;min-width:130px">
-      <div class="it">1 минута</div>
-      <div class="it">5 минут ✓</div>
-      <div class="it">15 минут</div>
-      <div class="it">30 минут</div>
+    <div class="menu" style="top:96px;left:268px;min-width:130px">
+      <div class="it"><span><span class="ck"></span>1 минута</span></div>
+      <div class="it"><span><span class="ck">●</span>5 минут</span></div>
+      <div class="it"><span><span class="ck"></span>15 минут</span></div>
+      <div class="it"><span><span class="ck"></span>30 минут</span></div>
     </div>
   </div>
 </div>
@@ -87,15 +88,15 @@ body{font-family:Inter,"Noto Color Emoji",sans-serif;background:#eef0f3;color:#1
   <div class="cap">Уведомления</div>
   <div class="desk">
     <div class="notif">
-      <div class="nhead"><img src="../icon128.png">Yandex Mail Checker<span class="x">✕</span></div>
-      <div class="nbody"><img src="../icon128.png"><div>
+      <div class="nhead"><img src="../icons/icon128.png">Yandex Mail Checker<span class="x">✕</span></div>
+      <div class="nbody"><img src="../icons/icon128.png"><div>
         <div class="nt">Анна Петрова</div>
         <div class="nm">Встреча в четверг — подтвердите время</div>
       </div></div>
     </div>
     <div class="notif">
-      <div class="nhead"><img src="../icon128.png">Yandex Mail Checker<span class="x">✕</span></div>
-      <div class="nbody"><img src="../icon128.png"><div>
+      <div class="nhead"><img src="../icons/icon128.png">Yandex Mail Checker<span class="x">✕</span></div>
+      <div class="nbody"><img src="../icons/icon128.png"><div>
         <div class="nt">3 новых письма</div>
         <div class="nm"><b>Служба доставки:</b> Заказ передан курьеру<br><b>Иван Смирнов:</b> Отчёт за октябрь<br><b>Анна Петрова:</b> Встреча в четверг</div>
       </div></div>
