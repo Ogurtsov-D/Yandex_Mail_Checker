@@ -187,7 +187,7 @@ describe('Firefox, русский интерфейс', () => {
             { type: n.type, title: n.title, message: n.message, priority: 'priority' in n },
             { type: 'basic', title: '"Иван" & Ко', message: 'Отчёт', priority: false }
         );
-        assert.equal(s.target, '#message/222');
+        assert.equal(s.target, '#/message/222');
         await page.close();
     });
 
@@ -233,15 +233,15 @@ describe('Firefox, русский интерфейс', () => {
         const page = await ff.browser.newPage();
         await page.goto(`${ff.base}?uid=7#inbox`);
         await ff.command({ type: 'closeTab', id: ff.server.state.tabs.find((t) => t.url === ff.base).id });
-        await ff.command({ type: 'openMail', hash: '#message/222' });
-        await ff.waitFor((x) => x.tabs.some((t) => t.url.endsWith('#message/222')));
-        assert.deepEqual(urls(), [`${ff.base}?uid=7#message/222`]);
+        await ff.command({ type: 'openMail', hash: '#/message/222' });
+        await ff.waitFor((x) => x.tabs.some((t) => t.url.endsWith('#/message/222')));
+        assert.deepEqual(urls(), [`${ff.base}?uid=7#/message/222`]);
 
         // Вкладку с черновиком не трогаем
         await page.goto(`${ff.base}?uid=7#compose`);
-        await ff.command({ type: 'openMail', hash: '#message/333' });
+        await ff.command({ type: 'openMail', hash: '#/message/333' });
         await ff.waitFor((x) => x.tabs.length === 2);
-        assert.deepEqual(urls(), [`${ff.base}#message/333`, `${ff.base}?uid=7#compose`]);
+        assert.deepEqual(urls(), [`${ff.base}#/message/333`, `${ff.base}?uid=7#compose`]);
     });
 });
 

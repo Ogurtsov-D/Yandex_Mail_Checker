@@ -83,24 +83,24 @@ test('клик по иконке — переключение на самую н
 });
 
 test('клик по уведомлению об одном письме — письмо в открытой вкладке, ?uid= сохраняется', async () => {
-    mock.store.session.notificationTarget = '#message/222';
+    mock.store.session.notificationTarget = '#/message/222';
     mock.setTabs([mailTab(5, 'https://mail.yandex.ru/?uid=42#inbox')]);
     await on.notificationClicked('new-mail');
     assert.deepEqual(mock.calls.updatedTabs, [
-        { id: 5, active: true, url: 'https://mail.yandex.ru/?uid=42#message/222' }
+        { id: 5, active: true, url: 'https://mail.yandex.ru/?uid=42#/message/222' }
     ]);
     assert.deepEqual(mock.calls.clearedNotifications, ['new-mail']);
 });
 
 test('клик по уведомлению: вкладку с черновиком и lite-версию не трогаем — новая вкладка', async () => {
-    mock.store.session.notificationTarget = '#message/222';
+    mock.store.session.notificationTarget = '#/message/222';
     mock.setTabs([
         mailTab(6, 'https://mail.yandex.ru/?uid=42#compose', 9),
         mailTab(7, 'https://mail.yandex.ru/lite/inbox', 8)
     ]);
     await on.notificationClicked('new-mail');
     assert.deepEqual(mock.calls.updatedTabs, []);
-    assert.deepEqual(mock.calls.createdTabs, ['https://mail.yandex.ru/#message/222']);
+    assert.deepEqual(mock.calls.createdTabs, ['https://mail.yandex.ru/#/message/222']);
 });
 
 test('клик по уведомлению о нескольких письмах — просто почта', async () => {
@@ -113,7 +113,11 @@ test('после действий во вкладке почты — одна п
     // Часы на час вперёд: предыдущие тесты уже проверяли почту «только что»
     t.mock.timers.enable({ apis: ['setTimeout', 'Date'], now: Date.now() + 3600000 });
 
-    await on.tabUpdated(1, { url: 'https://mail.yandex.ru/#message/1' }, { url: 'https://mail.yandex.ru/#message/1' });
+    await on.tabUpdated(
+        1,
+        { url: 'https://mail.yandex.ru/#/message/1' },
+        { url: 'https://mail.yandex.ru/#/message/1' }
+    );
     t.mock.timers.tick(3000);
     await flush();
     assert.equal(mock.fetchCount, 1, 'проверка через 3 секунды');

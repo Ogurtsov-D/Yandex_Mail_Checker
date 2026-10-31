@@ -5,30 +5,52 @@
 <title>Входящие (3 новых письма) — Яндекс Почта</title>
 </head>
 <body>
-<nav class="b-folders">
-  <a href="/lite/inbox" aria-label="Входящие, 3 новых" data-key="inbox" data-count="3">Входящие</a>
-  <a href="/lite/sent">Отправленные</a>
-</nav>
-<form class="b-messages">
+<div class="b-folders">
+  <div class="b-folders__folder b-folders__folder_current">
+    <span class="b-folders__folder__num">3</span>
+    <a class="b-folders__folder__link" href="/lite/inbox">Входящие</a>
+  </div>
+  <div class="b-folders__folder">
+    <a class="b-folders__folder__link" href="/lite/sent">Отправленные</a>
+  </div>
+  <div class="b-folders__folder">
+    <span class="b-folders__folder__num">12</span>
+    <a class="b-folders__folder__link" href="/lite/spam">Спам</a>
+  </div>
+</div>
+<form class="b-messages" action="/lite/messages-action.xml" method="post">
+  <input type="hidden" name="_ckey" value="ckey-for-tests">
   <div class="b-messages__message b-messages__message_unread">
-    <input type="checkbox" name="ids" value="192247409093380563">
-    <span class="b-messages__from__text" title="shop@example.com"><span class="b-messages__from__text">&quot;Рога &amp; Копыта&quot;</span></span>
-    <a href="/lite/message/192247409093380563"><span class="b-messages__subject"><span>Заказ &#8470;1234 передан курьеру &mdash; <b>сегодня</b></span></span></a>
+    <input type="checkbox" name="ids" class="b-form-checkbox" value="192247409093380563">
+    <a class="b-messages__from" href="/lite/compose?to=shop%40example.com" title="shop@example.com">&quot;Рога &amp; Копыта&quot;</a>
+    <a class="b-messages__message__link" href="/lite/message/192247409093380563">
+      <span class="b-messages__subject">Заказ &#8470;1234 передан курьеру &mdash; <b>сегодня</b></span>
+      <span class="b-messages__firstline">Курьер позвонит за час</span>
+    </a>
+    <span class="b-messages__date" title="31 октября 2026, 14:32">14:32</span>
   </div>
   <div class="b-messages__message b-messages__message_unread">
-    <input type="checkbox" name="tids" value="192247409093380553:3">
-    <span class="b-messages__from__text" title="ivan@example.com"><span class="b-messages__from__text">Иван Смирнов</span></span>
-    <a href="/lite/thread/192247409093380553"><span class="b-messages__subject"><span>Отчёт за октябрь</span></span></a>
+    <input type="checkbox" name="tids" class="b-form-checkbox" value="192247409093380553:3">
+    <a class="b-messages__from" href="/lite/compose?to=ivan%40example.com" title="ivan@example.com"><span class="b-messages__from__text">Иван Смирнов</span></a>
+    <a class="b-messages__message__link" href="/lite/thread/192247409093380553">
+      <span class="b-messages__subject"><span>Отчёт за октябрь</span></span>
+    </a>
+    <span class="b-messages__date">13:05</span>
   </div>
   <div class="b-messages__message b-messages__message_unread">
-    <input type="checkbox" name="ids" value="192247409093380540">
-    <span class="b-messages__from__text" title="anna@example.com"><span class="b-messages__from__text">Анна Петрова</span></span>
-    <a href="/lite/message/192247409093380540"><span class="b-messages__subject"><span>Встреча в четверг</span></span></a>
+    <input type="checkbox" name="ids" class="b-form-checkbox" value="192247409093380540|0">
+    <a class="b-messages__from" href="/lite/compose?to=anna%40example.com">Анна Петрова</a>
+    <a class="b-messages__message__link" href="/lite/message/192247409093380540">
+      <span class="b-messages__subject">Встреча в четверг</span>
+    </a>
+    <span class="b-messages__date">вчера</span>
   </div>
   <div class="b-messages__message">
-    <input type="checkbox" name="ids" value="192247409093380500">
-    <span class="b-messages__from__text" title="news@example.com"><span class="b-messages__from__text">Рассылка</span></span>
-    <a href="/lite/message/192247409093380500"><span class="b-messages__subject"><span>Уже прочитано</span></span></a>
+    <input type="checkbox" name="ids" class="b-form-checkbox" value="192247409093380500">
+    <a class="b-messages__from" href="/lite/compose?to=news%40example.com">Рассылка</a>
+    <a class="b-messages__message__link" href="/lite/message/192247409093380500">
+      <span class="b-messages__subject">Уже прочитано</span>
+    </a>
   </div>
 </form>
 </body>
