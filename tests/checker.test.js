@@ -17,7 +17,7 @@ test('первый запуск: счётчик обновлён, уведомл
     mock.respond(inboxPage({ count: 2, messages: [anna, ivan] }));
     await checkMail();
     assert.equal(mock.calls.badge.text, '2');
-    assert.match(mock.calls.badge.title, /^Яндекс.Почта: 2 непрочитанных письма\nПроверено в \d\d:\d\d$/);
+    assert.match(mock.calls.badge.title, /^Яндекс Почта: 2 непрочитанных письма\nПроверено в \d\d:\d\d$/);
     assert.equal(mock.calls.notifications.length, 0);
 });
 
@@ -81,7 +81,7 @@ test('капча: «!», понятная подсказка, без быстр�
     mock.respond(fixture('captcha.html'));
     await checkMail();
     assert.equal(mock.calls.badge.text, '!');
-    assert.equal(mock.calls.badge.title, 'Яндекс.Почта: Не удалось прочитать страницу почты');
+    assert.equal(mock.calls.badge.title, 'Яндекс Почта: Не удалось прочитать страницу почты');
     assert.equal(mock.alarms.retryCheck, undefined);
 });
 
@@ -113,7 +113,7 @@ test('нет сети: ровно 2 быстрых повтора, затем ж
         if (mock.alarms.retryCheck) retries++;
     }
     assert.equal(retries, 2);
-    assert.equal(mock.calls.badge.title, 'Яндекс.Почта: Нет подключения');
+    assert.equal(mock.calls.badge.title, 'Яндекс Почта: Нет подключения');
 
     // Успешная проверка сбрасывает счётчик повторов
     mock.respond(inboxPage({ count: 0 }));
@@ -128,7 +128,7 @@ test('при ошибке в подсказке остаётся последн�
     await checkMail();
     assert.match(
         mock.calls.badge.title,
-        /^Яндекс.Почта: Нет подключения\nПоследняя успешная проверка в \d\d:\d\d: 4 непрочитанных письма$/
+        /^Яндекс Почта: Нет подключения\nПоследняя успешная проверка в \d\d:\d\d: 4 непрочитанных письма$/
     );
 });
 
@@ -146,7 +146,7 @@ test('зависший запрос прерывается по таймауту
     await flush();
     t.mock.timers.tick(20000);
     await pending;
-    assert.equal(mock.calls.badge.title, 'Яндекс.Почта: Яндекс не ответил вовремя');
+    assert.equal(mock.calls.badge.title, 'Яндекс Почта: Яндекс не ответил вовремя');
     t.mock.timers.reset();
 
     mock.respond(inboxPage({ count: 5 }));
@@ -177,6 +177,6 @@ test('ошибка в коде расширения не выдаётся за �
     await checkMail();
     mock.api.storage.local.get = original;
     errors.mock.restore();
-    assert.equal(mock.calls.badge.title.split('\n')[0], 'Яндекс.Почта: Внутренняя ошибка расширения');
+    assert.equal(mock.calls.badge.title.split('\n')[0], 'Яндекс Почта: Внутренняя ошибка расширения');
     assert.equal(errors.mock.callCount(), 1);
 });

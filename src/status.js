@@ -2,8 +2,17 @@
 import { ext } from './api.js';
 import { BADGE_COLOR } from './config.js';
 import { badgeText, tooltipText } from './format.js';
+import { t } from './i18n.js';
 
-const STATE_KEYS = ['unreadCount', 'errorType', 'lastError', 'lastCheck', 'lastSuccess', 'lastGoodCount'];
+const STATE_KEYS = [
+    'unreadCount',
+    'errorType',
+    'errorStatus',
+    'lastError',
+    'lastCheck',
+    'lastSuccess',
+    'lastGoodCount'
+];
 
 export async function loadState() {
     return ext.storage.local.get(STATE_KEYS);
@@ -22,6 +31,6 @@ export async function renderChecking() {
     await Promise.all([
         ext.action.setBadgeText({ text: '↻' }),
         ext.action.setBadgeBackgroundColor({ color: BADGE_COLOR }),
-        ext.action.setTitle({ title: 'Проверка почты…' })
+        ext.action.setTitle({ title: t('checking') })
     ]);
 }

@@ -1,0 +1,206 @@
+{
+  "locale": {
+    "message": "en",
+    "description": "Language code of this translation (plural rules and date formats)"
+  },
+  "extName": {
+    "message": "Checker for Yandex Mail",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Shows the number of unread Yandex Mail messages on the toolbar icon and notifies you about new mail",
+    "description": "Extension description"
+  },
+  "serviceName": {
+    "message": "Yandex Mail",
+    "description": "Mail service name in the tooltip"
+  },
+  "checking": {
+    "message": "Checking mail…",
+    "description": "Tooltip during a manual check"
+  },
+  "noUnread": {
+    "message": "no new messages",
+    "description": "Tooltip: nothing unread"
+  },
+  "unread_one": {
+    "message": "$COUNT$ unread message",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "unread_other": {
+    "message": "$COUNT$ unread messages",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_one": {
+    "message": "$COUNT$ new message",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_other": {
+    "message": "$COUNT$ new messages",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "checkedAt": {
+    "message": "Checked $WHEN$",
+    "description": "Second tooltip line",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      }
+    }
+  },
+  "lastSuccess": {
+    "message": "Last successful check $WHEN$: $UNREAD$",
+    "description": "Tooltip on error",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      },
+      "unread": {
+        "content": "$2"
+      }
+    }
+  },
+  "atTime": {
+    "message": "at $TIME$",
+    "description": "Check time today",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "yesterdayAtTime": {
+    "message": "yesterday at $TIME$",
+    "description": "Check time yesterday",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "dateAtTime": {
+    "message": "$DATE$ at $TIME$",
+    "description": "Check time earlier",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      },
+      "time": {
+        "content": "$2"
+      }
+    }
+  },
+  "errorAuth": {
+    "message": "Sign-in required",
+    "description": "Error"
+  },
+  "errorServer": {
+    "message": "Yandex server error ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorClient": {
+    "message": "Request error ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorHttp": {
+    "message": "HTTP error ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorTimeout": {
+    "message": "Yandex did not respond in time",
+    "description": "Error"
+  },
+  "errorNetwork": {
+    "message": "No connection",
+    "description": "Error"
+  },
+  "errorParse": {
+    "message": "Could not read the mail page",
+    "description": "Error"
+  },
+  "errorInternal": {
+    "message": "Internal extension error",
+    "description": "Error"
+  },
+  "newMessage": {
+    "message": "New message",
+    "description": "Notification: unknown sender"
+  },
+  "unknownSender": {
+    "message": "Sender",
+    "description": "List notification: unknown sender"
+  },
+  "noSubject": {
+    "message": "(no subject)",
+    "description": "Notification: message without subject"
+  },
+  "openMailToView": {
+    "message": "Open your mailbox to read it",
+    "description": "Notification without details"
+  },
+  "menuCheckNow": {
+    "message": "Check now",
+    "description": "Menu item"
+  },
+  "menuInterval": {
+    "message": "Check interval",
+    "description": "Menu item"
+  },
+  "menuNotifications": {
+    "message": "New mail notifications",
+    "description": "Menu item"
+  },
+  "minutes_one": {
+    "message": "$COUNT$ minute",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "minutes_other": {
+    "message": "$COUNT$ minutes",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  }
+}

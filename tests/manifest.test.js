@@ -58,3 +58,37 @@ test('updates.json для автообновления Firefox ссылаетс�
     assert.equal(UPDATE_URL, `${manifest.homepage_url}/releases/latest/download/updates.json`);
     assert.ok(UPDATE_URL.startsWith('https://'), 'Firefox принимает update_url только по HTTPS');
 });
+
+test('переводы: оба языка полные, все ключи из кода и манифеста существуют', async () => {
+    const { readdirSync } = await import('node:fs');
+    const { loadMessages } = await import('./helpers/browser-mock.js');
+    const ru = loadMessages('ru');
+    const en = loadMessages('en');
+    // Ключи без суффикса формы числа (unread_few → unread) должны совпадать
+    const base = (messages) =>
+        [...new Set(Object.keys(messages).map((k) => k.replace(/_(zero|one|two|few|many|other)$/, '')))].sort();
+    assert.deepEqual(base(ru), base(en));
+    for (const messages of [ru, en]) {
+        for (const [key, entry] of Object.entries(messages)) {
+            if (/_(one|few|many)$/.test(key)) {
+                assert.ok(messages[key.replace(/_[a-z]+$/, '_other')], `${key}: нет формы _other`);
+            }
+            for (const name of entry.message.match(/\$[A-Z0-9_]+\$/g) ?? []) {
+                assert.ok(entry.placeholders?.[name.slice(1, -1).toLowerCase()], `${key}: нет placeholder ${name}`);
+            }
+        }
+    }
+
+    const used = new Set();
+    for (const file of readdirSync(new URL('src/', root))) {
+        const code = read(`src/${file}`);
+        for (const [, key] of code.matchAll(/\bt\('([A-Za-z0-9_]+)'/g)) used.add(key);
+        for (const [, key] of code.matchAll(/\bplural\('([A-Za-z0-9_]+)'/g)) used.add(`${key}_other`);
+    }
+    for (const [, key] of read('src/format.js').matchAll(/: '(error[A-Za-z]+)'/g)) used.add(key);
+    for (const [, key] of JSON.stringify(manifest).matchAll(/__MSG_([A-Za-z0-9_]+)__/g)) used.add(key);
+    for (const key of used) {
+        assert.ok(ru[key] && en[key], `нет перевода для ключа ${key}`);
+    }
+    assert.ok(existsSync(new URL(`_locales/${manifest.default_locale}/messages.json`, root)));
+});

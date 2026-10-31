@@ -1,22 +1,31 @@
+// Тексты бейджа и подсказки на русском
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { badgeText, formatCheckTime, newMailTitle, pluralize, tooltipText, unreadText } from '../src/format.js';
+import { installBrowserMock } from './helpers/browser-mock.js';
 
-test('склонение', () => {
-    const forms = (n) => pluralize(n, 'письмо', 'письма', 'писем');
-    assert.deepEqual([1, 2, 5, 11, 12, 21, 22, 25, 101, 111].map(forms), [
-        'письмо',
-        'письма',
-        'писем',
-        'писем',
-        'писем',
-        'письмо',
-        'письма',
-        'писем',
-        'письмо',
-        'писем'
-    ]);
+installBrowserMock({ locale: 'ru' });
+const { badgeText, errorText, formatCheckTime, newMailTitle, tooltipText, unreadText } =
+    await import('../src/format.js');
+const { plural } = await import('../src/i18n.js');
+
+test('склонение по правилам русского языка', () => {
+    assert.deepEqual(
+        [1, 2, 5, 11, 12, 21, 22, 25, 101, 111].map((n) => plural('minutes', n)),
+        [
+            '1 минута',
+            '2 минуты',
+            '5 минут',
+            '11 минут',
+            '12 минут',
+            '21 минута',
+            '22 минуты',
+            '25 минут',
+            '101 минута',
+            '111 минут'
+        ]
+    );
     assert.equal(newMailTitle(3), '3 новых письма');
+    assert.equal(newMailTitle(5), '5 новых писем');
     assert.equal(unreadText(1), '1 непрочитанное письмо');
     assert.equal(unreadText(0), 'новых писем нет');
 });
@@ -37,21 +46,25 @@ test('бейдж', () => {
     assert.equal(badgeText({}), '');
 });
 
+test('тексты ошибок по типу и HTTP-коду', () => {
+    assert.equal(errorText({ errorType: 'server', errorStatus: 503 }), 'Ошибка сервера Яндекса (503)');
+    assert.equal(errorText({ errorType: 'parse' }), 'Не удалось прочитать страницу почты');
+    // Состояние, сохранённое версией до 1.5.0, — с готовым текстом ошибки
+    assert.equal(errorText({ errorType: 'legacy', lastError: 'Старый текст' }), 'Старый текст');
+});
+
 test('подсказка: успех, ошибка с последним результатом, ничего не известно', () => {
     const now = new Date(2026, 9, 31, 15, 0).getTime();
     const at = new Date(2026, 9, 31, 14, 32).getTime();
 
     assert.equal(
         tooltipText({ unreadCount: 3, lastSuccess: at }, now),
-        'Яндекс.Почта: 3 непрочитанных письма\nПроверено в 14:32'
+        'Яндекс Почта: 3 непрочитанных письма\nПроверено в 14:32'
     );
     assert.equal(
-        tooltipText({ errorType: 'network', lastError: 'Нет подключения', lastSuccess: at, lastGoodCount: 3 }, now),
-        'Яндекс.Почта: Нет подключения\nПоследняя успешная проверка в 14:32: 3 непрочитанных письма'
+        tooltipText({ errorType: 'network', lastSuccess: at, lastGoodCount: 3 }, now),
+        'Яндекс Почта: Нет подключения\nПоследняя успешная проверка в 14:32: 3 непрочитанных письма'
     );
-    assert.equal(
-        tooltipText({ errorType: 'auth', lastError: 'Требуется вход в почту' }, now),
-        'Яндекс.Почта: Требуется вход в почту'
-    );
-    assert.equal(tooltipText({}, now), 'Яндекс.Почта');
+    assert.equal(tooltipText({ errorType: 'auth' }, now), 'Яндекс Почта: Требуется вход в почту');
+    assert.equal(tooltipText({}, now), 'Яндекс Почта');
 });

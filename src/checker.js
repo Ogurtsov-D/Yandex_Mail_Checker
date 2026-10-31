@@ -8,11 +8,13 @@ import { RETRY_ALARM } from './settings.js';
 import { renderChecking, renderStatus } from './status.js';
 
 export class MailCheckError extends Error {
-    // type: auth | parse | server | client | http | timeout | network
-    constructor(type, message) {
-        super(message);
+    // type: auth | parse | server | client | http | timeout | network | internal
+    // status — HTTP-код для server/client/http. Текст для пользователя — errorText() в format.js
+    constructor(type, status = null) {
+        super(status ? `${type} ${status}` : type);
         this.name = 'MailCheckError';
         this.type = type;
+        this.status = status;
     }
 }
 
@@ -44,26 +46,26 @@ async function fetchInboxHtml() {
         });
 
         if (response.type === 'opaqueredirect' || response.status === 0) {
-            throw new MailCheckError('auth', 'Требуется вход в почту');
+            throw new MailCheckError('auth');
         }
         if (response.status >= 500) {
-            throw new MailCheckError('server', `Ошибка сервера Яндекса (${response.status})`);
+            throw new MailCheckError('server', response.status);
         }
         if (response.status >= 400) {
-            throw new MailCheckError('client', `Ошибка запроса (${response.status})`);
+            throw new MailCheckError('client', response.status);
         }
         if (!response.ok) {
-            throw new MailCheckError('http', `HTTP ${response.status}`);
+            throw new MailCheckError('http', response.status);
         }
 
         return await response.text();
     } catch (error) {
         if (error?.name === 'AbortError') {
-            throw new MailCheckError('timeout', 'Яндекс не ответил вовремя');
+            throw new MailCheckError('timeout');
         }
         if (error instanceof MailCheckError) throw error;
         // Исключения самого fetch (TypeError: Failed to fetch) — нет сети
-        throw new MailCheckError('network', 'Нет подключения');
+        throw new MailCheckError('network');
     } finally {
         clearTimeout(timer);
     }
@@ -85,7 +87,7 @@ async function handleSuccess(html) {
     const count = parseUnreadCount(html, messages);
     if (count === null) {
         // Капча, изменившаяся вёрстка и т.п. — не выдаём это за «0 писем»
-        throw new MailCheckError('parse', 'Не удалось прочитать страницу почты');
+        throw new MailCheckError('parse');
     }
 
     const prev = await ext.storage.local.get(['unreadCount', 'lastGoodCount', 'knownMessageIds']);
@@ -110,6 +112,7 @@ async function handleSuccess(html) {
         unreadCount: count,
         lastGoodCount: count,
         errorType: null,
+        errorStatus: null,
         lastError: null,
         lastCheck: now,
         lastSuccess: now
@@ -125,7 +128,7 @@ async function handleSuccess(html) {
 
 async function handleFailure(error) {
     const type = error.type ?? 'network';
-    console.warn('Yandex Mail Checker: проверка не удалась —', error.message);
+    console.warn('Mail check failed:', error.message);
 
     if (NO_RETRY_ERRORS.has(type)) {
         await setRetryCount(0);
@@ -138,7 +141,8 @@ async function handleFailure(error) {
         // После MAX_RETRIES ждём следующую плановую проверку
     }
 
-    const update = { errorType: type, lastError: error.message, lastCheck: Date.now() };
+    // Храним тип ошибки, а не текст: подсказка покажет его на текущем языке браузера
+    const update = { errorType: type, errorStatus: error.status ?? null, lastError: null, lastCheck: Date.now() };
     await ext.storage.local.set(update);
     // Последний успешный результат сохраняется и показывается в подсказке
     const { lastSuccess, lastGoodCount } = await ext.storage.local.get(['lastSuccess', 'lastGoodCount']);
@@ -156,14 +160,14 @@ export async function checkMail({ manual = false } = {}) {
         let state;
         try {
             const html = await fetchInboxHtml();
-            if (isLoginPage(html)) throw new MailCheckError('auth', 'Требуется вход в почту');
+            if (isLoginPage(html)) throw new MailCheckError('auth');
             state = await handleSuccess(html);
             debug('Проверка успешна:', state);
         } catch (error) {
             if (!(error instanceof MailCheckError)) {
                 // Ошибка в самом расширении — пишем стек, чтобы её можно было приложить к Issue
                 console.error(error);
-                error = new MailCheckError('internal', 'Внутренняя ошибка расширения');
+                error = new MailCheckError('internal');
             }
             state = await handleFailure(error);
         }

@@ -1,0 +1,260 @@
+{
+  "locale": {
+    "message": "ru",
+    "description": "Код языка этого перевода (для правил склонения и форматов даты)"
+  },
+  "extName": {
+    "message": "Счётчик писем для Яндекс Почты",
+    "description": "Название расширения"
+  },
+  "extDescription": {
+    "message": "Показывает количество непрочитанных писем Яндекс Почты на иконке и уведомляет о новых письмах",
+    "description": "Описание расширения"
+  },
+  "serviceName": {
+    "message": "Яндекс Почта",
+    "description": "Название почтового сервиса в подсказке"
+  },
+  "checking": {
+    "message": "Проверка почты…",
+    "description": "Подсказка во время ручной проверки"
+  },
+  "noUnread": {
+    "message": "новых писем нет",
+    "description": "Подсказка: непрочитанных нет"
+  },
+  "unread_one": {
+    "message": "$COUNT$ непрочитанное письмо",
+    "description": "Подсказка: число непрочитанных",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "unread_few": {
+    "message": "$COUNT$ непрочитанных письма",
+    "description": "Подсказка: число непрочитанных",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "unread_many": {
+    "message": "$COUNT$ непрочитанных писем",
+    "description": "Подсказка: число непрочитанных",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "unread_other": {
+    "message": "$COUNT$ непрочитанного письма",
+    "description": "Подсказка: число непрочитанных (дробное)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_one": {
+    "message": "$COUNT$ новое письмо",
+    "description": "Заголовок уведомления",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_few": {
+    "message": "$COUNT$ новых письма",
+    "description": "Заголовок уведомления",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_many": {
+    "message": "$COUNT$ новых писем",
+    "description": "Заголовок уведомления",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_other": {
+    "message": "$COUNT$ новых письма",
+    "description": "Заголовок уведомления (дробное)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "checkedAt": {
+    "message": "Проверено $WHEN$",
+    "description": "Вторая строка подсказки",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      }
+    }
+  },
+  "lastSuccess": {
+    "message": "Последняя успешная проверка $WHEN$: $UNREAD$",
+    "description": "Подсказка при ошибке",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      },
+      "unread": {
+        "content": "$2"
+      }
+    }
+  },
+  "atTime": {
+    "message": "в $TIME$",
+    "description": "Время проверки сегодня",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "yesterdayAtTime": {
+    "message": "вчера в $TIME$",
+    "description": "Время проверки вчера",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "dateAtTime": {
+    "message": "$DATE$ в $TIME$",
+    "description": "Время проверки раньше",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      },
+      "time": {
+        "content": "$2"
+      }
+    }
+  },
+  "errorAuth": {
+    "message": "Требуется вход в почту",
+    "description": "Ошибка"
+  },
+  "errorServer": {
+    "message": "Ошибка сервера Яндекса ($STATUS$)",
+    "description": "Ошибка",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorClient": {
+    "message": "Ошибка запроса ($STATUS$)",
+    "description": "Ошибка",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorHttp": {
+    "message": "Ошибка HTTP ($STATUS$)",
+    "description": "Ошибка",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorTimeout": {
+    "message": "Яндекс не ответил вовремя",
+    "description": "Ошибка"
+  },
+  "errorNetwork": {
+    "message": "Нет подключения",
+    "description": "Ошибка"
+  },
+  "errorParse": {
+    "message": "Не удалось прочитать страницу почты",
+    "description": "Ошибка"
+  },
+  "errorInternal": {
+    "message": "Внутренняя ошибка расширения",
+    "description": "Ошибка"
+  },
+  "newMessage": {
+    "message": "Новое письмо",
+    "description": "Уведомление: отправитель неизвестен"
+  },
+  "unknownSender": {
+    "message": "Отправитель",
+    "description": "Уведомление-список: отправитель неизвестен"
+  },
+  "noSubject": {
+    "message": "(без темы)",
+    "description": "Уведомление: письмо без темы"
+  },
+  "openMailToView": {
+    "message": "Откройте почту для просмотра",
+    "description": "Уведомление без подробностей"
+  },
+  "menuCheckNow": {
+    "message": "Проверить сейчас",
+    "description": "Пункт меню"
+  },
+  "menuInterval": {
+    "message": "Интервал проверки",
+    "description": "Пункт меню"
+  },
+  "menuNotifications": {
+    "message": "Уведомления о новых письмах",
+    "description": "Пункт меню"
+  },
+  "minutes_one": {
+    "message": "$COUNT$ минута",
+    "description": "Интервал в меню",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "minutes_few": {
+    "message": "$COUNT$ минуты",
+    "description": "Интервал в меню",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "minutes_many": {
+    "message": "$COUNT$ минут",
+    "description": "Интервал в меню",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "minutes_other": {
+    "message": "$COUNT$ минуты",
+    "description": "Интервал в меню (дробное)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  }
+}
