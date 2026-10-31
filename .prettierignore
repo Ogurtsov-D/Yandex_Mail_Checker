@@ -1,0 +1,6 @@
+# Тексты и разметку форматируем вручную
+*.md
+*.html
+LICENSE
+dist/
+node_modules/
