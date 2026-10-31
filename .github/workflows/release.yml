@@ -4,8 +4,10 @@
 # Тег можно отправить командой git push или создать при публикации релиза на GitHub —
 # в обоих случаях срабатывает событие push тега, поэтому отдельный триггер release не нужен.
 #
-# Подпись для Firefox включается секретами репозитория AMO_JWT_ISSUER и AMO_JWT_SECRET
-# (ключи API addons.mozilla.org, см. CONTRIBUTING.md). Без них релиз собирается без .xpi.
+# Релиз публикуется только целиком: с подписанным .xpi для Firefox. Для подписи нужны
+# секреты репозитория AMO_JWT_ISSUER и AMO_JWT_SECRET (ключи API addons.mozilla.org,
+# см. CONTRIBUTING.md). Если что-то не удалось, а релиз уже создан на GitHub,
+# он переводится в черновик, чтобы посетители не увидели неполный релиз.
 name: Release
 
 on:
@@ -24,8 +26,6 @@ jobs:
   release:
     runs-on: ubuntu-latest
     env:
-      AMO_JWT_ISSUER: ${{ secrets.AMO_JWT_ISSUER }}
-      AMO_JWT_SECRET: ${{ secrets.AMO_JWT_SECRET }}
       GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v5
@@ -33,12 +33,19 @@ jobs:
         with:
           node-version: 22
 
-      - name: Версия тега совпадает с manifest.json
+      - name: Версия тега совпадает с manifest.json, ключи Mozilla заданы
+        env:
+          AMO_JWT_ISSUER: ${{ secrets.AMO_JWT_ISSUER }}
+          AMO_JWT_SECRET: ${{ secrets.AMO_JWT_SECRET }}
         run: |
           TAG="${GITHUB_REF_NAME#v}"
           VERSION=$(node -p "JSON.parse(require('fs').readFileSync('manifest.json', 'utf8')).version")
           if [ "$TAG" != "$VERSION" ]; then
             echo "::error::Тег v$TAG не совпадает с версией в manifest.json ($VERSION)"
+            exit 1
+          fi
+          if [ -z "$AMO_JWT_ISSUER" ] || [ -z "$AMO_JWT_SECRET" ]; then
+            echo "::error::Не заданы секреты AMO_JWT_ISSUER и AMO_JWT_SECRET — без них нельзя подписать версию для Firefox (см. CONTRIBUTING.md)"
             exit 1
           fi
           echo "VERSION=$VERSION" >> "$GITHUB_ENV"
@@ -47,21 +54,19 @@ jobs:
         run: npm test && npm run lint && npm run lint:firefox
 
       - name: Подпись для Firefox (addons.mozilla.org, без публикации в каталоге)
-        if: env.AMO_JWT_ISSUER != ''
-        # Сбой подписи не должен лишать релиз архивов: их выложит следующий шаг
-        continue-on-error: true
         env:
           WEB_EXT_API_KEY: ${{ secrets.AMO_JWT_ISSUER }}
           WEB_EXT_API_SECRET: ${{ secrets.AMO_JWT_SECRET }}
         run: |
           XPI="yandex-mail-checker-$VERSION-firefox.xpi"
+          # .xpi уже приложен — повторный запуск или файл приложен вручную после ручной проверки в Mozilla
           if gh release view "$GITHUB_REF_NAME" --json assets -q '.assets[].name' 2> /dev/null | grep -qx "$XPI"; then
-            echo "Подписанный $XPI уже приложен к релизу — пропускаем"
-            exit 0
+            echo "Подписанный $XPI уже приложен к релизу — подпись не нужна"
+          else
+            npx --yes web-ext@10 sign --channel unlisted --source-dir dist/firefox \
+              --artifacts-dir dist/signed --approval-timeout 900000
+            mv dist/signed/*.xpi "dist/$XPI"
           fi
-          npx --yes web-ext@10 sign --channel unlisted --source-dir dist/firefox \
-            --artifacts-dir dist/signed --approval-timeout 900000
-          mv dist/signed/*.xpi "dist/$XPI"
           node scripts/firefox-update-manifest.mjs "$VERSION" > dist/updates.json
 
       - name: Описание релиза из CHANGELOG.md
@@ -69,7 +74,7 @@ jobs:
 
       - name: Публикация на странице Releases
         run: |
-          # Только реально созданные файлы (.xpi и updates.json — если была подпись)
+          # .xpi нет в dist/, если он уже приложен к релизу
           FILES=()
           for f in dist/*.zip dist/*.xpi dist/updates.json; do
             if [ -e "$f" ]; then FILES+=("$f"); fi
@@ -80,8 +85,20 @@ jobs:
             if [ -z "$(gh release view "$GITHUB_REF_NAME" --json body -q .body)" ]; then
               gh release edit "$GITHUB_REF_NAME" --notes-file release-notes.md
             fi
+            # Черновик после прошлого неудачного запуска — теперь всё на месте, публикуем
+            if [ "$(gh release view "$GITHUB_REF_NAME" --json isDraft -q .isDraft)" = "true" ]; then
+              gh release edit "$GITHUB_REF_NAME" --draft=false
+            fi
           else
             gh release create "$GITHUB_REF_NAME" "${FILES[@]}" \
               --title "Версия $VERSION" \
               --notes-file release-notes.md
+          fi
+
+      - name: Неудача — скрыть неполный релиз
+        if: failure()
+        run: |
+          if [ "$(gh release view "$GITHUB_REF_NAME" --json isDraft -q .isDraft 2> /dev/null)" = "false" ]; then
+            gh release edit "$GITHUB_REF_NAME" --draft=true
+            echo "::warning::Релиз $GITHUB_REF_NAME переведён в черновик. Что делать дальше — CONTRIBUTING.md, раздел «Если подпись не удалась»."
           fi
