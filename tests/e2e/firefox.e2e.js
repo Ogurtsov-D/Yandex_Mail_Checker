@@ -118,8 +118,11 @@ function prepareExtension(base) {
     return dir;
 }
 
-async function launch(locale) {
+// inbox — «Входящие» к моменту установки: расширение проверяет почту сразу при установке,
+// поэтому начальное состояние задаётся до неё, иначе первая проверка увидит пустой ящик
+async function launch(locale, inbox) {
     const server = createServer();
+    server.inbox = inbox;
     await new Promise((resolve) => server.http.listen(0, '127.0.0.1', resolve));
     const base = `http://127.0.0.1:${server.http.address().port}/`;
     const extDir = prepareExtension(base);
@@ -162,9 +165,7 @@ describe('Firefox, русский интерфейс', () => {
     const ivan = { id: '222', from: '&quot;Иван&quot; &amp; Ко', subject: 'Отчёт' };
 
     before(async () => {
-        ff = await launch('ru');
-        ff.server.inbox = inboxPage({ count: 1, messages: [anna] });
-        await ff.command({ type: 'check' });
+        ff = await launch('ru', inboxPage({ count: 1, messages: [anna] }));
     });
     after(() => ff?.cleanup());
 
@@ -247,9 +248,7 @@ describe('Firefox, русский интерфейс', () => {
 describe('Firefox, английский интерфейс', () => {
     let ff;
     before(async () => {
-        ff = await launch('en-US');
-        ff.server.inbox = inboxPage({ count: 1, messages: [{ id: '1', from: 'Anna', subject: 'Hi' }] });
-        await ff.command({ type: 'check' });
+        ff = await launch('en-US', inboxPage({ count: 1, messages: [{ id: '1', from: 'Anna', subject: 'Hi' }] }));
     });
     after(() => ff?.cleanup());
 
