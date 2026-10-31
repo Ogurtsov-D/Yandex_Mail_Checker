@@ -1,0 +1,22 @@
+{
+  "name": "yandex-mail-checker",
+  "version": "1.4.0",
+  "private": true,
+  "description": "Браузерное расширение: счётчик непрочитанных писем Яндекс.Почты и уведомления о новых письмах",
+  "license": "GPL-3.0-or-later",
+  "repository": "github:Ogurtsov-D/Yandex_Mail_Checker",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --no-warnings=ExperimentalWarning --test \"tests/*.test.js\"",
+    "lint": "npm run lint:js && npm run lint:format",
+    "lint:js": "npx --yes eslint@10 .",
+    "lint:format": "npx --yes prettier@3 --check .",
+    "lint:firefox": "npm run build && npx --yes web-ext@10 lint --source-dir dist/firefox",
+    "format": "npx --yes prettier@3 --write .",
+    "build": "node scripts/build.mjs",
+    "check": "npm test && npm run lint && npm run lint:firefox"
+  }
+}
