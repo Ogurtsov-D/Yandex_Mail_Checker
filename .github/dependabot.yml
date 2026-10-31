@@ -1,0 +1,11 @@
+# Dependabot раз в месяц предлагает PR с обновлениями действий GitHub Actions
+# (actions/checkout, actions/setup-node и др.) из .github/workflows/.
+# Кода расширения это не касается: у него нет зависимостей.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: 'CI'

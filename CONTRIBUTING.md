@@ -59,7 +59,7 @@ npm test
 ├── docs/
 │   ├── screenshot.png     # картинка для README
 │   └── mockup.html        # её исходник
-└── .github/               # GitHub Actions, шаблоны Issues и PR
+└── .github/               # GitHub Actions, Dependabot, шаблоны Issues и PR
 ```
 
 ## Как устроены тесты
@@ -69,6 +69,10 @@ npm test
 - `manifest.test.js` — версии совпадают, файлы на месте, иконки нужных размеров.
 
 **Если Яндекс изменил вёрстку**, сохраните новую страницу в `tests/fixtures/` (инструкция и требования к удалению личных данных — в [tests/fixtures/README.md](tests/fixtures/README.md)), добавьте тест и поправьте `src/parser.js`.
+
+## Обновления зависимостей
+
+Раз в месяц [Dependabot](https://docs.github.com/ru/code-security/dependabot) предлагает PR с новыми версиями действий GitHub Actions (`.github/dependabot.yml`). Если проверка в PR зелёная — вливайте. Версии линтеров (`eslint@10`, `prettier@3`, `web-ext@10`) указаны в `package.json` и обновляются вручную.
 
 ## Правила для изменений
 
