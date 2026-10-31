@@ -1,0 +1,54 @@
+name: Сообщить об ошибке
+description: Расширение работает не так, как ожидалось
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Спасибо, что сообщаете об ошибке! Сначала загляните в раздел [«Решение проблем»](https://github.com/Ogurtsov-D/Yandex_Mail_Checker#решение-проблем) — возможно, ответ уже там.
+        **Не прикладывайте личные данные:** адреса, имена, темы писем, cookie.
+  - type: textarea
+    id: what
+    attributes:
+      label: Что случилось
+      description: Что вы делали, что ожидали увидеть и что произошло на самом деле.
+      placeholder: Пришло новое письмо, но бейдж показывает «!», а подсказка — «Не удалось прочитать страницу почты».
+    validations:
+      required: true
+  - type: input
+    id: tooltip
+    attributes:
+      label: Текст бейджа и подсказки
+      description: Что написано на иконке и в подсказке при наведении на неё.
+      placeholder: '«!» — Яндекс.Почта: Не удалось прочитать страницу почты'
+  - type: input
+    id: version
+    attributes:
+      label: Версия расширения
+      description: Видна на странице расширений браузера.
+      placeholder: 1.4.0
+    validations:
+      required: true
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Браузер
+      options:
+        - Chrome
+        - Яндекс Браузер
+        - Microsoft Edge
+        - Firefox
+        - Другой (укажите в описании)
+    validations:
+      required: true
+  - type: input
+    id: browser-version
+    attributes:
+      label: Версия браузера и ОС
+      placeholder: Chrome 142, Windows 11
+  - type: textarea
+    id: logs
+    attributes:
+      label: Журнал расширения (необязательно)
+      description: Как его открыть — в разделе «Решение проблем» README. Удалите личные данные перед отправкой.
+      render: text
