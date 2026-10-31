@@ -11,6 +11,8 @@
   },
   "scripts": {
     "test": "node --no-warnings=ExperimentalWarning --test \"tests/*.test.js\"",
+    "e2e": "npm run build && node --test --test-concurrency=1 tests/e2e/chromium.e2e.js",
+    "e2e:firefox": "npm run build && node --test --test-concurrency=1 tests/e2e/firefox.e2e.js",
     "lint": "npm run lint:js && npm run lint:format",
     "lint:js": "npx --yes eslint@10 .",
     "lint:format": "npx --yes prettier@3 --check .",

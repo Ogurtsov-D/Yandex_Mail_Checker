@@ -29,6 +29,7 @@ npm test
 | `npm run build` | Собрать `dist/chrome/`, `dist/firefox/` и zip-архивы для релиза |
 | `npm run lint:firefox` | Собрать и проверить версию для Firefox официальным линтером Mozilla (`web-ext lint --self-hosted`) |
 | `npm run check` | Всё сразу — то же, что проверяет GitHub Actions |
+| `npm run e2e`, `npm run e2e:firefox` | Сквозная проверка в настоящем Chromium и Firefox (см. ниже) |
 
 ## Структура проекта
 
@@ -56,6 +57,7 @@ npm test
 │   └── icon*.png          # 16, 32, 48, 128 px — собираются из icon.svg
 ├── tests/
 │   ├── *.test.js          # автотесты
+│   ├── e2e/               # сквозные проверки в настоящих браузерах
 │   ├── helpers/           # имитация API браузера и генератор страниц
 │   └── fixtures/          # образцы HTML-страниц lite-версии
 ├── scripts/
@@ -76,6 +78,31 @@ npm test
 - `format.test.js`, `format-en.test.js` — тексты интерфейса на русском и английском.
 - `checker.test.js`, `background.test.js`, `firefox.test.js` — логика расширения на имитации API браузера (`tests/helpers/browser-mock.js`): хранилище, будильники, уведомления, вкладки и ответы Яндекса подменяются, таймеры управляются через `mock.timers`.
 - `manifest.test.js` — версии совпадают, файлы на месте, иконки нужных размеров, переводы полные: каждый ключ из кода есть в обоих языках.
+
+## Сквозная проверка в браузерах
+
+Автотесты выше работают с имитацией API браузера. Сквозные проверки запускают собранное расширение в **настоящем** Chromium и Firefox и проходят основные сценарии: первая проверка без уведомлений о старых письмах, новое письмо после действия во вкладке почты, уведомления (в Firefox — в его формате), ошибка сервера, редирект на вход, капча, открытие почты и письма в настоящих вкладках, русский и английский интерфейс. Ответы `mail.yandex.ru` подменяются образцами страниц, вход в почту не нужен.
+
+Не проверяется автоматически: сам клик по иконке и по уведомлению (браузеры не дают нажать их из автоматизации — проверяется функция, которую они вызывают) и запрос к настоящему `mail.yandex.ru`.
+
+Инструменты в проект не входят и ставятся глобально:
+
+```bash
+# Chromium
+npm install -g playwright && npx playwright install chromium
+NODE_PATH="$(npm root -g)" npm run e2e
+
+# Firefox: puppeteer-core и сборка Firefox с русским языком (английский тест в ней тоже работает)
+npm install -g puppeteer-core
+curl -L -o firefox.tar.xz https://archive.mozilla.org/pub/firefox/releases/<версия>/linux-x86_64/ru/firefox-<версия>.tar.xz
+tar -xJf firefox.tar.xz
+NODE_PATH="$(npm root -g)" FIREFOX_BIN="$PWD/firefox/firefox" npm run e2e:firefox
+```
+
+Как устроено:
+
+- **Chromium** (`tests/e2e/chromium.e2e.js`) — Playwright загружает `dist/chrome`, перехватывает запросы к `mail.yandex.ru` и читает бейдж, подсказку и уведомления из service worker.
+- **Firefox** (`tests/e2e/firefox.e2e.js`) — Firefox не даёт автоматизации открывать страницы расширения, поэтому тестовая копия `dist/firefox` получает хук в фоновом скрипте: он сообщает состояние локальному серверу и выполняет его команды, а адрес почты в копии заменён на этот сервер. Код расширения остаётся прежним.
 
 **Если Яндекс изменил вёрстку**, сохраните новую страницу в `tests/fixtures/` (инструкция и требования к удалению личных данных — в [tests/fixtures/README.md](tests/fixtures/README.md)), добавьте тест и поправьте `src/parser.js`.
 
@@ -114,7 +141,7 @@ NODE_PATH="$(npm root -g)" node scripts/render-icons.mjs
 
 1. Обновите версию в `manifest.json` и `package.json` (одинаковую, например `1.5.0`). Каждая версия выпускается один раз: Mozilla не подпишет её повторно.
 2. Переименуйте `## [Не выпущено]` в `CHANGELOG.md` в `## [1.5.0] — ГГГГ-ММ-ДД`.
-3. Влейте изменения в `main` и дождитесь зелёной проверки.
+3. Влейте изменения в `main` и дождитесь зелёной проверки. Перед релизом с заметными изменениями запустите сквозные проверки: `npm run e2e` и `npm run e2e:firefox`.
 4. Создайте тег — любым способом:
     - в терминале: `git tag v1.5.0 && git push origin v1.5.0`;
     - на GitHub: **Releases → Draft a new release → Choose a tag → `v1.5.0` (Create new tag) → Publish release**.
