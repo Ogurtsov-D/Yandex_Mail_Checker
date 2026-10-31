@@ -1,0 +1,49 @@
+# Релиз по тегу v<версия> (например, v1.4.0): проверки, сборка архивов
+# для Chrome и Firefox и публикация на странице Releases.
+# Тег можно отправить командой git push или создать при публикации релиза на GitHub.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+
+      - name: Версия тега совпадает с manifest.json
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          VERSION=$(node -p "JSON.parse(require('fs').readFileSync('manifest.json', 'utf8')).version")
+          if [ "$TAG" != "$VERSION" ]; then
+            echo "::error::Тег v$TAG не совпадает с версией в manifest.json ($VERSION)"
+            exit 1
+          fi
+
+      - name: Тесты и линтеры
+        run: npm test && npm run lint && npm run lint:firefox
+
+      - name: Описание релиза из CHANGELOG.md
+        run: node scripts/release-notes.mjs "${GITHUB_REF_NAME#v}" > release-notes.md
+
+      - name: Публикация архивов
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "$GITHUB_REF_NAME" > /dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" dist/*.zip --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" dist/*.zip \
+              --title "Версия ${GITHUB_REF_NAME#v}" \
+              --notes-file release-notes.md
+          fi

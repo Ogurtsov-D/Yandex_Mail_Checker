@@ -1,0 +1,9 @@
+# Результаты сборки (npm run build)
+dist/
+
+node_modules/
+*.zip
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
