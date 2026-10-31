@@ -27,7 +27,7 @@ async function focusTab(tab, url) {
     await ext.windows.update(tab.windowId, { focused: true });
 }
 
-// Открыть почту. hash — конкретное письмо ('#message/123'); без него — просто почта.
+// Открыть почту. hash — конкретное письмо ('#/message/123'); без него — просто почта.
 export async function openMail(hash = null) {
     const tabs = await ext.tabs.query({ url: MAIL_TAB_PATTERN });
 

@@ -10,20 +10,24 @@ export function fixture(name) {
 export function message({ id, from = 'Отправитель', subject = 'Тема', unread = true, thread = false }) {
     const cls = unread ? 'b-messages__message b-messages__message_unread' : 'b-messages__message';
     const input = thread
-        ? `<input type="checkbox" name="tids" value="${id}:3">`
-        : `<input type="checkbox" name="ids" value="${id}">`;
+        ? `<input type="checkbox" name="tids" class="b-form-checkbox" value="${id}:3">`
+        : `<input type="checkbox" name="ids" class="b-form-checkbox" value="${id}">`;
     return (
         `<div class="${cls}">${input}` +
-        `<span class="b-messages__from__text" title=""><span class="b-messages__from__text">${from}</span></span>` +
-        `<a href="/lite/message/${id}"><span class="b-messages__subject"><span>${subject}</span></span></a></div>`
+        `<a class="b-messages__from" href="/lite/compose">${from}</a>` +
+        `<a class="b-messages__message__link" href="/lite/${thread ? 'thread' : 'message'}/${id}">` +
+        `<span class="b-messages__subject">${subject}</span></a></div>`
     );
 }
 
 export function inboxPage({ count = 0, messages = [] } = {}) {
     const title = count > 0 ? `Входящие (${count} новых) — Яндекс Почта` : 'Входящие — Яндекс Почта';
+    const num = count > 0 ? `<span class="b-folders__folder__num">${count}</span>` : '';
     return (
         `<!DOCTYPE html><html><head><title>${title}</title></head><body>` +
-        `<a href="/lite/inbox">Входящие</a><div class="b-messages">${messages.map(message).join('')}</div>` +
+        `<div class="b-folders"><div class="b-folders__folder">${num}` +
+        `<a class="b-folders__folder__link" href="/lite/inbox">Входящие</a></div></div>` +
+        `<form class="b-messages">${messages.map(message).join('')}</form>` +
         `</body></html>`
     );
 }

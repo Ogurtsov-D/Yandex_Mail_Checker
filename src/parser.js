@@ -50,66 +50,102 @@ export function isLoginPage(html) {
 
 // Похоже ли это на страницу входящих lite-версии (а не капчу, заглушку или другую вёрстку)
 function isLiteInboxPage(html) {
-    return html.includes('b-messages') || html.includes('href="/lite/inbox"');
+    return html.includes('b-messages') || html.includes('b-folders') || html.includes('href="/lite/inbox"');
+}
+
+// ---------- Разметка ----------
+// Устройство lite-страницы подтверждено кодом расширений, которые с ней работают
+// (см. tests/fixtures/README.md): строка письма — <div> с классами b-messages__message
+// и b-messages__message_unread, отправитель — <a class="b-messages__from">, тема —
+// <span class="b-messages__subject">, счётчик папки — <span class="b-folders__folder__num">
+// перед ссылкой на папку. Разбираем по классам и берём текст элемента целиком,
+// чтобы мелкие изменения вложенности тегов не ломали разбор.
+
+const classesOf = (tag) => (tag.match(/\sclass="([^"]*)"/)?.[1] ?? '').split(/\s+/);
+const attribute = (tag, name) => tag.match(new RegExp(`\\s${name}="([^"]*)"`))?.[1] ?? null;
+
+// Текст первого элемента <tagName> с классом className, с учётом вложенных одноимённых тегов
+function elementText(html, tagName, className) {
+    const openings = new RegExp(`<${tagName}\\b[^>]*>`, 'gi');
+    for (const open of html.matchAll(openings)) {
+        if (!classesOf(open[0]).includes(className)) continue;
+        const start = open.index + open[0].length;
+        const tags = new RegExp(`<(/?)${tagName}\\b[^>]*>`, 'gi');
+        tags.lastIndex = start;
+        let depth = 1;
+        for (let tag = tags.exec(html); tag; tag = tags.exec(html)) {
+            depth += tag[1] ? -1 : 1;
+            if (depth === 0) return cleanHtmlText(html.slice(start, tag.index));
+        }
+        return cleanHtmlText(html.slice(start));
+    }
+    return '';
+}
+
+// «1 234», «1 234» (неразрывный пробел), «1,234» → 1234; не число → null
+function parseNumber(text) {
+    const digits = text.replace(/[\s  ,.]/g, '');
+    return /^\d+$/.test(digits) ? parseInt(digits, 10) : null;
 }
 
 // Непрочитанные письма на странице: [{ id, isThread, from, subject }]
 export function parseUnreadMessages(html) {
+    const rows = [...html.matchAll(/<div\b[^>]*>/gi)].filter((m) => classesOf(m[0]).includes('b-messages__message'));
     const messages = [];
 
-    // Разбиваем HTML по началу каждого блока письма, затем оставляем непрочитанные
-    const blocks = html.split(/<div class="b-messages__message\b/);
+    rows.forEach((row, i) => {
+        if (!classesOf(row[0]).includes('b-messages__message_unread')) return;
+        const block = html.slice(row.index, rows[i + 1]?.index ?? html.length);
 
-    for (const block of blocks) {
-        if (!block.includes('b-messages__message_unread')) continue;
-
-        // name="ids" value="192247409093380563" — письмо,
-        // name="tids" value="192247409093380553:3" — тред (после двоеточия — число писем)
-        const idMatch = block.match(/name="(ids|tids)"[^>]*value="([^"]+)"/);
-        if (!idMatch) continue;
-
-        const fromMatch = block.match(
-            /class="b-messages__from__text"[^>]*><span class="b-messages__from__text">([\s\S]*?)<\/span>/
+        // name="ids" value="192247409093380563" — письмо, name="tids" value="…:3" — тред
+        // (после разделителя — служебные данные: число писем в треде)
+        const input = (block.match(/<input\b[^>]*>/gi) ?? []).find((tag) =>
+            ['ids', 'tids'].includes(attribute(tag, 'name'))
         );
-        const subjMatch = block.match(/class="b-messages__subject"><span>([\s\S]*?)<\/span>/);
+        const id = (attribute(input ?? '', 'value') ?? '').split(/[|:]/)[0];
+        if (!/^\d+$/.test(id)) return;
 
         messages.push({
-            id: idMatch[2].split(':')[0],
-            isThread: idMatch[1] === 'tids',
-            from: fromMatch ? cleanHtmlText(fromMatch[1]) : '',
-            subject: subjMatch ? cleanHtmlText(subjMatch[1]) : ''
+            id,
+            isThread: attribute(input, 'name') === 'tids',
+            from: elementText(block, 'a', 'b-messages__from') || elementText(block, 'span', 'b-messages__from__text'),
+            subject: elementText(block, 'span', 'b-messages__subject')
         });
-    }
+    });
 
     return messages;
+}
+
+// Счётчик папки «Входящие» из списка папок: <span class="b-folders__folder__num">N</span> … <a href="/lite/inbox">
+function inboxFolderCount(html) {
+    const folders =
+        /<span\b[^>]*\sclass="[^"]*\bb-folders__folder__num\b[^"]*"[^>]*>([^<]*)<\/span>[\s\S]*?<a\b[^>]*\shref="([^"]*)"/gi;
+    for (const [, num, href] of html.matchAll(folders)) {
+        if (href === '/lite/inbox' || href.startsWith('/lite/inbox?')) return parseNumber(num);
+    }
+    return null;
 }
 
 // Количество непрочитанных писем во «Входящих».
 // Возвращает число или null, если страницу распознать не удалось.
 export function parseUnreadCount(html, unreadMessages = []) {
-    // 1. Число в скобках в <title>: «Входящие (47 новых писем)», «Inbox (47 new)».
+    // 1. Число в скобках в <title>: «Входящие (47 новых писем)», «Inbox (1,234 new)».
     //    Не завязываемся на слово «Входящие», чтобы работало при любом языке интерфейса.
-    const titleMatch = html.match(/<title>[^<(]*\((\d+)[^)<]*\)/);
-    if (titleMatch) {
-        debug('Счётчик из <title>:', titleMatch[1]);
-        return parseInt(titleMatch[1], 10);
+    const titleMatch = html.match(/<title>[^<(]*\((\d[\d\s  ,.]*)/);
+    const fromTitle = titleMatch ? parseNumber(titleMatch[1]) : null;
+    if (fromTitle !== null) {
+        debug('Счётчик из <title>:', fromTitle);
+        return fromTitle;
     }
 
-    // 2. data-key="inbox" с data-count
-    const inboxMatch = html.match(/data-key="inbox"[^>]*data-count="(\d+)"/);
-    if (inboxMatch) {
-        debug('Счётчик из data-count:', inboxMatch[1]);
-        return parseInt(inboxMatch[1], 10);
+    // 2. Счётчик в списке папок
+    const fromFolders = inboxFolderCount(html);
+    if (fromFolders !== null) {
+        debug('Счётчик из списка папок:', fromFolders);
+        return fromFolders;
     }
 
-    // 3. aria-label ссылки «Входящие»
-    const ariaMatch = html.match(/href="\/lite\/inbox"[^>]*aria-label="Входящие,\s*(\d+)\s*нов/);
-    if (ariaMatch) {
-        debug('Счётчик из aria-label:', ariaMatch[1]);
-        return parseInt(ariaMatch[1], 10);
-    }
-
-    // 4. Считаем непрочитанные письма на первой странице списка
+    // 3. Считаем непрочитанные письма на первой странице списка
     if (unreadMessages.length > 0) {
         debug('Счётчик по письмам на странице:', unreadMessages.length);
         return unreadMessages.length;
@@ -121,7 +157,9 @@ export function parseUnreadCount(html, unreadMessages = []) {
     return null;
 }
 
-// Адрес письма в полной версии почты (добавляется к адресу вкладки): #message/<id> или #thread/t<id>
+// Адрес письма в полной версии почты (добавляется к адресу вкладки): #/message/<id>.
+// Формат сверен с расширением pulsar, проверявшим его на живых ящиках в октябре 2026 г.
+// Для тредов проверенного формата нет — по клику открывается почта (null).
 export function messageHash(message) {
-    return message.isThread ? `#thread/t${message.id}` : `#message/${message.id}`;
+    return message.isThread ? null : `#/message/${message.id}`;
 }

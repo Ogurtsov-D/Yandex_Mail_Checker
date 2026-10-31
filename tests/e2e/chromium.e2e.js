@@ -139,7 +139,7 @@ describe('Chromium, русский интерфейс', () => {
         assert.equal(s.notifications.length, 1);
         assert.equal(s.notifications[0].title, '"Иван" & Ко');
         assert.equal(s.notifications[0].message, 'Отчёт');
-        assert.equal(s.target, '#message/222');
+        assert.equal(s.target, '#/message/222');
         await tab.close();
     });
 
@@ -201,20 +201,20 @@ describe('Chromium, русский интерфейс', () => {
         // Письмо открывается в уже открытой вкладке: меняется только hash, ?uid= сохраняется
         const mail = await context.newPage();
         await mail.goto('https://mail.yandex.ru/?uid=7#inbox');
-        await helper.evaluate(() => globalThis.openMail('#message/222'));
+        await helper.evaluate(() => globalThis.openMail('#/message/222'));
         await sleep(1000);
         tabs = await mailTabs();
         assert.equal(tabs.length, 1);
-        assert.equal(tabs[0].url, 'https://mail.yandex.ru/?uid=7#message/222');
+        assert.equal(tabs[0].url, 'https://mail.yandex.ru/?uid=7#/message/222');
         assert.equal(tabs[0].active, true);
 
         // Вкладку с черновиком не трогаем — письмо открывается в новой вкладке
         await mail.goto('https://mail.yandex.ru/?uid=7#compose');
-        await helper.evaluate(() => globalThis.openMail('#message/333'));
+        await helper.evaluate(() => globalThis.openMail('#/message/333'));
         await sleep(1000);
         tabs = await mailTabs();
         assert.deepEqual(tabs.map((t) => t.url).sort(), [
-            'https://mail.yandex.ru/#message/333',
+            'https://mail.yandex.ru/#/message/333',
             'https://mail.yandex.ru/?uid=7#compose'
         ]);
         await helper.close();

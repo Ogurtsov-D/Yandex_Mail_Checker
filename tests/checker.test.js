@@ -40,7 +40,7 @@ test('прочитал одно, пришло одно: счётчик тот ж
     assert.equal(n.title, 'Иван');
     assert.equal(n.message, 'Отчёт');
     assert.equal(n.iconUrl, 'extension://test/icons/icon128.png');
-    assert.equal(mock.store.session.notificationTarget, '#message/222');
+    assert.equal(mock.store.session.notificationTarget, '#/message/222');
 });
 
 test('несколько новых писем — уведомление-список, клик ведёт в почту', async () => {
@@ -59,12 +59,12 @@ test('несколько новых писем — уведомление-спи
     assert.equal(mock.store.session.notificationTarget, null);
 });
 
-test('новое письмо в треде ведёт к треду', async () => {
+test('новое письмо в треде ведёт в почту: проверенного адреса треда нет', async () => {
     mock.respond(inboxPage({ count: 0 }));
     await checkMail();
     mock.respond(inboxPage({ count: 1, messages: [{ id: '333', thread: true }] }));
     await checkMail();
-    assert.equal(mock.store.session.notificationTarget, '#thread/t333');
+    assert.equal(mock.store.session.notificationTarget, null);
 });
 
 test('уведомления выключены — проверка работает, уведомлений нет', async () => {
