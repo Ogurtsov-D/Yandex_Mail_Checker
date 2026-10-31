@@ -1,6 +1,6 @@
 {
   "name": "yandex-mail-checker",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "private": true,
   "description": "Браузерное расширение: счётчик непрочитанных писем Яндекс.Почты и уведомления о новых письмах",
   "license": "GPL-3.0-or-later",

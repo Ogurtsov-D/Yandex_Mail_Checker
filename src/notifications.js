@@ -2,6 +2,7 @@
 import { ext, IS_FIREFOX } from './api.js';
 import { MAX_NOTIFICATION_ITEMS } from './config.js';
 import { newMailTitle } from './format.js';
+import { t } from './i18n.js';
 import { messageHash } from './parser.js';
 import { getSettings } from './settings.js';
 
@@ -36,8 +37,8 @@ export async function notifyNewMessages(messages) {
             {
                 type: 'basic',
                 iconUrl: iconUrl(),
-                title: m.from || 'Новое письмо',
-                message: m.subject || '(без темы)',
+                title: m.from || t('newMessage'),
+                message: m.subject || t('noSubject'),
                 priority: 1
             },
             messageHash(m)
@@ -52,8 +53,8 @@ export async function notifyNewMessages(messages) {
             title: newMailTitle(messages.length),
             message: '',
             items: messages.slice(0, MAX_NOTIFICATION_ITEMS).map((m) => ({
-                title: m.from || 'Отправитель',
-                message: m.subject || '(без темы)'
+                title: m.from || t('unknownSender'),
+                message: m.subject || t('noSubject')
             })),
             priority: 1
         },
@@ -68,7 +69,7 @@ export async function notifyNewCount(count) {
             type: 'basic',
             iconUrl: iconUrl(),
             title: newMailTitle(count),
-            message: 'Откройте почту для просмотра',
+            message: t('openMailToView'),
             priority: 1
         },
         null

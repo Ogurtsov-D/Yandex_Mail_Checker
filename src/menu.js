@@ -2,7 +2,7 @@
 import { ext } from './api.js';
 import { checkMail } from './checker.js';
 import { INTERVALS } from './config.js';
-import { pluralize } from './format.js';
+import { plural, t } from './i18n.js';
 import { getSettings, setCheckInterval, setNotificationsEnabled } from './settings.js';
 
 const CHECK_NOW = 'check-now';
@@ -20,17 +20,17 @@ export async function createContextMenu() {
 
     await ext.contextMenus.removeAll();
 
-    create({ id: CHECK_NOW, title: 'Проверить сейчас' });
+    create({ id: CHECK_NOW, title: t('menuCheckNow') });
     create({ id: 'separator-1', type: 'separator' });
 
-    create({ id: INTERVAL_MENU, title: 'Интервал проверки' });
+    create({ id: INTERVAL_MENU, title: t('menuInterval') });
     for (const minutes of INTERVALS) {
         create({
             id: intervalItemId(minutes),
             parentId: INTERVAL_MENU,
             type: 'radio',
             checked: minutes === interval,
-            title: `${minutes} ${pluralize(minutes, 'минута', 'минуты', 'минут')}`
+            title: plural('minutes', minutes)
         });
     }
 
@@ -39,7 +39,7 @@ export async function createContextMenu() {
         id: NOTIFICATIONS,
         type: 'checkbox',
         checked: notificationsEnabled,
-        title: 'Уведомления о новых письмах'
+        title: t('menuNotifications')
     });
 }
 

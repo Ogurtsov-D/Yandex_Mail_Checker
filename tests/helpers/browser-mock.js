@@ -1,7 +1,28 @@
 // Имитация API расширений (chrome.* / browser.*) для тестов в Node.js.
 // Использование: installBrowserMock() до импорта модулей из src/.
+import { readFileSync } from 'node:fs';
 
-export function installBrowserMock({ firefox = false } = {}) {
+export function loadMessages(locale) {
+    return JSON.parse(readFileSync(new URL(`../../_locales/${locale}/messages.json`, import.meta.url), 'utf8'));
+}
+
+// chrome.i18n.getMessage: $NAME$ → содержимое placeholder → $1…$9 из аргументов, $$ → $
+export function getMessage(messages, key, substitutions = []) {
+    const entry = messages[key];
+    if (!entry) return '';
+    const subs = typeof substitutions === 'string' ? [substitutions] : (substitutions ?? []);
+    const fillArgs = (text) => text.replace(/\$(\d)/g, (_, n) => subs[Number(n) - 1] ?? '');
+    return entry.message
+        .replace(/\$([a-z0-9_@]+)\$/gi, (match, name) => {
+            const placeholder = entry.placeholders?.[name.toLowerCase()];
+            return placeholder ? fillArgs(placeholder.content) : match;
+        })
+        .replace(/\$\$/g, '$');
+}
+
+// locale — язык перевода, который «выбрал браузер» (ru или en)
+export function installBrowserMock({ firefox = false, locale = 'ru' } = {}) {
+    const messages = loadMessages(locale);
     const listeners = {};
     const store = { local: {}, session: {} };
     const calls = {
@@ -44,6 +65,10 @@ export function installBrowserMock({ firefox = false } = {}) {
             ...(firefox ? { getBrowserInfo: async () => ({ name: 'Firefox' }) } : {})
         },
         storage: { local: area('local'), session: area('session') },
+        i18n: {
+            getMessage: (key, substitutions) => getMessage(messages, key, substitutions),
+            getUILanguage: () => locale
+        },
         alarms: {
             create: async (name, info) => {
                 alarms[name] = { name, ...info };

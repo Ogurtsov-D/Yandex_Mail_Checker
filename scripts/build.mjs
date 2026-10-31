@@ -13,7 +13,7 @@ const dist = join(root, 'dist');
 const manifest = JSON.parse(readFileSync(join(root, 'manifest.json'), 'utf8'));
 
 // Что входит в расширение (тесты, документация и служебные файлы — нет)
-const INCLUDE = ['src', 'icons', 'LICENSE'];
+const INCLUDE = ['src', 'icons', '_locales', 'LICENSE'];
 
 const targets = {
     chrome: (m) => {

@@ -1,38 +1,45 @@
-// Тексты для бейджа, подсказки и уведомлений. Только чистые функции.
-
-// Склонение: pluralize(5, 'письмо', 'письма', 'писем') → 'писем'
-export function pluralize(n, one, few, many) {
-    const mod10 = n % 10;
-    const mod100 = n % 100;
-    if (mod100 >= 11 && mod100 <= 19) return many;
-    if (mod10 === 1) return one;
-    if (mod10 >= 2 && mod10 <= 4) return few;
-    return many;
-}
+// Тексты для бейджа, подсказки и уведомлений
+import { locale, plural, t } from './i18n.js';
 
 export function newMailTitle(n) {
-    return `${n} ${pluralize(n, 'новое письмо', 'новых письма', 'новых писем')}`;
+    return plural('newMail', n);
 }
 
 export function unreadText(n) {
-    if (n === 0) return 'новых писем нет';
-    return `${n} ${pluralize(n, 'непрочитанное письмо', 'непрочитанных письма', 'непрочитанных писем')}`;
+    return n === 0 ? t('noUnread') : plural('unread', n);
 }
 
-const pad = (n) => String(n).padStart(2, '0');
-
-// «в 14:32» сегодня, «вчера в 14:32», иначе «28.10 в 14:32»
+// «в 14:32» сегодня, «вчера в 14:32», иначе «28.10 в 14:32» (по-английски — «at 02:32 PM», «Oct 28 at …»)
 export function formatCheckTime(timestamp, now = Date.now()) {
+    const lang = locale();
     const date = new Date(timestamp);
-    const today = new Date(now);
-    const time = `${pad(date.getHours())}:${pad(date.getMinutes())}`;
+    const time = new Intl.DateTimeFormat(lang, { hour: '2-digit', minute: '2-digit' }).format(date);
 
     const startOfDay = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
-    const daysAgo = Math.round((startOfDay(today) - startOfDay(date)) / 86400000);
+    const daysAgo = Math.round((startOfDay(new Date(now)) - startOfDay(date)) / 86400000);
 
-    if (daysAgo === 0) return `в ${time}`;
-    if (daysAgo === 1) return `вчера в ${time}`;
-    return `${pad(date.getDate())}.${pad(date.getMonth() + 1)} в ${time}`;
+    if (daysAgo === 0) return t('atTime', time);
+    if (daysAgo === 1) return t('yesterdayAtTime', time);
+    const dayOptions = lang === 'ru' ? { day: '2-digit', month: '2-digit' } : { month: 'short', day: 'numeric' };
+    return t('dateAtTime', new Intl.DateTimeFormat(lang, dayOptions).format(date), time);
+}
+
+const ERROR_MESSAGES = {
+    auth: 'errorAuth',
+    server: 'errorServer',
+    client: 'errorClient',
+    http: 'errorHttp',
+    timeout: 'errorTimeout',
+    network: 'errorNetwork',
+    parse: 'errorParse',
+    internal: 'errorInternal'
+};
+
+// Текст ошибки на текущем языке (в хранилище лежит только её тип и HTTP-код)
+export function errorText(state) {
+    const key = ERROR_MESSAGES[state.errorType];
+    if (key) return state.errorStatus ? t(key, state.errorStatus) : t(key);
+    return state.lastError || t('errorInternal'); // состояние от версий до 1.5.0
 }
 
 // Текст на бейдже по сохранённому состоянию
@@ -46,22 +53,22 @@ export function badgeText(state) {
 
 // Подсказка при наведении на иконку
 export function tooltipText(state, now = Date.now()) {
-    const lines = [];
+    const service = t('serviceName');
 
     if (state.errorType) {
-        lines.push(`Яндекс.Почта: ${state.lastError}`);
+        const lines = [`${service}: ${errorText(state)}`];
         if (state.lastSuccess) {
-            lines.push(
-                `Последняя успешная проверка ${formatCheckTime(state.lastSuccess, now)}: ` +
-                    unreadText(state.lastGoodCount ?? 0)
-            );
+            lines.push(t('lastSuccess', formatCheckTime(state.lastSuccess, now), unreadText(state.lastGoodCount ?? 0)));
         }
-    } else if (state.lastSuccess) {
-        lines.push(`Яндекс.Почта: ${unreadText(state.unreadCount ?? 0)}`);
-        lines.push(`Проверено ${formatCheckTime(state.lastSuccess, now)}`);
-    } else {
-        lines.push('Яндекс.Почта');
+        return lines.join('\n');
     }
 
-    return lines.join('\n');
+    if (state.lastSuccess) {
+        return [
+            `${service}: ${unreadText(state.unreadCount ?? 0)}`,
+            t('checkedAt', formatCheckTime(state.lastSuccess, now))
+        ].join('\n');
+    }
+
+    return service;
 }
