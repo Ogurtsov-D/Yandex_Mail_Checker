@@ -16,6 +16,7 @@
 - Тексты интерфейса — в `_locales/ru` и `_locales/en`, склонение через `Intl.PluralRules`
 - Исходник иконки — `icons/icon.svg`, PNG собираются скриптом `scripts/render-icons.mjs`
 - Английская версия README — `README.en.md`
+- Сквозные проверки в настоящих Chromium и Firefox: `npm run e2e`, `npm run e2e:firefox`
 - Релиз публикуется только с подписанным `.xpi` для Firefox; при сбое релиз, созданный вручную, становится черновиком, повторный запуск его доопубликовывает
 - Обновлены действия GitHub Actions: `checkout`, `setup-node`, `upload-artifact` до v7; Dependabot следит за новыми версиями
 
