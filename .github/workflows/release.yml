@@ -1,20 +1,32 @@
-# Релиз по тегу v<версия> (например, v1.4.0): проверки, сборка архивов
-# для Chrome и Firefox и публикация на странице Releases.
-# Тег можно отправить командой git push или создать при публикации релиза на GitHub.
+# Релиз по тегу v<версия> (например, v1.4.1): проверки, сборка архивов для Chrome
+# и Firefox, подпись Firefox-версии в Mozilla и публикация на странице Releases.
+#
+# Тег можно отправить командой git push или создать при публикации релиза на GitHub —
+# в обоих случаях срабатывает событие push тега, поэтому отдельный триггер release не нужен.
+#
+# Подпись для Firefox включается секретами репозитория AMO_JWT_ISSUER и AMO_JWT_SECRET
+# (ключи API addons.mozilla.org, см. CONTRIBUTING.md). Без них релиз собирается без .xpi.
 name: Release
 
 on:
   push:
     tags: ['v*']
-  release:
-    types: [published]
 
 permissions:
   contents: write
 
+# Повторные запуски для одного тега идут по очереди: Mozilla не принимает одну версию дважды
+concurrency:
+  group: release-${{ github.ref_name }}
+  cancel-in-progress: false
+
 jobs:
   release:
     runs-on: ubuntu-latest
+    env:
+      AMO_JWT_ISSUER: ${{ secrets.AMO_JWT_ISSUER }}
+      AMO_JWT_SECRET: ${{ secrets.AMO_JWT_SECRET }}
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -29,21 +41,47 @@ jobs:
             echo "::error::Тег v$TAG не совпадает с версией в manifest.json ($VERSION)"
             exit 1
           fi
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
 
       - name: Тесты и линтеры
         run: npm test && npm run lint && npm run lint:firefox
 
-      - name: Описание релиза из CHANGELOG.md
-        run: node scripts/release-notes.mjs "${GITHUB_REF_NAME#v}" > release-notes.md
-
-      - name: Публикация архивов
+      - name: Подпись для Firefox (addons.mozilla.org, без публикации в каталоге)
+        if: env.AMO_JWT_ISSUER != ''
+        # Сбой подписи не должен лишать релиз архивов: их выложит следующий шаг
+        continue-on-error: true
         env:
-          GH_TOKEN: ${{ github.token }}
+          WEB_EXT_API_KEY: ${{ secrets.AMO_JWT_ISSUER }}
+          WEB_EXT_API_SECRET: ${{ secrets.AMO_JWT_SECRET }}
         run: |
+          XPI="yandex-mail-checker-$VERSION-firefox.xpi"
+          if gh release view "$GITHUB_REF_NAME" --json assets -q '.assets[].name' 2> /dev/null | grep -qx "$XPI"; then
+            echo "Подписанный $XPI уже приложен к релизу — пропускаем"
+            exit 0
+          fi
+          npx --yes web-ext@10 sign --channel unlisted --source-dir dist/firefox \
+            --artifacts-dir dist/signed --approval-timeout 900000
+          mv dist/signed/*.xpi "dist/$XPI"
+          node scripts/firefox-update-manifest.mjs "$VERSION" > dist/updates.json
+
+      - name: Описание релиза из CHANGELOG.md
+        run: node scripts/release-notes.mjs "$VERSION" > release-notes.md
+
+      - name: Публикация на странице Releases
+        run: |
+          # Только реально созданные файлы (.xpi и updates.json — если была подпись)
+          FILES=()
+          for f in dist/*.zip dist/*.xpi dist/updates.json; do
+            if [ -e "$f" ]; then FILES+=("$f"); fi
+          done
           if gh release view "$GITHUB_REF_NAME" > /dev/null 2>&1; then
-            gh release upload "$GITHUB_REF_NAME" dist/*.zip --clobber
+            gh release upload "$GITHUB_REF_NAME" "${FILES[@]}" --clobber
+            # Релиз создан вручную без описания — подставляем его из CHANGELOG.md
+            if [ -z "$(gh release view "$GITHUB_REF_NAME" --json body -q .body)" ]; then
+              gh release edit "$GITHUB_REF_NAME" --notes-file release-notes.md
+            fi
           else
-            gh release create "$GITHUB_REF_NAME" dist/*.zip \
-              --title "Версия ${GITHUB_REF_NAME#v}" \
+            gh release create "$GITHUB_REF_NAME" "${FILES[@]}" \
+              --title "Версия $VERSION" \
               --notes-file release-notes.md
           fi

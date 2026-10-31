@@ -39,3 +39,22 @@ test('фоновый скрипт объявлен и для Chrome, и для F
     assert.equal(manifest.background.service_worker, manifest.background.scripts[0]);
     assert.ok(manifest.browser_specific_settings?.gecko?.id);
 });
+
+test('updates.json для автообновления Firefox ссылается на подписанный файл релиза', async () => {
+    const { UPDATE_URL, updateManifest, xpiName } = await import('../scripts/firefox-update-manifest.mjs');
+    const id = manifest.browser_specific_settings.gecko.id;
+    assert.deepEqual(updateManifest('9.9.9'), {
+        addons: {
+            [id]: {
+                updates: [
+                    {
+                        version: '9.9.9',
+                        update_link: `${manifest.homepage_url}/releases/download/v9.9.9/${xpiName('9.9.9')}`
+                    }
+                ]
+            }
+        }
+    });
+    assert.equal(UPDATE_URL, `${manifest.homepage_url}/releases/latest/download/updates.json`);
+    assert.ok(UPDATE_URL.startsWith('https://'), 'Firefox принимает update_url только по HTTPS');
+});
