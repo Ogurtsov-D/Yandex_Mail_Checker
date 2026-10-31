@@ -4,15 +4,7 @@ import { BADGE_COLOR } from './config.js';
 import { badgeText, tooltipText } from './format.js';
 import { t } from './i18n.js';
 
-const STATE_KEYS = [
-    'unreadCount',
-    'errorType',
-    'errorStatus',
-    'lastError',
-    'lastCheck',
-    'lastSuccess',
-    'lastGoodCount'
-];
+const STATE_KEYS = ['unreadCount', 'errorType', 'errorStatus', 'lastCheck', 'lastSuccess'];
 
 export async function loadState() {
     return ext.storage.local.get(STATE_KEYS);

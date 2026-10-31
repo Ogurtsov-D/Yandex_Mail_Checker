@@ -168,15 +168,6 @@
       }
     }
   },
-  "errorHttp": {
-    "message": "Ошибка HTTP ($STATUS$)",
-    "description": "Ошибка",
-    "placeholders": {
-      "status": {
-        "content": "$1"
-      }
-    }
-  },
   "errorTimeout": {
     "message": "Яндекс не ответил вовремя",
     "description": "Ошибка"

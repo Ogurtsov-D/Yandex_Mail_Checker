@@ -50,7 +50,7 @@ export async function openMail(hash = null) {
 
 let recheckTimer = null;
 
-export function scheduleRecheck() {
+function scheduleRecheck() {
     // Уже запланирована — не откладываем её снова: частые события
     // (например, мигающий заголовок вкладки) отодвигали бы проверку бесконечно
     if (recheckTimer) return;

@@ -77,7 +77,7 @@ export async function notifyNewCount(count) {
 }
 
 // Куда вести по клику на уведомление (hash письма или null)
-export async function takeNotificationTarget() {
+export async function getNotificationTarget() {
     const { notificationTarget } = await ext.storage.session.get('notificationTarget');
     return notificationTarget ?? null;
 }
