@@ -20,7 +20,7 @@
     "description": "Tooltip during a manual check"
   },
   "noUnread": {
-    "message": "ახალი წერილები არ არის",
+    "message": "წაუკითხავი წერილები არ არის",
     "description": "Tooltip: nothing unread"
   },
   "unread_one": {
@@ -284,10 +284,6 @@
     "message": "არ არის მინიჭებული",
     "description": "No shortcut assigned"
   },
-  "optionsClassicIcon": {
-    "message": "კლასიკური ხატულა",
-    "description": "Settings page"
-  },
   "accountNumber": {
     "message": "ანგარიში $NUMBER$",
     "description": "Account label when the login is unknown",
@@ -333,5 +329,29 @@
   "optionsAccountsHint": {
     "message": "სახელი ჩანს მენიუში, მინიშნებასა და შეტყობინებებში. მოხსენით მონიშვნა, რომ ანგარიში ხატულასა და შეტყობინებებში არ ჩაითვალოს.",
     "description": "Settings page hint"
+  },
+  "optionsIconStyle": {
+    "message": "ხატულა ხელსაწყოთა ზოლზე:",
+    "description": "Settings page"
+  },
+  "iconClassic": {
+    "message": "კლასიკური",
+    "description": "Icon style"
+  },
+  "iconMinimal": {
+    "message": "მინიმალისტური",
+    "description": "Icon style"
+  },
+  "iconBlue": {
+    "message": "ლურჯი",
+    "description": "Icon style"
+  },
+  "iconGreen": {
+    "message": "მწვანე",
+    "description": "Icon style"
+  },
+  "iconPurple": {
+    "message": "იისფერი",
+    "description": "Icon style"
   }
 }

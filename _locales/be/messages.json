@@ -20,7 +20,7 @@
     "description": "Tooltip during a manual check"
   },
   "noUnread": {
-    "message": "новых лістоў няма",
+    "message": "непрачытаных лістоў няма",
     "description": "Tooltip: nothing unread"
   },
   "unread_one": {
@@ -356,10 +356,6 @@
     "message": "не прызначана",
     "description": "No shortcut assigned"
   },
-  "optionsClassicIcon": {
-    "message": "Класічны значок",
-    "description": "Settings page"
-  },
   "accountNumber": {
     "message": "Уліковы запіс $NUMBER$",
     "description": "Account label when the login is unknown",
@@ -405,5 +401,29 @@
   "optionsAccountsHint": {
     "message": "Імя відаць у меню, падказцы і апавяшчэннях. Зніміце адзнаку, каб не ўлічваць уліковы запіс на значку і ў апавяшчэннях.",
     "description": "Settings page hint"
+  },
+  "optionsIconStyle": {
+    "message": "Выгляд значка на панэлі:",
+    "description": "Settings page"
+  },
+  "iconClassic": {
+    "message": "Класічны",
+    "description": "Icon style"
+  },
+  "iconMinimal": {
+    "message": "Мінімалістычны",
+    "description": "Icon style"
+  },
+  "iconBlue": {
+    "message": "Сіні",
+    "description": "Icon style"
+  },
+  "iconGreen": {
+    "message": "Зялёны",
+    "description": "Icon style"
+  },
+  "iconPurple": {
+    "message": "Фіялетавы",
+    "description": "Icon style"
   }
 }

@@ -8,7 +8,7 @@
     "description": "Extension name"
   },
   "extDescription": {
-    "message": "Asboblar panelidagi belgida Yandex Pochtadagi o‘qilmagan xatlar sonini ko‘rsatadi va yangi xatlar haqida xabar beradi",
+    "message": "Asboblar panelidagi belgida Yandex Pochtadagi oʻqilmagan xatlar sonini koʻrsatadi va yangi xatlar haqida xabar beradi",
     "description": "Extension description"
   },
   "serviceName": {
@@ -20,11 +20,11 @@
     "description": "Tooltip during a manual check"
   },
   "noUnread": {
-    "message": "yangi xat yo‘q",
+    "message": "oʻqilmagan xat yoʻq",
     "description": "Tooltip: nothing unread"
   },
   "unread_one": {
-    "message": "$COUNT$ ta o‘qilmagan xat",
+    "message": "$COUNT$ ta oʻqilmagan xat",
     "description": "Tooltip: unread count",
     "placeholders": {
       "count": {
@@ -33,7 +33,7 @@
     }
   },
   "unread_other": {
-    "message": "$COUNT$ ta o‘qilmagan xat",
+    "message": "$COUNT$ ta oʻqilmagan xat",
     "description": "Tooltip: unread count",
     "placeholders": {
       "count": {
@@ -142,7 +142,7 @@
     }
   },
   "errorClient": {
-    "message": "So‘rov xatosi ($STATUS$)",
+    "message": "Soʻrov xatosi ($STATUS$)",
     "description": "Error",
     "placeholders": {
       "status": {
@@ -151,15 +151,15 @@
     }
   },
   "errorTimeout": {
-    "message": "Yandex o‘z vaqtida javob bermadi",
+    "message": "Yandex oʻz vaqtida javob bermadi",
     "description": "Error"
   },
   "errorNetwork": {
-    "message": "Ulanish yo‘q",
+    "message": "Ulanish yoʻq",
     "description": "Error"
   },
   "errorParse": {
-    "message": "Pochta sahifasini o‘qib bo‘lmadi",
+    "message": "Pochta sahifasini oʻqib boʻlmadi",
     "description": "Error"
   },
   "errorInternal": {
@@ -179,7 +179,7 @@
     "description": "Notification: message without subject"
   },
   "openMailToView": {
-    "message": "O‘qish uchun pochtani oching",
+    "message": "Oʻqish uchun pochtani oching",
     "description": "Notification without details"
   },
   "menuCheckNow": {
@@ -187,7 +187,7 @@
     "description": "Menu item"
   },
   "menuInterval": {
-    "message": "Tekshirish oralig‘i",
+    "message": "Tekshirish oraligʻi",
     "description": "Menu item"
   },
   "menuNotifications": {
@@ -217,7 +217,7 @@
     "description": "Submenu: what the badge shows"
   },
   "menuBadgeUnread": {
-    "message": "Barcha o‘qilmagan xatlar",
+    "message": "Barcha oʻqilmagan xatlar",
     "description": "Menu item"
   },
   "menuBadgeFresh": {
@@ -225,7 +225,7 @@
     "description": "Menu item: only messages received since the last visit to the mailbox"
   },
   "menuShowNotifications": {
-    "message": "Yangi xatlar haqida bildirishnomalarni ko‘rsatish",
+    "message": "Yangi xatlar haqida bildirishnomalarni koʻrsatish",
     "description": "Menu item"
   },
   "menuSound": {
@@ -253,7 +253,7 @@
     "description": "Settings page title"
   },
   "optionsQuietHours": {
-    "message": "Tinch soatlar: bildirishnomalarni ko‘rsatmaslik",
+    "message": "Tinch soatlar: bildirishnomalarni koʻrsatmaslik",
     "description": "Settings page"
   },
   "optionsFrom": {
@@ -265,11 +265,11 @@
     "description": "Quiet hours: from … to …"
   },
   "optionsPauseWhenIdle": {
-    "message": "Kompyuter yonida bo‘lmaganingizda pochtani tekshirmaslik",
+    "message": "Kompyuter yonida boʻlmaganingizda pochtani tekshirmaslik",
     "description": "Settings page"
   },
   "optionsPauseWhenIdleHint": {
-    "message": "5 daqiqa harakatsizlikdan keyin yoki ekran qulflanganda tekshiruvlar to‘xtatiladi. Qaytganingizda pochta darhol tekshiriladi.",
+    "message": "5 daqiqa harakatsizlikdan keyin yoki ekran qulflanganda tekshiruvlar toʻxtatiladi. Qaytganingizda pochta darhol tekshiriladi.",
     "description": "Settings page hint"
   },
   "optionsShortcut": {
@@ -277,16 +277,12 @@
     "description": "Settings page; followed by the shortcut"
   },
   "optionsShortcutHint": {
-    "message": "Tugmalar birikmasini brauzerning kengaytma sozlamalarida o‘zgartirish mumkin.",
+    "message": "Tugmalar birikmasini brauzerning kengaytma sozlamalarida oʻzgartirish mumkin.",
     "description": "Settings page hint"
   },
   "optionsShortcutNone": {
     "message": "belgilanmagan",
     "description": "No shortcut assigned"
-  },
-  "optionsClassicIcon": {
-    "message": "Klassik belgi",
-    "description": "Settings page"
   },
   "accountNumber": {
     "message": "Hisob $NUMBER$",
@@ -298,7 +294,7 @@
     }
   },
   "errorPermission": {
-    "message": "$HOST$ manziliga ruxsat yo‘q: kengaytma sozlamalarida pochta manzilini tanlang",
+    "message": "$HOST$ manziliga ruxsat yoʻq: kengaytma sozlamalarida pochta manzilini tanlang",
     "description": "Error: access to the chosen domain was revoked",
     "placeholders": {
       "host": {
@@ -311,11 +307,11 @@
     "description": "Settings page; followed by the list of domains"
   },
   "optionsMailHostHint": {
-    "message": "mail.yandex.ru dan boshqa har qanday manzil uchun brauzer unga kirish ruxsatini so‘raydi.",
+    "message": "mail.yandex.ru dan boshqa har qanday manzil uchun brauzer unga kirish ruxsatini soʻraydi.",
     "description": "Settings page hint"
   },
   "optionsMailHost360": {
-    "message": "Yandex 360, jumladan o‘z domeningizdagi pochta",
+    "message": "Yandex 360, jumladan oʻz domeningizdagi pochta",
     "description": "Label for mail.360.yandex.ru"
   },
   "menuSettings": {
@@ -331,7 +327,31 @@
     "description": "Settings page: accounts section"
   },
   "optionsAccountsHint": {
-    "message": "Nom menyuda, maslahatda va bildirishnomalarda ko‘rinadi. Hisobni belgida va bildirishnomalarda hisobga olmaslik uchun belgini olib tashlang.",
+    "message": "Nom menyuda, maslahatda va bildirishnomalarda koʻrinadi. Hisobni belgida va bildirishnomalarda hisobga olmaslik uchun belgini olib tashlang.",
     "description": "Settings page hint"
+  },
+  "optionsIconStyle": {
+    "message": "Paneldagi belgi koʻrinishi:",
+    "description": "Settings page"
+  },
+  "iconClassic": {
+    "message": "Klassik",
+    "description": "Icon style"
+  },
+  "iconMinimal": {
+    "message": "Minimalistik",
+    "description": "Icon style"
+  },
+  "iconBlue": {
+    "message": "Koʻk",
+    "description": "Icon style"
+  },
+  "iconGreen": {
+    "message": "Yashil",
+    "description": "Icon style"
+  },
+  "iconPurple": {
+    "message": "Binafsha",
+    "description": "Icon style"
   }
 }

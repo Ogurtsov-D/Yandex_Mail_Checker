@@ -27,7 +27,7 @@ test('склонение по правилам русского языка', () 
     assert.equal(newMailTitle(3), '3 новых письма');
     assert.equal(newMailTitle(5), '5 новых писем');
     assert.equal(unreadText(1), '1 непрочитанное письмо');
-    assert.equal(unreadText(0), 'новых писем нет');
+    assert.equal(unreadText(0), 'непрочитанных писем нет');
 });
 
 test('время проверки: сегодня, вчера, раньше', () => {
@@ -88,7 +88,7 @@ test('подсказка: успех, ошибка с последним рез�
     );
     assert.equal(
         tooltipText({ unreadCount: 0, freshCount: 2, lastSuccess: at }, now).split('\n')[0],
-        'Яндекс Почта: новых писем нет'
+        'Яндекс Почта: непрочитанных писем нет'
     );
     assert.equal(tooltipText({ errorType: 'auth' }, now), 'Яндекс Почта: Требуется вход в почту');
     assert.equal(tooltipText({}, now), 'Яндекс Почта');

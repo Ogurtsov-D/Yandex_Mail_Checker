@@ -20,7 +20,7 @@
     "description": "Tooltip during a manual check"
   },
   "noUnread": {
-    "message": "aucun nouveau message",
+    "message": "aucun message non lu",
     "description": "Tooltip: nothing unread"
   },
   "unread_one": {
@@ -206,7 +206,7 @@
     "description": "Notification: message without subject"
   },
   "openMailToView": {
-    "message": "Ouvrez votre messagerie pour le lire",
+    "message": "Ouvrez votre messagerie pour lire les nouveaux messages",
     "description": "Notification without details"
   },
   "menuCheckNow": {
@@ -320,10 +320,6 @@
     "message": "non défini",
     "description": "No shortcut assigned"
   },
-  "optionsClassicIcon": {
-    "message": "Icône classique",
-    "description": "Settings page"
-  },
   "accountNumber": {
     "message": "Compte $NUMBER$",
     "description": "Account label when the login is unknown",
@@ -369,5 +365,29 @@
   "optionsAccountsHint": {
     "message": "Le nom apparaît dans le menu, l’info-bulle et les notifications. Décochez un compte pour ne pas le compter sur l’icône ni dans les notifications.",
     "description": "Settings page hint"
+  },
+  "optionsIconStyle": {
+    "message": "Icône dans la barre d’outils :",
+    "description": "Settings page"
+  },
+  "iconClassic": {
+    "message": "Classique",
+    "description": "Icon style"
+  },
+  "iconMinimal": {
+    "message": "Minimaliste",
+    "description": "Icon style"
+  },
+  "iconBlue": {
+    "message": "Bleue",
+    "description": "Icon style"
+  },
+  "iconGreen": {
+    "message": "Verte",
+    "description": "Icon style"
+  },
+  "iconPurple": {
+    "message": "Violette",
+    "description": "Icon style"
   }
 }

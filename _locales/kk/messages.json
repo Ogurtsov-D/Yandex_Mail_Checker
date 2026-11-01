@@ -20,7 +20,7 @@
     "description": "Tooltip during a manual check"
   },
   "noUnread": {
-    "message": "жаңа хат жоқ",
+    "message": "оқылмаған хат жоқ",
     "description": "Tooltip: nothing unread"
   },
   "unread_one": {
@@ -284,10 +284,6 @@
     "message": "тағайындалмаған",
     "description": "No shortcut assigned"
   },
-  "optionsClassicIcon": {
-    "message": "Классикалық белгіше",
-    "description": "Settings page"
-  },
   "accountNumber": {
     "message": "Аккаунт $NUMBER$",
     "description": "Account label when the login is unknown",
@@ -333,5 +329,29 @@
   "optionsAccountsHint": {
     "message": "Атау мәзірде, кеңесте және хабарландыруларда көрсетіледі. Аккаунтты белгішеде және хабарландыруларда есептемеу үшін белгіні алып тастаңыз.",
     "description": "Settings page hint"
+  },
+  "optionsIconStyle": {
+    "message": "Тақтадағы белгіше түрі:",
+    "description": "Settings page"
+  },
+  "iconClassic": {
+    "message": "Классикалық",
+    "description": "Icon style"
+  },
+  "iconMinimal": {
+    "message": "Минималистік",
+    "description": "Icon style"
+  },
+  "iconBlue": {
+    "message": "Көк",
+    "description": "Icon style"
+  },
+  "iconGreen": {
+    "message": "Жасыл",
+    "description": "Icon style"
+  },
+  "iconPurple": {
+    "message": "Күлгін",
+    "description": "Icon style"
   }
 }

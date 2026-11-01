@@ -17,7 +17,7 @@ test('English plural forms', () => {
     );
     assert.equal(unreadText(1), '1 unread message');
     assert.equal(unreadText(21), '21 unread messages');
-    assert.equal(unreadText(0), 'no new messages');
+    assert.equal(unreadText(0), 'no unread messages');
 });
 
 test('check time in English', () => {

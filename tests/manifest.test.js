@@ -24,8 +24,13 @@ test('все файлы из манифеста существуют', () => {
     for (const file of files) assert.ok(existsSync(new URL(file, root)), `нет файла ${file}`);
 });
 
-test('размер иконок соответствует имени (Chrome Web Store требует 128×128)', () => {
-    for (const [size, file] of Object.entries(manifest.icons)) {
+test('размер иконок соответствует имени (Chrome Web Store требует 128×128), у каждого вида значка — 16, 32 и 128', async () => {
+    const { ICON_STYLES } = await import('../src/config.js');
+    const files = Object.entries(manifest.icons);
+    for (const style of ICON_STYLES) {
+        for (const size of [16, 32, 128]) files.push([size, `icons/${style}/icon${size}.png`]);
+    }
+    for (const [size, file] of files) {
         const png = readFileSync(new URL(file, root));
         assert.equal(png.toString('latin1', 1, 4), 'PNG', `${file} — не PNG`);
         const width = png.readUInt32BE(16);

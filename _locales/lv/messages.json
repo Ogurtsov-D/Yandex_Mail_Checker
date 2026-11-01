@@ -20,7 +20,7 @@
     "description": "Tooltip during a manual check"
   },
   "noUnread": {
-    "message": "jaunu vēstuļu nav",
+    "message": "nelasītu vēstuļu nav",
     "description": "Tooltip: nothing unread"
   },
   "unread_zero": {
@@ -320,10 +320,6 @@
     "message": "nav piešķirts",
     "description": "No shortcut assigned"
   },
-  "optionsClassicIcon": {
-    "message": "Klasiskā ikona",
-    "description": "Settings page"
-  },
   "accountNumber": {
     "message": "Konts $NUMBER$",
     "description": "Account label when the login is unknown",
@@ -369,5 +365,29 @@
   "optionsAccountsHint": {
     "message": "Nosaukums redzams izvēlnē, rīka padomā un paziņojumos. Noņemiet atzīmi, lai kontu neieskaitītu ikonā un paziņojumos.",
     "description": "Settings page hint"
+  },
+  "optionsIconStyle": {
+    "message": "Ikona rīkjoslā:",
+    "description": "Settings page"
+  },
+  "iconClassic": {
+    "message": "Klasiskā",
+    "description": "Icon style"
+  },
+  "iconMinimal": {
+    "message": "Minimālistiskā",
+    "description": "Icon style"
+  },
+  "iconBlue": {
+    "message": "Zilā",
+    "description": "Icon style"
+  },
+  "iconGreen": {
+    "message": "Zaļā",
+    "description": "Icon style"
+  },
+  "iconPurple": {
+    "message": "Violetā",
+    "description": "Icon style"
   }
 }

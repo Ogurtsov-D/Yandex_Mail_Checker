@@ -18,7 +18,7 @@ test('настройки по умолчанию и защита от испор
         quietTo: '08:00',
         badgeMode: 'unread',
         pauseWhenIdle: true,
-        classicIcon: false,
+        iconStyle: 'classic',
         disabledAccounts: [],
         accountNames: {},
         mailHost: 'mail.yandex.ru'
@@ -28,12 +28,13 @@ test('настройки по умолчанию и защита от испор
         quietFrom: '25:00',
         quietTo: 'утро',
         badgeMode: 'all',
-        mailHost: 'evil.example'
+        mailHost: 'evil.example',
+        iconStyle: '../../evil'
     });
     const s = await getSettings();
     assert.deepEqual(
-        [s.interval, s.quietFrom, s.quietTo, s.badgeMode, s.mailHost],
-        [5, '23:00', '08:00', 'unread', 'mail.yandex.ru']
+        [s.interval, s.quietFrom, s.quietTo, s.badgeMode, s.mailHost, s.iconStyle],
+        [5, '23:00', '08:00', 'unread', 'mail.yandex.ru', 'classic']
     );
 });
 

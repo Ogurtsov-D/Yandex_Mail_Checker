@@ -20,7 +20,7 @@
     "description": "Tooltip during a manual check"
   },
   "noUnread": {
-    "message": "yeni e-posta yok",
+    "message": "okunmamış e-posta yok",
     "description": "Tooltip: nothing unread"
   },
   "unread_one": {
@@ -284,10 +284,6 @@
     "message": "atanmadı",
     "description": "No shortcut assigned"
   },
-  "optionsClassicIcon": {
-    "message": "Klasik simge",
-    "description": "Settings page"
-  },
   "accountNumber": {
     "message": "Hesap $NUMBER$",
     "description": "Account label when the login is unknown",
@@ -333,5 +329,29 @@
   "optionsAccountsHint": {
     "message": "Ad menüde, ipucunda ve bildirimlerde görünür. Bir hesabı simgede ve bildirimlerde saymamak için işaretini kaldırın.",
     "description": "Settings page hint"
+  },
+  "optionsIconStyle": {
+    "message": "Araç çubuğu simgesi:",
+    "description": "Settings page"
+  },
+  "iconClassic": {
+    "message": "Klasik",
+    "description": "Icon style"
+  },
+  "iconMinimal": {
+    "message": "Minimalist",
+    "description": "Icon style"
+  },
+  "iconBlue": {
+    "message": "Mavi",
+    "description": "Icon style"
+  },
+  "iconGreen": {
+    "message": "Yeşil",
+    "description": "Icon style"
+  },
+  "iconPurple": {
+    "message": "Mor",
+    "description": "Icon style"
   }
 }

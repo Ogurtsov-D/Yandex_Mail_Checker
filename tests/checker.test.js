@@ -238,7 +238,7 @@ describe('API счётчиков недоступно: всё из lite-верс
         assert.equal(n.type, 'basic');
         assert.equal(n.title, 'Иван');
         assert.equal(n.message, 'Отчёт');
-        assert.equal(n.iconUrl, 'extension://test/icons/icon128.png');
+        assert.equal(n.iconUrl, 'extension://test/icons/classic/icon128.png');
         assert.equal(target(), '#/message/222');
     });
 
@@ -414,10 +414,10 @@ describe('настройки уведомлений', () => {
         assert.equal(mock.calls.notifications.length, 0);
     });
 
-    test('классическая иконка — и на панели, и в уведомлении', async () => {
-        mock.store.local.classicIcon = true;
+    test('выбранный вид значка — и на панели, и в уведомлении', async () => {
+        mock.store.local.iconStyle = 'green';
         await newMessage();
-        assert.equal(mock.calls.notifications[0].iconUrl, 'extension://test/icons/classic/icon128.png');
-        assert.deepEqual(mock.calls.icons.at(-1), { 16: '/icons/classic/icon16.png', 32: '/icons/classic/icon32.png' });
+        assert.equal(mock.calls.notifications[0].iconUrl, 'extension://test/icons/green/icon128.png');
+        assert.deepEqual(mock.calls.icons.at(-1), { 16: '/icons/green/icon16.png', 32: '/icons/green/icon32.png' });
     });
 });

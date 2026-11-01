@@ -36,21 +36,42 @@
         gap: 8px;
         align-items: baseline;
       }
+      /* Отступы — логическими свойствами: на иврите страница идёт справа налево */
       .row {
         display: flex;
+        flex-wrap: wrap;
         gap: 8px;
         align-items: center;
-        margin: 8px 0 0 26px;
+        margin: 8px 0 0;
+        margin-inline-start: 26px;
       }
       .hint {
         color: var(--muted);
-        margin: 4px 0 0 26px;
+        margin: 4px 0 0;
+        margin-inline-start: 26px;
         font-size: 13px;
       }
-      .minor {
-        margin-top: 20px;
+      /* Длинный пункт «mail.360.yandex.ru — …» не должен растягивать страницу */
+      select {
+        max-width: 100%;
+        min-width: 0;
+      }
+      #accountList .row {
+        margin-inline-start: 0;
+      }
+      #accountList input[type='text'] {
+        flex: 1 1 8em;
+        min-width: 6em;
+      }
+      #accountList .hint {
+        margin: 0;
+        white-space: nowrap;
+      }
+      .icons label {
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
         font-size: 13px;
-        color: var(--muted);
       }
       kbd {
         font: inherit;
@@ -93,8 +114,9 @@
       <p class="hint" data-i18n="optionsShortcutHint"></p>
     </section>
 
-    <section class="minor">
-      <label><input type="checkbox" id="classicIcon" /> <span data-i18n="optionsClassicIcon"></span></label>
+    <section>
+      <div data-i18n="optionsIconStyle"></div>
+      <div class="row icons" id="iconStyles"></div>
     </section>
 
     <script type="module" src="options.js"></script>

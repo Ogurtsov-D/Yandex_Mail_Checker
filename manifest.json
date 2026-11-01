@@ -18,8 +18,8 @@
   "action": {
     "default_title": "__MSG_serviceName__",
     "default_icon": {
-      "16": "icons/icon16.png",
-      "32": "icons/icon32.png"
+      "16": "icons/classic/icon16.png",
+      "32": "icons/classic/icon32.png"
     }
   },
   "options_ui": {
@@ -38,8 +38,8 @@
     "type": "module"
   },
   "icons": {
-    "16": "icons/icon16.png",
-    "32": "icons/icon32.png",
+    "16": "icons/classic/icon16.png",
+    "32": "icons/classic/icon32.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },

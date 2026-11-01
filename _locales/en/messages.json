@@ -20,7 +20,7 @@
     "description": "Tooltip during a manual check"
   },
   "noUnread": {
-    "message": "no new messages",
+    "message": "no unread messages",
     "description": "Tooltip: nothing unread"
   },
   "unread_one": {
@@ -179,7 +179,7 @@
     "description": "Notification: message without subject"
   },
   "openMailToView": {
-    "message": "Open your mailbox to read it",
+    "message": "Open your mailbox to read new mail",
     "description": "Notification without details"
   },
   "menuCheckNow": {
@@ -284,10 +284,6 @@
     "message": "not set",
     "description": "No shortcut assigned"
   },
-  "optionsClassicIcon": {
-    "message": "Classic icon",
-    "description": "Settings page"
-  },
   "accountNumber": {
     "message": "Account $NUMBER$",
     "description": "Account label when the login is unknown",
@@ -333,5 +329,29 @@
   "optionsAccountsHint": {
     "message": "The name is shown in the menu, tooltip and notifications. Uncheck an account to leave it out of the badge and notifications.",
     "description": "Settings page hint"
+  },
+  "optionsIconStyle": {
+    "message": "Toolbar icon:",
+    "description": "Settings page"
+  },
+  "iconClassic": {
+    "message": "Classic",
+    "description": "Icon style"
+  },
+  "iconMinimal": {
+    "message": "Minimal",
+    "description": "Icon style"
+  },
+  "iconBlue": {
+    "message": "Blue",
+    "description": "Icon style"
+  },
+  "iconGreen": {
+    "message": "Green",
+    "description": "Icon style"
+  },
+  "iconPurple": {
+    "message": "Purple",
+    "description": "Icon style"
   }
 }

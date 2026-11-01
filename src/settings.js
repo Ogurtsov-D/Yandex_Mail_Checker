@@ -1,6 +1,13 @@
 // Пользовательские настройки (chrome.storage.local) и расписание автопроверки
 import { ext } from './api.js';
-import { CHECK_JITTER, DEFAULT_INTERVAL, DEFAULT_MAIL_HOST, INTERVALS } from './config.js';
+import {
+    CHECK_JITTER,
+    DEFAULT_ICON_STYLE,
+    DEFAULT_INTERVAL,
+    DEFAULT_MAIL_HOST,
+    ICON_STYLES,
+    INTERVALS
+} from './config.js';
 import { isMailHost } from './hosts.js';
 
 export const CHECK_ALARM = 'checkMail';
@@ -16,7 +23,7 @@ export const SETTING_KEYS = [
     'quietTo',
     'badgeMode',
     'pauseWhenIdle',
-    'classicIcon',
+    'iconStyle',
     'disabledAccounts',
     'accountNames',
     'mailHost'
@@ -39,7 +46,8 @@ export async function getSettings() {
         // unread — все непрочитанные, fresh — только пришедшие после последнего захода в почту
         badgeMode: s.badgeMode === 'fresh' ? 'fresh' : 'unread',
         pauseWhenIdle: s.pauseWhenIdle !== false,
-        classicIcon: s.classicIcon === true,
+        // Вид значка на панели: classic, minimal, blue, green, purple
+        iconStyle: ICON_STYLES.includes(s.iconStyle) ? s.iconStyle : DEFAULT_ICON_STYLE,
         // uid аккаунтов, которые не учитываются в счётчике и уведомлениях
         disabledAccounts: Array.isArray(s.disabledAccounts) ? s.disabledAccounts.map(String) : [],
         // Имена аккаунтов, заданные на странице настроек: { uid: имя }
