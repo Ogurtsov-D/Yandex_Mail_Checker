@@ -20,7 +20,7 @@
     "description": "Tooltip during a manual check"
   },
   "noUnread": {
-    "message": "ei uusia viestejä",
+    "message": "ei lukemattomia viestejä",
     "description": "Tooltip: nothing unread"
   },
   "unread_one": {
@@ -179,7 +179,7 @@
     "description": "Notification: message without subject"
   },
   "openMailToView": {
-    "message": "Avaa posti lukeaksesi viestin",
+    "message": "Avaa posti lukeaksesi uudet viestit",
     "description": "Notification without details"
   },
   "menuCheckNow": {

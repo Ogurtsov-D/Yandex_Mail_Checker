@@ -20,7 +20,7 @@
     "description": "Tooltip during a manual check"
   },
   "noUnread": {
-    "message": "нових листів немає",
+    "message": "непрочитаних листів немає",
     "description": "Tooltip: nothing unread"
   },
   "unread_one": {

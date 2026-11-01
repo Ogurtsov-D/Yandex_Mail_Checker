@@ -20,7 +20,7 @@
     "description": "Tooltip during a manual check"
   },
   "noUnread": {
-    "message": "jaunu vēstuļu nav",
+    "message": "nelasītu vēstuļu nav",
     "description": "Tooltip: nothing unread"
   },
   "unread_zero": {

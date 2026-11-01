@@ -20,7 +20,7 @@
     "description": "Tooltip during a manual check"
   },
   "noUnread": {
-    "message": "uusi kirju pole",
+    "message": "lugemata kirju pole",
     "description": "Tooltip: nothing unread"
   },
   "unread_one": {

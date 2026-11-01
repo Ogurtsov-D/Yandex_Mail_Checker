@@ -337,7 +337,7 @@ describe('Chromium, английский интерфейс', () => {
     after(() => browser?.cleanup());
 
     test('подсказка, уведомление-список и название на английском', async () => {
-        await waitFor(browser.worker, (x) => x.title.startsWith('Yandex Mail: no new messages'));
+        await waitFor(browser.worker, (x) => x.title.startsWith('Yandex Mail: no unread messages'));
         server.counters = { unread: 2, fresh: 2 };
         server.inbox = inboxPage({
             count: 2,
@@ -360,9 +360,9 @@ describe('Chromium, английский интерфейс', () => {
 
 // Остальные переводы: браузер принимает их папки и показывает интерфейс на языке браузера
 for (const [lang, name, tooltip] of [
-    ['uk', 'Лічильник листів для Яндекс Пошти', /^Яндекс Пошта: нових листів немає\nПеревірено о \d\d:\d\d$/],
-    ['kk', 'Яндекс Поштаға арналған хат санағышы', /^Яндекс Пошта: жаңа хат жоқ\nТексерілді: сағат \d\d:\d\d$/],
-    ['he', 'מונה הודעות ל-Yandex Mail', /^Yandex Mail: אין הודעות חדשות\nנבדק בשעה \d\d:\d\d$/]
+    ['uk', 'Лічильник листів для Яндекс Пошти', /^Яндекс Пошта: непрочитаних листів немає\nПеревірено о \d\d:\d\d$/],
+    ['kk', 'Яндекс Поштаға арналған хат санағышы', /^Яндекс Пошта: оқылмаған хат жоқ\nТексерілді: сағат \d\d:\d\d$/],
+    ['he', 'מונה הודעות ל-Yandex Mail', /^Yandex Mail: אין הודעות שלא נקראו\nנבדק בשעה \d\d:\d\d$/]
 ]) {
     describe(`Chromium, язык ${lang}`, () => {
         const server = createServer();

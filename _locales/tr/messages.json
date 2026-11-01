@@ -20,7 +20,7 @@
     "description": "Tooltip during a manual check"
   },
   "noUnread": {
-    "message": "yeni e-posta yok",
+    "message": "okunmamış e-posta yok",
     "description": "Tooltip: nothing unread"
   },
   "unread_one": {

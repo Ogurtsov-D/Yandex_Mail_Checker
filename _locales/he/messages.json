@@ -20,7 +20,7 @@
     "description": "Tooltip during a manual check"
   },
   "noUnread": {
-    "message": "אין הודעות חדשות",
+    "message": "אין הודעות שלא נקראו",
     "description": "Tooltip: nothing unread"
   },
   "unread_one": {

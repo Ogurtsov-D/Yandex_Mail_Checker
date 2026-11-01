@@ -20,7 +20,7 @@
     "description": "Tooltip during a manual check"
   },
   "noUnread": {
-    "message": "aucun nouveau message",
+    "message": "aucun message non lu",
     "description": "Tooltip: nothing unread"
   },
   "unread_one": {
@@ -206,7 +206,7 @@
     "description": "Notification: message without subject"
   },
   "openMailToView": {
-    "message": "Ouvrez votre messagerie pour le lire",
+    "message": "Ouvrez votre messagerie pour lire les nouveaux messages",
     "description": "Notification without details"
   },
   "menuCheckNow": {

@@ -20,7 +20,7 @@
     "description": "Tooltip during a manual check"
   },
   "noUnread": {
-    "message": "yeni məktub yoxdur",
+    "message": "oxunmamış məktub yoxdur",
     "description": "Tooltip: nothing unread"
   },
   "unread_one": {

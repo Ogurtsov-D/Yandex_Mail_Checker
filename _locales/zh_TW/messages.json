@@ -20,7 +20,7 @@
     "description": "Tooltip during a manual check"
   },
   "noUnread": {
-    "message": "沒有新郵件",
+    "message": "沒有未讀郵件",
     "description": "Tooltip: nothing unread"
   },
   "unread_other": {

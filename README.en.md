@@ -79,7 +79,7 @@ You need to be signed in to Yandex Mail in the same browser. By default the exte
 | Badge | Meaning |
 |-------|---------|
 | **3** | 3 unread messages (more than 99 shows **99+**) |
-| *(empty)* | No new mail |
+| *(empty)* | No unread mail |
 | **?** | You need to sign in to Yandex Mail |
 | **!** | Something went wrong — hover over the icon to see what |
 | **↻** | A manual check is in progress |

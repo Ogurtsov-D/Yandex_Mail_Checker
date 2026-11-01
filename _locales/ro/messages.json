@@ -20,7 +20,7 @@
     "description": "Tooltip during a manual check"
   },
   "noUnread": {
-    "message": "niciun mesaj nou",
+    "message": "niciun mesaj necitit",
     "description": "Tooltip: nothing unread"
   },
   "unread_one": {
@@ -51,7 +51,7 @@
     }
   },
   "freshPart_one": {
-    "message": "dintre care $COUNT$ nou",
+    "message": "dintre care $COUNT$ este nou",
     "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
     "placeholders": {
       "count": {
@@ -60,7 +60,7 @@
     }
   },
   "freshPart_few": {
-    "message": "dintre care $COUNT$ noi",
+    "message": "dintre care $COUNT$ sunt noi",
     "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
     "placeholders": {
       "count": {
@@ -69,7 +69,7 @@
     }
   },
   "freshPart_other": {
-    "message": "dintre care $COUNT$ noi",
+    "message": "dintre care $COUNT$ sunt noi",
     "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
     "placeholders": {
       "count": {
@@ -206,7 +206,7 @@
     "description": "Notification: message without subject"
   },
   "openMailToView": {
-    "message": "Deschideți e-mailul pentru a-l citi",
+    "message": "Deschideți e-mailul pentru a citi mesajele noi",
     "description": "Notification without details"
   },
   "menuCheckNow": {

@@ -20,7 +20,7 @@
     "description": "Tooltip during a manual check"
   },
   "noUnread": {
-    "message": "ახალი წერილები არ არის",
+    "message": "წაუკითხავი წერილები არ არის",
     "description": "Tooltip: nothing unread"
   },
   "unread_one": {

@@ -20,7 +20,7 @@
     "description": "Tooltip during a manual check"
   },
   "noUnread": {
-    "message": "նոր նամակներ չկան",
+    "message": "չկարդացված նամակներ չկան",
     "description": "Tooltip: nothing unread"
   },
   "unread_one": {
@@ -294,7 +294,7 @@
     }
   },
   "errorPermission": {
-    "message": "$HOST$ մուտք չկա․ ընտրեք փոստի հասցեն ընդլայնման կարգավորումներում",
+    "message": "Մուտք դեպի $HOST$ չկա․ ընտրեք փոստի հասցեն ընդլայնման կարգավորումներում",
     "description": "Error: access to the chosen domain was revoked",
     "placeholders": {
       "host": {
