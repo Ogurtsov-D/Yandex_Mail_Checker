@@ -356,10 +356,6 @@
     "message": "не назначено",
     "description": "Сочетание клавиш не задано"
   },
-  "optionsClassicIcon": {
-    "message": "Классическая иконка",
-    "description": "Страница настроек"
-  },
   "accountNumber": {
     "message": "Аккаунт $NUMBER$",
     "description": "Подпись аккаунта, если логин неизвестен",
@@ -405,5 +401,29 @@
   "optionsAccountsHint": {
     "message": "Имя видно в меню, подсказке и уведомлениях. Снимите галочку, чтобы не учитывать аккаунт на значке и в уведомлениях.",
     "description": "Пояснение на странице настроек"
+  },
+  "optionsIconStyle": {
+    "message": "Вид значка на панели:",
+    "description": "Страница настроек"
+  },
+  "iconClassic": {
+    "message": "Классический",
+    "description": "Вид значка"
+  },
+  "iconMinimal": {
+    "message": "Минималистичный",
+    "description": "Вид значка"
+  },
+  "iconBlue": {
+    "message": "Синий",
+    "description": "Вид значка"
+  },
+  "iconGreen": {
+    "message": "Зелёный",
+    "description": "Вид значка"
+  },
+  "iconPurple": {
+    "message": "Фиолетовый",
+    "description": "Вид значка"
   }
 }

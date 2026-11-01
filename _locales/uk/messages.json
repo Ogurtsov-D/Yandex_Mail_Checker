@@ -356,10 +356,6 @@
     "message": "не призначено",
     "description": "No shortcut assigned"
   },
-  "optionsClassicIcon": {
-    "message": "Класичний значок",
-    "description": "Settings page"
-  },
   "accountNumber": {
     "message": "Обліковий запис $NUMBER$",
     "description": "Account label when the login is unknown",
@@ -405,5 +401,29 @@
   "optionsAccountsHint": {
     "message": "Ім’я видно в меню, підказці та сповіщеннях. Зніміть позначку, щоб не враховувати обліковий запис на значку та в сповіщеннях.",
     "description": "Settings page hint"
+  },
+  "optionsIconStyle": {
+    "message": "Вигляд значка на панелі:",
+    "description": "Settings page"
+  },
+  "iconClassic": {
+    "message": "Класичний",
+    "description": "Icon style"
+  },
+  "iconMinimal": {
+    "message": "Мінімалістичний",
+    "description": "Icon style"
+  },
+  "iconBlue": {
+    "message": "Синій",
+    "description": "Icon style"
+  },
+  "iconGreen": {
+    "message": "Зелений",
+    "description": "Icon style"
+  },
+  "iconPurple": {
+    "message": "Фіолетовий",
+    "description": "Icon style"
   }
 }

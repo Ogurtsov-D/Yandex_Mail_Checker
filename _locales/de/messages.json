@@ -284,10 +284,6 @@
     "message": "nicht festgelegt",
     "description": "No shortcut assigned"
   },
-  "optionsClassicIcon": {
-    "message": "Klassisches Symbol",
-    "description": "Settings page"
-  },
   "accountNumber": {
     "message": "Konto $NUMBER$",
     "description": "Account label when the login is unknown",
@@ -333,5 +329,29 @@
   "optionsAccountsHint": {
     "message": "Der Name erscheint im Menü, im Tooltip und in Benachrichtigungen. Entfernen Sie das Häkchen, um ein Konto am Symbol und in Benachrichtigungen nicht zu berücksichtigen.",
     "description": "Settings page hint"
+  },
+  "optionsIconStyle": {
+    "message": "Symbol in der Symbolleiste:",
+    "description": "Settings page"
+  },
+  "iconClassic": {
+    "message": "Klassisch",
+    "description": "Icon style"
+  },
+  "iconMinimal": {
+    "message": "Minimalistisch",
+    "description": "Icon style"
+  },
+  "iconBlue": {
+    "message": "Blau",
+    "description": "Icon style"
+  },
+  "iconGreen": {
+    "message": "Grün",
+    "description": "Icon style"
+  },
+  "iconPurple": {
+    "message": "Lila",
+    "description": "Icon style"
   }
 }

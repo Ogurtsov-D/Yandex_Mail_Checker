@@ -284,10 +284,6 @@
     "message": "təyin edilməyib",
     "description": "No shortcut assigned"
   },
-  "optionsClassicIcon": {
-    "message": "Klassik ikona",
-    "description": "Settings page"
-  },
   "accountNumber": {
     "message": "Hesab $NUMBER$",
     "description": "Account label when the login is unknown",
@@ -333,5 +329,29 @@
   "optionsAccountsHint": {
     "message": "Ad menyuda, ipucunda və bildirişlərdə görünür. Hesabı ikonada və bildirişlərdə nəzərə almamaq üçün işarəni götürün.",
     "description": "Settings page hint"
+  },
+  "optionsIconStyle": {
+    "message": "Paneldəki ikona:",
+    "description": "Settings page"
+  },
+  "iconClassic": {
+    "message": "Klassik",
+    "description": "Icon style"
+  },
+  "iconMinimal": {
+    "message": "Minimalist",
+    "description": "Icon style"
+  },
+  "iconBlue": {
+    "message": "Mavi",
+    "description": "Icon style"
+  },
+  "iconGreen": {
+    "message": "Yaşıl",
+    "description": "Icon style"
+  },
+  "iconPurple": {
+    "message": "Bənövşəyi",
+    "description": "Icon style"
   }
 }

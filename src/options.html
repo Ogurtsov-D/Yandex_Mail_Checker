@@ -47,10 +47,11 @@
         margin: 4px 0 0 26px;
         font-size: 13px;
       }
-      .minor {
-        margin-top: 20px;
+      .icons label {
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
         font-size: 13px;
-        color: var(--muted);
       }
       kbd {
         font: inherit;
@@ -93,8 +94,9 @@
       <p class="hint" data-i18n="optionsShortcutHint"></p>
     </section>
 
-    <section class="minor">
-      <label><input type="checkbox" id="classicIcon" /> <span data-i18n="optionsClassicIcon"></span></label>
+    <section>
+      <div data-i18n="optionsIconStyle"></div>
+      <div class="row icons" id="iconStyles"></div>
     </section>
 
     <script type="module" src="options.js"></script>

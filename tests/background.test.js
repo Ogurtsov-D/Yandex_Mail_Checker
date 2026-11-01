@@ -75,12 +75,12 @@ test('меню: уведомления, звук, тихие часы, режи�
 });
 
 test('изменились настройки — меню и иконка обновляются; прочие изменения хранилища не трогают меню', async () => {
-    mock.store.local = { ...mock.store.local, notificationsEnabled: false, quietFrom: '22:30', classicIcon: true };
+    mock.store.local = { ...mock.store.local, notificationsEnabled: false, quietFrom: '22:30', iconStyle: 'purple' };
     await on.storageChanged({ notificationsEnabled: { newValue: false } }, 'local');
     const quiet = mock.calls.menus.find((m) => m.id === 'quiet-hours');
     assert.equal(quiet.title, 'Тихие часы: 22:30–08:00');
     assert.equal(quiet.enabled, false, 'без уведомлений тихие часы и звук неактивны');
-    assert.deepEqual(mock.calls.icons.at(-1), { 16: '/icons/classic/icon16.png', 32: '/icons/classic/icon32.png' });
+    assert.deepEqual(mock.calls.icons.at(-1), { 16: '/icons/purple/icon16.png', 32: '/icons/purple/icon32.png' });
 
     mock.calls.menus.length = 0;
     await on.storageChanged({ unreadCount: { newValue: 3 } }, 'local');

@@ -284,10 +284,6 @@
     "message": "määramata",
     "description": "No shortcut assigned"
   },
-  "optionsClassicIcon": {
-    "message": "Klassikaline ikoon",
-    "description": "Settings page"
-  },
   "accountNumber": {
     "message": "Konto $NUMBER$",
     "description": "Account label when the login is unknown",
@@ -333,5 +329,29 @@
   "optionsAccountsHint": {
     "message": "Nimi kuvatakse menüüs, kohtspikris ja teavitustes. Eemaldage linnuke, et kontot ikoonil ja teavitustes mitte arvestada.",
     "description": "Settings page hint"
+  },
+  "optionsIconStyle": {
+    "message": "Tööriistariba ikoon:",
+    "description": "Settings page"
+  },
+  "iconClassic": {
+    "message": "Klassikaline",
+    "description": "Icon style"
+  },
+  "iconMinimal": {
+    "message": "Minimalistlik",
+    "description": "Icon style"
+  },
+  "iconBlue": {
+    "message": "Sinine",
+    "description": "Icon style"
+  },
+  "iconGreen": {
+    "message": "Roheline",
+    "description": "Icon style"
+  },
+  "iconPurple": {
+    "message": "Lilla",
+    "description": "Icon style"
   }
 }

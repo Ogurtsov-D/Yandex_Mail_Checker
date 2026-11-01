@@ -29,7 +29,7 @@ async function show(options, hash, account) {
     notificationTargets[id] = { hash: hash ?? null, uid: account?.uid ?? null };
     await ext.storage.session.set({ notificationTargets });
 
-    options = { ...options, iconUrl: ext.runtime.getURL(iconPath(128, settings.classicIcon).slice(1)) };
+    options = { ...options, iconUrl: ext.runtime.getURL(iconPath(128, settings.iconStyle).slice(1)) };
     // Несколько аккаунтов — подписываем, в какой ящик пришло письмо
     if (account) options.contextMessage = account.label;
 

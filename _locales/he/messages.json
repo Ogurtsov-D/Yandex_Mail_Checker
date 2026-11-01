@@ -320,10 +320,6 @@
     "message": "לא הוגדר",
     "description": "No shortcut assigned"
   },
-  "optionsClassicIcon": {
-    "message": "סמל קלאסי",
-    "description": "Settings page"
-  },
   "accountNumber": {
     "message": "חשבון $NUMBER$",
     "description": "Account label when the login is unknown",
@@ -369,5 +365,29 @@
   "optionsAccountsHint": {
     "message": "השם מוצג בתפריט, בתיאור הכלי ובהתראות. בטלו את הסימון כדי לא לכלול את החשבון בסמל ובהתראות.",
     "description": "Settings page hint"
+  },
+  "optionsIconStyle": {
+    "message": "הסמל בסרגל הכלים:",
+    "description": "Settings page"
+  },
+  "iconClassic": {
+    "message": "קלאסי",
+    "description": "Icon style"
+  },
+  "iconMinimal": {
+    "message": "מינימליסטי",
+    "description": "Icon style"
+  },
+  "iconBlue": {
+    "message": "כחול",
+    "description": "Icon style"
+  },
+  "iconGreen": {
+    "message": "ירוק",
+    "description": "Icon style"
+  },
+  "iconPurple": {
+    "message": "סגול",
+    "description": "Icon style"
   }
 }

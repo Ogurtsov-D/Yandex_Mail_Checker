@@ -20,6 +20,10 @@ export const COUNTERS_PATH = 'api/v2/bar/counters?silent&multi';
 // Lite-версия «Входящих»: отправитель и тема новых писем, запасной источник счётчика
 export const INBOX_PATH = 'lite/inbox';
 
+// Виды значка на панели (рисуются scripts/render-icons.mjs) и вид по умолчанию
+export const ICON_STYLES = ['classic', 'minimal', 'blue', 'green', 'purple'];
+export const DEFAULT_ICON_STYLE = 'classic';
+
 // Интервалы автопроверки (минуты), доступные в меню
 export const INTERVALS = [1, 5, 15, 30];
 export const DEFAULT_INTERVAL = 5;

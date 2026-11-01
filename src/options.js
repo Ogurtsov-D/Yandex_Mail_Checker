@@ -1,6 +1,6 @@
 // Страница настроек: то, что неудобно задавать в меню иконки
 import { ext } from './api.js';
-import { DEFAULT_MAIL_HOST, MAIL_HOSTS } from './config.js';
+import { DEFAULT_MAIL_HOST, ICON_STYLES, MAIL_HOSTS } from './config.js';
 import { unreadText } from './format.js';
 import { hostOrigin } from './hosts.js';
 import { t } from './i18n.js';
@@ -15,7 +15,7 @@ for (const element of document.querySelectorAll('[data-i18n]')) {
 const $ = (id) => document.getElementById(id);
 const settings = await getSettings();
 
-for (const id of ['quietHoursEnabled', 'pauseWhenIdle', 'classicIcon']) {
+for (const id of ['quietHoursEnabled', 'pauseWhenIdle']) {
     $(id).checked = settings[id];
     $(id).addEventListener('change', () => saveSettings({ [id]: $(id).checked }));
 }
@@ -82,6 +82,32 @@ if (accountList.length > 1) {
         row.append(counted, name, count);
         $('accountList').append(row);
     }
+}
+
+// Вид значка на панели: образец и название каждого вида
+const ICON_NAMES = {
+    classic: 'iconClassic',
+    minimal: 'iconMinimal',
+    blue: 'iconBlue',
+    green: 'iconGreen',
+    purple: 'iconPurple'
+};
+for (const style of ICON_STYLES) {
+    const label = document.createElement('label');
+    const radio = document.createElement('input');
+    radio.type = 'radio';
+    radio.name = 'iconStyle';
+    radio.value = style;
+    radio.checked = settings.iconStyle === style;
+    radio.addEventListener('change', () => saveSettings({ iconStyle: style }));
+    const image = document.createElement('img');
+    image.src = `../icons/${style}/icon32.png`;
+    image.width = image.height = 32;
+    image.alt = '';
+    const name = document.createElement('span');
+    name.textContent = t(ICON_NAMES[style]);
+    label.append(image, name, radio);
+    $('iconStyles').append(label);
 }
 
 // Горячая клавиша открытия почты: её можно переназначить в настройках браузера

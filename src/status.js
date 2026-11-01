@@ -19,19 +19,19 @@ export async function loadState() {
     return ext.storage.local.get(STATE_KEYS);
 }
 
-// Путь к иконке нужного размера с учётом выбранного вида
-export function iconPath(size, classic) {
-    return `/icons/${classic ? 'classic/' : ''}icon${size}.png`;
+// Путь к значку нужного размера (16, 32 или 128) выбранного вида
+export function iconPath(size, style) {
+    return `/icons/${style}/icon${size}.png`;
 }
 
-async function applyIcon(classic) {
-    await ext.action.setIcon({ path: { 16: iconPath(16, classic), 32: iconPath(32, classic) } });
+async function applyIcon(style) {
+    await ext.action.setIcon({ path: { 16: iconPath(16, style), 32: iconPath(32, style) } });
 }
 
 export async function renderStatus(state) {
-    const { badgeMode, classicIcon } = await getSettings();
+    const { badgeMode, iconStyle } = await getSettings();
     await Promise.all([
-        applyIcon(classicIcon),
+        applyIcon(iconStyle),
         ext.action.setBadgeText({ text: badgeText(state, badgeMode) }),
         ext.action.setBadgeBackgroundColor({ color: BADGE_COLOR }),
         ext.action.setTitle({ title: tooltipText(state) })

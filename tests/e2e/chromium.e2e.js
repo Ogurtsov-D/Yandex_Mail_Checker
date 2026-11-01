@@ -271,13 +271,14 @@ describe('Chromium, русский интерфейс', () => {
 
         await page.check('#quietHoursEnabled');
         await page.fill('#quietTo', '07:30');
-        await page.check('#classicIcon');
+        await page.check('input[name=iconStyle][value=blue]');
         await sleep(500);
         const saved = await page.evaluate(() =>
-            chrome.storage.local.get(['quietHoursEnabled', 'quietTo', 'classicIcon'])
+            chrome.storage.local.get(['quietHoursEnabled', 'quietTo', 'iconStyle'])
         );
-        assert.deepEqual(saved, { quietHoursEnabled: true, quietTo: '07:30', classicIcon: true });
-        await page.uncheck('#classicIcon');
+        assert.deepEqual(saved, { quietHoursEnabled: true, quietTo: '07:30', iconStyle: 'blue' });
+        assert.equal(await page.locator('#iconStyles img').count(), 5);
+        await page.check('input[name=iconStyle][value=classic]');
         await page.uncheck('#quietHoursEnabled');
         await page.close();
     });

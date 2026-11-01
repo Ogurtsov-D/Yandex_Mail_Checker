@@ -284,10 +284,6 @@
     "message": "նշանակված չէ",
     "description": "No shortcut assigned"
   },
-  "optionsClassicIcon": {
-    "message": "Դասական պատկերակ",
-    "description": "Settings page"
-  },
   "accountNumber": {
     "message": "Հաշիվ $NUMBER$",
     "description": "Account label when the login is unknown",
@@ -333,5 +329,29 @@
   "optionsAccountsHint": {
     "message": "Անունը երևում է ընտրացանկում, հուշման մեջ և ծանուցումներում։ Հանեք նշումը, որպեսզի հաշիվը չհաշվվի պատկերակի վրա և ծանուցումներում։",
     "description": "Settings page hint"
+  },
+  "optionsIconStyle": {
+    "message": "Պատկերակը գործիքագոտում՝",
+    "description": "Settings page"
+  },
+  "iconClassic": {
+    "message": "Դասական",
+    "description": "Icon style"
+  },
+  "iconMinimal": {
+    "message": "Մինիմալիստական",
+    "description": "Icon style"
+  },
+  "iconBlue": {
+    "message": "Կապույտ",
+    "description": "Icon style"
+  },
+  "iconGreen": {
+    "message": "Կանաչ",
+    "description": "Icon style"
+  },
+  "iconPurple": {
+    "message": "Մանուշակագույն",
+    "description": "Icon style"
   }
 }

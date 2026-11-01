@@ -284,10 +284,6 @@
     "message": "belgilanmagan",
     "description": "No shortcut assigned"
   },
-  "optionsClassicIcon": {
-    "message": "Klassik belgi",
-    "description": "Settings page"
-  },
   "accountNumber": {
     "message": "Hisob $NUMBER$",
     "description": "Account label when the login is unknown",
@@ -333,5 +329,29 @@
   "optionsAccountsHint": {
     "message": "Nom menyuda, maslahatda va bildirishnomalarda ko‘rinadi. Hisobni belgida va bildirishnomalarda hisobga olmaslik uchun belgini olib tashlang.",
     "description": "Settings page hint"
+  },
+  "optionsIconStyle": {
+    "message": "Paneldagi belgi ko‘rinishi:",
+    "description": "Settings page"
+  },
+  "iconClassic": {
+    "message": "Klassik",
+    "description": "Icon style"
+  },
+  "iconMinimal": {
+    "message": "Minimalistik",
+    "description": "Icon style"
+  },
+  "iconBlue": {
+    "message": "Ko‘k",
+    "description": "Icon style"
+  },
+  "iconGreen": {
+    "message": "Yashil",
+    "description": "Icon style"
+  },
+  "iconPurple": {
+    "message": "Binafsha",
+    "description": "Icon style"
   }
 }

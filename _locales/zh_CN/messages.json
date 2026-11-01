@@ -248,10 +248,6 @@
     "message": "未设置",
     "description": "No shortcut assigned"
   },
-  "optionsClassicIcon": {
-    "message": "经典图标",
-    "description": "Settings page"
-  },
   "accountNumber": {
     "message": "账号 $NUMBER$",
     "description": "Account label when the login is unknown",
@@ -297,5 +293,29 @@
   "optionsAccountsHint": {
     "message": "名称会显示在菜单、提示和通知中。取消勾选可在图标和通知中不计入该账号。",
     "description": "Settings page hint"
+  },
+  "optionsIconStyle": {
+    "message": "工具栏图标：",
+    "description": "Settings page"
+  },
+  "iconClassic": {
+    "message": "经典",
+    "description": "Icon style"
+  },
+  "iconMinimal": {
+    "message": "简约",
+    "description": "Icon style"
+  },
+  "iconBlue": {
+    "message": "蓝色",
+    "description": "Icon style"
+  },
+  "iconGreen": {
+    "message": "绿色",
+    "description": "Icon style"
+  },
+  "iconPurple": {
+    "message": "紫色",
+    "description": "Icon style"
   }
 }

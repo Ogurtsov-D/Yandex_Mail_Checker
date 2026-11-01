@@ -284,10 +284,6 @@
     "message": "ei asetettu",
     "description": "No shortcut assigned"
   },
-  "optionsClassicIcon": {
-    "message": "Klassinen kuvake",
-    "description": "Settings page"
-  },
   "accountNumber": {
     "message": "Tili $NUMBER$",
     "description": "Account label when the login is unknown",
@@ -333,5 +329,29 @@
   "optionsAccountsHint": {
     "message": "Nimi näkyy valikossa, työkaluvihjeessä ja ilmoituksissa. Poista valinta, jos et halua laskea tiliä kuvakkeeseen ja ilmoituksiin.",
     "description": "Settings page hint"
+  },
+  "optionsIconStyle": {
+    "message": "Työkalupalkin kuvake:",
+    "description": "Settings page"
+  },
+  "iconClassic": {
+    "message": "Klassinen",
+    "description": "Icon style"
+  },
+  "iconMinimal": {
+    "message": "Minimalistinen",
+    "description": "Icon style"
+  },
+  "iconBlue": {
+    "message": "Sininen",
+    "description": "Icon style"
+  },
+  "iconGreen": {
+    "message": "Vihreä",
+    "description": "Icon style"
+  },
+  "iconPurple": {
+    "message": "Violetti",
+    "description": "Icon style"
   }
 }
