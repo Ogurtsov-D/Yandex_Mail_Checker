@@ -179,6 +179,24 @@ export function installBrowserMock({ firefox = false, locale = 'ru' } = {}) {
         respond(response) {
             mock.inboxResponse = response;
         },
+        // Ответ /api/v2/bar/accounts: { uid: адрес } — JSON в формате Яндекса (первый аккаунт —
+        // корень ответа, остальные — в multi, с лишними личными полями); строка, функция или Error —
+        // как в respond(). Без вызова на этот адрес приходит ответ respond()
+        accounts(value) {
+            if (value && typeof value === 'object' && !(value instanceof Error)) {
+                const entry = ([uid, address]) => ({
+                    uid,
+                    details: {
+                        account: { firstName: 'Имя', birthdayDate: '1980-01-01', login: address.split('@')[0] },
+                        addresses: { defaultAddress: address, internalAddresses: [address] }
+                    }
+                });
+                const [first, ...rest] = Object.entries(value).map(entry);
+                mock.accountsResponse = JSON.stringify({ auth: true, ...first, multi: rest });
+            } else {
+                mock.accountsResponse = value;
+            }
+        },
         // Ответ API счётчиков: { unread, fresh } — один аккаунт ({ counters }); массив
         // [{ uid, unread, fresh }] — несколько аккаунтов, как отвечает Яндекс с ?multi;
         // null — 404 (API нет); строка, функция или Error — как в respond()
@@ -213,6 +231,7 @@ export function installBrowserMock({ firefox = false, locale = 'ru' } = {}) {
             mock.requests.length = 0;
             mock.inboxResponse = '';
             mock.countersResponse = undefined;
+            mock.accountsResponse = undefined;
         }
     };
 
@@ -220,7 +239,13 @@ export function installBrowserMock({ firefox = false, locale = 'ru' } = {}) {
         mock.fetchCount++;
         mock.requests.push(url);
         const isCounters = url.includes('/api/v2/bar/counters');
-        const response = isCounters && mock.countersResponse !== undefined ? mock.countersResponse : mock.inboxResponse;
+        const isAccounts = url.includes('/api/v2/bar/accounts');
+        const response =
+            isCounters && mock.countersResponse !== undefined
+                ? mock.countersResponse
+                : isAccounts && mock.accountsResponse !== undefined
+                  ? mock.accountsResponse
+                  : mock.inboxResponse;
         if (response instanceof Error) throw response;
         if (typeof response === 'function') return response(url, options);
         return { type: 'basic', status: 200, ok: true, text: async () => response };

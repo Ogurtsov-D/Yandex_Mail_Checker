@@ -126,13 +126,13 @@ If you are signed in to several Yandex accounts, the extension counts mail in al
 - the badge shows the total, and the tooltip has a line for each account:
   ```
   Yandex Mail: 80 unread messages, 1 new
-  Personal: 75 unread messages, 1 new
-  Work: 5 unread messages
+  ivan@yandex.ru: 75 unread messages, 1 new
+  work@yandex.ru: 5 unread messages
   Checked at 02:32 PM
   ```
 - right-clicking the icon lists the accounts with their message counts; click an account to open its mailbox. The other menu items move to the "Settings" submenu;
 - a notification is labelled with the account the messages arrived in, and clicking it opens that account;
-- on the settings page you can name the accounts ("Account 1", "Account 2" by default) and uncheck an account to leave it out of the badge and notifications.
+- accounts are labelled with their main email address; on the settings page you can give them your own names and uncheck an account to leave it out of the badge and notifications.
 
 Clicking the icon does not pick an account: it switches to an open mail tab or, if there is none, opens mail in the account selected in Yandex. With one account everything works as before.
 

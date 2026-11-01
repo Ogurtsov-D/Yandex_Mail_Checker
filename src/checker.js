@@ -1,6 +1,13 @@
 // Проверка почты: счётчики Яндекса, уведомления о новых письмах, запасной путь через lite-версию, повторы при ошибках
 import { ext } from './api.js';
-import { FETCH_TIMEOUT_MS, MAX_KNOWN_IDS, MAX_RETRIES, RETRY_INTERVAL_SEC } from './config.js';
+import {
+    ACCOUNT_EMAILS_RETRY_MS,
+    ACCOUNT_EMAILS_TTL_MS,
+    FETCH_TIMEOUT_MS,
+    MAX_KNOWN_IDS,
+    MAX_RETRIES,
+    RETRY_INTERVAL_SEC
+} from './config.js';
 import { hasHostAccess, mailUrls } from './hosts.js';
 import { t } from './i18n.js';
 import { debug } from './log.js';
@@ -167,13 +174,60 @@ async function checkAccount({ fresh, unread }, prev, { enabled, account }) {
     return { lastFresh: fresh, lastUnread: unread };
 }
 
+const isEmail = (value) => typeof value === 'string' && value.length <= 254 && /^[^\s@]+@[^\s@]+$/.test(value);
+
+// Адреса почты аккаунтов { uid: адрес } из /api/v2/bar/accounts: основной аккаунт — корень ответа,
+// остальные — в multi. Из ответа берётся только details.addresses.defaultAddress
+async function fetchAccountEmails(urls) {
+    const response = await request(urls.accounts);
+    if (!response.ok) return null;
+    let data;
+    try {
+        data = JSON.parse(response.text);
+    } catch {
+        return null;
+    }
+    const entries = [data, ...(Array.isArray(data?.multi) ? data.multi : [])];
+    const emails = {};
+    for (const entry of entries) {
+        const address = entry?.details?.addresses?.defaultAddress;
+        if (/^\d+$/.test(String(entry?.uid ?? '')) && isEmail(address)) emails[String(entry.uid)] = address;
+    }
+    return emails;
+}
+
+// Адреса аккаунтов для подписи. Запрашиваются раз в сутки, а если у какого-то аккаунта
+// адреса нет (новый аккаунт или прошлый запрос не удался) — не чаще раза в час.
+// Хранятся только адреса: { uid: адрес }
+async function accountEmails(list, urls) {
+    const { accountEmails: stored = {}, accountEmailsCheckedAt = 0 } = await ext.storage.local.get([
+        'accountEmails',
+        'accountEmailsCheckedAt'
+    ]);
+    const age = Date.now() - accountEmailsCheckedAt;
+    const missing = list.some(({ uid }) => uid && !stored[uid]);
+    if (age < ACCOUNT_EMAILS_TTL_MS && !(missing && age >= ACCOUNT_EMAILS_RETRY_MS)) return stored;
+
+    let fresh = null;
+    try {
+        fresh = await fetchAccountEmails(urls);
+    } catch (error) {
+        // Нет адресов — не беда: подпись будет «Аккаунт N», счётчик от этого не зависит
+        console.warn('Account emails unavailable:', error.message);
+    }
+    const emails = fresh ?? stored;
+    await ext.storage.local.set({ accountEmails: emails, accountEmailsCheckedAt: Date.now() });
+    return emails;
+}
+
 // Основной способ: счётчики Яндекса по всем аккаунтам, в которые выполнен вход.
 // На бейдже — сумма по учитываемым аккаунтам: unread (все папки, кроме «Спама») или fresh.
 // Рост fresh — пришли новые письма: уведомление с их числом
-async function checkByCounters(list) {
+async function checkByCounters(list, urls) {
     const { accounts: stored = {} } = await ext.storage.local.get('accounts');
     const { disabledAccounts, accountNames } = await getSettings();
     const multiple = list.length > 1;
+    const emails = multiple ? await accountEmails(list, urls) : {};
     // Аккаунты, которых нет в этом ответе (например, у них временно нет чисел), сохраняют
     // своё состояние: иначе, вернувшись, они считались бы новыми и письма за перерыв пропали бы
     const accounts = { ...stored };
@@ -182,8 +236,8 @@ async function checkByCounters(list) {
     for (const [index, counters] of list.entries()) {
         const key = counters.uid ?? '';
         const enabled = !multiple || !disabledAccounts.includes(key);
-        // Подпись — имя, заданное на странице настроек, иначе «Аккаунт N»
-        const label = accountNames[key] || t('accountNumber', index + 1);
+        // Подпись — имя, заданное на странице настроек, иначе адрес почты, иначе «Аккаунт N»
+        const label = accountNames[key] || emails[key] || t('accountNumber', index + 1);
         const account = multiple ? { uid: key, label } : null;
         accounts[key] = await checkAccount(counters, stored[key] ?? {}, { enabled, account });
         summary.push({ uid: key, label, unread: counters.unread, fresh: counters.fresh, enabled });
@@ -273,7 +327,9 @@ export async function checkMail({ manual = false } = {}) {
             if (!(await hasHostAccess(urls.host))) throw new MailCheckError('permission', urls.host);
             const counters = await fetchCounters(urls);
             debug('Счётчики:', counters ?? 'API недоступно, читаем lite-версию');
-            state = counters ? await checkByCounters(counters) : await checkByInboxPage(await fetchInboxHtml(urls));
+            state = counters
+                ? await checkByCounters(counters, urls)
+                : await checkByInboxPage(await fetchInboxHtml(urls));
             debug('Проверка успешна:', state);
         } catch (error) {
             if (!(error instanceof MailCheckError)) {

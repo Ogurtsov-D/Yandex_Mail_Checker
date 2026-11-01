@@ -80,7 +80,7 @@ This extension is an independent project and is not affiliated with Yandex.
 | `contextMenus` | Right-click menu on the toolbar icon: "Check now", check interval, badge mode, notification settings, and the list of accounts. |
 | `notifications` | Shows a notification with the number of new messages when new mail arrives. |
 | `idle` | Pauses scheduled checks while the computer is idle or locked and checks mail as soon as the user returns. Only the active/idle/locked state is read. |
-| Host permission `https://mail.yandex.ru/*` | Requests the unread counters (`/api/v2/bar/counters`) with the user's existing Yandex cookies (and, only if they are unavailable, the simplified Inbox page `/lite/inbox`); finds an open mail tab to switch to it and to refresh the counter after the user reads mail. |
+| Host permission `https://mail.yandex.ru/*` | Requests the unread counters (`/api/v2/bar/counters`) with the user's existing Yandex cookies; with several signed-in accounts, once a day the account list (`/api/v2/bar/accounts`), from which only each account's main email address is used as a label; only if the counters are unavailable, the simplified Inbox page `/lite/inbox`; finds an open mail tab to switch to it and to refresh the counter after the user reads mail. |
 | Optional host permissions (`mail.yandex.com`, `.by`, `.kz`, `.com.tr`, `mail.360.yandex.ru`) | Requested only if the user chooses that mail address in the settings; used exactly like `mail.yandex.ru`. Access to the previous address is removed when the user switches. |
 
 **Are you using remote code?** No. All code is included in the package; no external scripts, no `eval`.
@@ -89,6 +89,7 @@ This extension is an independent project and is not affiliated with Yandex.
 
 - ☑ **Personal communications** — only if the unread counters are unavailable, the extension reads the sender and subject of new messages from the Inbox page to show them in a notification. They are processed only in the browser and not stored or transmitted.
 - ☑ **Website content** — the unread counters and the Inbox page of the user's Yandex Mail.
+- ☑ **Personally identifiable information** — with several signed-in accounts, the main email address of each account, used only as a label in the tooltip, menu and notifications. Stored only in the browser, never transmitted.
 
 И подтвердить все три утверждения:
 

@@ -185,3 +185,55 @@ test('fresh аккаунта обнулился и снова вырос меж�
         ['3 новых письма', '1 новое письмо']
     );
 });
+
+const ACCOUNTS_URL = 'https://mail.yandex.ru/api/v2/bar/accounts?silent';
+
+test('подпись аккаунта — основной адрес почты из bar/accounts; хранится только адрес', async (t) => {
+    t.mock.timers.enable({ apis: ['Date'], now: Date.now() });
+    mock.accounts({ 11: 'ivan@yandex.ru', 22: 'work@yandex.ru' });
+    await twoAccounts();
+    assert.match(
+        mock.calls.badge.title,
+        /\nivan@yandex.ru: 75 непрочитанных писем\nwork@yandex.ru: 5 непрочитанных писем\n/
+    );
+    assert.deepEqual(mock.store.local.accountEmails, { 11: 'ivan@yandex.ru', 22: 'work@yandex.ru' });
+    const stored = JSON.stringify(mock.store.local);
+    assert.ok(!stored.includes('1980-01-01') && !stored.includes('Имя'), 'личные данные из ответа не сохраняются');
+
+    // Повторно — не раньше чем через сутки
+    mock.requests.length = 0;
+    await checkMail();
+    assert.ok(!mock.requests.includes(ACCOUNTS_URL));
+    t.mock.timers.tick(24 * 60 * 60 * 1000);
+    await checkMail();
+    assert.ok(mock.requests.includes(ACCOUNTS_URL));
+
+    // Имя из настроек важнее адреса
+    mock.store.local.accountNames = { 22: 'Работа' };
+    await checkMail();
+    assert.match(mock.calls.badge.title, /\nivan@yandex.ru: 75 непрочитанных писем\nРабота: 5 непрочитанных писем\n/);
+});
+
+test('новый аккаунт без адреса — запрос не чаще раза в час; ошибка — подпись «Аккаунт N»', async (t) => {
+    t.mock.timers.enable({ apis: ['Date'], now: Date.now() });
+    mock.accounts('<html>не JSON</html>');
+    await twoAccounts();
+    assert.match(mock.calls.badge.title, /\nАккаунт 1: 75 непрочитанных писем\n/);
+    assert.equal(mock.calls.badge.text, '80', 'счётчик от адресов не зависит');
+
+    mock.requests.length = 0;
+    t.mock.timers.tick(30 * 60 * 1000);
+    await checkMail();
+    assert.ok(!mock.requests.includes(ACCOUNTS_URL), 'через полчаса — без повторного запроса');
+
+    mock.accounts({ 11: 'ivan@yandex.ru', 22: 'work@yandex.ru' });
+    t.mock.timers.tick(31 * 60 * 1000);
+    await checkMail();
+    assert.match(mock.calls.badge.title, /\nivan@yandex.ru: 75/);
+});
+
+test('один аккаунт — адреса не запрашиваются', async () => {
+    mock.counters({ unread: 3, fresh: 0 });
+    await checkMail();
+    assert.ok(!mock.requests.includes(ACCOUNTS_URL));
+});

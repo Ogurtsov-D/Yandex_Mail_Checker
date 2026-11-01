@@ -1,6 +1,7 @@
 // Адреса выбранной почты: mail.yandex.ru, mail.yandex.com, Яндекс 360…
 import { ext } from './api.js';
 import {
+    ACCOUNTS_PATH,
     COUNTERS_PATH,
     DEFAULT_MAIL_HOST,
     INBOX_PATH,
@@ -22,6 +23,7 @@ export function urlsFor(host) {
         base,
         tabPattern: MAIL_TAB_PATTERN_TEMPLATE.replace('{host}', host),
         counters: base + COUNTERS_PATH,
+        accounts: base + ACCOUNTS_PATH,
         inbox: base + INBOX_PATH
     };
 }
