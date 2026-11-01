@@ -65,6 +65,26 @@ test('подсказка: успех, ошибка с последним рез�
         tooltipText({ errorType: 'network', lastSuccess: at, unreadCount: 3 }, now),
         'Яндекс Почта: Нет подключения\nПоследняя успешная проверка в 14:32: 3 непрочитанных письма'
     );
+    assert.deepEqual(
+        [1, 2, 5, 21].map(
+            (freshCount) => tooltipText({ unreadCount: 25, freshCount, lastSuccess: at }, now).split('\n')[0]
+        ),
+        [
+            'Яндекс Почта: 25 непрочитанных писем, из них 1 новое',
+            'Яндекс Почта: 25 непрочитанных писем, из них 2 новых',
+            'Яндекс Почта: 25 непрочитанных писем, из них 5 новых',
+            'Яндекс Почта: 25 непрочитанных писем, из них 21 новое'
+        ]
+    );
+    // Новых нет или непрочитанных нет (новые уже прочитаны в другом месте) — без «из них»
+    assert.equal(
+        tooltipText({ unreadCount: 3, freshCount: 0, lastSuccess: at }, now).split('\n')[0],
+        'Яндекс Почта: 3 непрочитанных письма'
+    );
+    assert.equal(
+        tooltipText({ unreadCount: 0, freshCount: 2, lastSuccess: at }, now).split('\n')[0],
+        'Яндекс Почта: новых писем нет'
+    );
     assert.equal(tooltipText({ errorType: 'auth' }, now), 'Яндекс Почта: Требуется вход в почту');
     assert.equal(tooltipText({}, now), 'Яндекс Почта');
 });

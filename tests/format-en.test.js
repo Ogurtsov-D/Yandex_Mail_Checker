@@ -35,6 +35,10 @@ test('tooltip in English', () => {
         'Yandex Mail: 3 unread messages\nChecked at 02:32 PM'
     );
     assert.equal(
+        tooltipText({ unreadCount: 3, freshCount: 1, lastSuccess: at }, now),
+        'Yandex Mail: 3 unread messages, 1 new\nChecked at 02:32 PM'
+    );
+    assert.equal(
         tooltipText({ errorType: 'server', errorStatus: 502, lastSuccess: at, unreadCount: 1 }, now),
         'Yandex Mail: Yandex server error (502)\nLast successful check at 02:32 PM: 1 unread message'
     );

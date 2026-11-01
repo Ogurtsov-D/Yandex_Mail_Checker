@@ -10,7 +10,7 @@
 
 **A browser extension that shows the number of unread Yandex Mail messages on the toolbar and notifies you about new mail.**
 
-No need to keep your mailbox open: the extension checks your Inbox, shows the unread count on its icon and tells you about new messages with the sender and subject.
+No need to keep your mailbox open: the extension checks your mail, shows the unread count on its icon and tells you about new messages with the sender and subject.
 
 > **Unofficial extension.** Not affiliated with or endorsed by Yandex — [details](#relationship-with-yandex).
 
@@ -20,7 +20,7 @@ No need to keep your mailbox open: the extension checks your Inbox, shows the un
 
 ## Features
 
-- 🔢 **Unread counter** on the toolbar icon for your Inbox
+- 🔢 **Unread counter** on the toolbar icon: all folders except Spam, the same as Yandex Mail's own counter
 - 📬 **New mail notifications** with sender and subject; clicking one opens that message
 - 🖱️ **Clicking the icon** switches to an already open mail tab instead of opening a new one
 - ⚡ **Instant refresh**: read a message and the counter updates within seconds
@@ -83,9 +83,11 @@ You need to be signed in to Yandex Mail at `mail.yandex.ru` in the same browser.
 The tooltip looks like this:
 
 ```
-Yandex Mail: 3 unread messages
+Yandex Mail: 3 unread messages, 1 new
 Checked at 02:32 PM
 ```
+
+"New" means messages that arrived after your last visit to the mailbox. Once you open your mail, this part of the tooltip disappears.
 
 On errors it shows both the reason and the last successful result:
 
@@ -96,7 +98,7 @@ Last successful check at 02:20 PM: 3 unread messages
 
 ### Notifications
 
-You get a notification when a message the extension has not reported yet appears in your Inbox. Messages that were already unread when you installed the extension are not reported. If a mail tab is open, the message opens there; a tab where you are writing an email is never touched.
+You get a notification when Yandex reports new messages. The sender and subject are taken from your Inbox; if a message went to another folder, the notification shows only the number of new messages. Messages that were already unread when you installed the extension are not reported. Once you open your mail, the new mail notification disappears by itself. If a mail tab is open, the message opens there; a tab where you are writing an email is never touched.
 
 To turn notifications off: right-click the icon → uncheck "New mail notifications".
 
@@ -153,14 +155,16 @@ Remove any personal data before attaching the log to a bug report.
 
 ## Limitations
 
-- Only the **Inbox** of one account is checked — the one you are signed in to in the browser.
+- One account is checked — the one you are signed in to in the browser.
 - Only **`mail.yandex.ru`** is supported.
-- Sender and subject in notifications come from the first page of the message list.
-- The extension reads the simplified (lite) version of Yandex Mail. If Yandex changes or retires it, the extension shows "!" with a hint until an update is released.
+- Sender and subject in notifications come from the first Inbox page of the simplified (lite) version of Yandex Mail. If Yandex changes or retires it, notifications arrive without the sender and subject.
+- The extension gets the counter from Yandex the same way the mail page does. If Yandex changes that, the extension falls back to counting via the lite version — the counter then covers the Inbox only.
 
 ## How it works
 
-The extension requests the simplified Inbox page (`https://mail.yandex.ru/lite/inbox`) with your usual Yandex cookies — just as if you opened that page yourself. From the page it reads the number of unread messages and the ID, sender and subject of each unread message. The IDs are compared with the ones it already knows, so you are notified only about new mail.
+On every check the extension requests the mail counters (`https://mail.yandex.ru/api/v2/bar/counters`) with your usual Yandex cookies. These are two numbers: how many messages are unread (in all folders except Spam) and how many arrived since your last visit to the mailbox. The first number is shown on the icon. When the second one grows, the extension opens the simplified Inbox page (`https://mail.yandex.ru/lite/inbox`) — just as if you opened it yourself — and reads the ID, sender and subject of the new messages. The IDs are compared with the ones it already knows, so each message is reported only once.
+
+If the counters are unavailable, the extension counts unread messages using the simplified Inbox page.
 
 Checks run on schedule, when you click "Check now", and a few seconds after you act in the mail tab — but no more often than once every 15 seconds.
 
@@ -170,7 +174,7 @@ The extension contacts only `mail.yandex.ru` and sends nothing to the author or 
 
 | Permission | Why it is needed |
 |------------|------------------|
-| `https://mail.yandex.ru/*` | Read the message list; find an open mail tab and notice changes in it |
+| `https://mail.yandex.ru/*` | Read the counters and the message list; find an open mail tab and notice changes in it |
 | `storage` | Keep settings and the result of the last check |
 | `alarms` | Check mail on schedule |
 | `notifications` | Show new mail notifications |
@@ -190,7 +194,7 @@ Bug reports and suggestions are welcome in [Issues](https://github.com/Ogurtsov-
 
 This extension is an independent open-source project. It is not affiliated with or endorsed by Yandex. "Yandex" and "Yandex Mail" are trademarks of their owner and are used only to indicate which service the extension works with.
 
-The extension only reads the Inbox page on behalf of a user who is already signed in: it does not bypass CAPTCHA or authentication, does not perform any actions in the mailbox and does not modify Yandex pages. Scheduled checks run no more than once a minute, checks after actions in the mail tab no more than once every 15 seconds.
+The extension only reads the mail counters and the Inbox page on behalf of a user who is already signed in: it does not bypass CAPTCHA or authentication, does not perform any actions in the mailbox and does not modify Yandex pages. Scheduled checks run no more than once a minute, checks after actions in the mail tab no more than once every 15 seconds.
 
 If you represent Yandex and have questions about this project, please write in [Issues](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/issues) or, if the matter is not for public discussion, send a [private message](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/security/advisories/new). We will discuss changes to the project or its removal.
 

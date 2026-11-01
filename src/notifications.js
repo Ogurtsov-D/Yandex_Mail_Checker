@@ -29,9 +29,10 @@ async function show(options, target) {
     await ext.notifications.create(NOTIFICATION_ID, options);
 }
 
-// Уведомление о новых письмах с отправителем и темой
-export async function notifyNewMessages(messages) {
-    if (messages.length === 1) {
+// Уведомление о новых письмах с отправителем и темой.
+// total — сколько всего пришло писем: часть могла попасть не во «Входящие», и деталей о них нет
+export async function notifyNewMessages(messages, total = messages.length) {
+    if (total === 1) {
         const [m] = messages;
         await show(
             {
@@ -50,7 +51,7 @@ export async function notifyNewMessages(messages) {
         {
             type: 'list',
             iconUrl: iconUrl(),
-            title: newMailTitle(messages.length),
+            title: newMailTitle(total),
             message: '',
             items: messages.slice(0, MAX_NOTIFICATION_ITEMS).map((m) => ({
                 title: m.from || t('unknownSender'),

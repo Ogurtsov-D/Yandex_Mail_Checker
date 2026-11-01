@@ -62,8 +62,11 @@ export function tooltipText(state, now = Date.now()) {
     }
 
     if (state.lastSuccess) {
+        const unread = state.unreadCount ?? 0;
+        // «3 непрочитанных письма, из них 1 новое» — новые пришли после последнего захода в почту
+        const fresh = unread > 0 && state.freshCount > 0 ? `, ${plural('freshPart', state.freshCount)}` : '';
         return [
-            `${service}: ${unreadText(state.unreadCount ?? 0)}`,
+            `${service}: ${unreadText(unread)}${fresh}`,
             t('checkedAt', formatCheckTime(state.lastSuccess, now))
         ].join('\n');
     }

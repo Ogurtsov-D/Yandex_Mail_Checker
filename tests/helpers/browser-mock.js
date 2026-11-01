@@ -141,14 +141,22 @@ export function installBrowserMock({ firefox = false, locale = 'ru' } = {}) {
         setTabs(list) {
             tabs = list;
         },
-        // Ответ Яндекса: строка HTML, функция (url, options) => Response-подобный объект, или Error для сбоя сети
+        requests: [],
+        // Ответ Яндекса на все запросы: строка (HTML или JSON), функция (url, options) =>
+        // Response-подобный объект, или Error для сбоя сети. Ответ API счётчиков задаётся
+        // отдельно — mock.counters(); без него на счётчики приходит тот же ответ
         respond(response) {
-            globalThis.fetch = async (url, options) => {
-                mock.fetchCount++;
-                if (response instanceof Error) throw response;
-                if (typeof response === 'function') return response(url, options);
-                return { type: 'basic', status: 200, ok: true, text: async () => response };
-            };
+            mock.inboxResponse = response;
+        },
+        // Ответ API счётчиков: { unread, fresh } — JSON с этими числами; null — 404 (API нет);
+        // строка, функция или Error — как в respond()
+        counters(value) {
+            mock.countersResponse =
+                value && typeof value === 'object' && !(value instanceof Error)
+                    ? JSON.stringify({ counters: value })
+                    : value === null
+                      ? () => ({ type: 'basic', status: 404, ok: false })
+                      : value;
         },
         // Сбросить состояние между тестами (обработчики событий сохраняются)
         reset() {
@@ -164,8 +172,22 @@ export function installBrowserMock({ firefox = false, locale = 'ru' } = {}) {
             calls.badge.title = undefined;
             tabs = [];
             mock.fetchCount = 0;
+            mock.requests.length = 0;
+            mock.inboxResponse = '';
+            mock.countersResponse = undefined;
         }
     };
+
+    globalThis.fetch = async (url, options) => {
+        mock.fetchCount++;
+        mock.requests.push(url);
+        const isCounters = url.includes('/api/v2/bar/counters');
+        const response = isCounters && mock.countersResponse !== undefined ? mock.countersResponse : mock.inboxResponse;
+        if (response instanceof Error) throw response;
+        if (typeof response === 'function') return response(url, options);
+        return { type: 'basic', status: 200, ok: true, text: async () => response };
+    };
+    mock.reset();
     return mock;
 }
 

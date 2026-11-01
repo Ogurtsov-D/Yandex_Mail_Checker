@@ -13,6 +13,9 @@ beforeEach(async () => {
     await flush();
     mock.reset();
     mock.respond(inboxPage({ count: 0 }));
+    // Обычная проверка — один запрос к API счётчиков (lite-версия нужна только для новых писем)
+    mock.counters({ unread: 0, fresh: 0 });
+    mock.store.local.knownMessageIds = [];
 });
 
 const mailTab = (id, url, lastAccessed = 1) => ({ id, windowId: id * 10, url, lastAccessed });

@@ -23,17 +23,34 @@ function prepareExtension() {
     return dir;
 }
 
-// Поддельный mail.yandex.ru: /lite/inbox отдаёт текущее состояние, остальные адреса — пустую страницу почты
+// Поддельный mail.yandex.ru: API счётчиков и /lite/inbox отдают текущее состояние, остальные
+// адреса — пустую страницу почты. counters: { unread, fresh } или null (API нет — 404).
+// status и redirect действуют на оба адреса
 function createServer() {
-    const server = { inbox: inboxPage({ count: 0 }), status: 200, redirect: null, requests: 0 };
+    const server = {
+        counters: { unread: 0, fresh: 0 },
+        inbox: inboxPage({ count: 0 }),
+        status: 200,
+        redirect: null,
+        requests: 0
+    };
     server.handle = async (route) => {
         const url = new URL(route.request().url());
-        if (!url.pathname.startsWith('/lite/inbox')) {
+        const isCounters = url.pathname === '/api/v2/bar/counters';
+        if (!isCounters && !url.pathname.startsWith('/lite/inbox')) {
             return route.fulfill({ status: 200, contentType: 'text/html', body: '<title>Почта</title>' });
         }
         server.requests++;
         if (server.redirect) {
             return route.fulfill({ status: 302, headers: { location: server.redirect } });
+        }
+        if (isCounters) {
+            if (server.status === 200 && !server.counters) return route.fulfill({ status: 404, body: 'Not Found' });
+            return route.fulfill({
+                status: server.status,
+                contentType: 'application/json',
+                body: JSON.stringify({ counters: server.counters })
+            });
         }
         return route.fulfill({ status: server.status, contentType: 'text/html; charset=utf-8', body: server.inbox });
     };
@@ -119,6 +136,7 @@ describe('Chromium, русский интерфейс', () => {
     let browser;
 
     before(async () => {
+        server.counters = { unread: 1, fresh: 0 };
         server.inbox = inboxPage({ count: 1, messages: [anna] });
         browser = await launch('ru', server);
     });
@@ -132,6 +150,7 @@ describe('Chromium, русский интерфейс', () => {
     });
 
     test('новое письмо: перепроверка после действия во вкладке почты и уведомление', async () => {
+        server.counters = { unread: 2, fresh: 1 };
         server.inbox = inboxPage({ count: 2, messages: [ivan, anna] });
         const tab = await browser.context.newPage();
         await tab.goto('https://mail.yandex.ru/?uid=1#inbox'); // tabs.onUpdated → перепроверка
@@ -140,6 +159,7 @@ describe('Chromium, русский интерфейс', () => {
         assert.equal(s.notifications[0].title, '"Иван" & Ко');
         assert.equal(s.notifications[0].message, 'Отчёт');
         assert.equal(s.target, '#/message/222');
+        assert.match(s.title, /^Яндекс Почта: 2 непрочитанных письма, из них 1 новое\n/);
         await tab.close();
     });
 
@@ -166,8 +186,13 @@ describe('Chromium, русский интерфейс', () => {
         assert.equal(s.retry, false, 'при необходимости входа быстрый повтор не нужен');
     });
 
-    test('капча вместо почты: «!» и «Не удалось прочитать страницу почты»', async () => {
-        Object.assign(server, { status: 200, redirect: null, inbox: '<title>Ой!</title><div>captcha</div>' });
+    test('API счётчиков недоступно, в lite-версии капча: «!» и «Не удалось прочитать страницу почты»', async () => {
+        Object.assign(server, {
+            status: 200,
+            redirect: null,
+            counters: null,
+            inbox: '<title>Ой!</title><div>captcha</div>'
+        });
         await checkNow(browser.worker);
         const s = await waitFor(browser.worker, (x) => x.title.includes('Не удалось прочитать'));
         assert.equal(s.badge, '!');
@@ -232,6 +257,7 @@ describe('Chromium, английский интерфейс', () => {
     let browser;
 
     before(async () => {
+        server.counters = { unread: 0, fresh: 0 };
         server.inbox = inboxPage({ count: 0 });
         browser = await launch('en-US', server);
     });
@@ -239,6 +265,7 @@ describe('Chromium, английский интерфейс', () => {
 
     test('подсказка, уведомление-список и название на английском', async () => {
         await waitFor(browser.worker, (x) => x.title.startsWith('Yandex Mail: no new messages'));
+        server.counters = { unread: 2, fresh: 2 };
         server.inbox = inboxPage({
             count: 2,
             messages: [
@@ -248,7 +275,7 @@ describe('Chromium, английский интерфейс', () => {
         });
         await checkNow(browser.worker);
         const s = await waitFor(browser.worker, (x) => x.badge === '2');
-        assert.match(s.title, /^Yandex Mail: 2 unread messages\nChecked at \d\d:\d\d [AP]M$/);
+        assert.match(s.title, /^Yandex Mail: 2 unread messages, 2 new\nChecked at \d\d:\d\d [AP]M$/);
         assert.equal(s.notifications[0].type, 'list');
         assert.equal(s.notifications[0].title, '2 new messages');
         assert.deepEqual(s.notifications[0].items[1], { title: 'Sender', message: '(no subject)' });

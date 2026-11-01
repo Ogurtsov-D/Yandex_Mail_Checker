@@ -41,6 +41,24 @@
       }
     }
   },
+  "freshPart_one": {
+    "message": "$COUNT$ new",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_other": {
+    "message": "$COUNT$ new",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
   "newMail_one": {
     "message": "$COUNT$ new message",
     "description": "Notification title",

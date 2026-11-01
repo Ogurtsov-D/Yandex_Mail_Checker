@@ -1,8 +1,8 @@
-// Проверка почты: загрузка lite-страницы, разбор, уведомления, повторы при ошибках
+// Проверка почты: счётчики Яндекса, детали новых писем из lite-версии, уведомления, повторы при ошибках
 import { ext } from './api.js';
-import { FETCH_TIMEOUT_MS, INBOX_URL, MAX_KNOWN_IDS, MAX_RETRIES, RETRY_INTERVAL_SEC } from './config.js';
+import { COUNTERS_URL, FETCH_TIMEOUT_MS, INBOX_URL, MAX_KNOWN_IDS, MAX_RETRIES, RETRY_INTERVAL_SEC } from './config.js';
 import { debug } from './log.js';
-import { notifyNewCount, notifyNewMessages } from './notifications.js';
+import { NOTIFICATION_ID, notifyNewCount, notifyNewMessages } from './notifications.js';
 import { isLoginPage, parseUnreadCount, parseUnreadMessages } from './parser.js';
 import { RETRY_ALARM } from './settings.js';
 import { renderChecking, renderStatus } from './status.js';
@@ -32,28 +32,26 @@ export function setLastCheckTime(timestamp) {
     lastCheckTime = timestamp ?? null;
 }
 
-// Загрузка lite-версии «Входящих» с таймаутом
-async function fetchInboxHtml() {
+const httpError = (status) => new MailCheckError(status >= 500 ? 'server' : 'client', status);
+
+// Запрос к почте с cookie пользователя и таймаутом: { ok, status, text }.
+// Редирект или 401 — пользователь не вошёл в почту
+async function request(url) {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
 
     try {
-        const response = await fetch(INBOX_URL, {
+        const response = await fetch(url, {
             credentials: 'include',
             redirect: 'manual', // редирект = Яндекс отправляет на страницу входа
             cache: 'no-store',
             signal: controller.signal
         });
 
-        if (response.type === 'opaqueredirect' || response.status === 0) {
+        if (response.type === 'opaqueredirect' || response.status === 0 || response.status === 401) {
             throw new MailCheckError('auth');
         }
-        // Другие не-2xx невозможны: редиректы при redirect: 'manual' приходят как opaqueredirect
-        if (!response.ok) {
-            throw new MailCheckError(response.status >= 500 ? 'server' : 'client', response.status);
-        }
-
-        return await response.text();
+        return { ok: response.ok, status: response.status, text: response.ok ? await response.text() : '' };
     } catch (error) {
         if (error?.name === 'AbortError') {
             throw new MailCheckError('timeout');
@@ -64,6 +62,34 @@ async function fetchInboxHtml() {
     } finally {
         clearTimeout(timer);
     }
+}
+
+// Счётчики почты: { unread, fresh }. null — API недоступно (нет такого адреса, ответ другого
+// формата); тогда счётчик берётся из lite-версии
+async function fetchCounters() {
+    const response = await request(COUNTERS_URL);
+    if (!response.ok) {
+        if (response.status >= 500) throw httpError(response.status);
+        return null;
+    }
+    let data;
+    try {
+        data = JSON.parse(response.text);
+    } catch {
+        return null;
+    }
+    const { unread, fresh } = data?.counters ?? {};
+    const isCount = (n) => Number.isInteger(n) && n >= 0;
+    return isCount(unread) && isCount(fresh) ? { unread, fresh } : null;
+}
+
+// Lite-версия «Входящих»
+async function fetchInboxHtml() {
+    const response = await request(INBOX_URL);
+    // Другие не-2xx: редиректы при redirect: 'manual' приходят как opaqueredirect
+    if (!response.ok) throw httpError(response.status);
+    if (isLoginPage(response.text)) throw new MailCheckError('auth');
+    return response.text;
 }
 
 // Счётчик повторов хранится в storage.session: service worker выгружается между
@@ -77,7 +103,71 @@ async function setRetryCount(value) {
     await ext.storage.session.set({ retryCount: value });
 }
 
-async function handleSuccess(html) {
+// Запомнить ID писем, чтобы не уведомлять о них повторно
+function rememberIds(knownIds, messages) {
+    return [...new Set([...knownIds, ...messages.map((m) => m.id)])].slice(-MAX_KNOWN_IDS);
+}
+
+async function saveSuccess(unreadCount, freshCount, extra) {
+    const now = Date.now();
+    const state = {
+        unreadCount,
+        freshCount,
+        errorType: null,
+        errorStatus: null,
+        lastCheck: now,
+        lastSuccess: now
+    };
+    await ext.storage.local.set({ ...state, ...extra });
+    await setRetryCount(0);
+    return state;
+}
+
+// Непрочитанные письма из lite-версии «Входящих» (новые сверху).
+// null — страницу получить или распознать не удалось: уведомление обойдётся без подробностей
+async function loadInboxMessages() {
+    try {
+        const html = await fetchInboxHtml();
+        const messages = parseUnreadMessages(html);
+        return parseUnreadCount(html, messages) === null ? null : messages;
+    } catch (error) {
+        if (!(error instanceof MailCheckError)) console.error(error);
+        console.warn('Inbox details unavailable:', error.message);
+        return null;
+    }
+}
+
+// Основной способ: счётчики Яндекса. На бейдже — unread (все папки, кроме «Спама»).
+// Рост fresh — пришли новые письма: их отправителя и тему берём из lite-версии
+async function checkByCounters({ unread, fresh }) {
+    const prev = await ext.storage.local.get(['lastFresh', 'knownMessageIds']);
+    // Первая проверка (или первая после работы через lite-версию): только запоминаем fresh
+    const added = prev.lastFresh == null ? 0 : fresh - prev.lastFresh;
+    const extra = { lastFresh: fresh };
+
+    // Список известных писем нужен, чтобы отличить новые письма от старых непрочитанных.
+    // Его заполняем при первой проверке, дальше — только когда пришли новые письма
+    if (added > 0 || prev.knownMessageIds === undefined) {
+        const knownIds = new Set(prev.knownMessageIds ?? []);
+        const messages = await loadInboxMessages();
+        if (messages) extra.knownMessageIds = rememberIds(knownIds, messages);
+
+        if (added > 0) {
+            // Новые сверху; письма могли прийти и в другие папки — тогда во «Входящих» их нет
+            const unseen = (messages ?? []).filter((m) => !knownIds.has(m.id)).slice(0, added);
+            if (unseen.length > 0) await notifyNewMessages(unseen, added);
+            else await notifyNewCount(added);
+        }
+    }
+
+    // Пользователь зашёл в почту и увидел новые письма — уведомление о них больше не нужно
+    if (fresh === 0 && prev.lastFresh > 0) await ext.notifications.clear(NOTIFICATION_ID);
+
+    return saveSuccess(unread, fresh, extra);
+}
+
+// Запасной способ, если API счётчиков недоступно: всё из lite-версии «Входящих»
+async function checkByInboxPage(html) {
     const messages = parseUnreadMessages(html);
     const count = parseUnreadCount(html, messages);
     if (count === null) {
@@ -102,21 +192,8 @@ async function handleSuccess(html) {
         }
     }
 
-    const now = Date.now();
-    const state = {
-        unreadCount: count,
-        errorType: null,
-        errorStatus: null,
-        lastCheck: now,
-        lastSuccess: now
-    };
-
-    await ext.storage.local.set({
-        ...state,
-        knownMessageIds: [...new Set([...knownIds, ...messages.map((m) => m.id)])].slice(-MAX_KNOWN_IDS)
-    });
-    await setRetryCount(0);
-    return state;
+    // lastFresh: null — когда API счётчиков вернётся, его первая проверка не уведомляет
+    return saveSuccess(count, null, { lastFresh: null, knownMessageIds: rememberIds(knownIds, messages) });
 }
 
 async function handleFailure(error) {
@@ -152,9 +229,9 @@ export async function checkMail({ manual = false } = {}) {
 
         let state;
         try {
-            const html = await fetchInboxHtml();
-            if (isLoginPage(html)) throw new MailCheckError('auth');
-            state = await handleSuccess(html);
+            const counters = await fetchCounters();
+            debug('Счётчики:', counters ?? 'API недоступно, читаем lite-версию');
+            state = counters ? await checkByCounters(counters) : await checkByInboxPage(await fetchInboxHtml());
             debug('Проверка успешна:', state);
         } catch (error) {
             if (!(error instanceof MailCheckError)) {
