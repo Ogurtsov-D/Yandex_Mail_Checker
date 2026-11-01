@@ -139,25 +139,32 @@ async function saveSuccess(unreadCount, freshCount, extra) {
     return state;
 }
 
-// Один аккаунт по его счётчикам. prev — сохранённое состояние аккаунта: { lastFresh }.
+// Один аккаунт по его счётчикам. prev — сохранённое состояние аккаунта: { lastFresh, lastUnread }.
 // account — { uid, label }, когда аккаунтов несколько, иначе null. Возвращает новое состояние аккаунта.
 //
 // Отправителя и тему новых писем расширение не узнаёт: их можно взять только со страницы
 // почты (lite-версии), а Яндекс считает её загрузку заходом в почту и обнуляет fresh —
 // счётчик новых сбрасывался бы во всех браузерах, а уведомление тут же убиралось (проверено владельцем)
-async function checkAccount({ fresh }, prev, { enabled, account }) {
-    // Первая проверка аккаунта: только запоминаем fresh.
-    // fresh уменьшился — пользователь заходил в почту (Яндекс обнуляет fresh при заходе),
-    // и после этого пришло fresh писем: все они новые
-    const decreased = prev.lastFresh != null && fresh < prev.lastFresh;
-    const added = !enabled || prev.lastFresh == null ? 0 : decreased ? fresh : fresh - prev.lastFresh;
+async function checkAccount({ fresh, unread }, prev, { enabled, account }) {
+    // Первая проверка аккаунта: только запоминаем числа
+    let added = 0;
+    if (enabled && prev.lastFresh != null) {
+        if (fresh >= prev.lastFresh) {
+            added = fresh - prev.lastFresh;
+        } else if (fresh > 0 && unread > (prev.lastUnread ?? Infinity)) {
+            // fresh уменьшился, но непрочитанных стало больше: пользователь заходил в почту
+            // (Яндекс обнуляет fresh), и после этого пришло fresh писем — все они новые.
+            // Если непрочитанных не прибавилось, новое письмо просто прочитали в другом клиенте
+            added = fresh;
+        }
+    }
 
     if (added > 0) await notifyNewCount(added, account);
 
     // Пользователь зашёл в почту и увидел новые письма — уведомление о них больше не нужно
     if (fresh === 0 && prev.lastFresh > 0) await ext.notifications.clear(notificationId(account));
 
-    return { lastFresh: fresh };
+    return { lastFresh: fresh, lastUnread: unread };
 }
 
 // Основной способ: счётчики Яндекса по всем аккаунтам, в которые выполнен вход.

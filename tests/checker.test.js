@@ -91,14 +91,28 @@ describe('счётчики Яндекса (основной способ)', () =
         mock.counters({ unread: 5, fresh: 2 });
         await checkMail();
 
-        // Зашли в почту (fresh → 0), пришло письмо (fresh → 1) — проверка видит только 2 → 1
-        mock.counters({ unread: 4, fresh: 1 });
+        // Зашли в почту (fresh → 0), пришло письмо (fresh → 1): проверка видит только 2 → 1,
+        // но непрочитанных стало больше
+        mock.counters({ unread: 6, fresh: 1 });
         await checkMail();
         assert.deepEqual(
             mock.calls.notifications.map((n) => n.title),
             ['2 новых письма', '1 новое письмо']
         );
         assert.equal(mock.store.local.accounts[''].lastFresh, 1);
+    });
+
+    test('новое письмо прочитали в другом клиенте (fresh уменьшился, непрочитанных меньше) — без повтора', async () => {
+        mock.counters({ unread: 3, fresh: 0 });
+        await checkMail();
+        mock.counters({ unread: 5, fresh: 2 });
+        await checkMail();
+        mock.counters({ unread: 4, fresh: 1 });
+        await checkMail();
+        assert.deepEqual(
+            mock.calls.notifications.map((n) => n.title),
+            ['2 новых письма']
+        );
     });
 
     test('401 от API — не выполнен вход: «?», без повтора', async () => {
