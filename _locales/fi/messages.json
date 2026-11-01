@@ -1,0 +1,325 @@
+{
+  "locale": {
+    "message": "fi",
+    "description": "Language code of this translation (plural rules and date formats)"
+  },
+  "extName": {
+    "message": "Viestilaskuri Yandex Mailille",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Näyttää Yandex Mailin lukemattomien viestien määrän työkalupalkin kuvakkeessa ja ilmoittaa uusista viesteistä",
+    "description": "Extension description"
+  },
+  "serviceName": {
+    "message": "Yandex Mail",
+    "description": "Mail service name in the tooltip"
+  },
+  "checking": {
+    "message": "Tarkistetaan postia…",
+    "description": "Tooltip during a manual check"
+  },
+  "noUnread": {
+    "message": "ei uusia viestejä",
+    "description": "Tooltip: nothing unread"
+  },
+  "unread_one": {
+    "message": "$COUNT$ lukematon viesti",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "unread_other": {
+    "message": "$COUNT$ lukematonta viestiä",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_one": {
+    "message": "joista $COUNT$ uusi",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_other": {
+    "message": "joista $COUNT$ uutta",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_one": {
+    "message": "$COUNT$ uusi viesti",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_other": {
+    "message": "$COUNT$ uutta viestiä",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "checkedAt": {
+    "message": "Tarkistettu $WHEN$",
+    "description": "Second tooltip line",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      }
+    }
+  },
+  "lastSuccess": {
+    "message": "Viimeisin onnistunut tarkistus $WHEN$: $UNREAD$",
+    "description": "Tooltip on error",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      },
+      "unread": {
+        "content": "$2"
+      }
+    }
+  },
+  "atTime": {
+    "message": "klo $TIME$",
+    "description": "Check time today",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "yesterdayAtTime": {
+    "message": "eilen klo $TIME$",
+    "description": "Check time yesterday",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "dateAtTime": {
+    "message": "$DATE$ klo $TIME$",
+    "description": "Check time earlier",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      },
+      "time": {
+        "content": "$2"
+      }
+    }
+  },
+  "errorAuth": {
+    "message": "Kirjautuminen vaaditaan",
+    "description": "Error"
+  },
+  "errorServer": {
+    "message": "Yandexin palvelinvirhe ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorClient": {
+    "message": "Pyyntövirhe ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorTimeout": {
+    "message": "Yandex ei vastannut ajoissa",
+    "description": "Error"
+  },
+  "errorNetwork": {
+    "message": "Ei yhteyttä",
+    "description": "Error"
+  },
+  "errorParse": {
+    "message": "Postisivua ei voitu lukea",
+    "description": "Error"
+  },
+  "errorInternal": {
+    "message": "Laajennuksen sisäinen virhe",
+    "description": "Error"
+  },
+  "newMessage": {
+    "message": "Uusi viesti",
+    "description": "Notification: unknown sender"
+  },
+  "unknownSender": {
+    "message": "Lähettäjä",
+    "description": "List notification: unknown sender"
+  },
+  "noSubject": {
+    "message": "(ei aihetta)",
+    "description": "Notification: message without subject"
+  },
+  "openMailToView": {
+    "message": "Avaa posti lukeaksesi viestin",
+    "description": "Notification without details"
+  },
+  "menuCheckNow": {
+    "message": "Tarkista nyt",
+    "description": "Menu item"
+  },
+  "menuInterval": {
+    "message": "Tarkistusväli",
+    "description": "Menu item"
+  },
+  "menuNotifications": {
+    "message": "Ilmoitukset",
+    "description": "Notifications submenu"
+  },
+  "minutes_one": {
+    "message": "$COUNT$ minuutti",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "minutes_other": {
+    "message": "$COUNT$ minuuttia",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuBadge": {
+    "message": "Kuvakkeessa",
+    "description": "Submenu: what the badge shows"
+  },
+  "menuBadgeUnread": {
+    "message": "Kaikki lukemattomat viestit",
+    "description": "Menu item"
+  },
+  "menuBadgeFresh": {
+    "message": "Vain uudet viestit",
+    "description": "Menu item: only messages received since the last visit to the mailbox"
+  },
+  "menuShowNotifications": {
+    "message": "Näytä ilmoitukset uusista viesteistä",
+    "description": "Menu item"
+  },
+  "menuSound": {
+    "message": "Ääni",
+    "description": "Menu item: notification sound"
+  },
+  "menuQuietHours": {
+    "message": "Hiljaiset tunnit: $FROM$–$TO$",
+    "description": "Menu item; times as HH:MM",
+    "placeholders": {
+      "from": {
+        "content": "$1"
+      },
+      "to": {
+        "content": "$2"
+      }
+    }
+  },
+  "menuOptions": {
+    "message": "Asetukset…",
+    "description": "Menu item (Firefox only)"
+  },
+  "optionsTitle": {
+    "message": "Viestilaskurin asetukset",
+    "description": "Settings page title"
+  },
+  "optionsQuietHours": {
+    "message": "Hiljaiset tunnit: älä näytä ilmoituksia",
+    "description": "Settings page"
+  },
+  "optionsFrom": {
+    "message": "alkaen",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsTo": {
+    "message": "asti",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsPauseWhenIdle": {
+    "message": "Älä tarkista postia, kun et ole tietokoneen ääressä",
+    "description": "Settings page"
+  },
+  "optionsPauseWhenIdleHint": {
+    "message": "Tarkistukset keskeytyvät 5 minuutin käyttämättömyyden jälkeen tai kun näyttö on lukittu. Kun palaat, posti tarkistetaan heti.",
+    "description": "Settings page hint"
+  },
+  "optionsShortcut": {
+    "message": "Avaa posti näppäimistöllä:",
+    "description": "Settings page; followed by the shortcut"
+  },
+  "optionsShortcutHint": {
+    "message": "Pikanäppäimen voi vaihtaa selaimen laajennusasetuksissa.",
+    "description": "Settings page hint"
+  },
+  "optionsShortcutNone": {
+    "message": "ei asetettu",
+    "description": "No shortcut assigned"
+  },
+  "optionsClassicIcon": {
+    "message": "Klassinen kuvake",
+    "description": "Settings page"
+  },
+  "accountNumber": {
+    "message": "Tili $NUMBER$",
+    "description": "Account label when the login is unknown",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuAccounts": {
+    "message": "Tilit",
+    "description": "Submenu: which accounts to count"
+  },
+  "errorPermission": {
+    "message": "Ei pääsyä osoitteeseen $HOST$: valitse postin osoite laajennuksen asetuksista",
+    "description": "Error: access to the chosen domain was revoked",
+    "placeholders": {
+      "host": {
+        "content": "$1"
+      }
+    }
+  },
+  "optionsMailHost": {
+    "message": "Postin osoite:",
+    "description": "Settings page; followed by the list of domains"
+  },
+  "optionsMailHostHint": {
+    "message": "Muille osoitteille kuin mail.yandex.ru selain pyytää käyttöoikeutta.",
+    "description": "Settings page hint"
+  },
+  "optionsMailHost360": {
+    "message": "Yandex 360, myös oman verkkotunnuksen posti",
+    "description": "Label for mail.360.yandex.ru"
+  }
+}

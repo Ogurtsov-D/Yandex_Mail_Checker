@@ -1,0 +1,289 @@
+{
+  "locale": {
+    "message": "zh-CN",
+    "description": "Language code of this translation (plural rules and date formats)"
+  },
+  "extName": {
+    "message": "Yandex 邮箱邮件计数器",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "在工具栏图标上显示 Yandex 邮箱的未读邮件数，并在收到新邮件时通知您",
+    "description": "Extension description"
+  },
+  "serviceName": {
+    "message": "Yandex 邮箱",
+    "description": "Mail service name in the tooltip"
+  },
+  "checking": {
+    "message": "正在检查邮件…",
+    "description": "Tooltip during a manual check"
+  },
+  "noUnread": {
+    "message": "没有新邮件",
+    "description": "Tooltip: nothing unread"
+  },
+  "unread_other": {
+    "message": "$COUNT$ 封未读邮件",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_other": {
+    "message": "其中 $COUNT$ 封是新邮件",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_other": {
+    "message": "$COUNT$ 封新邮件",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "checkedAt": {
+    "message": "检查于 $WHEN$",
+    "description": "Second tooltip line",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      }
+    }
+  },
+  "lastSuccess": {
+    "message": "上次成功检查：$WHEN$，$UNREAD$",
+    "description": "Tooltip on error",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      },
+      "unread": {
+        "content": "$2"
+      }
+    }
+  },
+  "atTime": {
+    "message": "$TIME$",
+    "description": "Check time today",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "yesterdayAtTime": {
+    "message": "昨天 $TIME$",
+    "description": "Check time yesterday",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "dateAtTime": {
+    "message": "$DATE$ $TIME$",
+    "description": "Check time earlier",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      },
+      "time": {
+        "content": "$2"
+      }
+    }
+  },
+  "errorAuth": {
+    "message": "需要登录邮箱",
+    "description": "Error"
+  },
+  "errorServer": {
+    "message": "Yandex 服务器错误（$STATUS$）",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorClient": {
+    "message": "请求错误（$STATUS$）",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorTimeout": {
+    "message": "Yandex 未及时响应",
+    "description": "Error"
+  },
+  "errorNetwork": {
+    "message": "无网络连接",
+    "description": "Error"
+  },
+  "errorParse": {
+    "message": "无法读取邮箱页面",
+    "description": "Error"
+  },
+  "errorInternal": {
+    "message": "扩展程序内部错误",
+    "description": "Error"
+  },
+  "newMessage": {
+    "message": "新邮件",
+    "description": "Notification: unknown sender"
+  },
+  "unknownSender": {
+    "message": "发件人",
+    "description": "List notification: unknown sender"
+  },
+  "noSubject": {
+    "message": "（无主题）",
+    "description": "Notification: message without subject"
+  },
+  "openMailToView": {
+    "message": "打开邮箱查看",
+    "description": "Notification without details"
+  },
+  "menuCheckNow": {
+    "message": "立即检查",
+    "description": "Menu item"
+  },
+  "menuInterval": {
+    "message": "检查间隔",
+    "description": "Menu item"
+  },
+  "menuNotifications": {
+    "message": "通知",
+    "description": "Notifications submenu"
+  },
+  "minutes_other": {
+    "message": "$COUNT$ 分钟",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuBadge": {
+    "message": "图标上显示",
+    "description": "Submenu: what the badge shows"
+  },
+  "menuBadgeUnread": {
+    "message": "所有未读邮件",
+    "description": "Menu item"
+  },
+  "menuBadgeFresh": {
+    "message": "仅新邮件",
+    "description": "Menu item: only messages received since the last visit to the mailbox"
+  },
+  "menuShowNotifications": {
+    "message": "显示新邮件通知",
+    "description": "Menu item"
+  },
+  "menuSound": {
+    "message": "声音",
+    "description": "Menu item: notification sound"
+  },
+  "menuQuietHours": {
+    "message": "免打扰时段：$FROM$–$TO$",
+    "description": "Menu item; times as HH:MM",
+    "placeholders": {
+      "from": {
+        "content": "$1"
+      },
+      "to": {
+        "content": "$2"
+      }
+    }
+  },
+  "menuOptions": {
+    "message": "设置…",
+    "description": "Menu item (Firefox only)"
+  },
+  "optionsTitle": {
+    "message": "邮件计数器设置",
+    "description": "Settings page title"
+  },
+  "optionsQuietHours": {
+    "message": "免打扰时段：不显示通知",
+    "description": "Settings page"
+  },
+  "optionsFrom": {
+    "message": "从",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsTo": {
+    "message": "至",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsPauseWhenIdle": {
+    "message": "离开电脑时不检查邮件",
+    "description": "Settings page"
+  },
+  "optionsPauseWhenIdleHint": {
+    "message": "5 分钟无操作或屏幕锁定时暂停检查。您回来后会立即检查邮件。",
+    "description": "Settings page hint"
+  },
+  "optionsShortcut": {
+    "message": "用键盘打开邮箱：",
+    "description": "Settings page; followed by the shortcut"
+  },
+  "optionsShortcutHint": {
+    "message": "可以在浏览器的扩展程序设置中更改快捷键。",
+    "description": "Settings page hint"
+  },
+  "optionsShortcutNone": {
+    "message": "未设置",
+    "description": "No shortcut assigned"
+  },
+  "optionsClassicIcon": {
+    "message": "经典图标",
+    "description": "Settings page"
+  },
+  "accountNumber": {
+    "message": "账号 $NUMBER$",
+    "description": "Account label when the login is unknown",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuAccounts": {
+    "message": "账号",
+    "description": "Submenu: which accounts to count"
+  },
+  "errorPermission": {
+    "message": "无法访问 $HOST$：请在扩展程序设置中选择邮箱地址",
+    "description": "Error: access to the chosen domain was revoked",
+    "placeholders": {
+      "host": {
+        "content": "$1"
+      }
+    }
+  },
+  "optionsMailHost": {
+    "message": "邮箱地址：",
+    "description": "Settings page; followed by the list of domains"
+  },
+  "optionsMailHostHint": {
+    "message": "选择 mail.yandex.ru 以外的地址时，浏览器会请求访问权限。",
+    "description": "Settings page hint"
+  },
+  "optionsMailHost360": {
+    "message": "Yandex 360，包括使用自有域名的邮箱",
+    "description": "Label for mail.360.yandex.ru"
+  }
+}

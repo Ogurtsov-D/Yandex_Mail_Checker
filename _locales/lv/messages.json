@@ -1,0 +1,361 @@
+{
+  "locale": {
+    "message": "lv",
+    "description": "Language code of this translation (plural rules and date formats)"
+  },
+  "extName": {
+    "message": "Vēstuļu skaitītājs Yandex Mail",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Rāda nelasīto Yandex Mail vēstuļu skaitu ikonā rīkjoslā un paziņo par jaunām vēstulēm",
+    "description": "Extension description"
+  },
+  "serviceName": {
+    "message": "Yandex Mail",
+    "description": "Mail service name in the tooltip"
+  },
+  "checking": {
+    "message": "Pārbauda pastu…",
+    "description": "Tooltip during a manual check"
+  },
+  "noUnread": {
+    "message": "jaunu vēstuļu nav",
+    "description": "Tooltip: nothing unread"
+  },
+  "unread_zero": {
+    "message": "$COUNT$ nelasītu vēstuļu",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "unread_one": {
+    "message": "$COUNT$ nelasīta vēstule",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "unread_other": {
+    "message": "$COUNT$ nelasītas vēstules",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_zero": {
+    "message": "no tām $COUNT$ jaunu",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_one": {
+    "message": "no tām $COUNT$ jauna",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_other": {
+    "message": "no tām $COUNT$ jaunas",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_zero": {
+    "message": "$COUNT$ jaunu vēstuļu",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_one": {
+    "message": "$COUNT$ jauna vēstule",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_other": {
+    "message": "$COUNT$ jaunas vēstules",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "checkedAt": {
+    "message": "Pārbaudīts $WHEN$",
+    "description": "Second tooltip line",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      }
+    }
+  },
+  "lastSuccess": {
+    "message": "Pēdējā veiksmīgā pārbaude $WHEN$: $UNREAD$",
+    "description": "Tooltip on error",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      },
+      "unread": {
+        "content": "$2"
+      }
+    }
+  },
+  "atTime": {
+    "message": "plkst. $TIME$",
+    "description": "Check time today",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "yesterdayAtTime": {
+    "message": "vakar plkst. $TIME$",
+    "description": "Check time yesterday",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "dateAtTime": {
+    "message": "$DATE$ plkst. $TIME$",
+    "description": "Check time earlier",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      },
+      "time": {
+        "content": "$2"
+      }
+    }
+  },
+  "errorAuth": {
+    "message": "Nepieciešams pieteikties pastā",
+    "description": "Error"
+  },
+  "errorServer": {
+    "message": "Yandex servera kļūda ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorClient": {
+    "message": "Pieprasījuma kļūda ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorTimeout": {
+    "message": "Yandex neatbildēja laikā",
+    "description": "Error"
+  },
+  "errorNetwork": {
+    "message": "Nav savienojuma",
+    "description": "Error"
+  },
+  "errorParse": {
+    "message": "Neizdevās nolasīt pasta lapu",
+    "description": "Error"
+  },
+  "errorInternal": {
+    "message": "Paplašinājuma iekšēja kļūda",
+    "description": "Error"
+  },
+  "newMessage": {
+    "message": "Jauna vēstule",
+    "description": "Notification: unknown sender"
+  },
+  "unknownSender": {
+    "message": "Sūtītājs",
+    "description": "List notification: unknown sender"
+  },
+  "noSubject": {
+    "message": "(bez temata)",
+    "description": "Notification: message without subject"
+  },
+  "openMailToView": {
+    "message": "Atveriet pastu, lai izlasītu",
+    "description": "Notification without details"
+  },
+  "menuCheckNow": {
+    "message": "Pārbaudīt tagad",
+    "description": "Menu item"
+  },
+  "menuInterval": {
+    "message": "Pārbaudes intervāls",
+    "description": "Menu item"
+  },
+  "menuNotifications": {
+    "message": "Paziņojumi",
+    "description": "Notifications submenu"
+  },
+  "minutes_zero": {
+    "message": "$COUNT$ minūšu",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "minutes_one": {
+    "message": "$COUNT$ minūte",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "minutes_other": {
+    "message": "$COUNT$ minūtes",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuBadge": {
+    "message": "Ikonā",
+    "description": "Submenu: what the badge shows"
+  },
+  "menuBadgeUnread": {
+    "message": "Visas nelasītās vēstules",
+    "description": "Menu item"
+  },
+  "menuBadgeFresh": {
+    "message": "Tikai jaunās vēstules",
+    "description": "Menu item: only messages received since the last visit to the mailbox"
+  },
+  "menuShowNotifications": {
+    "message": "Rādīt paziņojumus par jaunām vēstulēm",
+    "description": "Menu item"
+  },
+  "menuSound": {
+    "message": "Skaņa",
+    "description": "Menu item: notification sound"
+  },
+  "menuQuietHours": {
+    "message": "Klusās stundas: $FROM$–$TO$",
+    "description": "Menu item; times as HH:MM",
+    "placeholders": {
+      "from": {
+        "content": "$1"
+      },
+      "to": {
+        "content": "$2"
+      }
+    }
+  },
+  "menuOptions": {
+    "message": "Iestatījumi…",
+    "description": "Menu item (Firefox only)"
+  },
+  "optionsTitle": {
+    "message": "Vēstuļu skaitītāja iestatījumi",
+    "description": "Settings page title"
+  },
+  "optionsQuietHours": {
+    "message": "Klusās stundas: nerādīt paziņojumus",
+    "description": "Settings page"
+  },
+  "optionsFrom": {
+    "message": "no",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsTo": {
+    "message": "līdz",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsPauseWhenIdle": {
+    "message": "Nepārbaudīt pastu, kamēr neesat pie datora",
+    "description": "Settings page"
+  },
+  "optionsPauseWhenIdleHint": {
+    "message": "Pārbaudes tiek apturētas pēc 5 minūšu neaktivitātes vai kad ekrāns ir bloķēts. Kad atgriezīsieties, pasts tiks pārbaudīts uzreiz.",
+    "description": "Settings page hint"
+  },
+  "optionsShortcut": {
+    "message": "Atvērt pastu ar tastatūru:",
+    "description": "Settings page; followed by the shortcut"
+  },
+  "optionsShortcutHint": {
+    "message": "Īsinājumtaustiņus var mainīt pārlūka paplašinājumu iestatījumos.",
+    "description": "Settings page hint"
+  },
+  "optionsShortcutNone": {
+    "message": "nav piešķirts",
+    "description": "No shortcut assigned"
+  },
+  "optionsClassicIcon": {
+    "message": "Klasiskā ikona",
+    "description": "Settings page"
+  },
+  "accountNumber": {
+    "message": "Konts $NUMBER$",
+    "description": "Account label when the login is unknown",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuAccounts": {
+    "message": "Konti",
+    "description": "Submenu: which accounts to count"
+  },
+  "errorPermission": {
+    "message": "Nav piekļuves $HOST$: paplašinājuma iestatījumos izvēlieties pasta adresi",
+    "description": "Error: access to the chosen domain was revoked",
+    "placeholders": {
+      "host": {
+        "content": "$1"
+      }
+    }
+  },
+  "optionsMailHost": {
+    "message": "Pasta adrese:",
+    "description": "Settings page; followed by the list of domains"
+  },
+  "optionsMailHostHint": {
+    "message": "Jebkurai adresei, izņemot mail.yandex.ru, pārlūks pieprasīs piekļuves atļauju.",
+    "description": "Settings page hint"
+  },
+  "optionsMailHost360": {
+    "message": "Yandex 360, tostarp pasts jūsu domēnā",
+    "description": "Label for mail.360.yandex.ru"
+  }
+}

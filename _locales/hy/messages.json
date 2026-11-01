@@ -1,0 +1,325 @@
+{
+  "locale": {
+    "message": "hy",
+    "description": "Language code of this translation (plural rules and date formats)"
+  },
+  "extName": {
+    "message": "Նամակների հաշվիչ Yandex Mail-ի համար",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Ցույց է տալիս Yandex Mail-ի չկարդացված նամակների քանակը գործիքագոտու պատկերակի վրա և տեղեկացնում է նոր նամակների մասին",
+    "description": "Extension description"
+  },
+  "serviceName": {
+    "message": "Yandex Mail",
+    "description": "Mail service name in the tooltip"
+  },
+  "checking": {
+    "message": "Փոստի ստուգում…",
+    "description": "Tooltip during a manual check"
+  },
+  "noUnread": {
+    "message": "նոր նամակներ չկան",
+    "description": "Tooltip: nothing unread"
+  },
+  "unread_one": {
+    "message": "$COUNT$ չկարդացված նամակ",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "unread_other": {
+    "message": "$COUNT$ չկարդացված նամակ",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_one": {
+    "message": "որից $COUNT$-ը նոր է",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_other": {
+    "message": "որոնցից $COUNT$-ը նոր են",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_one": {
+    "message": "$COUNT$ նոր նամակ",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_other": {
+    "message": "$COUNT$ նոր նամակ",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "checkedAt": {
+    "message": "Ստուգվել է՝ $WHEN$",
+    "description": "Second tooltip line",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      }
+    }
+  },
+  "lastSuccess": {
+    "message": "Վերջին հաջող ստուգումը՝ $WHEN$ — $UNREAD$",
+    "description": "Tooltip on error",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      },
+      "unread": {
+        "content": "$2"
+      }
+    }
+  },
+  "atTime": {
+    "message": "$TIME$-ին",
+    "description": "Check time today",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "yesterdayAtTime": {
+    "message": "երեկ՝ $TIME$-ին",
+    "description": "Check time yesterday",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "dateAtTime": {
+    "message": "$DATE$, $TIME$-ին",
+    "description": "Check time earlier",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      },
+      "time": {
+        "content": "$2"
+      }
+    }
+  },
+  "errorAuth": {
+    "message": "Անհրաժեշտ է մուտք գործել փոստ",
+    "description": "Error"
+  },
+  "errorServer": {
+    "message": "Yandex-ի սերվերի սխալ ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorClient": {
+    "message": "Հարցման սխալ ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorTimeout": {
+    "message": "Yandex-ը ժամանակին չպատասխանեց",
+    "description": "Error"
+  },
+  "errorNetwork": {
+    "message": "Կապ չկա",
+    "description": "Error"
+  },
+  "errorParse": {
+    "message": "Չհաջողվեց կարդալ փոստի էջը",
+    "description": "Error"
+  },
+  "errorInternal": {
+    "message": "Ընդլայնման ներքին սխալ",
+    "description": "Error"
+  },
+  "newMessage": {
+    "message": "Նոր նամակ",
+    "description": "Notification: unknown sender"
+  },
+  "unknownSender": {
+    "message": "Ուղարկող",
+    "description": "List notification: unknown sender"
+  },
+  "noSubject": {
+    "message": "(առանց թեմայի)",
+    "description": "Notification: message without subject"
+  },
+  "openMailToView": {
+    "message": "Բացեք փոստը՝ կարդալու համար",
+    "description": "Notification without details"
+  },
+  "menuCheckNow": {
+    "message": "Ստուգել հիմա",
+    "description": "Menu item"
+  },
+  "menuInterval": {
+    "message": "Ստուգման միջակայք",
+    "description": "Menu item"
+  },
+  "menuNotifications": {
+    "message": "Ծանուցումներ",
+    "description": "Notifications submenu"
+  },
+  "minutes_one": {
+    "message": "$COUNT$ րոպե",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "minutes_other": {
+    "message": "$COUNT$ րոպե",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuBadge": {
+    "message": "Պատկերակի վրա",
+    "description": "Submenu: what the badge shows"
+  },
+  "menuBadgeUnread": {
+    "message": "Բոլոր չկարդացված նամակները",
+    "description": "Menu item"
+  },
+  "menuBadgeFresh": {
+    "message": "Միայն նոր նամակները",
+    "description": "Menu item: only messages received since the last visit to the mailbox"
+  },
+  "menuShowNotifications": {
+    "message": "Ցույց տալ նոր նամակների ծանուցումները",
+    "description": "Menu item"
+  },
+  "menuSound": {
+    "message": "Ձայն",
+    "description": "Menu item: notification sound"
+  },
+  "menuQuietHours": {
+    "message": "Լուռ ժամեր՝ $FROM$–$TO$",
+    "description": "Menu item; times as HH:MM",
+    "placeholders": {
+      "from": {
+        "content": "$1"
+      },
+      "to": {
+        "content": "$2"
+      }
+    }
+  },
+  "menuOptions": {
+    "message": "Կարգավորումներ…",
+    "description": "Menu item (Firefox only)"
+  },
+  "optionsTitle": {
+    "message": "Նամակների հաշվիչի կարգավորումներ",
+    "description": "Settings page title"
+  },
+  "optionsQuietHours": {
+    "message": "Լուռ ժամեր՝ չցուցադրել ծանուցումներ",
+    "description": "Settings page"
+  },
+  "optionsFrom": {
+    "message": "սկիզբ",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsTo": {
+    "message": "ավարտ",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsPauseWhenIdle": {
+    "message": "Չստուգել փոստը, երբ համակարգչի մոտ չեք",
+    "description": "Settings page"
+  },
+  "optionsPauseWhenIdleHint": {
+    "message": "Ստուգումները դադարում են 5 րոպե անգործությունից հետո կամ երբ էկրանը կողպված է։ Երբ վերադառնաք, փոստն անմիջապես կստուգվի։",
+    "description": "Settings page hint"
+  },
+  "optionsShortcut": {
+    "message": "Բացել փոստը ստեղնաշարով՝",
+    "description": "Settings page; followed by the shortcut"
+  },
+  "optionsShortcutHint": {
+    "message": "Ստեղների համակցությունը կարող եք փոխել դիտարկիչի ընդլայնումների կարգավորումներում։",
+    "description": "Settings page hint"
+  },
+  "optionsShortcutNone": {
+    "message": "նշանակված չէ",
+    "description": "No shortcut assigned"
+  },
+  "optionsClassicIcon": {
+    "message": "Դասական պատկերակ",
+    "description": "Settings page"
+  },
+  "accountNumber": {
+    "message": "Հաշիվ $NUMBER$",
+    "description": "Account label when the login is unknown",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuAccounts": {
+    "message": "Հաշիվներ",
+    "description": "Submenu: which accounts to count"
+  },
+  "errorPermission": {
+    "message": "$HOST$ մուտք չկա․ ընտրեք փոստի հասցեն ընդլայնման կարգավորումներում",
+    "description": "Error: access to the chosen domain was revoked",
+    "placeholders": {
+      "host": {
+        "content": "$1"
+      }
+    }
+  },
+  "optionsMailHost": {
+    "message": "Փոստի հասցե՝",
+    "description": "Settings page; followed by the list of domains"
+  },
+  "optionsMailHostHint": {
+    "message": "mail.yandex.ru-ից բացի ցանկացած հասցեի համար դիտարկիչը մուտքի թույլտվություն կխնդրի։",
+    "description": "Settings page hint"
+  },
+  "optionsMailHost360": {
+    "message": "Yandex 360, ներառյալ փոստը ձեր սեփական դոմենում",
+    "description": "Label for mail.360.yandex.ru"
+  }
+}

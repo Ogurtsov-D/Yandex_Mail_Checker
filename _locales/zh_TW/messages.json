@@ -1,0 +1,289 @@
+{
+  "locale": {
+    "message": "zh-TW",
+    "description": "Language code of this translation (plural rules and date formats)"
+  },
+  "extName": {
+    "message": "Yandex 郵件計數器",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "在工具列圖示上顯示 Yandex 郵件的未讀郵件數，並在收到新郵件時通知您",
+    "description": "Extension description"
+  },
+  "serviceName": {
+    "message": "Yandex 郵件",
+    "description": "Mail service name in the tooltip"
+  },
+  "checking": {
+    "message": "正在檢查郵件…",
+    "description": "Tooltip during a manual check"
+  },
+  "noUnread": {
+    "message": "沒有新郵件",
+    "description": "Tooltip: nothing unread"
+  },
+  "unread_other": {
+    "message": "$COUNT$ 封未讀郵件",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_other": {
+    "message": "其中 $COUNT$ 封是新郵件",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_other": {
+    "message": "$COUNT$ 封新郵件",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "checkedAt": {
+    "message": "檢查於 $WHEN$",
+    "description": "Second tooltip line",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      }
+    }
+  },
+  "lastSuccess": {
+    "message": "上次成功檢查：$WHEN$，$UNREAD$",
+    "description": "Tooltip on error",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      },
+      "unread": {
+        "content": "$2"
+      }
+    }
+  },
+  "atTime": {
+    "message": "$TIME$",
+    "description": "Check time today",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "yesterdayAtTime": {
+    "message": "昨天 $TIME$",
+    "description": "Check time yesterday",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "dateAtTime": {
+    "message": "$DATE$ $TIME$",
+    "description": "Check time earlier",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      },
+      "time": {
+        "content": "$2"
+      }
+    }
+  },
+  "errorAuth": {
+    "message": "需要登入郵件",
+    "description": "Error"
+  },
+  "errorServer": {
+    "message": "Yandex 伺服器錯誤（$STATUS$）",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorClient": {
+    "message": "要求錯誤（$STATUS$）",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorTimeout": {
+    "message": "Yandex 未及時回應",
+    "description": "Error"
+  },
+  "errorNetwork": {
+    "message": "沒有網路連線",
+    "description": "Error"
+  },
+  "errorParse": {
+    "message": "無法讀取郵件頁面",
+    "description": "Error"
+  },
+  "errorInternal": {
+    "message": "擴充功能內部錯誤",
+    "description": "Error"
+  },
+  "newMessage": {
+    "message": "新郵件",
+    "description": "Notification: unknown sender"
+  },
+  "unknownSender": {
+    "message": "寄件者",
+    "description": "List notification: unknown sender"
+  },
+  "noSubject": {
+    "message": "（無主旨）",
+    "description": "Notification: message without subject"
+  },
+  "openMailToView": {
+    "message": "開啟郵件以閱讀",
+    "description": "Notification without details"
+  },
+  "menuCheckNow": {
+    "message": "立即檢查",
+    "description": "Menu item"
+  },
+  "menuInterval": {
+    "message": "檢查間隔",
+    "description": "Menu item"
+  },
+  "menuNotifications": {
+    "message": "通知",
+    "description": "Notifications submenu"
+  },
+  "minutes_other": {
+    "message": "$COUNT$ 分鐘",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuBadge": {
+    "message": "圖示上顯示",
+    "description": "Submenu: what the badge shows"
+  },
+  "menuBadgeUnread": {
+    "message": "所有未讀郵件",
+    "description": "Menu item"
+  },
+  "menuBadgeFresh": {
+    "message": "僅新郵件",
+    "description": "Menu item: only messages received since the last visit to the mailbox"
+  },
+  "menuShowNotifications": {
+    "message": "顯示新郵件通知",
+    "description": "Menu item"
+  },
+  "menuSound": {
+    "message": "音效",
+    "description": "Menu item: notification sound"
+  },
+  "menuQuietHours": {
+    "message": "勿擾時段：$FROM$–$TO$",
+    "description": "Menu item; times as HH:MM",
+    "placeholders": {
+      "from": {
+        "content": "$1"
+      },
+      "to": {
+        "content": "$2"
+      }
+    }
+  },
+  "menuOptions": {
+    "message": "設定…",
+    "description": "Menu item (Firefox only)"
+  },
+  "optionsTitle": {
+    "message": "郵件計數器設定",
+    "description": "Settings page title"
+  },
+  "optionsQuietHours": {
+    "message": "勿擾時段：不顯示通知",
+    "description": "Settings page"
+  },
+  "optionsFrom": {
+    "message": "從",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsTo": {
+    "message": "至",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsPauseWhenIdle": {
+    "message": "離開電腦時不檢查郵件",
+    "description": "Settings page"
+  },
+  "optionsPauseWhenIdleHint": {
+    "message": "閒置 5 分鐘或螢幕鎖定時會暫停檢查。您回來後會立即檢查郵件。",
+    "description": "Settings page hint"
+  },
+  "optionsShortcut": {
+    "message": "使用鍵盤開啟郵件：",
+    "description": "Settings page; followed by the shortcut"
+  },
+  "optionsShortcutHint": {
+    "message": "可以在瀏覽器的擴充功能設定中變更快速鍵。",
+    "description": "Settings page hint"
+  },
+  "optionsShortcutNone": {
+    "message": "未設定",
+    "description": "No shortcut assigned"
+  },
+  "optionsClassicIcon": {
+    "message": "經典圖示",
+    "description": "Settings page"
+  },
+  "accountNumber": {
+    "message": "帳號 $NUMBER$",
+    "description": "Account label when the login is unknown",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuAccounts": {
+    "message": "帳號",
+    "description": "Submenu: which accounts to count"
+  },
+  "errorPermission": {
+    "message": "無法存取 $HOST$：請在擴充功能設定中選擇郵件地址",
+    "description": "Error: access to the chosen domain was revoked",
+    "placeholders": {
+      "host": {
+        "content": "$1"
+      }
+    }
+  },
+  "optionsMailHost": {
+    "message": "郵件地址：",
+    "description": "Settings page; followed by the list of domains"
+  },
+  "optionsMailHostHint": {
+    "message": "選擇 mail.yandex.ru 以外的地址時，瀏覽器會要求存取權限。",
+    "description": "Settings page hint"
+  },
+  "optionsMailHost360": {
+    "message": "Yandex 360，包括使用自有網域的郵件",
+    "description": "Label for mail.360.yandex.ru"
+  }
+}

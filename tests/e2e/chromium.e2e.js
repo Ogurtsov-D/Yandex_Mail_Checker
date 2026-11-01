@@ -346,3 +346,28 @@ describe('Chromium, английский интерфейс', () => {
         assert.deepEqual(info, { name: 'Checker for Yandex Mail', manifestErrors: [], runtimeErrors: [] });
     });
 });
+
+// Остальные переводы: браузер принимает их папки и показывает интерфейс на языке браузера
+for (const [lang, name, tooltip] of [
+    ['uk', 'Лічильник листів для Яндекс Пошти', /^Яндекс Пошта: нових листів немає\nПеревірено о \d\d:\d\d$/],
+    ['kk', 'Яндекс Поштаға арналған хат санағышы', /^Яндекс Пошта: жаңа хат жоқ\nТексерілді: сағат \d\d:\d\d$/],
+    ['he', 'מונה הודעות ל-Yandex Mail', /^Yandex Mail: אין הודעות חדשות\nנבדק בשעה \d\d:\d\d$/]
+]) {
+    describe(`Chromium, язык ${lang}`, () => {
+        const server = createServer();
+        let browser;
+        before(async () => {
+            browser = await launch(lang, server);
+        });
+        after(() => browser?.cleanup());
+
+        test('название и подсказка на языке браузера, без ошибок', async () => {
+            const s = await waitFor(browser.worker, (x) => tooltip.test(x.title));
+            assert.match(s.title, tooltip);
+            const [info] = await extensionErrors(browser.context);
+            // Название на иврите Chrome обрамляет управляющими символами направления текста
+            info.name = info.name.replace(/[\u200e\u200f\u202a-\u202e]/g, '');
+            assert.deepEqual(info, { name, manifestErrors: [], runtimeErrors: [] });
+        });
+    });
+}

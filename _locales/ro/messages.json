@@ -1,0 +1,361 @@
+{
+  "locale": {
+    "message": "ro",
+    "description": "Language code of this translation (plural rules and date formats)"
+  },
+  "extName": {
+    "message": "Contor de mesaje pentru Yandex Mail",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Afișează numărul de mesaje necitite din Yandex Mail pe pictograma din bara de instrumente și vă anunță despre mesajele noi",
+    "description": "Extension description"
+  },
+  "serviceName": {
+    "message": "Yandex Mail",
+    "description": "Mail service name in the tooltip"
+  },
+  "checking": {
+    "message": "Se verifică e-mailul…",
+    "description": "Tooltip during a manual check"
+  },
+  "noUnread": {
+    "message": "niciun mesaj nou",
+    "description": "Tooltip: nothing unread"
+  },
+  "unread_one": {
+    "message": "$COUNT$ mesaj necitit",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "unread_few": {
+    "message": "$COUNT$ mesaje necitite",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "unread_other": {
+    "message": "$COUNT$ de mesaje necitite",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_one": {
+    "message": "dintre care $COUNT$ nou",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_few": {
+    "message": "dintre care $COUNT$ noi",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_other": {
+    "message": "dintre care $COUNT$ noi",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_one": {
+    "message": "$COUNT$ mesaj nou",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_few": {
+    "message": "$COUNT$ mesaje noi",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_other": {
+    "message": "$COUNT$ de mesaje noi",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "checkedAt": {
+    "message": "Verificat $WHEN$",
+    "description": "Second tooltip line",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      }
+    }
+  },
+  "lastSuccess": {
+    "message": "Ultima verificare reușită $WHEN$: $UNREAD$",
+    "description": "Tooltip on error",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      },
+      "unread": {
+        "content": "$2"
+      }
+    }
+  },
+  "atTime": {
+    "message": "la $TIME$",
+    "description": "Check time today",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "yesterdayAtTime": {
+    "message": "ieri la $TIME$",
+    "description": "Check time yesterday",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "dateAtTime": {
+    "message": "pe $DATE$ la $TIME$",
+    "description": "Check time earlier",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      },
+      "time": {
+        "content": "$2"
+      }
+    }
+  },
+  "errorAuth": {
+    "message": "Este necesară autentificarea",
+    "description": "Error"
+  },
+  "errorServer": {
+    "message": "Eroare de server Yandex ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorClient": {
+    "message": "Eroare de cerere ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorTimeout": {
+    "message": "Yandex nu a răspuns la timp",
+    "description": "Error"
+  },
+  "errorNetwork": {
+    "message": "Fără conexiune",
+    "description": "Error"
+  },
+  "errorParse": {
+    "message": "Pagina de e-mail nu a putut fi citită",
+    "description": "Error"
+  },
+  "errorInternal": {
+    "message": "Eroare internă a extensiei",
+    "description": "Error"
+  },
+  "newMessage": {
+    "message": "Mesaj nou",
+    "description": "Notification: unknown sender"
+  },
+  "unknownSender": {
+    "message": "Expeditor",
+    "description": "List notification: unknown sender"
+  },
+  "noSubject": {
+    "message": "(fără subiect)",
+    "description": "Notification: message without subject"
+  },
+  "openMailToView": {
+    "message": "Deschideți e-mailul pentru a-l citi",
+    "description": "Notification without details"
+  },
+  "menuCheckNow": {
+    "message": "Verifică acum",
+    "description": "Menu item"
+  },
+  "menuInterval": {
+    "message": "Interval de verificare",
+    "description": "Menu item"
+  },
+  "menuNotifications": {
+    "message": "Notificări",
+    "description": "Notifications submenu"
+  },
+  "minutes_one": {
+    "message": "$COUNT$ minut",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "minutes_few": {
+    "message": "$COUNT$ minute",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "minutes_other": {
+    "message": "$COUNT$ de minute",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuBadge": {
+    "message": "Pe pictogramă",
+    "description": "Submenu: what the badge shows"
+  },
+  "menuBadgeUnread": {
+    "message": "Toate mesajele necitite",
+    "description": "Menu item"
+  },
+  "menuBadgeFresh": {
+    "message": "Doar mesajele noi",
+    "description": "Menu item: only messages received since the last visit to the mailbox"
+  },
+  "menuShowNotifications": {
+    "message": "Afișează notificări despre mesaje noi",
+    "description": "Menu item"
+  },
+  "menuSound": {
+    "message": "Sunet",
+    "description": "Menu item: notification sound"
+  },
+  "menuQuietHours": {
+    "message": "Ore de liniște: $FROM$–$TO$",
+    "description": "Menu item; times as HH:MM",
+    "placeholders": {
+      "from": {
+        "content": "$1"
+      },
+      "to": {
+        "content": "$2"
+      }
+    }
+  },
+  "menuOptions": {
+    "message": "Setări…",
+    "description": "Menu item (Firefox only)"
+  },
+  "optionsTitle": {
+    "message": "Setările contorului de mesaje",
+    "description": "Settings page title"
+  },
+  "optionsQuietHours": {
+    "message": "Ore de liniște: nu afișa notificări",
+    "description": "Settings page"
+  },
+  "optionsFrom": {
+    "message": "de la",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsTo": {
+    "message": "până la",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsPauseWhenIdle": {
+    "message": "Nu verifica e-mailul cât timp nu sunteți la calculator",
+    "description": "Settings page"
+  },
+  "optionsPauseWhenIdleHint": {
+    "message": "Verificările se opresc după 5 minute de inactivitate sau când ecranul este blocat. Când reveniți, e-mailul este verificat imediat.",
+    "description": "Settings page hint"
+  },
+  "optionsShortcut": {
+    "message": "Deschide e-mailul de la tastatură:",
+    "description": "Settings page; followed by the shortcut"
+  },
+  "optionsShortcutHint": {
+    "message": "Puteți schimba combinația de taste în setările extensiilor din browser.",
+    "description": "Settings page hint"
+  },
+  "optionsShortcutNone": {
+    "message": "nesetat",
+    "description": "No shortcut assigned"
+  },
+  "optionsClassicIcon": {
+    "message": "Pictogramă clasică",
+    "description": "Settings page"
+  },
+  "accountNumber": {
+    "message": "Contul $NUMBER$",
+    "description": "Account label when the login is unknown",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuAccounts": {
+    "message": "Conturi",
+    "description": "Submenu: which accounts to count"
+  },
+  "errorPermission": {
+    "message": "Nu există acces la $HOST$: alegeți adresa de e-mail în setările extensiei",
+    "description": "Error: access to the chosen domain was revoked",
+    "placeholders": {
+      "host": {
+        "content": "$1"
+      }
+    }
+  },
+  "optionsMailHost": {
+    "message": "Adresa de e-mail:",
+    "description": "Settings page; followed by the list of domains"
+  },
+  "optionsMailHostHint": {
+    "message": "Pentru orice adresă în afară de mail.yandex.ru, browserul va cere permisiunea de acces.",
+    "description": "Settings page hint"
+  },
+  "optionsMailHost360": {
+    "message": "Yandex 360, inclusiv e-mailul pe propriul domeniu",
+    "description": "Label for mail.360.yandex.ru"
+  }
+}

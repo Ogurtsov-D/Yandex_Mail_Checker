@@ -1,0 +1,361 @@
+{
+  "locale": {
+    "message": "fr",
+    "description": "Language code of this translation (plural rules and date formats)"
+  },
+  "extName": {
+    "message": "Compteur de messages pour Yandex Mail",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Affiche le nombre de messages non lus de Yandex Mail sur l’icône de la barre d’outils et vous prévient des nouveaux messages",
+    "description": "Extension description"
+  },
+  "serviceName": {
+    "message": "Yandex Mail",
+    "description": "Mail service name in the tooltip"
+  },
+  "checking": {
+    "message": "Vérification du courrier…",
+    "description": "Tooltip during a manual check"
+  },
+  "noUnread": {
+    "message": "aucun nouveau message",
+    "description": "Tooltip: nothing unread"
+  },
+  "unread_one": {
+    "message": "$COUNT$ message non lu",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "unread_many": {
+    "message": "$COUNT$ de messages non lus",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "unread_other": {
+    "message": "$COUNT$ messages non lus",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_one": {
+    "message": "dont $COUNT$ nouveau",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_many": {
+    "message": "dont $COUNT$ de nouveaux",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_other": {
+    "message": "dont $COUNT$ nouveaux",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_one": {
+    "message": "$COUNT$ nouveau message",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_many": {
+    "message": "$COUNT$ de nouveaux messages",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_other": {
+    "message": "$COUNT$ nouveaux messages",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "checkedAt": {
+    "message": "Vérifié $WHEN$",
+    "description": "Second tooltip line",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      }
+    }
+  },
+  "lastSuccess": {
+    "message": "Dernière vérification réussie $WHEN$ : $UNREAD$",
+    "description": "Tooltip on error",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      },
+      "unread": {
+        "content": "$2"
+      }
+    }
+  },
+  "atTime": {
+    "message": "à $TIME$",
+    "description": "Check time today",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "yesterdayAtTime": {
+    "message": "hier à $TIME$",
+    "description": "Check time yesterday",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "dateAtTime": {
+    "message": "le $DATE$ à $TIME$",
+    "description": "Check time earlier",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      },
+      "time": {
+        "content": "$2"
+      }
+    }
+  },
+  "errorAuth": {
+    "message": "Connexion requise",
+    "description": "Error"
+  },
+  "errorServer": {
+    "message": "Erreur du serveur Yandex ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorClient": {
+    "message": "Erreur de requête ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorTimeout": {
+    "message": "Yandex n’a pas répondu à temps",
+    "description": "Error"
+  },
+  "errorNetwork": {
+    "message": "Pas de connexion",
+    "description": "Error"
+  },
+  "errorParse": {
+    "message": "Impossible de lire la page de la messagerie",
+    "description": "Error"
+  },
+  "errorInternal": {
+    "message": "Erreur interne de l’extension",
+    "description": "Error"
+  },
+  "newMessage": {
+    "message": "Nouveau message",
+    "description": "Notification: unknown sender"
+  },
+  "unknownSender": {
+    "message": "Expéditeur",
+    "description": "List notification: unknown sender"
+  },
+  "noSubject": {
+    "message": "(sans objet)",
+    "description": "Notification: message without subject"
+  },
+  "openMailToView": {
+    "message": "Ouvrez votre messagerie pour le lire",
+    "description": "Notification without details"
+  },
+  "menuCheckNow": {
+    "message": "Vérifier maintenant",
+    "description": "Menu item"
+  },
+  "menuInterval": {
+    "message": "Intervalle de vérification",
+    "description": "Menu item"
+  },
+  "menuNotifications": {
+    "message": "Notifications",
+    "description": "Notifications submenu"
+  },
+  "minutes_one": {
+    "message": "$COUNT$ minute",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "minutes_many": {
+    "message": "$COUNT$ de minutes",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "minutes_other": {
+    "message": "$COUNT$ minutes",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuBadge": {
+    "message": "Sur l’icône",
+    "description": "Submenu: what the badge shows"
+  },
+  "menuBadgeUnread": {
+    "message": "Tous les messages non lus",
+    "description": "Menu item"
+  },
+  "menuBadgeFresh": {
+    "message": "Nouveaux messages uniquement",
+    "description": "Menu item: only messages received since the last visit to the mailbox"
+  },
+  "menuShowNotifications": {
+    "message": "Afficher les notifications de nouveaux messages",
+    "description": "Menu item"
+  },
+  "menuSound": {
+    "message": "Son",
+    "description": "Menu item: notification sound"
+  },
+  "menuQuietHours": {
+    "message": "Heures calmes : $FROM$–$TO$",
+    "description": "Menu item; times as HH:MM",
+    "placeholders": {
+      "from": {
+        "content": "$1"
+      },
+      "to": {
+        "content": "$2"
+      }
+    }
+  },
+  "menuOptions": {
+    "message": "Paramètres…",
+    "description": "Menu item (Firefox only)"
+  },
+  "optionsTitle": {
+    "message": "Paramètres du compteur de messages",
+    "description": "Settings page title"
+  },
+  "optionsQuietHours": {
+    "message": "Heures calmes : ne pas afficher de notifications",
+    "description": "Settings page"
+  },
+  "optionsFrom": {
+    "message": "de",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsTo": {
+    "message": "à",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsPauseWhenIdle": {
+    "message": "Ne pas vérifier le courrier lorsque vous n’êtes pas devant l’ordinateur",
+    "description": "Settings page"
+  },
+  "optionsPauseWhenIdleHint": {
+    "message": "Les vérifications s’interrompent après 5 minutes d’inactivité ou lorsque l’écran est verrouillé. À votre retour, le courrier est vérifié immédiatement.",
+    "description": "Settings page hint"
+  },
+  "optionsShortcut": {
+    "message": "Ouvrir la messagerie au clavier :",
+    "description": "Settings page; followed by the shortcut"
+  },
+  "optionsShortcutHint": {
+    "message": "Vous pouvez modifier le raccourci dans les paramètres des extensions du navigateur.",
+    "description": "Settings page hint"
+  },
+  "optionsShortcutNone": {
+    "message": "non défini",
+    "description": "No shortcut assigned"
+  },
+  "optionsClassicIcon": {
+    "message": "Icône classique",
+    "description": "Settings page"
+  },
+  "accountNumber": {
+    "message": "Compte $NUMBER$",
+    "description": "Account label when the login is unknown",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuAccounts": {
+    "message": "Comptes",
+    "description": "Submenu: which accounts to count"
+  },
+  "errorPermission": {
+    "message": "Pas d’accès à $HOST$ : choisissez l’adresse de messagerie dans les paramètres de l’extension",
+    "description": "Error: access to the chosen domain was revoked",
+    "placeholders": {
+      "host": {
+        "content": "$1"
+      }
+    }
+  },
+  "optionsMailHost": {
+    "message": "Adresse de la messagerie :",
+    "description": "Settings page; followed by the list of domains"
+  },
+  "optionsMailHostHint": {
+    "message": "Pour toute adresse autre que mail.yandex.ru, le navigateur demandera l’autorisation d’y accéder.",
+    "description": "Settings page hint"
+  },
+  "optionsMailHost360": {
+    "message": "Yandex 360, y compris la messagerie sur votre propre domaine",
+    "description": "Label for mail.360.yandex.ru"
+  }
+}

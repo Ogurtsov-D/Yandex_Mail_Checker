@@ -1,0 +1,325 @@
+{
+  "locale": {
+    "message": "az",
+    "description": "Language code of this translation (plural rules and date formats)"
+  },
+  "extName": {
+    "message": "Yandex Poçt üçün məktub sayğacı",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Alətlər panelindəki ikonada Yandex Poçtda oxunmamış məktubların sayını göstərir və yeni məktublar barədə xəbər verir",
+    "description": "Extension description"
+  },
+  "serviceName": {
+    "message": "Yandex Poçt",
+    "description": "Mail service name in the tooltip"
+  },
+  "checking": {
+    "message": "Poçt yoxlanılır…",
+    "description": "Tooltip during a manual check"
+  },
+  "noUnread": {
+    "message": "yeni məktub yoxdur",
+    "description": "Tooltip: nothing unread"
+  },
+  "unread_one": {
+    "message": "$COUNT$ oxunmamış məktub",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "unread_other": {
+    "message": "$COUNT$ oxunmamış məktub",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_one": {
+    "message": "onlardan $COUNT$ yeni",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_other": {
+    "message": "onlardan $COUNT$ yeni",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_one": {
+    "message": "$COUNT$ yeni məktub",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_other": {
+    "message": "$COUNT$ yeni məktub",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "checkedAt": {
+    "message": "Yoxlanıldı: $WHEN$",
+    "description": "Second tooltip line",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      }
+    }
+  },
+  "lastSuccess": {
+    "message": "Son uğurlu yoxlama: $WHEN$ — $UNREAD$",
+    "description": "Tooltip on error",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      },
+      "unread": {
+        "content": "$2"
+      }
+    }
+  },
+  "atTime": {
+    "message": "saat $TIME$",
+    "description": "Check time today",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "yesterdayAtTime": {
+    "message": "dünən, saat $TIME$",
+    "description": "Check time yesterday",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "dateAtTime": {
+    "message": "$DATE$, saat $TIME$",
+    "description": "Check time earlier",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      },
+      "time": {
+        "content": "$2"
+      }
+    }
+  },
+  "errorAuth": {
+    "message": "Poçta daxil olmaq lazımdır",
+    "description": "Error"
+  },
+  "errorServer": {
+    "message": "Yandex server xətası ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorClient": {
+    "message": "Sorğu xətası ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorTimeout": {
+    "message": "Yandex vaxtında cavab vermədi",
+    "description": "Error"
+  },
+  "errorNetwork": {
+    "message": "Bağlantı yoxdur",
+    "description": "Error"
+  },
+  "errorParse": {
+    "message": "Poçt səhifəsini oxumaq mümkün olmadı",
+    "description": "Error"
+  },
+  "errorInternal": {
+    "message": "Genişlənmənin daxili xətası",
+    "description": "Error"
+  },
+  "newMessage": {
+    "message": "Yeni məktub",
+    "description": "Notification: unknown sender"
+  },
+  "unknownSender": {
+    "message": "Göndərən",
+    "description": "List notification: unknown sender"
+  },
+  "noSubject": {
+    "message": "(mövzusuz)",
+    "description": "Notification: message without subject"
+  },
+  "openMailToView": {
+    "message": "Oxumaq üçün poçtu açın",
+    "description": "Notification without details"
+  },
+  "menuCheckNow": {
+    "message": "İndi yoxla",
+    "description": "Menu item"
+  },
+  "menuInterval": {
+    "message": "Yoxlama intervalı",
+    "description": "Menu item"
+  },
+  "menuNotifications": {
+    "message": "Bildirişlər",
+    "description": "Notifications submenu"
+  },
+  "minutes_one": {
+    "message": "$COUNT$ dəqiqə",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "minutes_other": {
+    "message": "$COUNT$ dəqiqə",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuBadge": {
+    "message": "İkonada",
+    "description": "Submenu: what the badge shows"
+  },
+  "menuBadgeUnread": {
+    "message": "Bütün oxunmamış məktublar",
+    "description": "Menu item"
+  },
+  "menuBadgeFresh": {
+    "message": "Yalnız yeni məktublar",
+    "description": "Menu item: only messages received since the last visit to the mailbox"
+  },
+  "menuShowNotifications": {
+    "message": "Yeni məktub bildirişlərini göstər",
+    "description": "Menu item"
+  },
+  "menuSound": {
+    "message": "Səs",
+    "description": "Menu item: notification sound"
+  },
+  "menuQuietHours": {
+    "message": "Sakit saatlar: $FROM$–$TO$",
+    "description": "Menu item; times as HH:MM",
+    "placeholders": {
+      "from": {
+        "content": "$1"
+      },
+      "to": {
+        "content": "$2"
+      }
+    }
+  },
+  "menuOptions": {
+    "message": "Ayarlar…",
+    "description": "Menu item (Firefox only)"
+  },
+  "optionsTitle": {
+    "message": "Məktub sayğacının ayarları",
+    "description": "Settings page title"
+  },
+  "optionsQuietHours": {
+    "message": "Sakit saatlar: bildirişləri göstərmə",
+    "description": "Settings page"
+  },
+  "optionsFrom": {
+    "message": "başlanğıc",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsTo": {
+    "message": "son",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsPauseWhenIdle": {
+    "message": "Kompüter arxasında olmadığınız zaman poçtu yoxlama",
+    "description": "Settings page"
+  },
+  "optionsPauseWhenIdleHint": {
+    "message": "5 dəqiqə fəaliyyətsizlikdən sonra və ya ekran kilidlənəndə yoxlamalar dayandırılır. Qayıtdığınız zaman poçt dərhal yoxlanılır.",
+    "description": "Settings page hint"
+  },
+  "optionsShortcut": {
+    "message": "Poçtu klaviatura ilə aç:",
+    "description": "Settings page; followed by the shortcut"
+  },
+  "optionsShortcutHint": {
+    "message": "Klaviş kombinasiyasını brauzerin genişlənmə ayarlarında dəyişə bilərsiniz.",
+    "description": "Settings page hint"
+  },
+  "optionsShortcutNone": {
+    "message": "təyin edilməyib",
+    "description": "No shortcut assigned"
+  },
+  "optionsClassicIcon": {
+    "message": "Klassik ikona",
+    "description": "Settings page"
+  },
+  "accountNumber": {
+    "message": "Hesab $NUMBER$",
+    "description": "Account label when the login is unknown",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuAccounts": {
+    "message": "Hesablar",
+    "description": "Submenu: which accounts to count"
+  },
+  "errorPermission": {
+    "message": "$HOST$ ünvanına giriş yoxdur: genişlənmə ayarlarında poçt ünvanını seçin",
+    "description": "Error: access to the chosen domain was revoked",
+    "placeholders": {
+      "host": {
+        "content": "$1"
+      }
+    }
+  },
+  "optionsMailHost": {
+    "message": "Poçt ünvanı:",
+    "description": "Settings page; followed by the list of domains"
+  },
+  "optionsMailHostHint": {
+    "message": "mail.yandex.ru-dan başqa istənilən ünvan üçün brauzer ona giriş icazəsi istəyəcək.",
+    "description": "Settings page hint"
+  },
+  "optionsMailHost360": {
+    "message": "Yandex 360, o cümlədən öz domeninizdəki poçt",
+    "description": "Label for mail.360.yandex.ru"
+  }
+}

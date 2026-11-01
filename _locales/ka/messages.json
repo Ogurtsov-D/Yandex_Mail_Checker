@@ -1,0 +1,325 @@
+{
+  "locale": {
+    "message": "ka",
+    "description": "Language code of this translation (plural rules and date formats)"
+  },
+  "extName": {
+    "message": "წერილების მთვლელი Yandex Mail-ისთვის",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "აჩვენებს Yandex Mail-ის წაუკითხავი წერილების რაოდენობას ხელსაწყოთა ზოლის ხატულაზე და გატყობინებთ ახალი წერილების შესახებ",
+    "description": "Extension description"
+  },
+  "serviceName": {
+    "message": "Yandex Mail",
+    "description": "Mail service name in the tooltip"
+  },
+  "checking": {
+    "message": "ფოსტის შემოწმება…",
+    "description": "Tooltip during a manual check"
+  },
+  "noUnread": {
+    "message": "ახალი წერილები არ არის",
+    "description": "Tooltip: nothing unread"
+  },
+  "unread_one": {
+    "message": "$COUNT$ წაუკითხავი წერილი",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "unread_other": {
+    "message": "$COUNT$ წაუკითხავი წერილი",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_one": {
+    "message": "მათგან $COUNT$ ახალია",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_other": {
+    "message": "მათგან $COUNT$ ახალია",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_one": {
+    "message": "$COUNT$ ახალი წერილი",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_other": {
+    "message": "$COUNT$ ახალი წერილი",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "checkedAt": {
+    "message": "შემოწმდა: $WHEN$",
+    "description": "Second tooltip line",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      }
+    }
+  },
+  "lastSuccess": {
+    "message": "ბოლო წარმატებული შემოწმება: $WHEN$ — $UNREAD$",
+    "description": "Tooltip on error",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      },
+      "unread": {
+        "content": "$2"
+      }
+    }
+  },
+  "atTime": {
+    "message": "$TIME$",
+    "description": "Check time today",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "yesterdayAtTime": {
+    "message": "გუშინ, $TIME$",
+    "description": "Check time yesterday",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "dateAtTime": {
+    "message": "$DATE$, $TIME$",
+    "description": "Check time earlier",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      },
+      "time": {
+        "content": "$2"
+      }
+    }
+  },
+  "errorAuth": {
+    "message": "საჭიროა ფოსტაში შესვლა",
+    "description": "Error"
+  },
+  "errorServer": {
+    "message": "Yandex-ის სერვერის შეცდომა ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorClient": {
+    "message": "მოთხოვნის შეცდომა ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorTimeout": {
+    "message": "Yandex-მა დროულად არ უპასუხა",
+    "description": "Error"
+  },
+  "errorNetwork": {
+    "message": "კავშირი არ არის",
+    "description": "Error"
+  },
+  "errorParse": {
+    "message": "ფოსტის გვერდის წაკითხვა ვერ მოხერხდა",
+    "description": "Error"
+  },
+  "errorInternal": {
+    "message": "გაფართოების შიდა შეცდომა",
+    "description": "Error"
+  },
+  "newMessage": {
+    "message": "ახალი წერილი",
+    "description": "Notification: unknown sender"
+  },
+  "unknownSender": {
+    "message": "გამგზავნი",
+    "description": "List notification: unknown sender"
+  },
+  "noSubject": {
+    "message": "(თემის გარეშე)",
+    "description": "Notification: message without subject"
+  },
+  "openMailToView": {
+    "message": "წასაკითხად გახსენით ფოსტა",
+    "description": "Notification without details"
+  },
+  "menuCheckNow": {
+    "message": "შემოწმება ახლავე",
+    "description": "Menu item"
+  },
+  "menuInterval": {
+    "message": "შემოწმების ინტერვალი",
+    "description": "Menu item"
+  },
+  "menuNotifications": {
+    "message": "შეტყობინებები",
+    "description": "Notifications submenu"
+  },
+  "minutes_one": {
+    "message": "$COUNT$ წუთი",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "minutes_other": {
+    "message": "$COUNT$ წუთი",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuBadge": {
+    "message": "ხატულაზე",
+    "description": "Submenu: what the badge shows"
+  },
+  "menuBadgeUnread": {
+    "message": "ყველა წაუკითხავი წერილი",
+    "description": "Menu item"
+  },
+  "menuBadgeFresh": {
+    "message": "მხოლოდ ახალი წერილები",
+    "description": "Menu item: only messages received since the last visit to the mailbox"
+  },
+  "menuShowNotifications": {
+    "message": "ახალი წერილების შეტყობინებების ჩვენება",
+    "description": "Menu item"
+  },
+  "menuSound": {
+    "message": "ხმა",
+    "description": "Menu item: notification sound"
+  },
+  "menuQuietHours": {
+    "message": "მშვიდი საათები: $FROM$–$TO$",
+    "description": "Menu item; times as HH:MM",
+    "placeholders": {
+      "from": {
+        "content": "$1"
+      },
+      "to": {
+        "content": "$2"
+      }
+    }
+  },
+  "menuOptions": {
+    "message": "პარამეტრები…",
+    "description": "Menu item (Firefox only)"
+  },
+  "optionsTitle": {
+    "message": "წერილების მთვლელის პარამეტრები",
+    "description": "Settings page title"
+  },
+  "optionsQuietHours": {
+    "message": "მშვიდი საათები: შეტყობინებები არ გამოჩნდეს",
+    "description": "Settings page"
+  },
+  "optionsFrom": {
+    "message": "დასაწყისი",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsTo": {
+    "message": "დასასრული",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsPauseWhenIdle": {
+    "message": "არ შემოწმდეს ფოსტა, სანამ კომპიუტერთან არ ხართ",
+    "description": "Settings page"
+  },
+  "optionsPauseWhenIdleHint": {
+    "message": "შემოწმება ჩერდება 5 წუთის უმოქმედობის შემდეგ ან ეკრანის დაბლოკვისას. დაბრუნებისთანავე ფოსტა მაშინვე შემოწმდება.",
+    "description": "Settings page hint"
+  },
+  "optionsShortcut": {
+    "message": "ფოსტის გახსნა კლავიატურით:",
+    "description": "Settings page; followed by the shortcut"
+  },
+  "optionsShortcutHint": {
+    "message": "კლავიშთა კომბინაციის შეცვლა შეგიძლიათ ბრაუზერის გაფართოებების პარამეტრებში.",
+    "description": "Settings page hint"
+  },
+  "optionsShortcutNone": {
+    "message": "არ არის მინიჭებული",
+    "description": "No shortcut assigned"
+  },
+  "optionsClassicIcon": {
+    "message": "კლასიკური ხატულა",
+    "description": "Settings page"
+  },
+  "accountNumber": {
+    "message": "ანგარიში $NUMBER$",
+    "description": "Account label when the login is unknown",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuAccounts": {
+    "message": "ანგარიშები",
+    "description": "Submenu: which accounts to count"
+  },
+  "errorPermission": {
+    "message": "$HOST$-ზე წვდომა არ არის: აირჩიეთ ფოსტის მისამართი გაფართოების პარამეტრებში",
+    "description": "Error: access to the chosen domain was revoked",
+    "placeholders": {
+      "host": {
+        "content": "$1"
+      }
+    }
+  },
+  "optionsMailHost": {
+    "message": "ფოსტის მისამართი:",
+    "description": "Settings page; followed by the list of domains"
+  },
+  "optionsMailHostHint": {
+    "message": "ნებისმიერი მისამართისთვის, გარდა mail.yandex.ru-ისა, ბრაუზერი წვდომის ნებართვას მოითხოვს.",
+    "description": "Settings page hint"
+  },
+  "optionsMailHost360": {
+    "message": "Yandex 360, მათ შორის ფოსტა საკუთარ დომენზე",
+    "description": "Label for mail.360.yandex.ru"
+  }
+}

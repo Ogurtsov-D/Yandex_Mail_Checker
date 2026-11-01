@@ -1,0 +1,325 @@
+{
+  "locale": {
+    "message": "et",
+    "description": "Language code of this translation (plural rules and date formats)"
+  },
+  "extName": {
+    "message": "Kirjaloendur Yandex Mailile",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Näitab tööriistariba ikoonil Yandex Maili lugemata kirjade arvu ja teavitab uutest kirjadest",
+    "description": "Extension description"
+  },
+  "serviceName": {
+    "message": "Yandex Mail",
+    "description": "Mail service name in the tooltip"
+  },
+  "checking": {
+    "message": "Postkasti kontrollimine…",
+    "description": "Tooltip during a manual check"
+  },
+  "noUnread": {
+    "message": "uusi kirju pole",
+    "description": "Tooltip: nothing unread"
+  },
+  "unread_one": {
+    "message": "$COUNT$ lugemata kiri",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "unread_other": {
+    "message": "$COUNT$ lugemata kirja",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_one": {
+    "message": "neist $COUNT$ uus",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_other": {
+    "message": "neist $COUNT$ uut",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_one": {
+    "message": "$COUNT$ uus kiri",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_other": {
+    "message": "$COUNT$ uut kirja",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "checkedAt": {
+    "message": "Kontrollitud $WHEN$",
+    "description": "Second tooltip line",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      }
+    }
+  },
+  "lastSuccess": {
+    "message": "Viimane õnnestunud kontroll $WHEN$: $UNREAD$",
+    "description": "Tooltip on error",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      },
+      "unread": {
+        "content": "$2"
+      }
+    }
+  },
+  "atTime": {
+    "message": "kell $TIME$",
+    "description": "Check time today",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "yesterdayAtTime": {
+    "message": "eile kell $TIME$",
+    "description": "Check time yesterday",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "dateAtTime": {
+    "message": "$DATE$ kell $TIME$",
+    "description": "Check time earlier",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      },
+      "time": {
+        "content": "$2"
+      }
+    }
+  },
+  "errorAuth": {
+    "message": "Vajalik on sisselogimine",
+    "description": "Error"
+  },
+  "errorServer": {
+    "message": "Yandexi serveri viga ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorClient": {
+    "message": "Päringu viga ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorTimeout": {
+    "message": "Yandex ei vastanud õigeaegselt",
+    "description": "Error"
+  },
+  "errorNetwork": {
+    "message": "Ühendus puudub",
+    "description": "Error"
+  },
+  "errorParse": {
+    "message": "Postkasti lehte ei õnnestunud lugeda",
+    "description": "Error"
+  },
+  "errorInternal": {
+    "message": "Laienduse sisemine viga",
+    "description": "Error"
+  },
+  "newMessage": {
+    "message": "Uus kiri",
+    "description": "Notification: unknown sender"
+  },
+  "unknownSender": {
+    "message": "Saatja",
+    "description": "List notification: unknown sender"
+  },
+  "noSubject": {
+    "message": "(teemata)",
+    "description": "Notification: message without subject"
+  },
+  "openMailToView": {
+    "message": "Lugemiseks avage postkast",
+    "description": "Notification without details"
+  },
+  "menuCheckNow": {
+    "message": "Kontrolli kohe",
+    "description": "Menu item"
+  },
+  "menuInterval": {
+    "message": "Kontrollimise intervall",
+    "description": "Menu item"
+  },
+  "menuNotifications": {
+    "message": "Teavitused",
+    "description": "Notifications submenu"
+  },
+  "minutes_one": {
+    "message": "$COUNT$ minut",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "minutes_other": {
+    "message": "$COUNT$ minutit",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuBadge": {
+    "message": "Ikoonil",
+    "description": "Submenu: what the badge shows"
+  },
+  "menuBadgeUnread": {
+    "message": "Kõik lugemata kirjad",
+    "description": "Menu item"
+  },
+  "menuBadgeFresh": {
+    "message": "Ainult uued kirjad",
+    "description": "Menu item: only messages received since the last visit to the mailbox"
+  },
+  "menuShowNotifications": {
+    "message": "Näita uute kirjade teavitusi",
+    "description": "Menu item"
+  },
+  "menuSound": {
+    "message": "Heli",
+    "description": "Menu item: notification sound"
+  },
+  "menuQuietHours": {
+    "message": "Vaiksed tunnid: $FROM$–$TO$",
+    "description": "Menu item; times as HH:MM",
+    "placeholders": {
+      "from": {
+        "content": "$1"
+      },
+      "to": {
+        "content": "$2"
+      }
+    }
+  },
+  "menuOptions": {
+    "message": "Seaded…",
+    "description": "Menu item (Firefox only)"
+  },
+  "optionsTitle": {
+    "message": "Kirjaloenduri seaded",
+    "description": "Settings page title"
+  },
+  "optionsQuietHours": {
+    "message": "Vaiksed tunnid: ära näita teavitusi",
+    "description": "Settings page"
+  },
+  "optionsFrom": {
+    "message": "alates",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsTo": {
+    "message": "kuni",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsPauseWhenIdle": {
+    "message": "Ära kontrolli postkasti, kui te pole arvuti juures",
+    "description": "Settings page"
+  },
+  "optionsPauseWhenIdleHint": {
+    "message": "Kontrollimine peatub pärast 5-minutilist tegevusetust või kui ekraan on lukus. Kui naasete, kontrollitakse postkasti kohe.",
+    "description": "Settings page hint"
+  },
+  "optionsShortcut": {
+    "message": "Ava postkast klaviatuurilt:",
+    "description": "Settings page; followed by the shortcut"
+  },
+  "optionsShortcutHint": {
+    "message": "Klahvikombinatsiooni saab muuta brauseri laienduste seadetes.",
+    "description": "Settings page hint"
+  },
+  "optionsShortcutNone": {
+    "message": "määramata",
+    "description": "No shortcut assigned"
+  },
+  "optionsClassicIcon": {
+    "message": "Klassikaline ikoon",
+    "description": "Settings page"
+  },
+  "accountNumber": {
+    "message": "Konto $NUMBER$",
+    "description": "Account label when the login is unknown",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuAccounts": {
+    "message": "Kontod",
+    "description": "Submenu: which accounts to count"
+  },
+  "errorPermission": {
+    "message": "Juurdepääs aadressile $HOST$ puudub: valige laienduse seadetes postkasti aadress",
+    "description": "Error: access to the chosen domain was revoked",
+    "placeholders": {
+      "host": {
+        "content": "$1"
+      }
+    }
+  },
+  "optionsMailHost": {
+    "message": "Postkasti aadress:",
+    "description": "Settings page; followed by the list of domains"
+  },
+  "optionsMailHostHint": {
+    "message": "Iga aadressi puhul peale mail.yandex.ru küsib brauser sellele juurdepääsuks luba.",
+    "description": "Settings page hint"
+  },
+  "optionsMailHost360": {
+    "message": "Yandex 360, sh oma domeeni post",
+    "description": "Label for mail.360.yandex.ru"
+  }
+}

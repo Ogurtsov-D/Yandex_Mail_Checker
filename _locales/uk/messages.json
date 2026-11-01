@@ -1,0 +1,397 @@
+{
+  "locale": {
+    "message": "uk",
+    "description": "Language code of this translation (plural rules and date formats)"
+  },
+  "extName": {
+    "message": "Лічильник листів для Яндекс Пошти",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Показує кількість непрочитаних листів Яндекс Пошти на значку на панелі інструментів і сповіщає про нові листи",
+    "description": "Extension description"
+  },
+  "serviceName": {
+    "message": "Яндекс Пошта",
+    "description": "Mail service name in the tooltip"
+  },
+  "checking": {
+    "message": "Перевірка пошти…",
+    "description": "Tooltip during a manual check"
+  },
+  "noUnread": {
+    "message": "нових листів немає",
+    "description": "Tooltip: nothing unread"
+  },
+  "unread_one": {
+    "message": "$COUNT$ непрочитаний лист",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "unread_few": {
+    "message": "$COUNT$ непрочитані листи",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "unread_many": {
+    "message": "$COUNT$ непрочитаних листів",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "unread_other": {
+    "message": "$COUNT$ непрочитаного листа",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_one": {
+    "message": "з них $COUNT$ новий",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_few": {
+    "message": "з них $COUNT$ нові",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_many": {
+    "message": "з них $COUNT$ нових",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_other": {
+    "message": "з них $COUNT$ нового",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_one": {
+    "message": "$COUNT$ новий лист",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_few": {
+    "message": "$COUNT$ нові листи",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_many": {
+    "message": "$COUNT$ нових листів",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_other": {
+    "message": "$COUNT$ нового листа",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "checkedAt": {
+    "message": "Перевірено $WHEN$",
+    "description": "Second tooltip line",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      }
+    }
+  },
+  "lastSuccess": {
+    "message": "Остання успішна перевірка $WHEN$: $UNREAD$",
+    "description": "Tooltip on error",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      },
+      "unread": {
+        "content": "$2"
+      }
+    }
+  },
+  "atTime": {
+    "message": "о $TIME$",
+    "description": "Check time today",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "yesterdayAtTime": {
+    "message": "учора о $TIME$",
+    "description": "Check time yesterday",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "dateAtTime": {
+    "message": "$DATE$ о $TIME$",
+    "description": "Check time earlier",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      },
+      "time": {
+        "content": "$2"
+      }
+    }
+  },
+  "errorAuth": {
+    "message": "Потрібен вхід у пошту",
+    "description": "Error"
+  },
+  "errorServer": {
+    "message": "Помилка сервера Яндекса ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorClient": {
+    "message": "Помилка запиту ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorTimeout": {
+    "message": "Яндекс не відповів вчасно",
+    "description": "Error"
+  },
+  "errorNetwork": {
+    "message": "Немає підключення",
+    "description": "Error"
+  },
+  "errorParse": {
+    "message": "Не вдалося прочитати сторінку пошти",
+    "description": "Error"
+  },
+  "errorInternal": {
+    "message": "Внутрішня помилка розширення",
+    "description": "Error"
+  },
+  "newMessage": {
+    "message": "Новий лист",
+    "description": "Notification: unknown sender"
+  },
+  "unknownSender": {
+    "message": "Відправник",
+    "description": "List notification: unknown sender"
+  },
+  "noSubject": {
+    "message": "(без теми)",
+    "description": "Notification: message without subject"
+  },
+  "openMailToView": {
+    "message": "Відкрийте пошту, щоб прочитати",
+    "description": "Notification without details"
+  },
+  "menuCheckNow": {
+    "message": "Перевірити зараз",
+    "description": "Menu item"
+  },
+  "menuInterval": {
+    "message": "Інтервал перевірки",
+    "description": "Menu item"
+  },
+  "menuNotifications": {
+    "message": "Сповіщення",
+    "description": "Notifications submenu"
+  },
+  "minutes_one": {
+    "message": "$COUNT$ хвилина",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "minutes_few": {
+    "message": "$COUNT$ хвилини",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "minutes_many": {
+    "message": "$COUNT$ хвилин",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "minutes_other": {
+    "message": "$COUNT$ хвилини",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuBadge": {
+    "message": "На значку",
+    "description": "Submenu: what the badge shows"
+  },
+  "menuBadgeUnread": {
+    "message": "Усі непрочитані",
+    "description": "Menu item"
+  },
+  "menuBadgeFresh": {
+    "message": "Лише нові",
+    "description": "Menu item: only messages received since the last visit to the mailbox"
+  },
+  "menuShowNotifications": {
+    "message": "Показувати сповіщення про нові листи",
+    "description": "Menu item"
+  },
+  "menuSound": {
+    "message": "Звук",
+    "description": "Menu item: notification sound"
+  },
+  "menuQuietHours": {
+    "message": "Тихі години: $FROM$–$TO$",
+    "description": "Menu item; times as HH:MM",
+    "placeholders": {
+      "from": {
+        "content": "$1"
+      },
+      "to": {
+        "content": "$2"
+      }
+    }
+  },
+  "menuOptions": {
+    "message": "Налаштування…",
+    "description": "Menu item (Firefox only)"
+  },
+  "optionsTitle": {
+    "message": "Налаштування лічильника листів",
+    "description": "Settings page title"
+  },
+  "optionsQuietHours": {
+    "message": "Тихі години: не показувати сповіщення",
+    "description": "Settings page"
+  },
+  "optionsFrom": {
+    "message": "з",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsTo": {
+    "message": "до",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsPauseWhenIdle": {
+    "message": "Не перевіряти пошту, поки ви не за комп’ютером",
+    "description": "Settings page"
+  },
+  "optionsPauseWhenIdleHint": {
+    "message": "Перевірки призупиняються через 5 хвилин бездіяльності або коли екран заблоковано. Коли ви повернетеся, пошту буде перевірено одразу.",
+    "description": "Settings page hint"
+  },
+  "optionsShortcut": {
+    "message": "Відкрити пошту з клавіатури:",
+    "description": "Settings page; followed by the shortcut"
+  },
+  "optionsShortcutHint": {
+    "message": "Сполучення клавіш можна змінити в налаштуваннях розширень браузера.",
+    "description": "Settings page hint"
+  },
+  "optionsShortcutNone": {
+    "message": "не призначено",
+    "description": "No shortcut assigned"
+  },
+  "optionsClassicIcon": {
+    "message": "Класичний значок",
+    "description": "Settings page"
+  },
+  "accountNumber": {
+    "message": "Обліковий запис $NUMBER$",
+    "description": "Account label when the login is unknown",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuAccounts": {
+    "message": "Облікові записи",
+    "description": "Submenu: which accounts to count"
+  },
+  "errorPermission": {
+    "message": "Немає доступу до $HOST$: виберіть адресу пошти в налаштуваннях розширення",
+    "description": "Error: access to the chosen domain was revoked",
+    "placeholders": {
+      "host": {
+        "content": "$1"
+      }
+    }
+  },
+  "optionsMailHost": {
+    "message": "Адреса пошти:",
+    "description": "Settings page; followed by the list of domains"
+  },
+  "optionsMailHostHint": {
+    "message": "Для будь-якої адреси, крім mail.yandex.ru, браузер попросить дозвіл на доступ до неї.",
+    "description": "Settings page hint"
+  },
+  "optionsMailHost360": {
+    "message": "Яндекс 360, зокрема пошта на власному домені",
+    "description": "Label for mail.360.yandex.ru"
+  }
+}

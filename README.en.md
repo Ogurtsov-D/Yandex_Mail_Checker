@@ -28,7 +28,7 @@ No need to keep your mailbox open: the extension checks your mail, shows the unr
 - ⏱️ **Check interval** of 1, 5, 15 or 30 minutes; mail is not checked while you are away from the computer
 - ⌨️ **Keyboard shortcut** Alt+Shift+Y opens your mail
 - ⚠️ **Clear errors**: "sign-in required", "no connection", "Yandex did not respond" — with hints on what to do
-- 🌐 **English and Russian interface**, chosen by your browser language
+- 🌐 **Interface in 19 languages** — English, Russian, Ukrainian, Belarusian, Kazakh, Uzbek, Azerbaijani, Armenian, Georgian, Turkish, German, French, Romanian, Latvian, Estonian, Finnish, Hebrew and Chinese (Simplified and Traditional); chosen by your browser language. Found a translation mistake? [Let us know](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/issues/new/choose)
 - 🔒 **No third-party servers**: your data never leaves the browser
 
 ## Installation
