@@ -34,7 +34,7 @@ No need to keep your mailbox open: the extension checks your mail, shows the unr
 
 ## Installation
 
-The extension is not yet listed in browser stores (Chrome Web Store and addons.mozilla.org are planned), so you install it from a release file. It takes about a minute.
+For Firefox, the extension is published in the [Firefox Add-ons catalog](https://addons.mozilla.org/firefox/addon/yandex-mail-checker@ogurtsov-d.github.io/). For Chrome and Chromium-based browsers, publishing in the Chrome Web Store and Microsoft Edge Add-ons is planned; for now you install it from a release archive. It takes about a minute.
 
 ### Chrome, Yandex Browser, Edge, Brave, Opera, Vivaldi
 
@@ -49,11 +49,10 @@ The extension is not yet listed in browser stores (Chrome Web Store and addons.m
 
 ### Firefox
 
-1. Download `yandex-mail-checker-…-firefox.xpi` from the [latest release](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/releases/latest).
-2. Open `about:addons`, click ⚙ → **Install Add-on From File…** and choose the downloaded file. You can also drag the file into a Firefox window.
-3. Confirm the installation and sign in to [Yandex Mail](https://mail.yandex.ru) if you haven't yet.
+1. Open the extension page in the [Firefox Add-ons catalog](https://addons.mozilla.org/firefox/addon/yandex-mail-checker@ogurtsov-d.github.io/) and click **Add to Firefox**.
+2. Confirm the installation and sign in to [Yandex Mail](https://mail.yandex.ru) if you haven't yet.
 
-The `.xpi` file is signed by Mozilla: the extension stays installed and **updates automatically**.
+The extension **updates automatically**. If you have version 1.4 installed from an `.xpi` file from the releases page, you don't need to do anything: Firefox will switch to the catalog version by itself.
 
 ### Requirements
 
@@ -206,7 +205,7 @@ Checks run on schedule, when you click "Check now", and a few seconds after you 
 
 ## Privacy
 
-The extension contacts only Yandex Mail at the chosen address (`mail.yandex.ru` by default) and sends nothing to the author or any third party. The unread count, recent message IDs and settings are stored in your browser. Details are in the [privacy policy](PRIVACY.md) (in Russian).
+The extension contacts only Yandex Mail at the chosen address (`mail.yandex.ru` by default) and sends nothing to the author or any third party. The unread count, recent message IDs and settings are stored in your browser. Details are in the [privacy policy](PRIVACY.en.md).
 
 | Permission | Why it is needed |
 |------------|------------------|

@@ -1,0 +1,10 @@
+{
+  "categories": ["alerts-updates", "social-communication"],
+  "summary": {
+    "en-US": "Shows the number of unread Yandex Mail messages on the toolbar icon and notifies you about new mail with the sender and subject.",
+    "ru": "Показывает число непрочитанных писем Яндекс Почты на значке расширения и сообщает о новых письмах с отправителем и темой."
+  },
+  "version": {
+    "license": "GPL-3.0-or-later"
+  }
+}
