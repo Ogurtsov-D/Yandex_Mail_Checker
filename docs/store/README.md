@@ -22,7 +22,7 @@
 | Поддержка | https://github.com/Ogurtsov-D/Yandex_Mail_Checker/issues |
 | Политика конфиденциальности | https://github.com/Ogurtsov-D/Yandex_Mail_Checker/blob/main/PRIVACY.en.md |
 | Цена | Бесплатно, все страны |
-| Лицензия | GPL-3.0-or-later |
+| Лицензия | GPL-3.0-only |
 
 ## Подробное описание
 

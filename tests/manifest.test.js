@@ -58,6 +58,11 @@ test('данные для каталога Mozilla — из списков, ко
     const LICENSES = ['MPL-2.0', 'GPL-2.0-only', 'GPL-3.0-only', 'LGPL-2.1-only', 'LGPL-3.0-only', 'MIT', 'Apache-2.0'];
     const CATEGORIES = ['alerts-updates', 'social-communication', 'privacy-security', 'other'];
     assert.ok(LICENSES.includes(metadata.version.license), `лицензия ${metadata.version.license}`);
+    assert.equal(
+        metadata.version.license,
+        JSON.parse(read('package.json')).license,
+        'лицензия в каталоге — как в package.json'
+    );
     for (const category of metadata.categories) assert.ok(CATEGORIES.includes(category), `категория ${category}`);
     assert.ok(metadata.summary['en-US'] && metadata.summary['en-US'].length <= 250);
 });
