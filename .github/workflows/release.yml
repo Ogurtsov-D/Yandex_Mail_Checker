@@ -105,5 +105,5 @@ jobs:
         run: |
           if [ "$(gh release view "$GITHUB_REF_NAME" --json isDraft -q .isDraft 2> /dev/null)" = "false" ]; then
             gh release edit "$GITHUB_REF_NAME" --draft=true
-            echo "::warning::Релиз $GITHUB_REF_NAME переведён в черновик. Что делать дальше — CONTRIBUTING.md, раздел «Если подпись не удалась»."
+            echo "::warning::Релиз $GITHUB_REF_NAME переведён в черновик. Что делать дальше — CONTRIBUTING.md, раздел «Если отправка не удалась»."
           fi

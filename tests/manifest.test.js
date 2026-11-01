@@ -51,6 +51,22 @@ test('название и описание укладываются в огра�
     }
 });
 
+test('данные для каталога Mozilla — из списков, которые знает каталог', () => {
+    const metadata = JSON.parse(read('scripts/amo-metadata.json'));
+    // Списки addons.mozilla.org: src/olympia/constants/licenses.py и categories.py в mozilla/addons-server.
+    // Неизвестное значение каталог отклоняет, и релиз не публикуется
+    const LICENSES = ['MPL-2.0', 'GPL-2.0-only', 'GPL-3.0-only', 'LGPL-2.1-only', 'LGPL-3.0-only', 'MIT', 'Apache-2.0'];
+    const CATEGORIES = ['alerts-updates', 'social-communication', 'privacy-security', 'other'];
+    assert.ok(LICENSES.includes(metadata.version.license), `лицензия ${metadata.version.license}`);
+    assert.equal(
+        metadata.version.license,
+        JSON.parse(read('package.json')).license,
+        'лицензия в каталоге — как в package.json'
+    );
+    for (const category of metadata.categories) assert.ok(CATEGORIES.includes(category), `категория ${category}`);
+    assert.ok(metadata.summary['en-US'] && metadata.summary['en-US'].length <= 250);
+});
+
 test('фоновый скрипт объявлен и для Chrome, и для Firefox', () => {
     assert.equal(manifest.background.type, 'module');
     assert.equal(manifest.background.service_worker, manifest.background.scripts[0]);
