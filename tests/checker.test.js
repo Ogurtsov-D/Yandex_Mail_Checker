@@ -132,6 +132,39 @@ describe('счётчики Яндекса (основной способ)', () =
         assert.equal(mock.calls.notifications.length, 1);
     });
 
+    test('fresh обнулился и снова вырос между проверками — уведомление о письме после обнуления', async () => {
+        mock.counters({ unread: 3, fresh: 0 });
+        mock.respond(inboxPage({ count: 3, messages: [anna, ivan] }));
+        await checkMail();
+        mock.counters({ unread: 3, fresh: 2 });
+        mock.respond(inboxPage({ count: 3, messages: [ivan, anna] }));
+        await checkMail();
+        const before = mock.calls.notifications.length;
+
+        // Зашли в почту (fresh → 0), пришло письмо (fresh → 1) — проверка видит только 2 → 1
+        mock.counters({ unread: 4, fresh: 1 });
+        mock.respond(inboxPage({ count: 4, messages: [vera, ivan, anna] }));
+        await checkMail();
+        assert.equal(mock.calls.notifications.length, before + 1);
+        assert.equal(mock.calls.notifications.at(-1).title, 'Вера');
+        assert.equal(mock.store.local.lastFresh, 1);
+    });
+
+    test('fresh уменьшился без новых писем (письмо прочитано) — без уведомления', async () => {
+        mock.counters({ unread: 2, fresh: 0 });
+        mock.respond(inboxPage({ count: 2, messages: [anna] }));
+        await checkMail();
+        mock.counters({ unread: 3, fresh: 2 });
+        mock.respond(inboxPage({ count: 3, messages: [vera, ivan, anna] }));
+        await checkMail();
+        const before = mock.calls.notifications.length;
+
+        mock.counters({ unread: 2, fresh: 1 });
+        mock.respond(inboxPage({ count: 2, messages: [vera, anna] }));
+        await checkMail();
+        assert.equal(mock.calls.notifications.length, before);
+    });
+
     test('401 от API — не выполнен вход: «?», без повтора', async () => {
         mock.counters(() => ({ type: 'basic', status: 401, ok: false }));
         await checkMail();

@@ -141,8 +141,11 @@ async function loadInboxMessages() {
 // Рост fresh — пришли новые письма: их отправителя и тему берём из lite-версии
 async function checkByCounters({ unread, fresh }) {
     const prev = await ext.storage.local.get(['lastFresh', 'knownMessageIds']);
-    // Первая проверка (или первая после работы через lite-версию): только запоминаем fresh
-    const added = prev.lastFresh == null ? 0 : fresh - prev.lastFresh;
+    // Первая проверка (или первая после работы через lite-версию): только запоминаем fresh.
+    // fresh уменьшился — пользователь заходил в почту (Яндекс обнуляет fresh) или прочитал
+    // новое письмо где-то ещё. В первом случае все fresh писем пришли после обнуления
+    const decreased = prev.lastFresh != null && fresh < prev.lastFresh;
+    const added = prev.lastFresh == null ? 0 : decreased ? fresh : fresh - prev.lastFresh;
     const extra = { lastFresh: fresh };
 
     // Список известных писем нужен, чтобы отличить новые письма от старых непрочитанных.
@@ -155,8 +158,10 @@ async function checkByCounters({ unread, fresh }) {
         if (added > 0) {
             // Новые сверху; письма могли прийти и в другие папки — тогда во «Входящих» их нет
             const unseen = (messages ?? []).filter((m) => !knownIds.has(m.id)).slice(0, added);
-            if (unseen.length > 0) await notifyNewMessages(unseen, added);
-            else await notifyNewCount(added);
+            // После уменьшения fresh уведомляем только о письмах, которых ещё не видели:
+            // если fresh уменьшился из-за прочтения, новых писем нет
+            if (unseen.length > 0) await notifyNewMessages(unseen, decreased ? unseen.length : added);
+            else if (!decreased) await notifyNewCount(added);
         }
     }
 
