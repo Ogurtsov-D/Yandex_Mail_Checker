@@ -5,7 +5,7 @@
 [![Последний релиз](https://img.shields.io/github/v/release/Ogurtsov-D/Yandex_Mail_Checker?label=релиз)](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/releases/latest)
 [![Проверки](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/actions/workflows/ci.yml/badge.svg)](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/actions/workflows/ci.yml)
 ![Chrome 121+](https://img.shields.io/badge/Chrome-121%2B-4285F4)
-![Firefox 140+](https://img.shields.io/badge/Firefox-140%2B-FF7139)
+![Firefox 142+](https://img.shields.io/badge/Firefox-142%2B-FF7139)
 [![Лицензия GPLv3](https://img.shields.io/badge/лицензия-GPLv3-blue)](LICENSE)
 
 **Расширение для браузера: число непрочитанных писем Яндекс Почты на панели инструментов и уведомления о новых письмах.**
@@ -57,7 +57,7 @@
 | Браузер | Версия |
 |---------|--------|
 | Chrome и браузеры на его основе | 121 и новее |
-| Firefox | 140 и новее (для Android не поддерживается) |
+| Firefox | 142 и новее (для Android не поддерживается) |
 
 Нужен вход в Яндекс Почту на `mail.yandex.ru` в этом же браузере. Уведомления работают в Windows, macOS и Linux.
 
