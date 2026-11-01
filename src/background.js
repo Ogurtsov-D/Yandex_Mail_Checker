@@ -49,12 +49,14 @@ ext.contextMenus.onClicked.addListener(handleMenuClick);
 // Изменились настройки (в меню или на странице настроек) — обновить меню и иконку
 ext.storage.onChanged.addListener(async (changes, area) => {
     // accountList меняется, когда вошли в другой аккаунт или вышли из него
-    if (area !== 'local' || ![...SETTING_KEYS, 'accountList'].some((key) => key in changes)) return;
+    if (area !== 'local' || ![...SETTING_KEYS, 'accountList', 'accountEmails'].some((key) => key in changes)) return;
     await createContextMenu();
     // Сменили домен почты — сразу проверить почту на новом; сменили имена или набор
     // учитываемых аккаунтов — пересчитать значок, подсказку и список в меню
-    if (['mailHost', 'accountNames', 'disabledAccounts'].some((key) => key in changes)) await checkMail();
-    else await renderStatus(await loadState());
+    // Пришли адреса аккаунтов — тоже: подписи берутся из них
+    if (['mailHost', 'accountNames', 'disabledAccounts', 'accountEmails'].some((key) => key in changes)) {
+        await checkMail();
+    } else await renderStatus(await loadState());
 });
 
 // Левый клик по иконке или горячая клавиша (Alt+Shift+Y) — открыть почту или переключиться на открытую вкладку

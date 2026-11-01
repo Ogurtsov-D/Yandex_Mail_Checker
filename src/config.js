@@ -17,6 +17,13 @@ export const MAIL_TAB_PATTERN_TEMPLATE = 'https://{host}/*';
 // (fresh — пришедших после последнего захода в почту). Адрес с ?silent — как у расширения Yandex Mail Watcher;
 // &multi — ответ по всем аккаунтам, в которые выполнен вход
 export const COUNTERS_PATH = 'api/v2/bar/counters?silent&multi';
+// Аккаунты, в которые выполнен вход: из ответа берётся только основной адрес почты каждого
+// аккаунта (details.addresses.defaultAddress) — подпись в меню, подсказке и уведомлениях.
+// Остальные поля ответа (имя, дата рождения и др.) не читаются и не сохраняются
+export const ACCOUNTS_PATH = 'api/v2/bar/accounts?silent';
+// Как часто обновлять адреса аккаунтов (и как часто повторять запрос, если адреса нет)
+export const ACCOUNT_EMAILS_TTL_MS = 24 * 60 * 60 * 1000;
+export const ACCOUNT_EMAILS_RETRY_MS = 60 * 60 * 1000;
 // Lite-версия «Входящих»: отправитель и тема новых писем, запасной источник счётчика
 export const INBOX_PATH = 'lite/inbox';
 

@@ -51,7 +51,7 @@ select.addEventListener('change', async () => {
 });
 
 // Несколько аккаунтов: имя (видно в меню, подсказке и уведомлениях) и учитывать ли аккаунт
-const { accountList = [] } = await ext.storage.local.get('accountList');
+const { accountList = [], accountEmails = {} } = await ext.storage.local.get(['accountList', 'accountEmails']);
 if (accountList.length > 1) {
     $('accounts').hidden = false;
     for (const [index, { uid, unread }] of accountList.entries()) {
@@ -68,7 +68,7 @@ if (accountList.length > 1) {
         const name = document.createElement('input');
         name.type = 'text';
         name.maxLength = 40;
-        name.placeholder = t('accountNumber', index + 1);
+        name.placeholder = accountEmails[uid] ?? t('accountNumber', index + 1);
         name.value = settings.accountNames[uid] ?? '';
         name.addEventListener('change', () => {
             const value = name.value.trim();

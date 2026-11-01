@@ -24,6 +24,7 @@ test('адреса почты на домене', () => {
         base: 'https://mail.360.yandex.ru/',
         tabPattern: 'https://mail.360.yandex.ru/*',
         counters: 'https://mail.360.yandex.ru/api/v2/bar/counters?silent&multi',
+        accounts: 'https://mail.360.yandex.ru/api/v2/bar/accounts?silent',
         inbox: 'https://mail.360.yandex.ru/lite/inbox'
     });
 });
