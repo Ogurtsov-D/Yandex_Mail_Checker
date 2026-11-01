@@ -24,7 +24,8 @@ const body = section
     .trim();
 
 const install =
-    '\n\n---\n\n**Установка:** скачайте архив для своего браузера ниже и следуйте ' +
+    '\n\n---\n\n**Установка:** Firefox — из каталога дополнений Firefox (версия появляется там после проверки Mozilla); ' +
+    'Chrome и браузеры на его основе — архив `…-chrome.zip` ниже. Подробнее — в ' +
     '[инструкции в README](https://github.com/Ogurtsov-D/Yandex_Mail_Checker#установка).';
 
 console.log(body + install);

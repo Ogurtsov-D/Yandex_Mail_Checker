@@ -117,7 +117,6 @@ function prepareExtension(base) {
     );
     const manifest = JSON.parse(readFileSync(join(dir, 'manifest.json'), 'utf8'));
     manifest.host_permissions.push('http://127.0.0.1/*');
-    delete manifest.browser_specific_settings.gecko.update_url;
     writeFileSync(join(dir, 'manifest.json'), JSON.stringify(manifest, null, 2));
     writeFileSync(
         join(dir, 'src/e2e-hook.js'),

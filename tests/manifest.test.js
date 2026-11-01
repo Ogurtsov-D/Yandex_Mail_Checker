@@ -1,5 +1,6 @@
 // Целостность проекта: версии совпадают, файлы на месте, иконки нужных размеров
 import assert from 'node:assert/strict';
+import { fileURLToPath } from 'node:url';
 import { existsSync, readFileSync } from 'node:fs';
 import { test } from 'node:test';
 
@@ -39,29 +40,43 @@ test('размер иконок соответствует имени (Chrome We
     }
 });
 
+test('название и описание укладываются в ограничения магазинов на всех языках', async () => {
+    const { readdirSync } = await import('node:fs');
+    for (const locale of readdirSync(new URL('_locales/', root))) {
+        const messages = JSON.parse(read(`_locales/${locale}/messages.json`));
+        // Chrome Web Store: описание — не длиннее 132 символов, название — 75
+        if (messages.extDescription)
+            assert.ok(messages.extDescription.message.length <= 132, `${locale}: описание длиннее 132`);
+        if (messages.extName) assert.ok(messages.extName.message.length <= 75, `${locale}: название длиннее 75`);
+    }
+});
+
 test('фоновый скрипт объявлен и для Chrome, и для Firefox', () => {
     assert.equal(manifest.background.type, 'module');
     assert.equal(manifest.background.service_worker, manifest.background.scripts[0]);
     assert.ok(manifest.browser_specific_settings?.gecko?.id);
 });
 
-test('updates.json для автообновления Firefox ссылается на подписанный файл релиза', async () => {
-    const { UPDATE_URL, updateManifest, xpiName } = await import('../scripts/firefox-update-manifest.mjs');
+test('updates.json переводит версии 1.4.x из файла .xpi на версию из каталога Mozilla', async () => {
+    const { UPDATE_URL, AMO_LATEST_URL, updateManifest } = await import('../scripts/firefox-update-manifest.mjs');
     const id = manifest.browser_specific_settings.gecko.id;
     assert.deepEqual(updateManifest('9.9.9'), {
-        addons: {
-            [id]: {
-                updates: [
-                    {
-                        version: '9.9.9',
-                        update_link: `${manifest.homepage_url}/releases/download/v9.9.9/${xpiName('9.9.9')}`
-                    }
-                ]
-            }
-        }
+        addons: { [id]: { updates: [{ version: '9.9.9', update_link: AMO_LATEST_URL }] } }
     });
+    assert.equal(
+        AMO_LATEST_URL,
+        'https://addons.mozilla.org/firefox/downloads/latest/yandex-mail-checker%40ogurtsov-d.github.io/latest.xpi'
+    );
+    // Этот адрес записан в update_url версий 1.4.x — менять его нельзя
     assert.equal(UPDATE_URL, `${manifest.homepage_url}/releases/latest/download/updates.json`);
-    assert.ok(UPDATE_URL.startsWith('https://'), 'Firefox принимает update_url только по HTTPS');
+});
+
+test('сборка для Firefox — для каталога Mozilla: без update_url', async () => {
+    const { execFileSync } = await import('node:child_process');
+    execFileSync(process.execPath, [fileURLToPath(new URL('scripts/build.mjs', root))], { stdio: 'ignore' });
+    const firefox = JSON.parse(read('dist/firefox/manifest.json'));
+    assert.equal(firefox.browser_specific_settings.gecko.update_url, undefined);
+    assert.equal(firefox.browser_specific_settings.gecko.id, manifest.browser_specific_settings.gecko.id);
 });
 
 test('переводы: все языки полные, формы числа по правилам языка, ключи из кода и манифеста существуют', async () => {

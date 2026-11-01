@@ -1,10 +1,11 @@
-# Релиз по тегу v<версия> (например, v1.4.1): проверки, сборка архивов для Chrome
-# и Firefox, подпись Firefox-версии в Mozilla и публикация на странице Releases.
+# Релиз по тегу v<версия> (например, v1.5.0): проверки, сборка архивов для Chrome
+# и Firefox, отправка Firefox-версии в каталог addons.mozilla.org и публикация на странице Releases.
 #
 # Тег можно отправить командой git push или создать при публикации релиза на GitHub —
 # в обоих случаях срабатывает событие push тега, поэтому отдельный триггер release не нужен.
 #
-# Релиз публикуется только целиком: с подписанным .xpi для Firefox. Для подписи нужны
+# Firefox-версия отправляется в каталог Mozilla: Mozilla проверяет её и публикует сама
+# (от нескольких часов до нескольких дней), ждать этого релиз не должен. Для отправки нужны
 # секреты репозитория AMO_JWT_ISSUER и AMO_JWT_SECRET (ключи API addons.mozilla.org,
 # см. CONTRIBUTING.md). Если что-то не удалось, а релиз уже создан на GitHub,
 # он переводится в черновик, чтобы посетители не увидели неполный релиз.
@@ -45,7 +46,7 @@ jobs:
             exit 1
           fi
           if [ -z "$AMO_JWT_ISSUER" ] || [ -z "$AMO_JWT_SECRET" ]; then
-            echo "::error::Не заданы секреты AMO_JWT_ISSUER и AMO_JWT_SECRET — без них нельзя подписать версию для Firefox (см. CONTRIBUTING.md)"
+            echo "::error::Не заданы секреты AMO_JWT_ISSUER и AMO_JWT_SECRET — без них нельзя отправить версию в каталог Mozilla (см. CONTRIBUTING.md)"
             exit 1
           fi
           echo "VERSION=$VERSION" >> "$GITHUB_ENV"
@@ -53,20 +54,28 @@ jobs:
       - name: Тесты и линтеры
         run: npm test && npm run lint && npm run lint:firefox
 
-      - name: Подпись для Firefox (addons.mozilla.org, без публикации в каталоге)
+      - name: Отправка в каталог Mozilla (addons.mozilla.org)
         env:
           WEB_EXT_API_KEY: ${{ secrets.AMO_JWT_ISSUER }}
           WEB_EXT_API_SECRET: ${{ secrets.AMO_JWT_SECRET }}
         run: |
-          XPI="yandex-mail-checker-$VERSION-firefox.xpi"
-          # .xpi уже приложен — повторный запуск или файл приложен вручную после ручной проверки в Mozilla
-          if gh release view "$GITHUB_REF_NAME" --json assets -q '.assets[].name' 2> /dev/null | grep -qx "$XPI"; then
-            echo "Подписанный $XPI уже приложен к релизу — подпись не нужна"
-          else
-            npx --yes web-ext@10 sign --channel unlisted --source-dir dist/firefox \
-              --artifacts-dir dist/signed --approval-timeout 900000
-            mv dist/signed/*.xpi "dist/$XPI"
+          # Проверку Mozilla не ждём (--approval-timeout 0): версия появится в каталоге после неё.
+          # Данные для страницы в каталоге (краткое описание, категории, лицензия) — scripts/amo-metadata.json
+          set +e
+          npx --yes web-ext@10 sign --channel listed --source-dir dist/firefox \
+            --amo-metadata scripts/amo-metadata.json --approval-timeout 0 \
+            --artifacts-dir dist/signed 2>&1 | tee sign.log
+          status=${PIPESTATUS[0]}
+          set -e
+          if [ "$status" -ne 0 ]; then
+            # Повторный запуск или версия загружена вручную — Mozilla не принимает одну версию дважды
+            if grep -qi "already exists" sign.log; then
+              echo "::notice::Версия $VERSION уже отправлена в каталог Mozilla"
+            else
+              exit "$status"
+            fi
           fi
+          # Для тех, кто установил 1.4.x из файла .xpi: их Firefox по этому файлу перейдёт на версию из каталога
           node scripts/firefox-update-manifest.mjs "$VERSION" > dist/updates.json
 
       - name: Описание релиза из CHANGELOG.md
@@ -74,11 +83,7 @@ jobs:
 
       - name: Публикация на странице Releases
         run: |
-          # .xpi нет в dist/, если он уже приложен к релизу
-          FILES=()
-          for f in dist/*.zip dist/*.xpi dist/updates.json; do
-            if [ -e "$f" ]; then FILES+=("$f"); fi
-          done
+          FILES=(dist/*.zip dist/updates.json)
           if gh release view "$GITHUB_REF_NAME" > /dev/null 2>&1; then
             gh release upload "$GITHUB_REF_NAME" "${FILES[@]}" --clobber
             # Релиз создан вручную без описания — подставляем его из CHANGELOG.md
