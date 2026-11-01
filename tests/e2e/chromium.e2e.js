@@ -217,10 +217,20 @@ describe('Chromium, русский интерфейс', () => {
                 }))
             );
 
+        // Дождаться, пока вкладки придут в нужное состояние (openMail работает асинхронно)
+        const waitTabs = async (predicate) => {
+            const deadline = Date.now() + 10000;
+            let tabs = await mailTabs();
+            while (!predicate(tabs) && Date.now() < deadline) {
+                await sleep(200);
+                tabs = await mailTabs();
+            }
+            return tabs;
+        };
+
         // Вкладки почты нет — открывается новая
         await helper.evaluate(() => globalThis.openMail());
-        await sleep(1000);
-        let tabs = await mailTabs();
+        let tabs = await waitTabs((list) => list.length === 1);
         assert.deepEqual(
             tabs.map((t) => t.url),
             ['https://mail.yandex.ru/']
@@ -231,8 +241,7 @@ describe('Chromium, русский интерфейс', () => {
         const mail = await context.newPage();
         await mail.goto('https://mail.yandex.ru/?uid=7#inbox');
         await helper.evaluate(() => globalThis.openMail('#/message/222'));
-        await sleep(1000);
-        tabs = await mailTabs();
+        tabs = await waitTabs((list) => list.some((t) => t.url.endsWith('#/message/222')));
         assert.equal(tabs.length, 1);
         assert.equal(tabs[0].url, 'https://mail.yandex.ru/?uid=7#/message/222');
         assert.equal(tabs[0].active, true);
@@ -240,8 +249,7 @@ describe('Chromium, русский интерфейс', () => {
         // Вкладку с черновиком не трогаем — письмо открывается в новой вкладке
         await mail.goto('https://mail.yandex.ru/?uid=7#compose');
         await helper.evaluate(() => globalThis.openMail('#/message/333'));
-        await sleep(1000);
-        tabs = await mailTabs();
+        tabs = await waitTabs((list) => list.length === 2);
         assert.deepEqual(tabs.map((t) => t.url).sort(), [
             'https://mail.yandex.ru/#/message/333',
             'https://mail.yandex.ru/?uid=7#compose'
@@ -258,6 +266,8 @@ describe('Chromium, русский интерфейс', () => {
         assert.equal(await page.textContent('#shortcut'), 'Alt+Shift+Y');
         assert.equal(await page.inputValue('#quietFrom'), '23:00');
         assert.equal(await page.isChecked('#pauseWhenIdle'), true);
+        assert.equal(await page.inputValue('#mailHost'), 'mail.yandex.ru');
+        assert.equal(await page.locator('#mailHost option').count(), 6);
 
         await page.check('#quietHoursEnabled');
         await page.fill('#quietTo', '07:30');

@@ -19,11 +19,21 @@ test('настройки по умолчанию и защита от испор
         badgeMode: 'unread',
         pauseWhenIdle: true,
         classicIcon: false,
-        disabledAccounts: []
+        disabledAccounts: [],
+        mailHost: 'mail.yandex.ru'
     });
-    Object.assign(mock.store.local, { checkInterval: 7, quietFrom: '25:00', quietTo: 'утро', badgeMode: 'all' });
+    Object.assign(mock.store.local, {
+        checkInterval: 7,
+        quietFrom: '25:00',
+        quietTo: 'утро',
+        badgeMode: 'all',
+        mailHost: 'evil.example'
+    });
     const s = await getSettings();
-    assert.deepEqual([s.interval, s.quietFrom, s.quietTo, s.badgeMode], [5, '23:00', '08:00', 'unread']);
+    assert.deepEqual(
+        [s.interval, s.quietFrom, s.quietTo, s.badgeMode, s.mailHost],
+        [5, '23:00', '08:00', 'unread', 'mail.yandex.ru']
+    );
 });
 
 test('тихие часы: через полночь, в пределах дня, выключены', () => {

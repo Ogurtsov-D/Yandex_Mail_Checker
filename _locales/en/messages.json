@@ -300,5 +300,26 @@
   "menuAccounts": {
     "message": "Accounts",
     "description": "Submenu: which accounts to count"
+  },
+  "errorPermission": {
+    "message": "No access to $HOST$: choose your mail address in the extension settings",
+    "description": "Error: access to the chosen domain was revoked",
+    "placeholders": {
+      "host": {
+        "content": "$1"
+      }
+    }
+  },
+  "optionsMailHost": {
+    "message": "Mail address:",
+    "description": "Settings page; followed by the list of domains"
+  },
+  "optionsMailHostHint": {
+    "message": "For any address other than mail.yandex.ru, the browser will ask for permission to access it.",
+    "description": "Settings page hint"
+  },
+  "optionsMailHost360": {
+    "message": "Yandex 360, including mail on your own domain",
+    "description": "Label for mail.360.yandex.ru"
   }
 }

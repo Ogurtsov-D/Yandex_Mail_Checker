@@ -61,7 +61,7 @@ The `.xpi` file is signed by Mozilla: the extension stays installed and **update
 | Chrome and Chromium-based browsers | 121 or later |
 | Firefox | 142 or later (Android is not supported) |
 
-You need to be signed in to Yandex Mail at `mail.yandex.ru` in the same browser. Notifications work on Windows, macOS and Linux.
+You need to be signed in to Yandex Mail in the same browser. By default the extension works with `mail.yandex.ru`; mail on `mail.yandex.com`, `.by`, `.kz`, `.com.tr` and Yandex 360 (`mail.360.yandex.ru`, including mail on your own domain) can be chosen in the settings — see ["Mail address"](#mail-address). Notifications work on Windows, macOS and Linux.
 
 ## How to use
 
@@ -113,6 +113,10 @@ Right-click the icon → "Notifications":
 
 Right-click the icon → "Badge shows": **"All unread messages"** (default) or **"New messages only"** — messages received since your last visit to the mailbox. In the second mode the badge clears as soon as you open your mail, even if some messages stay unread.
 
+### Mail address
+
+By default the extension works with `mail.yandex.ru`. If your mail is at `mail.yandex.com`, `mail.yandex.by`, `mail.yandex.kz`, `mail.yandex.com.tr` or in Yandex 360 (`mail.360.yandex.ru`, including mail on your own domain), choose the address in the extension settings (right-click the icon → "Options" in Chrome, "Settings…" in Firefox). The browser will ask for permission to access it.
+
 ### Several accounts
 
 If you are signed in to several Yandex accounts, the extension counts mail in all of them:
@@ -138,7 +142,7 @@ After 5 minutes of inactivity or when the screen is locked, scheduled checks pau
 <details>
 <summary><b>The badge shows "?" although I am signed in</b></summary>
 
-The extension works with `mail.yandex.ru` in the same browser profile. Open https://mail.yandex.ru/lite/inbox: if Yandex asks you to sign in, do so, then right-click the icon → "Check now". Mail on `mail.yandex.com`, `.by`, `.kz` and `.com.tr` is not supported yet.
+The extension works with mail in the same browser profile, at the address chosen in the settings (`mail.yandex.ru` by default). Open `https://<mail address>/lite/inbox`, for example https://mail.yandex.ru/lite/inbox: if Yandex asks you to sign in, do so, then right-click the icon → "Check now". If your mail is at a different address, choose it in the settings.
 
 </details>
 
@@ -186,7 +190,7 @@ Remove any personal data before attaching the log to a bug report.
 
 ## Limitations
 
-- Only **`mail.yandex.ru`** is supported.
+- Mail is checked at one address — the one chosen in the settings.
 - Sender and subject in notifications come from the first Inbox page of the simplified (lite) version of Yandex Mail. If Yandex changes or retires it, notifications arrive without the sender and subject.
 - The extension gets the counter from Yandex the same way the mail page does. If Yandex changes that, the extension falls back to counting via the lite version — the counter then covers the Inbox only.
 
@@ -200,7 +204,7 @@ Checks run on schedule, when you click "Check now", and a few seconds after you 
 
 ## Privacy
 
-The extension contacts only `mail.yandex.ru` and sends nothing to the author or any third party. The unread count, recent message IDs and settings are stored in your browser. Details are in the [privacy policy](PRIVACY.md) (in Russian).
+The extension contacts only Yandex Mail at the chosen address (`mail.yandex.ru` by default) and sends nothing to the author or any third party. The unread count, recent message IDs and settings are stored in your browser. Details are in the [privacy policy](PRIVACY.md) (in Russian).
 
 | Permission | Why it is needed |
 |------------|------------------|
@@ -209,6 +213,7 @@ The extension contacts only `mail.yandex.ru` and sends nothing to the author or 
 | `alarms` | Check mail on schedule |
 | `notifications` | Show new mail notifications |
 | `contextMenus` | Right-click menu on the icon |
+| `https://mail.yandex.com/*`, `.by`, `.kz`, `.com.tr`, `https://mail.360.yandex.ru/*` | Optional: the browser asks for one only when you choose that mail address in the settings, and access to the previous address is given back when you switch |
 | `idle` | Pause checks while you are away: the extension only learns whether the computer is active, idle or locked |
 
 ## Contributing

@@ -2,10 +2,11 @@
 // и перепроверить счётчик после действий во вкладке почты
 import { ext } from './api.js';
 import { checkMail, getLastCheckTime } from './checker.js';
-import { MAIL_TAB_PATTERN, MAIL_URL, MIN_RECHECK_GAP_MS, RECHECK_DELAY_MS } from './config.js';
+import { MIN_RECHECK_GAP_MS, RECHECK_DELAY_MS } from './config.js';
+import { mailUrls } from './hosts.js';
 
-function isMailUrl(url) {
-    return typeof url === 'string' && url.startsWith(MAIL_URL);
+async function isMailUrl(url) {
+    return typeof url === 'string' && url.startsWith((await mailUrls()).base);
 }
 
 function isLiteUrl(url) {
@@ -33,10 +34,11 @@ const tabUid = (url) => new URL(url).searchParams.get('uid');
 // uid — аккаунт, когда их несколько: подходит только вкладка этого аккаунта (?uid=…),
 // новая вкладка открывается сразу в нём. Без uid — любая вкладка почты, аккаунт выбирает Яндекс
 export async function openMail(hash = null, uid = null) {
-    const tabs = (await ext.tabs.query({ url: MAIL_TAB_PATTERN })).filter(
+    const urls = await mailUrls();
+    const tabs = (await ext.tabs.query({ url: urls.tabPattern })).filter(
         (t) => t.url && (!uid || tabUid(t.url) === uid)
     );
-    const newTabUrl = MAIL_URL + (uid ? `?uid=${uid}` : '') + (hash ?? '');
+    const newTabUrl = urls.base + (uid ? `?uid=${uid}` : '') + (hash ?? '');
 
     if (!hash) {
         const tab = mostRecentTab(tabs);
@@ -87,7 +89,7 @@ export async function handleTabUpdated(tabId, changeInfo, tab) {
     if (!changeInfo.url && !changeInfo.title) return;
 
     const url = changeInfo.url ?? tab?.url;
-    if (isMailUrl(url)) {
+    if (await isMailUrl(url)) {
         await setMailTab(tabId, true);
         scheduleRecheck();
     } else if (changeInfo.url && (await setMailTab(tabId, false))) {
