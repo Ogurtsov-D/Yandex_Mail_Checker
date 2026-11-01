@@ -179,3 +179,26 @@ test('ответ API: аккаунты без чисел пропускаютс�
     await checkMail();
     assert.equal(mock.calls.badge.text, '9');
 });
+
+test('аккаунт временно пропал из ответа — его состояние сохраняется, письма за перерыв не теряются', async () => {
+    await twoAccounts();
+    mock.counters(
+        JSON.stringify([
+            { uid: '11', data: { counters: { unread: 75, fresh: 0 } } },
+            { uid: '22', data: {} }
+        ])
+    );
+    await checkMail();
+    assert.equal(mock.store.local.accounts['22'].lastFresh, 0);
+
+    inbox('22', 'work', { count: 1, messages: [work] });
+    mock.counters([
+        { uid: '11', unread: 75, fresh: 0 },
+        { uid: '22', unread: 6, fresh: 1 }
+    ]);
+    await checkMail();
+    assert.deepEqual(
+        mock.calls.notifications.map((n) => n.id),
+        ['new-mail:22']
+    );
+});

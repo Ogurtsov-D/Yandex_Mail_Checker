@@ -196,7 +196,9 @@ async function checkByCounters(list) {
     const { accounts: stored = {} } = await ext.storage.local.get('accounts');
     const { disabledAccounts } = await getSettings();
     const multiple = list.length > 1;
-    const accounts = {};
+    // Аккаунты, которых нет в этом ответе (например, у них временно нет чисел), сохраняют
+    // своё состояние: иначе, вернувшись, они считались бы новыми и письма за перерыв пропали бы
+    const accounts = { ...stored };
     const summary = [];
 
     for (const [index, counters] of list.entries()) {
