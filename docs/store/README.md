@@ -10,7 +10,8 @@
 |------|-----------|
 | `ru/screenshot-1…4.png`, `en/screenshot-1…4.png` — 1280×800 | Снимки экрана во всех трёх магазинах |
 | `ru/promo-440x280.png`, `en/promo-440x280.png` | Маленькая промо-картинка Chrome Web Store (Small promo tile) |
-| `../../icons/icon128.png` | Иконка магазина (128×128) |
+| `../../icons/icon128.png` | Иконка магазина (128×128): Chrome Web Store, каталог Firefox |
+| `logo-300x300.png` | Логотип для Microsoft Edge Add-ons (Store logo) |
 
 ## Общие сведения
 
