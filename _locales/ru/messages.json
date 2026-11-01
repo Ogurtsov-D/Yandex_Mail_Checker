@@ -359,5 +359,18 @@
   "optionsClassicIcon": {
     "message": "Классическая иконка",
     "description": "Страница настроек"
+  },
+  "accountNumber": {
+    "message": "Аккаунт $NUMBER$",
+    "description": "Подпись аккаунта, если логин неизвестен",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuAccounts": {
+    "message": "Аккаунты",
+    "description": "Подменю: какие аккаунты учитывать"
   }
 }

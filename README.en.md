@@ -113,6 +113,22 @@ Right-click the icon → "Notifications":
 
 Right-click the icon → "Badge shows": **"All unread messages"** (default) or **"New messages only"** — messages received since your last visit to the mailbox. In the second mode the badge clears as soon as you open your mail, even if some messages stay unread.
 
+### Several accounts
+
+If you are signed in to several Yandex accounts, the extension counts mail in all of them:
+
+- the badge shows the total, and the tooltip has a line for each account:
+  ```
+  Yandex Mail: 80 unread messages, 1 new
+  ivan: 75 unread messages, 1 new
+  work: 5 unread messages
+  Checked at 02:32 PM
+  ```
+- a notification is labelled with the account the message arrived in, and clicking it opens the message in that account;
+- right-click the icon → "Accounts": uncheck an account to leave it out of the counter and notifications.
+
+Clicking the icon does not pick an account: it switches to an open mail tab or, if there is none, opens mail in the account selected in Yandex. With one account everything works as before, and there is no "Accounts" menu item.
+
 ### While you are away
 
 After 5 minutes of inactivity or when the screen is locked, scheduled checks pause; when you come back, mail is checked right away. You can turn the pause off in the extension settings.
@@ -170,14 +186,13 @@ Remove any personal data before attaching the log to a bug report.
 
 ## Limitations
 
-- One account is checked — the one you are signed in to in the browser.
 - Only **`mail.yandex.ru`** is supported.
 - Sender and subject in notifications come from the first Inbox page of the simplified (lite) version of Yandex Mail. If Yandex changes or retires it, notifications arrive without the sender and subject.
 - The extension gets the counter from Yandex the same way the mail page does. If Yandex changes that, the extension falls back to counting via the lite version — the counter then covers the Inbox only.
 
 ## How it works
 
-On every check the extension requests the mail counters (`https://mail.yandex.ru/api/v2/bar/counters`) with your usual Yandex cookies. These are two numbers: how many messages are unread (in all folders except Spam) and how many arrived since your last visit to the mailbox. The first number is shown on the icon. When the second one grows, the extension opens the simplified Inbox page (`https://mail.yandex.ru/lite/inbox`) — just as if you opened it yourself — and reads the ID, sender and subject of the new messages. The IDs are compared with the ones it already knows, so each message is reported only once.
+On every check the extension requests the mail counters (`https://mail.yandex.ru/api/v2/bar/counters`) with your usual Yandex cookies. These are two numbers: how many messages are unread (in all folders except Spam) and how many arrived since your last visit to the mailbox. The first number is shown on the icon. When the second one grows, the extension opens the simplified Inbox page (`https://mail.yandex.ru/lite/inbox`) — just as if you opened it yourself — and reads the ID, sender and subject of the new messages. The IDs are compared with the ones it already knows, so each message is reported only once. If you are signed in to several accounts, Yandex returns the counters for all of them in one response, and the simplified page is opened for the right account (`/lite/inbox?uid=…`).
 
 If the counters are unavailable, the extension counts unread messages using the simplified Inbox page.
 

@@ -46,10 +46,14 @@ function createServer() {
         }
         if (isCounters) {
             if (server.status === 200 && !server.counters) return route.fulfill({ status: 404, body: 'Not Found' });
+            // Массив [{ uid, unread, fresh }] — несколько аккаунтов, как с ?multi у Яндекса
+            const body = Array.isArray(server.counters)
+                ? server.counters.map(({ uid, ...counters }) => ({ uid, data: { counters } }))
+                : { counters: server.counters };
             return route.fulfill({
                 status: server.status,
                 contentType: 'application/json',
-                body: JSON.stringify({ counters: server.counters })
+                body: JSON.stringify(body)
             });
         }
         return route.fulfill({ status: server.status, contentType: 'text/html; charset=utf-8', body: server.inbox });
@@ -97,7 +101,7 @@ const status = (worker) =>
         badge: await chrome.action.getBadgeText({}),
         title: await chrome.action.getTitle({}),
         notifications: globalThis.__notifications,
-        target: (await chrome.storage.session.get('notificationTarget')).notificationTarget,
+        target: (await chrome.storage.session.get('notificationTargets')).notificationTargets?.['new-mail']?.hash,
         retry: Boolean(await chrome.alarms.get('retryCheck'))
     }));
 
@@ -266,6 +270,32 @@ describe('Chromium, русский интерфейс', () => {
         await page.uncheck('#classicIcon');
         await page.uncheck('#quietHoursEnabled');
         await page.close();
+    });
+
+    test('два аккаунта: сумма на значке, строки в подсказке, уведомление с подписью аккаунта', async () => {
+        Object.assign(server, {
+            status: 200,
+            redirect: null,
+            counters: [
+                { uid: '11', unread: 2, fresh: 0 },
+                { uid: '22', unread: 3, fresh: 0 }
+            ],
+            inbox: inboxPage({ count: 0 })
+        });
+        await checkNow(browser.worker);
+        let s = await waitFor(browser.worker, (x) => x.badge === '5');
+        assert.match(s.title, /\nАккаунт 1: 2 непрочитанных письма\nАккаунт 2: 3 непрочитанных письма\n/);
+
+        server.counters = [
+            { uid: '11', unread: 2, fresh: 0 },
+            { uid: '22', unread: 4, fresh: 1 }
+        ];
+        server.inbox = inboxPage({ count: 1, messages: [{ id: '555', from: 'Бухгалтерия', subject: 'Отчёт' }] });
+        await checkNow(browser.worker);
+        s = await waitFor(browser.worker, (x) => x.badge === '6');
+        const n = s.notifications.at(-1);
+        assert.deepEqual([n.title, n.contextMessage], ['Бухгалтерия', 'Аккаунт 2']);
+        server.counters = { unread: 0, fresh: 0 };
     });
 
     test('нет ошибок манифеста и выполнения, название на русском', async () => {

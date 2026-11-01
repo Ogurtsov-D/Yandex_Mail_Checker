@@ -13,6 +13,8 @@ const NOTIFICATIONS = 'notifications';
 const SOUND = 'sound';
 const QUIET_HOURS = 'quiet-hours';
 const OPTIONS = 'options';
+const ACCOUNTS_MENU = 'accounts';
+const ACCOUNT_PREFIX = 'account:';
 const intervalItemId = (minutes) => `interval-${minutes}`;
 const BADGE_MODES = { 'badge-unread': 'unread', 'badge-fresh': 'fresh' };
 
@@ -22,12 +24,14 @@ function create(props) {
 
 async function build() {
     const settings = await getSettings();
+    const { accountList = [] } = await ext.storage.local.get('accountList');
 
     await ext.contextMenus.removeAll();
 
-    // В меню иконки браузер показывает не больше 6 пунктов верхнего уровня (вместе с разделителями)
+    // В меню иконки браузер показывает не больше 6 пунктов верхнего уровня (вместе с разделителями).
+    // В Firefox есть ещё «Настройки…», поэтому там без разделителя
     create({ id: CHECK_NOW, title: t('menuCheckNow') });
-    create({ id: 'separator-1', type: 'separator' });
+    if (!IS_FIREFOX) create({ id: 'separator-1', type: 'separator' });
 
     create({ id: INTERVAL_MENU, title: t('menuInterval') });
     for (const minutes of INTERVALS) {
@@ -79,6 +83,20 @@ async function build() {
         title: t('menuQuietHours', settings.quietFrom, settings.quietTo)
     });
 
+    // Аккаунты — только если их несколько: галочка — учитывать ли аккаунт в счётчике и уведомлениях
+    if (accountList.length > 1) {
+        create({ id: ACCOUNTS_MENU, title: t('menuAccounts') });
+        for (const { uid, label } of accountList) {
+            create({
+                id: ACCOUNT_PREFIX + uid,
+                parentId: ACCOUNTS_MENU,
+                type: 'checkbox',
+                checked: !settings.disabledAccounts.includes(uid),
+                title: label
+            });
+        }
+    }
+
     // Chrome сам добавляет в меню иконки пункт «Параметры», Firefox — нет
     if (IS_FIREFOX) create({ id: OPTIONS, title: t('menuOptions') });
 }
@@ -105,6 +123,12 @@ export async function handleMenuClick(info) {
         await saveSettings({ quietHoursEnabled: info.checked });
     } else if (id === OPTIONS) {
         await ext.runtime.openOptionsPage();
+    } else if (id.startsWith(ACCOUNT_PREFIX)) {
+        const uid = id.slice(ACCOUNT_PREFIX.length);
+        const { disabledAccounts } = await getSettings();
+        const others = disabledAccounts.filter((x) => x !== uid);
+        await saveSettings({ disabledAccounts: info.checked ? others : [...others, uid] });
+        await checkMail(); // пересчитать бейдж и подсказку
     } else if (BADGE_MODES[id]) {
         await saveSettings({ badgeMode: BADGE_MODES[id] });
     } else {

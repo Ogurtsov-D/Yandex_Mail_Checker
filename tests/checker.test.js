@@ -13,7 +13,10 @@ const ivan = { id: '222', from: 'Иван', subject: 'Отчёт' };
 
 beforeEach(() => mock.reset());
 
-const COUNTERS = 'https://mail.yandex.ru/api/v2/bar/counters?silent';
+// Куда ведёт клик по уведомлению (аккаунт один — уведомление new-mail)
+const target = () => mock.store.session.notificationTargets?.['new-mail']?.hash ?? null;
+
+const COUNTERS = 'https://mail.yandex.ru/api/v2/bar/counters?silent&multi';
 const INBOX = 'https://mail.yandex.ru/lite/inbox';
 const vera = { id: '333', from: 'Вера', subject: 'Билеты' };
 
@@ -25,7 +28,7 @@ describe('счётчики Яндекса (основной способ)', () =
         assert.equal(mock.calls.badge.text, '4');
         assert.match(mock.calls.badge.title, /^Яндекс Почта: 4 непрочитанных письма\nПроверено в \d\d:\d\d$/);
         assert.deepEqual(mock.requests, [COUNTERS, INBOX]);
-        assert.deepEqual(mock.store.local.knownMessageIds, ['111', '222']);
+        assert.deepEqual(mock.store.local.accounts[''].knownMessageIds, ['111', '222']);
         assert.equal(mock.calls.notifications.length, 0);
     });
 
@@ -54,7 +57,7 @@ describe('счётчики Яндекса (основной способ)', () =
         assert.equal(mock.calls.notifications.length, 1);
         const [n] = mock.calls.notifications;
         assert.deepEqual([n.type, n.title, n.message], ['basic', 'Вера', 'Билеты']);
-        assert.equal(mock.store.session.notificationTarget, '#/message/333');
+        assert.equal(target(), '#/message/333');
         assert.match(mock.calls.badge.title, /^Яндекс Почта: 2 непрочитанных письма, из них 1 новое\n/);
 
         // Следующая проверка с тем же fresh — повторного уведомления нет
@@ -93,7 +96,7 @@ describe('счётчики Яндекса (основной способ)', () =
             n.items.map((i) => i.title),
             ['Вера']
         );
-        assert.equal(mock.store.session.notificationTarget, null);
+        assert.equal(target(), null);
     });
 
     test('lite-версия недоступна: уведомление без подробностей, счётчик из API без ошибки', async () => {
@@ -147,7 +150,7 @@ describe('счётчики Яндекса (основной способ)', () =
         await checkMail();
         assert.equal(mock.calls.notifications.length, before + 1);
         assert.equal(mock.calls.notifications.at(-1).title, 'Вера');
-        assert.equal(mock.store.local.lastFresh, 1);
+        assert.equal(mock.store.local.accounts[''].lastFresh, 1);
     });
 
     test('fresh уменьшился без новых писем (письмо прочитано) — без уведомления', async () => {
@@ -202,7 +205,7 @@ describe('счётчики Яндекса (основной способ)', () =
         mock.counters({ unread: 1, fresh: 5 });
         await checkMail();
         assert.equal(mock.calls.notifications.length, 0);
-        assert.equal(mock.store.local.lastFresh, 5);
+        assert.equal(mock.store.local.accounts[''].lastFresh, 5);
     });
 });
 
@@ -236,7 +239,7 @@ describe('API счётчиков недоступно: всё из lite-верс
         assert.equal(n.title, 'Иван');
         assert.equal(n.message, 'Отчёт');
         assert.equal(n.iconUrl, 'extension://test/icons/icon128.png');
-        assert.equal(mock.store.session.notificationTarget, '#/message/222');
+        assert.equal(target(), '#/message/222');
     });
 
     test('несколько новых писем — уведомление-список, клик ведёт в почту', async () => {
@@ -252,7 +255,7 @@ describe('API счётчиков недоступно: всё из lite-верс
             n.items.map((i) => i.title),
             ['"Рога & Копыта"', 'Иван Смирнов', 'Анна Петрова']
         );
-        assert.equal(mock.store.session.notificationTarget, null);
+        assert.equal(target(), null);
     });
 
     test('новое письмо в треде ведёт в почту: проверенного адреса треда нет', async () => {
@@ -260,7 +263,7 @@ describe('API счётчиков недоступно: всё из lite-верс
         await checkMail();
         mock.respond(inboxPage({ count: 1, messages: [{ id: '333', thread: true }] }));
         await checkMail();
-        assert.equal(mock.store.session.notificationTarget, null);
+        assert.equal(target(), null);
     });
 
     test('уведомления выключены — проверка работает, уведомлений нет', async () => {
@@ -403,7 +406,7 @@ describe('настройки уведомлений', () => {
         Object.assign(mock.store.local, { quietHoursEnabled: true, quietFrom: '23:00', quietTo: '08:00' });
         await newMessage();
         assert.equal(mock.calls.notifications.length, 0);
-        assert.ok(mock.store.local.knownMessageIds.includes('222'));
+        assert.ok(mock.store.local.accounts[''].knownMessageIds.includes('222'));
         assert.equal(mock.calls.badge.text, '2');
 
         t.mock.timers.setTime(new Date('2026-11-01T09:00:00').getTime());

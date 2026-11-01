@@ -27,23 +27,30 @@ async function focusTab(tab, url) {
     await ext.windows.update(tab.windowId, { focused: true });
 }
 
+const tabUid = (url) => new URL(url).searchParams.get('uid');
+
 // Открыть почту. hash — конкретное письмо ('#/message/123'); без него — просто почта.
-export async function openMail(hash = null) {
-    const tabs = await ext.tabs.query({ url: MAIL_TAB_PATTERN });
+// uid — аккаунт, когда их несколько: подходит только вкладка этого аккаунта (?uid=…),
+// новая вкладка открывается сразу в нём. Без uid — любая вкладка почты, аккаунт выбирает Яндекс
+export async function openMail(hash = null, uid = null) {
+    const tabs = (await ext.tabs.query({ url: MAIL_TAB_PATTERN })).filter(
+        (t) => t.url && (!uid || tabUid(t.url) === uid)
+    );
+    const newTabUrl = MAIL_URL + (uid ? `?uid=${uid}` : '') + (hash ?? '');
 
     if (!hash) {
         const tab = mostRecentTab(tabs);
         if (tab) await focusTab(tab);
-        else await ext.tabs.create({ url: MAIL_URL });
+        else await ext.tabs.create({ url: newTabUrl });
         return;
     }
 
     // Для письма подходит вкладка с полной версией, где не пишется письмо.
     // Меняем только hash — почта откроет письмо без перезагрузки и с тем же ?uid=.
-    const usable = tabs.filter((t) => t.url && !isLiteUrl(t.url) && !isComposeUrl(t.url));
+    const usable = tabs.filter((t) => !isLiteUrl(t.url) && !isComposeUrl(t.url));
     const tab = mostRecentTab(usable);
     if (tab) await focusTab(tab, tab.url.split('#')[0] + hash);
-    else await ext.tabs.create({ url: MAIL_URL + hash });
+    else await ext.tabs.create({ url: newTabUrl });
 }
 
 // ---------- Перепроверка после действий во вкладке почты ----------

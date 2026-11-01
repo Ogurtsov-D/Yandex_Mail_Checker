@@ -50,6 +50,11 @@ export function badgeText(state, mode = 'unread') {
     return count > 99 ? '99+' : String(count);
 }
 
+// «3 непрочитанных письма, из них 1 новое» — новые пришли после последнего захода в почту
+function countsText(unread = 0, fresh = 0) {
+    return unreadText(unread ?? 0) + (unread > 0 && fresh > 0 ? `, ${plural('freshPart', fresh)}` : '');
+}
+
 // Подсказка при наведении на иконку
 export function tooltipText(state, now = Date.now()) {
     const service = t('serviceName');
@@ -63,11 +68,11 @@ export function tooltipText(state, now = Date.now()) {
     }
 
     if (state.lastSuccess) {
-        const unread = state.unreadCount ?? 0;
-        // «3 непрочитанных письма, из них 1 новое» — новые пришли после последнего захода в почту
-        const fresh = unread > 0 && state.freshCount > 0 ? `, ${plural('freshPart', state.freshCount)}` : '';
+        // Несколько аккаунтов — итог и строка на каждый учитываемый аккаунт
+        const accounts = (state.accountSummary ?? []).filter((a) => a.enabled);
         return [
-            `${service}: ${unreadText(unread)}${fresh}`,
+            `${service}: ${countsText(state.unreadCount, state.freshCount)}`,
+            ...(accounts.length > 1 ? accounts.map((a) => `${a.label}: ${countsText(a.unread, a.fresh)}`) : []),
             t('checkedAt', formatCheckTime(state.lastSuccess, now))
         ].join('\n');
     }

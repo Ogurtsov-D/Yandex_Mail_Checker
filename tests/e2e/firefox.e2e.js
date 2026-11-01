@@ -32,7 +32,7 @@ async function report() {
         badge: await browser.action.getBadgeText({}),
         title: await browser.action.getTitle({}),
         notifications: globalThis.__notifications,
-        target: (await browser.storage.session.get('notificationTarget')).notificationTarget ?? null,
+        target: (await browser.storage.session.get('notificationTargets')).notificationTargets?.['new-mail']?.hash ?? null,
         retry: Boolean(await browser.alarms.get('retryCheck')),
         tabs: (await browser.tabs.query({ url: 'http://127.0.0.1/*' })).map((t) => ({ id: t.id, url: t.url, active: t.active })),
         name: browser.i18n.getMessage('extName'),

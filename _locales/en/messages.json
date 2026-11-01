@@ -287,5 +287,18 @@
   "optionsClassicIcon": {
     "message": "Classic icon",
     "description": "Settings page"
+  },
+  "accountNumber": {
+    "message": "Account $NUMBER$",
+    "description": "Account label when the login is unknown",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuAccounts": {
+    "message": "Accounts",
+    "description": "Submenu: which accounts to count"
   }
 }

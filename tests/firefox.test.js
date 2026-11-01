@@ -63,3 +63,29 @@ test('звук в Firefox не настраивается: без silent и бе
     await handleMenuClick({ menuItemId: 'options' });
     assert.equal(mock.calls.openedOptions, 1);
 });
+
+test('несколько аккаунтов: подпись аккаунта — последней строкой текста (contextMessage Firefox не знает)', async () => {
+    mock.respond(inboxPage({ count: 1, messages: [{ id: '1', from: 'Анна', subject: 'Привет' }] }));
+    mock.counters([
+        { uid: '11', unread: 0, fresh: 0 },
+        { uid: '22', unread: 0, fresh: 0 }
+    ]);
+    await checkMail();
+    mock.respond(
+        inboxPage({
+            count: 2,
+            messages: [
+                { id: '2', from: 'Иван', subject: 'Отчёт' },
+                { id: '1', from: 'Анна', subject: 'Привет' }
+            ]
+        })
+    );
+    mock.counters([
+        { uid: '11', unread: 0, fresh: 0 },
+        { uid: '22', unread: 1, fresh: 1 }
+    ]);
+    await checkMail();
+    const [n] = mock.calls.notifications;
+    assert.equal(n.message, 'Отчёт\nАккаунт 2');
+    assert.ok(!('contextMessage' in n));
+});
