@@ -281,7 +281,7 @@
     }
   },
   "menuOptions": {
-    "message": "Setări…",
+    "message": "Toate setările…",
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
@@ -333,10 +333,6 @@
       }
     }
   },
-  "menuAccounts": {
-    "message": "Conturi",
-    "description": "Submenu: which accounts to count"
-  },
   "errorPermission": {
     "message": "Nu există acces la $HOST$: alegeți adresa de e-mail în setările extensiei",
     "description": "Error: access to the chosen domain was revoked",
@@ -357,5 +353,21 @@
   "optionsMailHost360": {
     "message": "Yandex 360, inclusiv e-mailul pe propriul domeniu",
     "description": "Label for mail.360.yandex.ru"
+  },
+  "menuSettings": {
+    "message": "Setări",
+    "description": "Settings submenu (with several accounts)"
+  },
+  "menuOpenAccount": {
+    "message": "Deschide contul",
+    "description": "Submenu with the account list when it does not fit in the menu"
+  },
+  "optionsAccounts": {
+    "message": "Conturi",
+    "description": "Settings page: accounts section"
+  },
+  "optionsAccountsHint": {
+    "message": "Numele apare în meniu, în sfatul ecran și în notificări. Debifați un cont pentru a nu-l număra pe pictogramă și în notificări.",
+    "description": "Settings page hint"
   }
 }

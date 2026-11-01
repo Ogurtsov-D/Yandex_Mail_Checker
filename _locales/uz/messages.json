@@ -245,7 +245,7 @@
     }
   },
   "menuOptions": {
-    "message": "Sozlamalar…",
+    "message": "Barcha sozlamalar…",
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
@@ -297,10 +297,6 @@
       }
     }
   },
-  "menuAccounts": {
-    "message": "Hisoblar",
-    "description": "Submenu: which accounts to count"
-  },
   "errorPermission": {
     "message": "$HOST$ manziliga ruxsat yo‘q: kengaytma sozlamalarida pochta manzilini tanlang",
     "description": "Error: access to the chosen domain was revoked",
@@ -321,5 +317,21 @@
   "optionsMailHost360": {
     "message": "Yandex 360, jumladan o‘z domeningizdagi pochta",
     "description": "Label for mail.360.yandex.ru"
+  },
+  "menuSettings": {
+    "message": "Sozlamalar",
+    "description": "Settings submenu (with several accounts)"
+  },
+  "menuOpenAccount": {
+    "message": "Hisobni ochish",
+    "description": "Submenu with the account list when it does not fit in the menu"
+  },
+  "optionsAccounts": {
+    "message": "Hisoblar",
+    "description": "Settings page: accounts section"
+  },
+  "optionsAccountsHint": {
+    "message": "Nom menyuda, maslahatda va bildirishnomalarda ko‘rinadi. Hisobni belgida va bildirishnomalarda hisobga olmaslik uchun belgini olib tashlang.",
+    "description": "Settings page hint"
   }
 }

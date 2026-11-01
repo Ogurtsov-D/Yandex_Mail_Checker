@@ -245,7 +245,7 @@
     }
   },
   "menuOptions": {
-    "message": "Settings…",
+    "message": "All settings…",
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
@@ -297,10 +297,6 @@
       }
     }
   },
-  "menuAccounts": {
-    "message": "Accounts",
-    "description": "Submenu: which accounts to count"
-  },
   "errorPermission": {
     "message": "No access to $HOST$: choose your mail address in the extension settings",
     "description": "Error: access to the chosen domain was revoked",
@@ -321,5 +317,21 @@
   "optionsMailHost360": {
     "message": "Yandex 360, including mail on your own domain",
     "description": "Label for mail.360.yandex.ru"
+  },
+  "menuSettings": {
+    "message": "Settings",
+    "description": "Settings submenu (with several accounts)"
+  },
+  "menuOpenAccount": {
+    "message": "Open account",
+    "description": "Submenu with the account list when it does not fit in the menu"
+  },
+  "optionsAccounts": {
+    "message": "Accounts",
+    "description": "Settings page: accounts section"
+  },
+  "optionsAccountsHint": {
+    "message": "The name is shown in the menu, tooltip and notifications. Uncheck an account to leave it out of the badge and notifications.",
+    "description": "Settings page hint"
   }
 }

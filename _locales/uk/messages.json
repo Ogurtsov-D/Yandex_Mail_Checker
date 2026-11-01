@@ -317,7 +317,7 @@
     }
   },
   "menuOptions": {
-    "message": "Налаштування…",
+    "message": "Усі налаштування…",
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
@@ -369,10 +369,6 @@
       }
     }
   },
-  "menuAccounts": {
-    "message": "Облікові записи",
-    "description": "Submenu: which accounts to count"
-  },
   "errorPermission": {
     "message": "Немає доступу до $HOST$: виберіть адресу пошти в налаштуваннях розширення",
     "description": "Error: access to the chosen domain was revoked",
@@ -393,5 +389,21 @@
   "optionsMailHost360": {
     "message": "Яндекс 360, зокрема пошта на власному домені",
     "description": "Label for mail.360.yandex.ru"
+  },
+  "menuSettings": {
+    "message": "Налаштування",
+    "description": "Settings submenu (with several accounts)"
+  },
+  "menuOpenAccount": {
+    "message": "Відкрити обліковий запис",
+    "description": "Submenu with the account list when it does not fit in the menu"
+  },
+  "optionsAccounts": {
+    "message": "Облікові записи",
+    "description": "Settings page: accounts section"
+  },
+  "optionsAccountsHint": {
+    "message": "Ім’я видно в меню, підказці та сповіщеннях. Зніміть позначку, щоб не враховувати обліковий запис на значку та в сповіщеннях.",
+    "description": "Settings page hint"
   }
 }

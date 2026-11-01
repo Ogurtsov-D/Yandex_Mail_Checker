@@ -245,7 +245,7 @@
     }
   },
   "menuOptions": {
-    "message": "Баптаулар…",
+    "message": "Барлық баптаулар…",
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
@@ -297,10 +297,6 @@
       }
     }
   },
-  "menuAccounts": {
-    "message": "Аккаунттар",
-    "description": "Submenu: which accounts to count"
-  },
   "errorPermission": {
     "message": "$HOST$ мекенжайына қол жеткізу жоқ: кеңейтпе баптауларында пошта мекенжайын таңдаңыз",
     "description": "Error: access to the chosen domain was revoked",
@@ -321,5 +317,21 @@
   "optionsMailHost360": {
     "message": "Яндекс 360, соның ішінде өз доменіңіздегі пошта",
     "description": "Label for mail.360.yandex.ru"
+  },
+  "menuSettings": {
+    "message": "Баптаулар",
+    "description": "Settings submenu (with several accounts)"
+  },
+  "menuOpenAccount": {
+    "message": "Аккаунтты ашу",
+    "description": "Submenu with the account list when it does not fit in the menu"
+  },
+  "optionsAccounts": {
+    "message": "Аккаунттар",
+    "description": "Settings page: accounts section"
+  },
+  "optionsAccountsHint": {
+    "message": "Атау мәзірде, кеңесте және хабарландыруларда көрсетіледі. Аккаунтты белгішеде және хабарландыруларда есептемеу үшін белгіні алып тастаңыз.",
+    "description": "Settings page hint"
   }
 }

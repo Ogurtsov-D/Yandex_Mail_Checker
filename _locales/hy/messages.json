@@ -245,7 +245,7 @@
     }
   },
   "menuOptions": {
-    "message": "Կարգավորումներ…",
+    "message": "Բոլոր կարգավորումները…",
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
@@ -297,10 +297,6 @@
       }
     }
   },
-  "menuAccounts": {
-    "message": "Հաշիվներ",
-    "description": "Submenu: which accounts to count"
-  },
   "errorPermission": {
     "message": "$HOST$ մուտք չկա․ ընտրեք փոստի հասցեն ընդլայնման կարգավորումներում",
     "description": "Error: access to the chosen domain was revoked",
@@ -321,5 +317,21 @@
   "optionsMailHost360": {
     "message": "Yandex 360, ներառյալ փոստը ձեր սեփական դոմենում",
     "description": "Label for mail.360.yandex.ru"
+  },
+  "menuSettings": {
+    "message": "Կարգավորումներ",
+    "description": "Settings submenu (with several accounts)"
+  },
+  "menuOpenAccount": {
+    "message": "Բացել հաշիվը",
+    "description": "Submenu with the account list when it does not fit in the menu"
+  },
+  "optionsAccounts": {
+    "message": "Հաշիվներ",
+    "description": "Settings page: accounts section"
+  },
+  "optionsAccountsHint": {
+    "message": "Անունը երևում է ընտրացանկում, հուշման մեջ և ծանուցումներում։ Հանեք նշումը, որպեսզի հաշիվը չհաշվվի պատկերակի վրա և ծանուցումներում։",
+    "description": "Settings page hint"
   }
 }

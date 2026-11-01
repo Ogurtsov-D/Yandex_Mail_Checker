@@ -245,7 +245,7 @@
     }
   },
   "menuOptions": {
-    "message": "პარამეტრები…",
+    "message": "ყველა პარამეტრი…",
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
@@ -297,10 +297,6 @@
       }
     }
   },
-  "menuAccounts": {
-    "message": "ანგარიშები",
-    "description": "Submenu: which accounts to count"
-  },
   "errorPermission": {
     "message": "$HOST$-ზე წვდომა არ არის: აირჩიეთ ფოსტის მისამართი გაფართოების პარამეტრებში",
     "description": "Error: access to the chosen domain was revoked",
@@ -321,5 +317,21 @@
   "optionsMailHost360": {
     "message": "Yandex 360, მათ შორის ფოსტა საკუთარ დომენზე",
     "description": "Label for mail.360.yandex.ru"
+  },
+  "menuSettings": {
+    "message": "პარამეტრები",
+    "description": "Settings submenu (with several accounts)"
+  },
+  "menuOpenAccount": {
+    "message": "ანგარიშის გახსნა",
+    "description": "Submenu with the account list when it does not fit in the menu"
+  },
+  "optionsAccounts": {
+    "message": "ანგარიშები",
+    "description": "Settings page: accounts section"
+  },
+  "optionsAccountsHint": {
+    "message": "სახელი ჩანს მენიუში, მინიშნებასა და შეტყობინებებში. მოხსენით მონიშვნა, რომ ანგარიში ხატულასა და შეტყობინებებში არ ჩაითვალოს.",
+    "description": "Settings page hint"
   }
 }

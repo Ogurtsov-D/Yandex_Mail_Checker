@@ -245,7 +245,7 @@
     }
   },
   "menuOptions": {
-    "message": "Ayarlar…",
+    "message": "Tüm ayarlar…",
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
@@ -297,10 +297,6 @@
       }
     }
   },
-  "menuAccounts": {
-    "message": "Hesaplar",
-    "description": "Submenu: which accounts to count"
-  },
   "errorPermission": {
     "message": "$HOST$ adresine erişim yok: uzantı ayarlarından posta adresini seçin",
     "description": "Error: access to the chosen domain was revoked",
@@ -321,5 +317,21 @@
   "optionsMailHost360": {
     "message": "Yandex 360, kendi alan adınızdaki posta dahil",
     "description": "Label for mail.360.yandex.ru"
+  },
+  "menuSettings": {
+    "message": "Ayarlar",
+    "description": "Settings submenu (with several accounts)"
+  },
+  "menuOpenAccount": {
+    "message": "Hesabı aç",
+    "description": "Submenu with the account list when it does not fit in the menu"
+  },
+  "optionsAccounts": {
+    "message": "Hesaplar",
+    "description": "Settings page: accounts section"
+  },
+  "optionsAccountsHint": {
+    "message": "Ad menüde, ipucunda ve bildirimlerde görünür. Bir hesabı simgede ve bildirimlerde saymamak için işaretini kaldırın.",
+    "description": "Settings page hint"
   }
 }

@@ -20,6 +20,7 @@ test('настройки по умолчанию и защита от испор
         pauseWhenIdle: true,
         classicIcon: false,
         disabledAccounts: [],
+        accountNames: {},
         mailHost: 'mail.yandex.ru'
     });
     Object.assign(mock.store.local, {

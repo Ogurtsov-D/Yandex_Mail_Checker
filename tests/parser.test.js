@@ -91,3 +91,13 @@ test('адрес письма; для треда проверенного адр
     assert.equal(messageHash({ id: '123', isThread: false }), '#/message/123');
     assert.equal(messageHash({ id: '456', isThread: true }), null);
 });
+
+test('настоящая разметка lite-версии на компьютере: треды, вложенные span у отправителя и темы', () => {
+    const html = fixture('inbox-desktop.html');
+    const messages = parseUnreadMessages(html);
+    assert.deepEqual(messages, [
+        { id: '159596311794942776', isThread: true, from: 'Яндекс ID', subject: 'Вход в аккаунт' },
+        { id: '177892185281136346', isThread: true, from: 'Google', subject: 'Мы обновляем Условия использования' }
+    ]);
+    assert.equal(parseUnreadCount(html, messages), 75);
+});

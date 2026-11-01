@@ -245,7 +245,7 @@
     }
   },
   "menuOptions": {
-    "message": "Seaded…",
+    "message": "Kõik seaded…",
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
@@ -297,10 +297,6 @@
       }
     }
   },
-  "menuAccounts": {
-    "message": "Kontod",
-    "description": "Submenu: which accounts to count"
-  },
   "errorPermission": {
     "message": "Juurdepääs aadressile $HOST$ puudub: valige laienduse seadetes postkasti aadress",
     "description": "Error: access to the chosen domain was revoked",
@@ -321,5 +317,21 @@
   "optionsMailHost360": {
     "message": "Yandex 360, sh oma domeeni post",
     "description": "Label for mail.360.yandex.ru"
+  },
+  "menuSettings": {
+    "message": "Seaded",
+    "description": "Settings submenu (with several accounts)"
+  },
+  "menuOpenAccount": {
+    "message": "Ava konto",
+    "description": "Submenu with the account list when it does not fit in the menu"
+  },
+  "optionsAccounts": {
+    "message": "Kontod",
+    "description": "Settings page: accounts section"
+  },
+  "optionsAccountsHint": {
+    "message": "Nimi kuvatakse menüüs, kohtspikris ja teavitustes. Eemaldage linnuke, et kontot ikoonil ja teavitustes mitte arvestada.",
+    "description": "Settings page hint"
   }
 }

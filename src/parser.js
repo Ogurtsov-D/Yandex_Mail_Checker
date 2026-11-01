@@ -157,21 +157,6 @@ export function parseUnreadCount(html, unreadMessages = []) {
     return null;
 }
 
-// Логин аккаунта из шапки lite-версии — подпись аккаунта, когда их несколько.
-// Шапка — элемент с классом b-head-user, логин в нём — элемент b-user (первая буква
-// выделена отдельным тегом). Разметка шапки ещё не сверена с настоящей почтой (см. CLAUDE.md),
-// поэтому при любом сомнении возвращаем null: тогда аккаунт подписывается номером
-export function parseAccountLogin(html) {
-    const start = html.search(/\sclass="[^"]*\bb-head-user\b/);
-    if (start === -1) return null;
-    const head = html.slice(start, start + 3000);
-    for (const tag of ['a', 'span', 'b', 'div']) {
-        const login = elementText(`<x ${head}`, tag, 'b-user') || elementText(`<x ${head}`, tag, 'b-user__link');
-        if (/^[\w.@+-]{1,64}$/.test(login)) return login;
-    }
-    return null;
-}
-
 // Адрес письма в полной версии почты (добавляется к адресу вкладки): #/message/<id>.
 // Формат сверен с расширением pulsar, проверявшим его на живых ящиках в октябре 2026 г.
 // Для тредов проверенного формата нет — по клику открывается почта (null).
