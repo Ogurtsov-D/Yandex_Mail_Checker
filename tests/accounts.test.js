@@ -192,6 +192,9 @@ test('подпись аккаунта — основной адрес почты
     t.mock.timers.enable({ apis: ['Date'], now: Date.now() });
     mock.accounts({ 11: 'ivan@yandex.ru', 22: 'work@yandex.ru' });
     await twoAccounts();
+    // Проверка адресов не ждёт: они приходят в фоне, следующая проверка уже с ними
+    await flush();
+    await on.storageChanged({ accountEmails: {} }, 'local');
     assert.match(
         mock.calls.badge.title,
         /\nivan@yandex.ru: 75 непрочитанных писем\nwork@yandex.ru: 5 непрочитанных писем\n/
@@ -214,10 +217,22 @@ test('подпись аккаунта — основной адрес почты
     assert.match(mock.calls.badge.title, /\nivan@yandex.ru: 75 непрочитанных писем\nРабота: 5 непрочитанных писем\n/);
 });
 
+test('зависший запрос адресов не задерживает счётчик и уведомления', async () => {
+    mock.accounts(() => new Promise(() => {}));
+    mock.counters([
+        { uid: '11', unread: 75, fresh: 0 },
+        { uid: '22', unread: 5, fresh: 0 }
+    ]);
+    await checkMail();
+    assert.equal(mock.calls.badge.text, '80');
+    assert.match(mock.calls.badge.title, /\nАккаунт 1: 75 непрочитанных писем\n/);
+});
+
 test('новый аккаунт без адреса — запрос не чаще раза в час; ошибка — подпись «Аккаунт N»', async (t) => {
     t.mock.timers.enable({ apis: ['Date'], now: Date.now() });
     mock.accounts('<html>не JSON</html>');
     await twoAccounts();
+    await flush();
     assert.match(mock.calls.badge.title, /\nАккаунт 1: 75 непрочитанных писем\n/);
     assert.equal(mock.calls.badge.text, '80', 'счётчик от адресов не зависит');
 
@@ -229,6 +244,8 @@ test('новый аккаунт без адреса — запрос не чащ
     mock.accounts({ 11: 'ivan@yandex.ru', 22: 'work@yandex.ru' });
     t.mock.timers.tick(31 * 60 * 1000);
     await checkMail();
+    await flush();
+    await on.storageChanged({ accountEmails: {} }, 'local');
     assert.match(mock.calls.badge.title, /\nivan@yandex.ru: 75/);
 });
 

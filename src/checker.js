@@ -196,9 +196,22 @@ async function fetchAccountEmails(urls) {
     return emails;
 }
 
-// Адреса аккаунтов для подписи. Запрашиваются раз в сутки, а если у какого-то аккаунта
-// адреса нет (новый аккаунт или прошлый запрос не удался) — не чаще раза в час.
-// Хранятся только адреса: { uid: адрес }
+// Обновить адреса аккаунтов. Изменились — запись в хранилище вызовет пересчёт подписей (background.js)
+async function refreshAccountEmails(urls, stored) {
+    try {
+        const emails = await fetchAccountEmails(urls);
+        if (emails && JSON.stringify(emails) !== JSON.stringify(stored)) {
+            await ext.storage.local.set({ accountEmails: emails });
+        }
+    } catch (error) {
+        // Нет адресов — не беда: подпись будет «Аккаунт N», счётчик от этого не зависит
+        console.warn('Account emails unavailable:', error.message);
+    }
+}
+
+// Адреса аккаунтов для подписи — те, что уже сохранены: проверка их не ждёт. Обновляются в фоне
+// раз в сутки, а если у какого-то аккаунта адреса нет (новый аккаунт или прошлый запрос не удался) —
+// не чаще раза в час. Хранятся только адреса: { uid: адрес }
 async function accountEmails(list, urls) {
     const { accountEmails: stored = {}, accountEmailsCheckedAt = 0 } = await ext.storage.local.get([
         'accountEmails',
@@ -206,18 +219,11 @@ async function accountEmails(list, urls) {
     ]);
     const age = Date.now() - accountEmailsCheckedAt;
     const missing = list.some(({ uid }) => uid && !stored[uid]);
-    if (age < ACCOUNT_EMAILS_TTL_MS && !(missing && age >= ACCOUNT_EMAILS_RETRY_MS)) return stored;
-
-    let fresh = null;
-    try {
-        fresh = await fetchAccountEmails(urls);
-    } catch (error) {
-        // Нет адресов — не беда: подпись будет «Аккаунт N», счётчик от этого не зависит
-        console.warn('Account emails unavailable:', error.message);
+    if (age >= ACCOUNT_EMAILS_TTL_MS || (missing && age >= ACCOUNT_EMAILS_RETRY_MS)) {
+        await ext.storage.local.set({ accountEmailsCheckedAt: Date.now() });
+        refreshAccountEmails(urls, stored);
     }
-    const emails = fresh ?? stored;
-    await ext.storage.local.set({ accountEmails: emails, accountEmailsCheckedAt: Date.now() });
-    return emails;
+    return stored;
 }
 
 // Основной способ: счётчики Яндекса по всем аккаунтам, в которые выполнен вход.
