@@ -7,7 +7,7 @@
 ## What the extension accesses
 
 - **Only Yandex Mail at the address you choose** — `mail.yandex.ru` by default; in the settings you can choose `mail.yandex.com`, `.by`, `.kz`, `.com.tr` or Yandex 360 (`mail.360.yandex.ru`). The browser grants access to another address only after you confirm it, and the extension gives back access to the previous address when you switch. The extension requests the mail counters (`https://mail.yandex.ru/api/v2/bar/counters`: the number of unread and new messages) and, when new mail arrives, the Inbox page (`https://mail.yandex.ru/lite/inbox`). The requests are sent with the cookies your browser already stores for Yandex. The extension never sees your password and does not store cookies.
-- **Updates.** Updates are checked by the browser itself, in its extension catalog (Chrome Web Store, Firefox Add-ons). Version 1.4 installed from an `.xpi` file checks for updates on `github.com`. The extension sends nothing in either case.
+- **Updates.** The version from the Firefox Add-ons catalog is updated by Firefox itself through the catalog; version 1.4 installed from an `.xpi` file checks for updates on `github.com`. The Chrome version installed from a release archive does not update by itself — a new version is installed the same way, manually. The extension sends nothing in either case.
 - **Computer state** (the `idle` permission): whether the computer is active, idle or locked — so that mail is not checked while you are away. The extension does not learn what exactly you are doing and does not send this anywhere.
 - **Mail tabs at the chosen address.** The extension sees the address and title of these tabs only: to switch to an open mailbox and to update the counter after you read mail. Addresses and content of other tabs are not available to it.
 
@@ -27,7 +27,7 @@ The sender and subject of messages are used only to show a notification and are 
 
 ## What the extension does not do
 
-- It does not send data to any server, including Yandex itself: from the mail address it only receives the mail counters and the Inbox page.
+- It does not share your data with the author or any third party. Yandex only receives ordinary requests to your own mailbox (the counters and the Inbox page) with your cookies — the same as when you open your mail in the browser; the extension sends nothing beyond them.
 - It does not use analytics, trackers or ads.
 - It does not read message bodies and does not perform any actions in the mailbox (does not mark messages as read, delete or send anything).
 
