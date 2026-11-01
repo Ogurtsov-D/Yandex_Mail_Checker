@@ -6,7 +6,7 @@
 
 ## What the extension accesses
 
-- **Only Yandex Mail at the address you choose** — `mail.yandex.ru` by default; in the settings you can choose `mail.yandex.com`, `.by`, `.kz`, `.com.tr` or Yandex 360 (`mail.360.yandex.ru`). The browser grants access to another address only after you confirm it, and the extension gives back access to the previous address when you switch. The extension requests the mail counters (`https://mail.yandex.ru/api/v2/bar/counters`: the number of unread and new messages) and, when new mail arrives, the Inbox page (`https://mail.yandex.ru/lite/inbox`). The requests are sent with the cookies your browser already stores for Yandex. The extension never sees your password and does not store cookies.
+- **Only Yandex Mail at the address you choose** — `mail.yandex.ru` by default; in the settings you can choose `mail.yandex.com`, `.by`, `.kz`, `.com.tr` or Yandex 360 (`mail.360.yandex.ru`). The browser grants access to another address only after you confirm it, and the extension gives back access to the previous address when you switch. The extension requests the mail counters (`https://mail.yandex.ru/api/v2/bar/counters`: the number of unread and new messages). Only if they are unavailable does it request the Inbox page (`https://mail.yandex.ru/lite/inbox`). The requests are sent with the cookies your browser already stores for Yandex. The extension never sees your password and does not store cookies.
 - **Updates.** The version from the Firefox Add-ons catalog is updated by Firefox itself through the catalog; version 1.4 installed from an `.xpi` file checks for updates on `github.com`. The Chrome version installed from a release archive does not update by itself — a new version is installed the same way, manually. The extension sends nothing in either case.
 - **Computer state** (the `idle` permission): whether the computer is active, idle or locked — so that mail is not checked while you are away. The extension does not learn what exactly you are doing and does not send this anywhere.
 - **Mail tabs at the chosen address.** The extension sees the address and title of these tabs only: to switch to an open mailbox and to update the counter after you read mail. Addresses and content of other tabs are not available to it.
@@ -18,12 +18,12 @@ All data is stored **only in your browser** (`storage.local` and `storage.sessio
 | Data | Why |
 |------|-----|
 | Number of unread and new messages, time and result of the last check | Show the badge and tooltip, notice new mail |
-| IDs of up to 100 recent unread messages for each account | Avoid notifying about the same message twice |
+| The number of new messages in each account at the previous check; if the counters are unavailable, IDs of up to 100 recent unread messages | Avoid notifying about the same messages twice |
 | Account numbers (uid), their message counts and the names you gave to accounts, if you are signed in to several accounts | Show the accounts in the tooltip, menu and notifications; remember which accounts to leave out |
 | Settings: mail address, check interval, notifications, sound, quiet hours, what the badge shows, pause while away, icon style | Remember your choices |
 | ID of the message from the last notification (until the browser is closed) | Open that message when you click the notification |
 
-The sender and subject of messages are used only to show a notification and are not stored.
+The sender and subject of messages are read only if the counters are unavailable — to show a notification — and are not stored.
 
 ## What the extension does not do
 

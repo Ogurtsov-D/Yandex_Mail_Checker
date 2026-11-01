@@ -10,18 +10,18 @@
 
 **A browser extension that shows the number of unread Yandex Mail messages on the toolbar and notifies you about new mail.**
 
-No need to keep your mailbox open: the extension checks your mail, shows the unread count on its icon and tells you about new messages with the sender and subject.
+No need to keep your mailbox open: the extension checks your mail, shows the unread count on its icon and tells you about new messages.
 
 > **Unofficial extension.** Not affiliated with or endorsed by Yandex — [details](#relationship-with-yandex).
 
 ![Toolbar counter, menu and notifications](docs/screenshot-en.png)
 
-<sub>Interface mockup: names and subjects are made up; menus and notifications look slightly different depending on your browser and OS.</sub>
+<sub>Interface mockup: menus and notifications look slightly different depending on your browser and OS.</sub>
 
 ## Features
 
 - 🔢 **Unread counter** on the toolbar icon: all folders except Spam, the same as Yandex Mail's own counter, or new messages only
-- 📬 **New mail notifications** with sender and subject; clicking one opens that message
+- 📬 **New mail notifications**; clicking one opens your mailbox
 - 🖱️ **Clicking the icon** switches to an already open mail tab instead of opening a new one
 - ⚡ **Instant refresh**: read a message and the counter updates within seconds
 - 🔕 **Sound and quiet hours**: make notifications silent (in Chrome) or turn them off at night
@@ -71,7 +71,7 @@ You need to be signed in to Yandex Mail in the same browser. By default the exte
 | **Right-click** the icon | Menu: "Check now", check interval, what the badge shows, notifications, sound and quiet hours |
 | **Alt+Shift+Y** | Same as clicking the icon. To change the shortcut: in Chrome — `chrome://extensions/shortcuts`, in Firefox — `about:addons` → ⚙ → "Manage Extension Shortcuts" |
 | **Hover** over the icon | Tooltip: how many messages and when the last check was |
-| **Click a notification** | Opens that message (or your Inbox if there are several) |
+| **Click a notification** | Opens your mailbox (or switches to it if it is already open) |
 
 ### What the badge means
 
@@ -101,7 +101,9 @@ Last successful check at 02:20 PM: 3 unread messages
 
 ### Notifications
 
-You get a notification when Yandex reports new messages. The sender and subject are taken from your Inbox; if a message went to another folder, the notification shows only the number of new messages. Messages that were already unread when you installed the extension are not reported. Once you open your mail, the new mail notification disappears by itself. If a mail tab is open, the message opens there; a tab where you are writing an email is never touched.
+You get a notification when Yandex reports new messages; it shows how many new messages arrived, in any folder except Spam. Messages that were already unread when you installed the extension are not reported. Once you open your mail, the notification disappears by itself. Clicking a notification opens your mailbox; if a mail tab is already open, the extension switches to it.
+
+Notifications don't show the sender or subject. They are only available from the mail page, and Yandex treats loading it as a visit to the mailbox: the new mail count would be reset for you in other browsers and on your phone too.
 
 Right-click the icon → "Notifications":
 
@@ -129,7 +131,7 @@ If you are signed in to several Yandex accounts, the extension counts mail in al
   Checked at 02:32 PM
   ```
 - right-clicking the icon lists the accounts with their message counts; click an account to open its mailbox. The other menu items move to the "Settings" submenu;
-- a notification is labelled with the account the messages arrived in, and clicking it opens that account. It has no sender or subject: the simplified version of Yandex Mail they come from shows only the default account;
+- a notification is labelled with the account the messages arrived in, and clicking it opens that account;
 - on the settings page you can name the accounts ("Account 1", "Account 2" by default) and uncheck an account to leave it out of the badge and notifications.
 
 Clicking the icon does not pick an account: it switches to an open mail tab or, if there is none, opens mail in the account selected in Yandex. With one account everything works as before.
@@ -173,13 +175,6 @@ Check, in order:
 </details>
 
 <details>
-<summary><b>Clicking a notification opens the wrong message</b></summary>
-
-Please [report a bug](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/issues/new/choose) and include the address from the browser's address bar that you get when you open the message in your mailbox yourself (you can mask the message number with asterisks).
-
-</details>
-
-<details>
 <summary><b>How to see the extension log</b></summary>
 
 Chrome: `chrome://extensions` → extension card → **service worker** link → **Console** tab.
@@ -192,12 +187,14 @@ Remove any personal data before attaching the log to a bug report.
 ## Limitations
 
 - Mail is checked at one address — the one chosen in the settings.
-- Sender and subject in notifications come from the first Inbox page of the simplified (lite) version of Yandex Mail. If Yandex changes or retires it, notifications arrive without the sender and subject.
+- Notifications don't show the sender or subject — only the number of new messages.
 - The extension gets the counter from Yandex the same way the mail page does. If Yandex changes that, the extension falls back to counting via the lite version — the counter then covers the Inbox only.
 
 ## How it works
 
-On every check the extension requests the mail counters (`https://mail.yandex.ru/api/v2/bar/counters`) with your usual Yandex cookies. These are two numbers: how many messages are unread (in all folders except Spam) and how many arrived since your last visit to the mailbox. The first number is shown on the icon. When the second one grows, the extension opens the simplified Inbox page (`https://mail.yandex.ru/lite/inbox`) — just as if you opened it yourself — and reads the ID, sender and subject of the new messages. The IDs are compared with the ones it already knows, so each message is reported only once. If you are signed in to several accounts, Yandex returns the counters for all of them in one response; the simplified page is not requested then, because it only shows the default account.
+On every check the extension requests the mail counters (`https://mail.yandex.ru/api/v2/bar/counters`) with your usual Yandex cookies. These are two numbers: how many messages are unread (in all folders except Spam) and how many arrived since your last visit to the mailbox. The first number is shown on the icon. When the second one grows, you get a notification. Yandex does not treat this request as a visit to the mailbox, so it doesn't reset the new mail count in your mail. If you are signed in to several accounts, Yandex returns the counters for all of them in one response.
+
+If the counters are unavailable, the extension falls back to the simplified Inbox page (`https://mail.yandex.ru/lite/inbox`): it counts unread messages and reports new ones with the sender and subject.
 
 If the counters are unavailable, the extension counts unread messages using the simplified Inbox page.
 

@@ -156,14 +156,17 @@ describe('Chromium, русский интерфейс', () => {
     test('новое письмо: перепроверка после действия во вкладке почты и уведомление', async () => {
         server.counters = { unread: 2, fresh: 1 };
         server.inbox = inboxPage({ count: 2, messages: [ivan, anna] });
+        const before = server.requests;
         const tab = await browser.context.newPage();
         await tab.goto('https://mail.yandex.ru/?uid=1#inbox'); // tabs.onUpdated → перепроверка
         const s = await waitFor(browser.worker, (x) => x.badge === '2');
         assert.equal(s.notifications.length, 1);
-        assert.equal(s.notifications[0].title, '"Иван" & Ко');
-        assert.equal(s.notifications[0].message, 'Отчёт');
-        assert.equal(s.target, '#/message/222');
+        assert.equal(s.notifications[0].title, '1 новое письмо');
+        assert.equal(s.notifications[0].message, 'Откройте почту для просмотра');
+        assert.equal(s.target, null);
         assert.match(s.title, /^Яндекс Почта: 2 непрочитанных письма, из них 1 новое\n/);
+        // Только запрос счётчиков: загрузка lite-версии обнулила бы счётчик новых в почте
+        assert.equal(server.requests - before, 1);
         await tab.close();
     });
 
@@ -338,7 +341,13 @@ describe('Chromium, английский интерфейс', () => {
 
     test('подсказка, уведомление-список и название на английском', async () => {
         await waitFor(browser.worker, (x) => x.title.startsWith('Yandex Mail: no unread messages'));
-        server.counters = { unread: 2, fresh: 2 };
+        // Уведомление с отправителем и темой — на запасном пути, когда API счётчиков нет:
+        // первая проверка запоминает письма, вторая сообщает о новых
+        server.counters = null;
+        const requests = server.requests;
+        await checkNow(browser.worker);
+        while (server.requests === requests) await sleep(100);
+        await sleep(500);
         server.inbox = inboxPage({
             count: 2,
             messages: [
@@ -348,7 +357,7 @@ describe('Chromium, английский интерфейс', () => {
         });
         await checkNow(browser.worker);
         const s = await waitFor(browser.worker, (x) => x.badge === '2');
-        assert.match(s.title, /^Yandex Mail: 2 unread messages, 2 new\nChecked at \d\d:\d\d [AP]M$/);
+        assert.match(s.title, /^Yandex Mail: 2 unread messages\nChecked at \d\d:\d\d [AP]M$/);
         assert.equal(s.notifications[0].type, 'list');
         assert.equal(s.notifications[0].title, '2 new messages');
         assert.deepEqual(s.notifications[0].items[1], { title: 'Sender', message: '(no subject)' });

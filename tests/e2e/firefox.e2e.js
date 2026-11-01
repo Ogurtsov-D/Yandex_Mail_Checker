@@ -196,15 +196,19 @@ describe('Firefox, русский интерфейс', () => {
         const [n] = s.notifications;
         assert.deepEqual(
             { type: n.type, title: n.title, message: n.message, priority: 'priority' in n },
-            { type: 'basic', title: '"Иван" & Ко', message: 'Отчёт', priority: false }
+            { type: 'basic', title: '1 новое письмо', message: 'Откройте почту для просмотра', priority: false }
         );
-        assert.equal(s.target, '#/message/222');
+        assert.equal(s.target, null);
         assert.match(s.title, /^Яндекс Почта: 2 непрочитанных письма, из них 1 новое\n/);
         await page.close();
     });
 
-    test('несколько новых писем: список превращается в basic-уведомление построчно', async () => {
-        ff.server.counters = { unread: 4, fresh: 3 };
+    test('несколько новых писем (запасной путь через lite-версию): список превращается в basic-уведомление построчно', async () => {
+        // Отправитель и тема бывают только на запасном пути, когда API счётчиков нет:
+        // первая проверка запоминает письма, вторая сообщает о новых
+        ff.server.counters = null;
+        await ff.command({ type: 'check' });
+        await sleep(1000);
         ff.server.inbox = inboxPage({
             count: 4,
             messages: [{ id: '333', from: 'Служба доставки', subject: 'Заказ' }, { id: '444' }, ivan, anna]

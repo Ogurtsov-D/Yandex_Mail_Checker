@@ -18,23 +18,23 @@ const target = () => mock.store.session.notificationTargets?.['new-mail']?.hash 
 
 const COUNTERS = 'https://mail.yandex.ru/api/v2/bar/counters?silent&multi';
 const INBOX = 'https://mail.yandex.ru/lite/inbox';
-const vera = { id: '333', from: 'Вера', subject: 'Билеты' };
 
 describe('счётчики Яндекса (основной способ)', () => {
-    test('первая проверка: на бейдже unread из API, известные письма запоминаются без уведомлений', async () => {
-        mock.counters({ unread: 4, fresh: 0 });
+    test('первая проверка: на бейдже unread из API, без уведомлений и без lite-версии', async () => {
+        mock.counters({ unread: 4, fresh: 2 });
         mock.respond(inboxPage({ count: 2, messages: [anna, ivan] }));
         await checkMail();
         assert.equal(mock.calls.badge.text, '4');
-        assert.match(mock.calls.badge.title, /^Яндекс Почта: 4 непрочитанных письма\nПроверено в \d\d:\d\d$/);
-        assert.deepEqual(mock.requests, [COUNTERS, INBOX]);
-        assert.deepEqual(mock.store.local.accounts[''].knownMessageIds, ['111', '222']);
+        assert.match(
+            mock.calls.badge.title,
+            /^Яндекс Почта: 4 непрочитанных письма, из них 2 новых\nПроверено в \d\d:\d\d$/
+        );
+        assert.deepEqual(mock.requests, [COUNTERS]);
         assert.equal(mock.calls.notifications.length, 0);
     });
 
     test('ничего нового — один запрос к API, без уведомлений', async () => {
         mock.counters({ unread: 4, fresh: 0 });
-        mock.respond(inboxPage({ count: 2, messages: [anna, ivan] }));
         await checkMail();
         mock.requests.length = 0;
         mock.counters({ unread: 3, fresh: 0 });
@@ -44,90 +44,40 @@ describe('счётчики Яндекса (основной способ)', () =
         assert.equal(mock.calls.notifications.length, 0);
     });
 
-    test('fresh вырос: уведомление о новом письме из lite-версии, подсказка «из них 1 новое»', async () => {
+    test('fresh вырос: уведомление с числом новых писем, lite-версия не запрашивается', async () => {
         mock.counters({ unread: 2, fresh: 0 });
-        mock.respond(inboxPage({ count: 2, messages: [anna, ivan] }));
         await checkMail();
 
         // Прочитал одно, пришло одно: unread тот же, fresh вырос
         mock.counters({ unread: 2, fresh: 1 });
-        mock.respond(inboxPage({ count: 2, messages: [vera, anna] }));
         await checkMail();
-
+        assert.ok(!mock.requests.some((url) => url.includes('/lite/')), 'загрузка lite-версии обнулила бы fresh');
         assert.equal(mock.calls.notifications.length, 1);
         const [n] = mock.calls.notifications;
-        assert.deepEqual([n.type, n.title, n.message], ['basic', 'Вера', 'Билеты']);
-        assert.equal(target(), '#/message/333');
+        assert.deepEqual(
+            [n.id, n.type, n.title, n.message],
+            ['new-mail', 'basic', '1 новое письмо', 'Откройте почту для просмотра']
+        );
+        assert.equal(target(), null, 'клик открывает почту');
         assert.match(mock.calls.badge.title, /^Яндекс Почта: 2 непрочитанных письма, из них 1 новое\n/);
 
         // Следующая проверка с тем же fresh — повторного уведомления нет
         await checkMail();
         assert.equal(mock.calls.notifications.length, 1);
-    });
 
-    test('новые письма сверху: старые непрочитанные, которых не было в списке, не попадают в уведомление', async () => {
-        mock.counters({ unread: 1, fresh: 0 });
-        mock.respond(inboxPage({ count: 1, messages: [anna] }));
-        await checkMail();
-
-        // fresh +1, на странице сверху новое письмо, ниже — непрочитанное, о котором расширение не знало
-        mock.counters({ unread: 3, fresh: 1 });
-        mock.respond(inboxPage({ count: 3, messages: [vera, ivan, anna] }));
-        await checkMail();
-        assert.deepEqual(
-            mock.calls.notifications.map((n) => n.title),
-            ['Вера']
-        );
-    });
-
-    test('пришло больше писем, чем нашлось во «Входящих»: в заголовке — общее число', async () => {
-        mock.counters({ unread: 1, fresh: 0 });
-        mock.respond(inboxPage({ count: 1, messages: [anna] }));
-        await checkMail();
-
-        // Два письма, одно из них попало в другую папку
-        mock.counters({ unread: 3, fresh: 2 });
-        mock.respond(inboxPage({ count: 2, messages: [vera, anna] }));
-        await checkMail();
-        const [n] = mock.calls.notifications;
-        assert.equal(n.type, 'list');
-        assert.equal(n.title, '2 новых письма');
-        assert.deepEqual(
-            n.items.map((i) => i.title),
-            ['Вера']
-        );
-        assert.equal(target(), null);
-    });
-
-    test('lite-версия недоступна: уведомление без подробностей, счётчик из API без ошибки', async () => {
-        mock.counters({ unread: 1, fresh: 0 });
-        mock.respond(inboxPage({ count: 1, messages: [anna] }));
-        await checkMail();
-
-        mock.counters({ unread: 3, fresh: 2 });
-        mock.respond(fixture('captcha.html'));
-        await checkMail();
-        const [n] = mock.calls.notifications;
-        assert.deepEqual([n.type, n.title, n.message], ['basic', '2 новых письма', 'Откройте почту для просмотра']);
-        assert.equal(mock.calls.badge.text, '3');
-
+        // Пришло ещё два — уведомление о двух
         mock.counters({ unread: 4, fresh: 3 });
-        mock.respond(() => ({ type: 'basic', status: 503, ok: false }));
         await checkMail();
-        assert.equal(mock.calls.notifications.at(-1).title, '1 новое письмо');
-        assert.equal(mock.calls.badge.text, '4');
-        assert.equal(mock.store.local.errorType, null);
+        assert.equal(mock.calls.notifications.at(-1).title, '2 новых письма');
     });
 
     test('зашли в почту (fresh обнулился) — уведомление о новых письмах убирается', async () => {
         mock.counters({ unread: 1, fresh: 0 });
-        mock.respond(inboxPage({ count: 1, messages: [anna] }));
         await checkMail();
         await checkMail();
         assert.deepEqual(mock.calls.clearedNotifications, [], 'fresh и так был 0');
 
         mock.counters({ unread: 2, fresh: 1 });
-        mock.respond(inboxPage({ count: 2, messages: [vera, anna] }));
         await checkMail();
         mock.counters({ unread: 2, fresh: 0 });
         await checkMail();
@@ -135,37 +85,20 @@ describe('счётчики Яндекса (основной способ)', () =
         assert.equal(mock.calls.notifications.length, 1);
     });
 
-    test('fresh обнулился и снова вырос между проверками — уведомление о письме после обнуления', async () => {
+    test('fresh обнулился и снова вырос между проверками — уведомление о письмах после обнуления', async () => {
         mock.counters({ unread: 3, fresh: 0 });
-        mock.respond(inboxPage({ count: 3, messages: [anna, ivan] }));
         await checkMail();
-        mock.counters({ unread: 3, fresh: 2 });
-        mock.respond(inboxPage({ count: 3, messages: [ivan, anna] }));
+        mock.counters({ unread: 5, fresh: 2 });
         await checkMail();
-        const before = mock.calls.notifications.length;
 
         // Зашли в почту (fresh → 0), пришло письмо (fresh → 1) — проверка видит только 2 → 1
         mock.counters({ unread: 4, fresh: 1 });
-        mock.respond(inboxPage({ count: 4, messages: [vera, ivan, anna] }));
         await checkMail();
-        assert.equal(mock.calls.notifications.length, before + 1);
-        assert.equal(mock.calls.notifications.at(-1).title, 'Вера');
+        assert.deepEqual(
+            mock.calls.notifications.map((n) => n.title),
+            ['2 новых письма', '1 новое письмо']
+        );
         assert.equal(mock.store.local.accounts[''].lastFresh, 1);
-    });
-
-    test('fresh уменьшился без новых писем (письмо прочитано) — без уведомления', async () => {
-        mock.counters({ unread: 2, fresh: 0 });
-        mock.respond(inboxPage({ count: 2, messages: [anna] }));
-        await checkMail();
-        mock.counters({ unread: 3, fresh: 2 });
-        mock.respond(inboxPage({ count: 3, messages: [vera, ivan, anna] }));
-        await checkMail();
-        const before = mock.calls.notifications.length;
-
-        mock.counters({ unread: 2, fresh: 1 });
-        mock.respond(inboxPage({ count: 2, messages: [vera, anna] }));
-        await checkMail();
-        assert.equal(mock.calls.notifications.length, before);
     });
 
     test('401 от API — не выполнен вход: «?», без повтора', async () => {
@@ -385,10 +318,8 @@ test('ошибка в коде расширения не выдаётся за �
 describe('настройки уведомлений', () => {
     async function newMessage() {
         mock.counters({ unread: 1, fresh: 0 });
-        mock.respond(inboxPage({ count: 1, messages: [anna] }));
         await checkMail();
         mock.counters({ unread: 2, fresh: 1 });
-        mock.respond(inboxPage({ count: 2, messages: [ivan, anna] }));
         await checkMail();
     }
 
@@ -401,12 +332,11 @@ describe('настройки уведомлений', () => {
         assert.equal(mock.calls.notifications[0].silent, true);
     });
 
-    test('тихие часы: уведомления нет, но письмо запомнено — после тихих часов о нём не сообщим', async (t) => {
+    test('тихие часы: уведомления нет, после тихих часов о тех же письмах не сообщаем', async (t) => {
         t.mock.timers.enable({ apis: ['Date'], now: new Date('2026-11-01T02:00:00').getTime() });
         Object.assign(mock.store.local, { quietHoursEnabled: true, quietFrom: '23:00', quietTo: '08:00' });
         await newMessage();
         assert.equal(mock.calls.notifications.length, 0);
-        assert.ok(mock.store.local.accounts[''].knownMessageIds.includes('222'));
         assert.equal(mock.calls.badge.text, '2');
 
         t.mock.timers.setTime(new Date('2026-11-01T09:00:00').getTime());

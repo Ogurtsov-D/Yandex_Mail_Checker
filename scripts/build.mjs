@@ -17,6 +17,8 @@ const INCLUDE = ['src', 'icons', '_locales', 'LICENSE'];
 const targets = {
     chrome: (m) => {
         delete m.browser_specific_settings;
+        // Настройки — во вкладке: окно настроек в Edge не подстраивается под страницу и показывает прокрутку
+        m.options_ui.open_in_tab = true;
         m.background = { service_worker: m.background.service_worker, type: m.background.type };
         return m;
     },
