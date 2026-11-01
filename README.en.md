@@ -5,7 +5,7 @@
 [![Latest release](https://img.shields.io/github/v/release/Ogurtsov-D/Yandex_Mail_Checker?label=release)](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/releases/latest)
 [![Checks](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/actions/workflows/ci.yml/badge.svg)](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/actions/workflows/ci.yml)
 ![Chrome 121+](https://img.shields.io/badge/Chrome-121%2B-4285F4)
-![Firefox 140+](https://img.shields.io/badge/Firefox-140%2B-FF7139)
+![Firefox 142+](https://img.shields.io/badge/Firefox-142%2B-FF7139)
 [![License GPLv3](https://img.shields.io/badge/license-GPLv3-blue)](LICENSE)
 
 **A browser extension that shows the number of unread Yandex Mail messages on the toolbar and notifies you about new mail.**
@@ -57,7 +57,7 @@ The `.xpi` file is signed by Mozilla: the extension stays installed and **update
 | Browser | Version |
 |---------|---------|
 | Chrome and Chromium-based browsers | 121 or later |
-| Firefox | 140 or later (Android is not supported) |
+| Firefox | 142 or later (Android is not supported) |
 
 You need to be signed in to Yandex Mail at `mail.yandex.ru` in the same browser. Notifications work on Windows, macOS and Linux.
 
