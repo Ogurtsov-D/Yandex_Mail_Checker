@@ -1,0 +1,325 @@
+{
+  "locale": {
+    "message": "de",
+    "description": "Language code of this translation (plural rules and date formats)"
+  },
+  "extName": {
+    "message": "Mail-Zähler für Yandex Mail",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Zeigt die Anzahl ungelesener E-Mails in Yandex Mail am Symbol in der Symbolleiste an und benachrichtigt über neue E-Mails",
+    "description": "Extension description"
+  },
+  "serviceName": {
+    "message": "Yandex Mail",
+    "description": "Mail service name in the tooltip"
+  },
+  "checking": {
+    "message": "Postfach wird geprüft…",
+    "description": "Tooltip during a manual check"
+  },
+  "noUnread": {
+    "message": "keine neuen E-Mails",
+    "description": "Tooltip: nothing unread"
+  },
+  "unread_one": {
+    "message": "$COUNT$ ungelesene E-Mail",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "unread_other": {
+    "message": "$COUNT$ ungelesene E-Mails",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_one": {
+    "message": "davon $COUNT$ neu",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_other": {
+    "message": "davon $COUNT$ neu",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_one": {
+    "message": "$COUNT$ neue E-Mail",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_other": {
+    "message": "$COUNT$ neue E-Mails",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "checkedAt": {
+    "message": "Geprüft $WHEN$",
+    "description": "Second tooltip line",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      }
+    }
+  },
+  "lastSuccess": {
+    "message": "Letzte erfolgreiche Prüfung $WHEN$: $UNREAD$",
+    "description": "Tooltip on error",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      },
+      "unread": {
+        "content": "$2"
+      }
+    }
+  },
+  "atTime": {
+    "message": "um $TIME$",
+    "description": "Check time today",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "yesterdayAtTime": {
+    "message": "gestern um $TIME$",
+    "description": "Check time yesterday",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "dateAtTime": {
+    "message": "am $DATE$ um $TIME$",
+    "description": "Check time earlier",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      },
+      "time": {
+        "content": "$2"
+      }
+    }
+  },
+  "errorAuth": {
+    "message": "Anmeldung erforderlich",
+    "description": "Error"
+  },
+  "errorServer": {
+    "message": "Yandex-Serverfehler ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorClient": {
+    "message": "Anfragefehler ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorTimeout": {
+    "message": "Yandex hat nicht rechtzeitig geantwortet",
+    "description": "Error"
+  },
+  "errorNetwork": {
+    "message": "Keine Verbindung",
+    "description": "Error"
+  },
+  "errorParse": {
+    "message": "Die Mail-Seite konnte nicht gelesen werden",
+    "description": "Error"
+  },
+  "errorInternal": {
+    "message": "Interner Fehler der Erweiterung",
+    "description": "Error"
+  },
+  "newMessage": {
+    "message": "Neue E-Mail",
+    "description": "Notification: unknown sender"
+  },
+  "unknownSender": {
+    "message": "Absender",
+    "description": "List notification: unknown sender"
+  },
+  "noSubject": {
+    "message": "(kein Betreff)",
+    "description": "Notification: message without subject"
+  },
+  "openMailToView": {
+    "message": "Öffnen Sie Ihr Postfach, um sie zu lesen",
+    "description": "Notification without details"
+  },
+  "menuCheckNow": {
+    "message": "Jetzt prüfen",
+    "description": "Menu item"
+  },
+  "menuInterval": {
+    "message": "Prüfintervall",
+    "description": "Menu item"
+  },
+  "menuNotifications": {
+    "message": "Benachrichtigungen",
+    "description": "Notifications submenu"
+  },
+  "minutes_one": {
+    "message": "$COUNT$ Minute",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "minutes_other": {
+    "message": "$COUNT$ Minuten",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuBadge": {
+    "message": "Am Symbol anzeigen",
+    "description": "Submenu: what the badge shows"
+  },
+  "menuBadgeUnread": {
+    "message": "Alle ungelesenen E-Mails",
+    "description": "Menu item"
+  },
+  "menuBadgeFresh": {
+    "message": "Nur neue E-Mails",
+    "description": "Menu item: only messages received since the last visit to the mailbox"
+  },
+  "menuShowNotifications": {
+    "message": "Benachrichtigungen über neue E-Mails anzeigen",
+    "description": "Menu item"
+  },
+  "menuSound": {
+    "message": "Ton",
+    "description": "Menu item: notification sound"
+  },
+  "menuQuietHours": {
+    "message": "Ruhezeit: $FROM$–$TO$",
+    "description": "Menu item; times as HH:MM",
+    "placeholders": {
+      "from": {
+        "content": "$1"
+      },
+      "to": {
+        "content": "$2"
+      }
+    }
+  },
+  "menuOptions": {
+    "message": "Einstellungen…",
+    "description": "Menu item (Firefox only)"
+  },
+  "optionsTitle": {
+    "message": "Einstellungen des Mail-Zählers",
+    "description": "Settings page title"
+  },
+  "optionsQuietHours": {
+    "message": "Ruhezeit: keine Benachrichtigungen anzeigen",
+    "description": "Settings page"
+  },
+  "optionsFrom": {
+    "message": "von",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsTo": {
+    "message": "bis",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsPauseWhenIdle": {
+    "message": "E-Mails nicht prüfen, während Sie nicht am Computer sind",
+    "description": "Settings page"
+  },
+  "optionsPauseWhenIdleHint": {
+    "message": "Die Prüfungen pausieren nach 5 Minuten Inaktivität oder bei gesperrtem Bildschirm. Sobald Sie zurück sind, wird das Postfach sofort geprüft.",
+    "description": "Settings page hint"
+  },
+  "optionsShortcut": {
+    "message": "Postfach per Tastatur öffnen:",
+    "description": "Settings page; followed by the shortcut"
+  },
+  "optionsShortcutHint": {
+    "message": "Die Tastenkombination können Sie in den Erweiterungseinstellungen des Browsers ändern.",
+    "description": "Settings page hint"
+  },
+  "optionsShortcutNone": {
+    "message": "nicht festgelegt",
+    "description": "No shortcut assigned"
+  },
+  "optionsClassicIcon": {
+    "message": "Klassisches Symbol",
+    "description": "Settings page"
+  },
+  "accountNumber": {
+    "message": "Konto $NUMBER$",
+    "description": "Account label when the login is unknown",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuAccounts": {
+    "message": "Konten",
+    "description": "Submenu: which accounts to count"
+  },
+  "errorPermission": {
+    "message": "Kein Zugriff auf $HOST$: Wählen Sie die Mail-Adresse in den Einstellungen der Erweiterung",
+    "description": "Error: access to the chosen domain was revoked",
+    "placeholders": {
+      "host": {
+        "content": "$1"
+      }
+    }
+  },
+  "optionsMailHost": {
+    "message": "Mail-Adresse:",
+    "description": "Settings page; followed by the list of domains"
+  },
+  "optionsMailHostHint": {
+    "message": "Für jede Adresse außer mail.yandex.ru fragt der Browser nach der Zugriffsberechtigung.",
+    "description": "Settings page hint"
+  },
+  "optionsMailHost360": {
+    "message": "Yandex 360, auch E-Mail mit eigener Domain",
+    "description": "Label for mail.360.yandex.ru"
+  }
+}

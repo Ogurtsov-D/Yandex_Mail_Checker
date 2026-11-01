@@ -1,0 +1,325 @@
+{
+  "locale": {
+    "message": "kk",
+    "description": "Language code of this translation (plural rules and date formats)"
+  },
+  "extName": {
+    "message": "Яндекс Поштаға арналған хат санағышы",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Құралдар тақтасындағы белгішеде Яндекс Поштадағы оқылмаған хаттар санын көрсетеді және жаңа хаттар туралы хабарлайды",
+    "description": "Extension description"
+  },
+  "serviceName": {
+    "message": "Яндекс Пошта",
+    "description": "Mail service name in the tooltip"
+  },
+  "checking": {
+    "message": "Пошта тексерілуде…",
+    "description": "Tooltip during a manual check"
+  },
+  "noUnread": {
+    "message": "жаңа хат жоқ",
+    "description": "Tooltip: nothing unread"
+  },
+  "unread_one": {
+    "message": "$COUNT$ оқылмаған хат",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "unread_other": {
+    "message": "$COUNT$ оқылмаған хат",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_one": {
+    "message": "оның ішінде $COUNT$ жаңа",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_other": {
+    "message": "оның ішінде $COUNT$ жаңа",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_one": {
+    "message": "$COUNT$ жаңа хат",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_other": {
+    "message": "$COUNT$ жаңа хат",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "checkedAt": {
+    "message": "Тексерілді: $WHEN$",
+    "description": "Second tooltip line",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      }
+    }
+  },
+  "lastSuccess": {
+    "message": "Соңғы сәтті тексеру: $WHEN$ — $UNREAD$",
+    "description": "Tooltip on error",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      },
+      "unread": {
+        "content": "$2"
+      }
+    }
+  },
+  "atTime": {
+    "message": "сағат $TIME$",
+    "description": "Check time today",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "yesterdayAtTime": {
+    "message": "кеше, сағат $TIME$",
+    "description": "Check time yesterday",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "dateAtTime": {
+    "message": "$DATE$, сағат $TIME$",
+    "description": "Check time earlier",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      },
+      "time": {
+        "content": "$2"
+      }
+    }
+  },
+  "errorAuth": {
+    "message": "Поштаға кіру қажет",
+    "description": "Error"
+  },
+  "errorServer": {
+    "message": "Яндекс серверінің қатесі ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorClient": {
+    "message": "Сұрау қатесі ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorTimeout": {
+    "message": "Яндекс уақытында жауап бермеді",
+    "description": "Error"
+  },
+  "errorNetwork": {
+    "message": "Байланыс жоқ",
+    "description": "Error"
+  },
+  "errorParse": {
+    "message": "Пошта бетін оқу мүмкін болмады",
+    "description": "Error"
+  },
+  "errorInternal": {
+    "message": "Кеңейтпенің ішкі қатесі",
+    "description": "Error"
+  },
+  "newMessage": {
+    "message": "Жаңа хат",
+    "description": "Notification: unknown sender"
+  },
+  "unknownSender": {
+    "message": "Жіберуші",
+    "description": "List notification: unknown sender"
+  },
+  "noSubject": {
+    "message": "(тақырыпсыз)",
+    "description": "Notification: message without subject"
+  },
+  "openMailToView": {
+    "message": "Оқу үшін поштаны ашыңыз",
+    "description": "Notification without details"
+  },
+  "menuCheckNow": {
+    "message": "Қазір тексеру",
+    "description": "Menu item"
+  },
+  "menuInterval": {
+    "message": "Тексеру аралығы",
+    "description": "Menu item"
+  },
+  "menuNotifications": {
+    "message": "Хабарландырулар",
+    "description": "Notifications submenu"
+  },
+  "minutes_one": {
+    "message": "$COUNT$ минут",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "minutes_other": {
+    "message": "$COUNT$ минут",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuBadge": {
+    "message": "Белгішеде",
+    "description": "Submenu: what the badge shows"
+  },
+  "menuBadgeUnread": {
+    "message": "Барлық оқылмаған хаттар",
+    "description": "Menu item"
+  },
+  "menuBadgeFresh": {
+    "message": "Тек жаңа хаттар",
+    "description": "Menu item: only messages received since the last visit to the mailbox"
+  },
+  "menuShowNotifications": {
+    "message": "Жаңа хаттар туралы хабарландыруларды көрсету",
+    "description": "Menu item"
+  },
+  "menuSound": {
+    "message": "Дыбыс",
+    "description": "Menu item: notification sound"
+  },
+  "menuQuietHours": {
+    "message": "Тыныш уақыт: $FROM$–$TO$",
+    "description": "Menu item; times as HH:MM",
+    "placeholders": {
+      "from": {
+        "content": "$1"
+      },
+      "to": {
+        "content": "$2"
+      }
+    }
+  },
+  "menuOptions": {
+    "message": "Баптаулар…",
+    "description": "Menu item (Firefox only)"
+  },
+  "optionsTitle": {
+    "message": "Хат санағышының баптаулары",
+    "description": "Settings page title"
+  },
+  "optionsQuietHours": {
+    "message": "Тыныш уақыт: хабарландыруларды көрсетпеу",
+    "description": "Settings page"
+  },
+  "optionsFrom": {
+    "message": "басы",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsTo": {
+    "message": "соңы",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsPauseWhenIdle": {
+    "message": "Компьютер басында болмаған кезде поштаны тексермеу",
+    "description": "Settings page"
+  },
+  "optionsPauseWhenIdleHint": {
+    "message": "5 минут әрекетсіздіктен кейін немесе экран құлыпталғанда тексеру тоқтатылады. Қайтып оралғанда пошта бірден тексеріледі.",
+    "description": "Settings page hint"
+  },
+  "optionsShortcut": {
+    "message": "Поштаны пернетақтамен ашу:",
+    "description": "Settings page; followed by the shortcut"
+  },
+  "optionsShortcutHint": {
+    "message": "Пернелер тіркесімін браузердің кеңейтпе баптауларында өзгертуге болады.",
+    "description": "Settings page hint"
+  },
+  "optionsShortcutNone": {
+    "message": "тағайындалмаған",
+    "description": "No shortcut assigned"
+  },
+  "optionsClassicIcon": {
+    "message": "Классикалық белгіше",
+    "description": "Settings page"
+  },
+  "accountNumber": {
+    "message": "Аккаунт $NUMBER$",
+    "description": "Account label when the login is unknown",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuAccounts": {
+    "message": "Аккаунттар",
+    "description": "Submenu: which accounts to count"
+  },
+  "errorPermission": {
+    "message": "$HOST$ мекенжайына қол жеткізу жоқ: кеңейтпе баптауларында пошта мекенжайын таңдаңыз",
+    "description": "Error: access to the chosen domain was revoked",
+    "placeholders": {
+      "host": {
+        "content": "$1"
+      }
+    }
+  },
+  "optionsMailHost": {
+    "message": "Пошта мекенжайы:",
+    "description": "Settings page; followed by the list of domains"
+  },
+  "optionsMailHostHint": {
+    "message": "mail.yandex.ru мекенжайынан басқа кез келген мекенжай үшін браузер оған қол жеткізуге рұқсат сұрайды.",
+    "description": "Settings page hint"
+  },
+  "optionsMailHost360": {
+    "message": "Яндекс 360, соның ішінде өз доменіңіздегі пошта",
+    "description": "Label for mail.360.yandex.ru"
+  }
+}

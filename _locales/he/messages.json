@@ -1,0 +1,361 @@
+{
+  "locale": {
+    "message": "he",
+    "description": "Language code of this translation (plural rules and date formats)"
+  },
+  "extName": {
+    "message": "מונה הודעות ל-Yandex Mail",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "מציג את מספר ההודעות שלא נקראו ב-Yandex Mail על הסמל בסרגל הכלים ומודיע על הודעות חדשות",
+    "description": "Extension description"
+  },
+  "serviceName": {
+    "message": "Yandex Mail",
+    "description": "Mail service name in the tooltip"
+  },
+  "checking": {
+    "message": "בודק דואר…",
+    "description": "Tooltip during a manual check"
+  },
+  "noUnread": {
+    "message": "אין הודעות חדשות",
+    "description": "Tooltip: nothing unread"
+  },
+  "unread_one": {
+    "message": "הודעה אחת שלא נקראה",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "unread_two": {
+    "message": "$COUNT$ הודעות שלא נקראו",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "unread_other": {
+    "message": "$COUNT$ הודעות שלא נקראו",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_one": {
+    "message": "מתוכן אחת חדשה",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_two": {
+    "message": "מתוכן $COUNT$ חדשות",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_other": {
+    "message": "מתוכן $COUNT$ חדשות",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_one": {
+    "message": "הודעה חדשה אחת",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_two": {
+    "message": "$COUNT$ הודעות חדשות",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_other": {
+    "message": "$COUNT$ הודעות חדשות",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "checkedAt": {
+    "message": "נבדק $WHEN$",
+    "description": "Second tooltip line",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      }
+    }
+  },
+  "lastSuccess": {
+    "message": "בדיקה מוצלחת אחרונה $WHEN$: $UNREAD$",
+    "description": "Tooltip on error",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      },
+      "unread": {
+        "content": "$2"
+      }
+    }
+  },
+  "atTime": {
+    "message": "בשעה $TIME$",
+    "description": "Check time today",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "yesterdayAtTime": {
+    "message": "אתמול בשעה $TIME$",
+    "description": "Check time yesterday",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "dateAtTime": {
+    "message": "ב-$DATE$ בשעה $TIME$",
+    "description": "Check time earlier",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      },
+      "time": {
+        "content": "$2"
+      }
+    }
+  },
+  "errorAuth": {
+    "message": "נדרשת התחברות לדואר",
+    "description": "Error"
+  },
+  "errorServer": {
+    "message": "שגיאת שרת של Yandex ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorClient": {
+    "message": "שגיאת בקשה ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorTimeout": {
+    "message": "Yandex לא הגיב בזמן",
+    "description": "Error"
+  },
+  "errorNetwork": {
+    "message": "אין חיבור",
+    "description": "Error"
+  },
+  "errorParse": {
+    "message": "לא ניתן לקרוא את דף הדואר",
+    "description": "Error"
+  },
+  "errorInternal": {
+    "message": "שגיאה פנימית בתוסף",
+    "description": "Error"
+  },
+  "newMessage": {
+    "message": "הודעה חדשה",
+    "description": "Notification: unknown sender"
+  },
+  "unknownSender": {
+    "message": "שולח",
+    "description": "List notification: unknown sender"
+  },
+  "noSubject": {
+    "message": "(ללא נושא)",
+    "description": "Notification: message without subject"
+  },
+  "openMailToView": {
+    "message": "פתחו את הדואר כדי לקרוא",
+    "description": "Notification without details"
+  },
+  "menuCheckNow": {
+    "message": "בדיקה עכשיו",
+    "description": "Menu item"
+  },
+  "menuInterval": {
+    "message": "מרווח בדיקה",
+    "description": "Menu item"
+  },
+  "menuNotifications": {
+    "message": "התראות",
+    "description": "Notifications submenu"
+  },
+  "minutes_one": {
+    "message": "דקה אחת",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "minutes_two": {
+    "message": "שתי דקות",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "minutes_other": {
+    "message": "$COUNT$ דקות",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuBadge": {
+    "message": "על הסמל",
+    "description": "Submenu: what the badge shows"
+  },
+  "menuBadgeUnread": {
+    "message": "כל ההודעות שלא נקראו",
+    "description": "Menu item"
+  },
+  "menuBadgeFresh": {
+    "message": "הודעות חדשות בלבד",
+    "description": "Menu item: only messages received since the last visit to the mailbox"
+  },
+  "menuShowNotifications": {
+    "message": "הצגת התראות על הודעות חדשות",
+    "description": "Menu item"
+  },
+  "menuSound": {
+    "message": "צליל",
+    "description": "Menu item: notification sound"
+  },
+  "menuQuietHours": {
+    "message": "שעות שקטות: $FROM$–$TO$",
+    "description": "Menu item; times as HH:MM",
+    "placeholders": {
+      "from": {
+        "content": "$1"
+      },
+      "to": {
+        "content": "$2"
+      }
+    }
+  },
+  "menuOptions": {
+    "message": "הגדרות…",
+    "description": "Menu item (Firefox only)"
+  },
+  "optionsTitle": {
+    "message": "הגדרות מונה ההודעות",
+    "description": "Settings page title"
+  },
+  "optionsQuietHours": {
+    "message": "שעות שקטות: לא להציג התראות",
+    "description": "Settings page"
+  },
+  "optionsFrom": {
+    "message": "משעה",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsTo": {
+    "message": "עד",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsPauseWhenIdle": {
+    "message": "לא לבדוק דואר כשאינכם ליד המחשב",
+    "description": "Settings page"
+  },
+  "optionsPauseWhenIdleHint": {
+    "message": "הבדיקות מושהות לאחר 5 דקות ללא פעילות או כשהמסך נעול. כשתחזרו, הדואר ייבדק מיד.",
+    "description": "Settings page hint"
+  },
+  "optionsShortcut": {
+    "message": "פתיחת הדואר מהמקלדת:",
+    "description": "Settings page; followed by the shortcut"
+  },
+  "optionsShortcutHint": {
+    "message": "ניתן לשנות את קיצור המקשים בהגדרות התוספים של הדפדפן.",
+    "description": "Settings page hint"
+  },
+  "optionsShortcutNone": {
+    "message": "לא הוגדר",
+    "description": "No shortcut assigned"
+  },
+  "optionsClassicIcon": {
+    "message": "סמל קלאסי",
+    "description": "Settings page"
+  },
+  "accountNumber": {
+    "message": "חשבון $NUMBER$",
+    "description": "Account label when the login is unknown",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuAccounts": {
+    "message": "חשבונות",
+    "description": "Submenu: which accounts to count"
+  },
+  "errorPermission": {
+    "message": "אין גישה אל $HOST$: בחרו את כתובת הדואר בהגדרות התוסף",
+    "description": "Error: access to the chosen domain was revoked",
+    "placeholders": {
+      "host": {
+        "content": "$1"
+      }
+    }
+  },
+  "optionsMailHost": {
+    "message": "כתובת הדואר:",
+    "description": "Settings page; followed by the list of domains"
+  },
+  "optionsMailHostHint": {
+    "message": "עבור כל כתובת מלבד mail.yandex.ru, הדפדפן יבקש הרשאת גישה אליה.",
+    "description": "Settings page hint"
+  },
+  "optionsMailHost360": {
+    "message": "Yandex 360, כולל דואר בדומיין שלכם",
+    "description": "Label for mail.360.yandex.ru"
+  }
+}

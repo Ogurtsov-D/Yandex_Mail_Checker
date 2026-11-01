@@ -1,0 +1,397 @@
+{
+  "locale": {
+    "message": "be",
+    "description": "Language code of this translation (plural rules and date formats)"
+  },
+  "extName": {
+    "message": "Лічыльнік лістоў для Яндэкс Пошты",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Паказвае колькасць непрачытаных лістоў Яндэкс Пошты на значку на панэлі інструментаў і апавяшчае пра новыя лісты",
+    "description": "Extension description"
+  },
+  "serviceName": {
+    "message": "Яндэкс Пошта",
+    "description": "Mail service name in the tooltip"
+  },
+  "checking": {
+    "message": "Праверка пошты…",
+    "description": "Tooltip during a manual check"
+  },
+  "noUnread": {
+    "message": "новых лістоў няма",
+    "description": "Tooltip: nothing unread"
+  },
+  "unread_one": {
+    "message": "$COUNT$ непрачытаны ліст",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "unread_few": {
+    "message": "$COUNT$ непрачытаныя лісты",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "unread_many": {
+    "message": "$COUNT$ непрачытаных лістоў",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "unread_other": {
+    "message": "$COUNT$ непрачытанага ліста",
+    "description": "Tooltip: unread count",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_one": {
+    "message": "з іх $COUNT$ новы",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_few": {
+    "message": "з іх $COUNT$ новыя",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_many": {
+    "message": "з іх $COUNT$ новых",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_other": {
+    "message": "з іх $COUNT$ новага",
+    "description": "Tooltip: how many of the unread messages arrived since the last visit to the mailbox",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_one": {
+    "message": "$COUNT$ новы ліст",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_few": {
+    "message": "$COUNT$ новыя лісты",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_many": {
+    "message": "$COUNT$ новых лістоў",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "newMail_other": {
+    "message": "$COUNT$ новага ліста",
+    "description": "Notification title",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "checkedAt": {
+    "message": "Праверана $WHEN$",
+    "description": "Second tooltip line",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      }
+    }
+  },
+  "lastSuccess": {
+    "message": "Апошняя паспяховая праверка $WHEN$: $UNREAD$",
+    "description": "Tooltip on error",
+    "placeholders": {
+      "when": {
+        "content": "$1"
+      },
+      "unread": {
+        "content": "$2"
+      }
+    }
+  },
+  "atTime": {
+    "message": "у $TIME$",
+    "description": "Check time today",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "yesterdayAtTime": {
+    "message": "учора ў $TIME$",
+    "description": "Check time yesterday",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "dateAtTime": {
+    "message": "$DATE$ у $TIME$",
+    "description": "Check time earlier",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      },
+      "time": {
+        "content": "$2"
+      }
+    }
+  },
+  "errorAuth": {
+    "message": "Патрабуецца ўваход у пошту",
+    "description": "Error"
+  },
+  "errorServer": {
+    "message": "Памылка сервера Яндэкса ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorClient": {
+    "message": "Памылка запыту ($STATUS$)",
+    "description": "Error",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "errorTimeout": {
+    "message": "Яндэкс не адказаў своечасова",
+    "description": "Error"
+  },
+  "errorNetwork": {
+    "message": "Няма падключэння",
+    "description": "Error"
+  },
+  "errorParse": {
+    "message": "Не ўдалося прачытаць старонку пошты",
+    "description": "Error"
+  },
+  "errorInternal": {
+    "message": "Унутраная памылка пашырэння",
+    "description": "Error"
+  },
+  "newMessage": {
+    "message": "Новы ліст",
+    "description": "Notification: unknown sender"
+  },
+  "unknownSender": {
+    "message": "Адпраўнік",
+    "description": "List notification: unknown sender"
+  },
+  "noSubject": {
+    "message": "(без тэмы)",
+    "description": "Notification: message without subject"
+  },
+  "openMailToView": {
+    "message": "Адкрыйце пошту, каб прачытаць",
+    "description": "Notification without details"
+  },
+  "menuCheckNow": {
+    "message": "Праверыць зараз",
+    "description": "Menu item"
+  },
+  "menuInterval": {
+    "message": "Інтэрвал праверкі",
+    "description": "Menu item"
+  },
+  "menuNotifications": {
+    "message": "Апавяшчэнні",
+    "description": "Notifications submenu"
+  },
+  "minutes_one": {
+    "message": "$COUNT$ хвіліна",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "minutes_few": {
+    "message": "$COUNT$ хвіліны",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "minutes_many": {
+    "message": "$COUNT$ хвілін",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "minutes_other": {
+    "message": "$COUNT$ хвіліны",
+    "description": "Interval in the menu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuBadge": {
+    "message": "На значку",
+    "description": "Submenu: what the badge shows"
+  },
+  "menuBadgeUnread": {
+    "message": "Усе непрачытаныя",
+    "description": "Menu item"
+  },
+  "menuBadgeFresh": {
+    "message": "Толькі новыя",
+    "description": "Menu item: only messages received since the last visit to the mailbox"
+  },
+  "menuShowNotifications": {
+    "message": "Паказваць апавяшчэнні пра новыя лісты",
+    "description": "Menu item"
+  },
+  "menuSound": {
+    "message": "Гук",
+    "description": "Menu item: notification sound"
+  },
+  "menuQuietHours": {
+    "message": "Ціхія гадзіны: $FROM$–$TO$",
+    "description": "Menu item; times as HH:MM",
+    "placeholders": {
+      "from": {
+        "content": "$1"
+      },
+      "to": {
+        "content": "$2"
+      }
+    }
+  },
+  "menuOptions": {
+    "message": "Налады…",
+    "description": "Menu item (Firefox only)"
+  },
+  "optionsTitle": {
+    "message": "Налады лічыльніка лістоў",
+    "description": "Settings page title"
+  },
+  "optionsQuietHours": {
+    "message": "Ціхія гадзіны: не паказваць апавяшчэнні",
+    "description": "Settings page"
+  },
+  "optionsFrom": {
+    "message": "з",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsTo": {
+    "message": "да",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsPauseWhenIdle": {
+    "message": "Не правяраць пошту, пакуль вы не за камп’ютарам",
+    "description": "Settings page"
+  },
+  "optionsPauseWhenIdleHint": {
+    "message": "Праверкі прыпыняюцца праз 5 хвілін бяздзейнасці або калі экран заблакаваны. Калі вы вернецеся, пошта будзе праверана адразу.",
+    "description": "Settings page hint"
+  },
+  "optionsShortcut": {
+    "message": "Адкрыць пошту з клавіятуры:",
+    "description": "Settings page; followed by the shortcut"
+  },
+  "optionsShortcutHint": {
+    "message": "Спалучэнне клавіш можна змяніць у наладах пашырэнняў браўзера.",
+    "description": "Settings page hint"
+  },
+  "optionsShortcutNone": {
+    "message": "не прызначана",
+    "description": "No shortcut assigned"
+  },
+  "optionsClassicIcon": {
+    "message": "Класічны значок",
+    "description": "Settings page"
+  },
+  "accountNumber": {
+    "message": "Уліковы запіс $NUMBER$",
+    "description": "Account label when the login is unknown",
+    "placeholders": {
+      "number": {
+        "content": "$1"
+      }
+    }
+  },
+  "menuAccounts": {
+    "message": "Уліковыя запісы",
+    "description": "Submenu: which accounts to count"
+  },
+  "errorPermission": {
+    "message": "Няма доступу да $HOST$: выберыце адрас пошты ў наладах пашырэння",
+    "description": "Error: access to the chosen domain was revoked",
+    "placeholders": {
+      "host": {
+        "content": "$1"
+      }
+    }
+  },
+  "optionsMailHost": {
+    "message": "Адрас пошты:",
+    "description": "Settings page; followed by the list of domains"
+  },
+  "optionsMailHostHint": {
+    "message": "Для любога адраса, акрамя mail.yandex.ru, браўзер папросіць дазвол на доступ да яго.",
+    "description": "Settings page hint"
+  },
+  "optionsMailHost360": {
+    "message": "Яндэкс 360, у тым ліку пошта на ўласным дамене",
+    "description": "Label for mail.360.yandex.ru"
+  }
+}
