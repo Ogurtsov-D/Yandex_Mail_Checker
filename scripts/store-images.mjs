@@ -23,7 +23,7 @@ const TEXT = {
         slides: [
             ['Непрочитанные письма — на панели браузера', 'Во всех папках, кроме «Спама», — как в самой Яндекс Почте'],
             ['Всё под рукой — по правому клику', 'Проверить сейчас, интервал, что показывать на значке, уведомления'],
-            ['Уведомления с отправителем и темой', 'Клик по уведомлению открывает письмо'],
+            ['Уведомления о новых письмах', 'Клик по уведомлению открывает почту'],
             ['Тихие часы, адрес почты, вид значка', 'Яндекс 360 и другие домены, несколько аккаунтов, 19 языков']
         ]
     },
@@ -34,7 +34,7 @@ const TEXT = {
         slides: [
             ['Unread mail count on your toolbar', 'All folders except Spam — the same as Yandex Mail itself'],
             ['Everything a right-click away', 'Check now, check interval, what the badge shows, notifications'],
-            ['Notifications with sender and subject', 'Click a notification to open the message'],
+            ['New mail notifications', 'Click a notification to open your mailbox'],
             ['Quiet hours, mail address, icon style', 'Yandex 360 and other domains, several accounts, 19 languages']
         ]
     }

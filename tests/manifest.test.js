@@ -77,6 +77,10 @@ test('сборка для Firefox — для каталога Mozilla: без up
     const firefox = JSON.parse(read('dist/firefox/manifest.json'));
     assert.equal(firefox.browser_specific_settings.gecko.update_url, undefined);
     assert.equal(firefox.browser_specific_settings.gecko.id, manifest.browser_specific_settings.gecko.id);
+    // В Chrome и Edge настройки открываются во вкладке, в Firefox — на странице дополнения
+    const chrome = JSON.parse(read('dist/chrome/manifest.json'));
+    assert.equal(chrome.options_ui.open_in_tab, true);
+    assert.equal(firefox.options_ui.open_in_tab, undefined);
 });
 
 test('переводы: все языки полные, формы числа по правилам языка, ключи из кода и манифеста существуют', async () => {

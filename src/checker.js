@@ -1,4 +1,4 @@
-// Проверка почты: счётчики Яндекса, детали новых писем из lite-версии, уведомления, повторы при ошибках
+// Проверка почты: счётчики Яндекса, уведомления о новых письмах, запасной путь через lite-версию, повторы при ошибках
 import { ext } from './api.js';
 import { FETCH_TIMEOUT_MS, MAX_KNOWN_IDS, MAX_RETRIES, RETRY_INTERVAL_SEC } from './config.js';
 import { hasHostAccess, mailUrls } from './hosts.js';
@@ -95,8 +95,9 @@ async function fetchCounters(urls) {
     return accounts.length > 0 ? accounts : null;
 }
 
-// Lite-версия «Входящих». Она всегда показывает аккаунт по умолчанию — ?uid= на неё не действует
-// (проверено владельцем), поэтому при нескольких аккаунтах подробности писем из неё не берутся
+// Lite-версия «Входящих» — только запасной путь, когда API счётчиков недоступно. Она всегда показывает
+// аккаунт по умолчанию (?uid= на неё не действует), а её загрузка считается заходом в почту
+// и обнуляет fresh (проверено владельцем)
 async function fetchInboxHtml(urls) {
     const response = await request(urls.inbox);
     // Другие не-2xx: редиректы при redirect: 'manual' приходят как opaqueredirect
@@ -138,64 +139,38 @@ async function saveSuccess(unreadCount, freshCount, extra) {
     return state;
 }
 
-// Непрочитанные письма из lite-версии «Входящих» (новые сверху).
-// null — страницу получить или распознать не удалось: уведомление обойдётся без подробностей
-async function loadInboxMessages(urls) {
-    try {
-        const html = await fetchInboxHtml(urls);
-        const messages = parseUnreadMessages(html);
-        return parseUnreadCount(html, messages) === null ? null : messages;
-    } catch (error) {
-        if (!(error instanceof MailCheckError)) console.error(error);
-        console.warn('Inbox details unavailable:', error.message);
-        return null;
-    }
-}
-
-// Один аккаунт по его счётчикам. prev — сохранённое состояние аккаунта: { lastFresh, knownMessageIds }.
-// account — { uid, label }, когда аккаунтов несколько, иначе null. Возвращает новое состояние аккаунта
-async function checkAccount({ fresh }, prev, { urls, enabled, account }) {
-    // Первая проверка аккаунта: только запоминаем fresh.
-    // fresh уменьшился — пользователь заходил в почту (Яндекс обнуляет fresh) или прочитал
-    // новое письмо где-то ещё. В первом случае все fresh писем пришли после обнуления
-    const decreased = prev.lastFresh != null && fresh < prev.lastFresh;
-    const added = !enabled || prev.lastFresh == null ? 0 : decreased ? fresh : fresh - prev.lastFresh;
-    const next = { lastFresh: fresh, knownMessageIds: prev.knownMessageIds };
-
-    if (account) {
-        // Несколько аккаунтов: lite-версия показала бы письма аккаунта по умолчанию, а не этого —
-        // уведомляем без отправителя и темы, клик откроет нужный аккаунт. Сверить с известными
-        // письмами нечем, поэтому уменьшение fresh считаем обнулением при заходе в почту:
-        // все fresh писем пришли после него
-        if (added > 0) await notifyNewCount(added, account);
-    } else if (added > 0 || prev.knownMessageIds === undefined) {
-        // Список известных писем нужен, чтобы отличить новые письма от старых непрочитанных.
-        // Его заполняем при первой проверке, дальше — только когда пришли новые письма
-        const knownIds = new Set(prev.knownMessageIds ?? []);
-        const messages = await loadInboxMessages(urls);
-        // Не удалось — пустой список: иначе lite-версия запрашивалась бы при каждой проверке
-        next.knownMessageIds = messages ? rememberIds(knownIds, messages) : [...knownIds];
-
-        if (added > 0) {
-            // Новые сверху; письма могли прийти и в другие папки — тогда во «Входящих» их нет
-            const unseen = (messages ?? []).filter((m) => !knownIds.has(m.id)).slice(0, added);
-            // После уменьшения fresh уведомляем только о письмах, которых ещё не видели:
-            // если fresh уменьшился из-за прочтения, новых писем нет
-            if (unseen.length > 0) await notifyNewMessages(unseen, decreased ? unseen.length : added);
-            else if (!decreased) await notifyNewCount(added);
+// Один аккаунт по его счётчикам. prev — сохранённое состояние аккаунта: { lastFresh, lastUnread }.
+// account — { uid, label }, когда аккаунтов несколько, иначе null. Возвращает новое состояние аккаунта.
+//
+// Отправителя и тему новых писем расширение не узнаёт: их можно взять только со страницы
+// почты (lite-версии), а Яндекс считает её загрузку заходом в почту и обнуляет fresh —
+// счётчик новых сбрасывался бы во всех браузерах, а уведомление тут же убиралось (проверено владельцем)
+async function checkAccount({ fresh, unread }, prev, { enabled, account }) {
+    // Первая проверка аккаунта: только запоминаем числа
+    let added = 0;
+    if (enabled && prev.lastFresh != null) {
+        if (fresh >= prev.lastFresh) {
+            added = fresh - prev.lastFresh;
+        } else if (fresh > 0 && unread > (prev.lastUnread ?? Infinity)) {
+            // fresh уменьшился, но непрочитанных стало больше: пользователь заходил в почту
+            // (Яндекс обнуляет fresh), и после этого пришло fresh писем — все они новые.
+            // Если непрочитанных не прибавилось, новое письмо просто прочитали в другом клиенте
+            added = fresh;
         }
     }
+
+    if (added > 0) await notifyNewCount(added, account);
 
     // Пользователь зашёл в почту и увидел новые письма — уведомление о них больше не нужно
     if (fresh === 0 && prev.lastFresh > 0) await ext.notifications.clear(notificationId(account));
 
-    return next;
+    return { lastFresh: fresh, lastUnread: unread };
 }
 
 // Основной способ: счётчики Яндекса по всем аккаунтам, в которые выполнен вход.
 // На бейдже — сумма по учитываемым аккаунтам: unread (все папки, кроме «Спама») или fresh.
-// Рост fresh — пришли новые письма; у единственного аккаунта отправитель и тема — из lite-версии
-async function checkByCounters(list, urls) {
+// Рост fresh — пришли новые письма: уведомление с их числом
+async function checkByCounters(list) {
     const { accounts: stored = {} } = await ext.storage.local.get('accounts');
     const { disabledAccounts, accountNames } = await getSettings();
     const multiple = list.length > 1;
@@ -210,7 +185,7 @@ async function checkByCounters(list, urls) {
         // Подпись — имя, заданное на странице настроек, иначе «Аккаунт N»
         const label = accountNames[key] || t('accountNumber', index + 1);
         const account = multiple ? { uid: key, label } : null;
-        accounts[key] = await checkAccount(counters, stored[key] ?? {}, { urls, enabled, account });
+        accounts[key] = await checkAccount(counters, stored[key] ?? {}, { enabled, account });
         summary.push({ uid: key, label, unread: counters.unread, fresh: counters.fresh, enabled });
     }
 
@@ -298,9 +273,7 @@ export async function checkMail({ manual = false } = {}) {
             if (!(await hasHostAccess(urls.host))) throw new MailCheckError('permission', urls.host);
             const counters = await fetchCounters(urls);
             debug('Счётчики:', counters ?? 'API недоступно, читаем lite-версию');
-            state = counters
-                ? await checkByCounters(counters, urls)
-                : await checkByInboxPage(await fetchInboxHtml(urls));
+            state = counters ? await checkByCounters(counters) : await checkByInboxPage(await fetchInboxHtml(urls));
             debug('Проверка успешна:', state);
         } catch (error) {
             if (!(error instanceof MailCheckError)) {
