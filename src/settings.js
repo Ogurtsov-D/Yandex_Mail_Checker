@@ -1,6 +1,7 @@
 // Пользовательские настройки (chrome.storage.local) и расписание автопроверки
 import { ext } from './api.js';
-import { CHECK_JITTER, DEFAULT_INTERVAL, INTERVALS } from './config.js';
+import { CHECK_JITTER, DEFAULT_INTERVAL, DEFAULT_MAIL_HOST, INTERVALS } from './config.js';
+import { isMailHost } from './hosts.js';
 
 export const CHECK_ALARM = 'checkMail';
 export const RETRY_ALARM = 'retryCheck';
@@ -16,7 +17,8 @@ export const SETTING_KEYS = [
     'badgeMode',
     'pauseWhenIdle',
     'classicIcon',
-    'disabledAccounts'
+    'disabledAccounts',
+    'mailHost'
 ];
 
 const DEFAULT_QUIET_FROM = '23:00';
@@ -38,7 +40,9 @@ export async function getSettings() {
         pauseWhenIdle: s.pauseWhenIdle !== false,
         classicIcon: s.classicIcon === true,
         // uid аккаунтов, которые не учитываются в счётчике и уведомлениях
-        disabledAccounts: Array.isArray(s.disabledAccounts) ? s.disabledAccounts.map(String) : []
+        disabledAccounts: Array.isArray(s.disabledAccounts) ? s.disabledAccounts.map(String) : [],
+        // Домен почты: mail.yandex.ru, mail.yandex.com, Яндекс 360…
+        mailHost: isMailHost(s.mailHost) ? s.mailHost : DEFAULT_MAIL_HOST
     };
 }
 

@@ -51,7 +51,9 @@ ext.storage.onChanged.addListener(async (changes, area) => {
     // accountList меняется, когда вошли в другой аккаунт или вышли из него
     if (area !== 'local' || ![...SETTING_KEYS, 'accountList'].some((key) => key in changes)) return;
     await createContextMenu();
-    await renderStatus(await loadState());
+    // Сменили домен почты — сразу проверить почту на новом
+    if ('mailHost' in changes) await checkMail();
+    else await renderStatus(await loadState());
 });
 
 // Левый клик по иконке или горячая клавиша (Alt+Shift+Y) — открыть почту или переключиться на открытую вкладку

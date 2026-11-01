@@ -8,6 +8,13 @@
   "minimum_chrome_version": "121",
   "permissions": ["storage", "alarms", "contextMenus", "notifications", "idle"],
   "host_permissions": ["https://mail.yandex.ru/*"],
+  "optional_host_permissions": [
+    "https://mail.yandex.com/*",
+    "https://mail.yandex.by/*",
+    "https://mail.yandex.kz/*",
+    "https://mail.yandex.com.tr/*",
+    "https://mail.360.yandex.ru/*"
+  ],
   "action": {
     "default_title": "__MSG_serviceName__",
     "default_icon": {

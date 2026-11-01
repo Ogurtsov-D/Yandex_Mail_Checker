@@ -112,8 +112,8 @@ function prepareExtension(base) {
     writeFileSync(
         configPath,
         readFileSync(configPath, 'utf8')
-            .replace("'https://mail.yandex.ru/*'", "'http://127.0.0.1/*'")
-            .replaceAll("'https://mail.yandex.ru/", `'${base}`)
+            .replace("'https://{host}/*'", "'http://127.0.0.1/*'")
+            .replace("'https://{host}/'", `'${base}'`)
     );
     const manifest = JSON.parse(readFileSync(join(dir, 'manifest.json'), 'utf8'));
     manifest.host_permissions.push('http://127.0.0.1/*');

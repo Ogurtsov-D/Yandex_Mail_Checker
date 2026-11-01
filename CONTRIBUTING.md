@@ -135,7 +135,7 @@ NODE_PATH="$(npm root -g)" node scripts/render-icons.mjs
 - Изменения, заметные пользователю, — в раздел `## [Не выпущено]` в начале `CHANGELOG.md` (создайте его, если нет).
 - Если изменились тексты меню, бейджа или уведомлений, обновите `docs/mockup.html` и `docs/mockup-en.html` и пересоздайте `docs/screenshot.png` и `docs/screenshot-en.png`: откройте макет в Chrome → DevTools → Ctrl+Shift+P → «Capture full size screenshot».
 - Если меняется README, обновите и английскую версию `README.en.md`.
-- Расширение не должно обращаться никуда, кроме `mail.yandex.ru`, и не должно выполнять действий в почте.
+- Расширение не должно обращаться никуда, кроме почты Яндекса на выбранном адресе (`MAIL_HOSTS` в `src/config.js`), и не должно выполнять действий в почте.
 
 ## Выпуск новой версии
 

@@ -119,7 +119,8 @@ export function installBrowserMock({ firefox = false, locale = 'ru' } = {}) {
             onClicked: event('menuClicked')
         },
         tabs: {
-            query: async () => tabs.filter((t) => t.url.startsWith('https://mail.yandex.ru/')),
+            // Шаблон адреса вида https://mail.yandex.ru/*
+            query: async ({ url }) => tabs.filter((t) => t.url.startsWith(url.replace(/\*$/, ''))),
             create: async ({ url }) => {
                 calls.createdTabs.push(url);
             },
@@ -128,6 +129,19 @@ export function installBrowserMock({ firefox = false, locale = 'ru' } = {}) {
             },
             onUpdated: event('tabUpdated'),
             onRemoved: event('tabRemoved')
+        },
+        permissions: {
+            // Выданные разрешения на домены (optional_host_permissions)
+            contains: async ({ origins }) => origins.every((o) => mock.grantedOrigins.includes(o)),
+            request: async ({ origins }) => {
+                if (!mock.allowPermissionRequests) return false;
+                mock.grantedOrigins.push(...origins);
+                return true;
+            },
+            remove: async ({ origins }) => {
+                mock.grantedOrigins = mock.grantedOrigins.filter((o) => !origins.includes(o));
+                return true;
+            }
         },
         idle: {
             // Состояние пользователя: active | idle | locked (задаётся через mock.idleState)
@@ -190,6 +204,8 @@ export function installBrowserMock({ firefox = false, locale = 'ru' } = {}) {
             calls.icons.length = 0;
             calls.openedOptions = 0;
             mock.idleState = 'active';
+            mock.grantedOrigins = [];
+            mock.allowPermissionRequests = true;
             calls.badge.text = undefined;
             calls.badge.title = undefined;
             tabs = [];

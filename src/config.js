@@ -1,12 +1,24 @@
-// Адреса
-export const MAIL_URL = 'https://mail.yandex.ru/';
-export const MAIL_TAB_PATTERN = 'https://mail.yandex.ru/*';
+// Адреса почты. Почта Яндекса доступна на нескольких доменах; пользователь выбирает свой
+// на странице настроек. mail.yandex.ru разрешён при установке, остальные — по запросу
+// (optional_host_permissions), когда пользователь их выбрал
+export const DEFAULT_MAIL_HOST = 'mail.yandex.ru';
+export const MAIL_HOSTS = [
+    'mail.yandex.ru',
+    'mail.yandex.com',
+    'mail.yandex.by',
+    'mail.yandex.kz',
+    'mail.yandex.com.tr',
+    'mail.360.yandex.ru' // Яндекс 360, в том числе почта на своём домене
+];
+// {host} заменяется выбранным доменом (см. src/hosts.js)
+export const MAIL_URL_TEMPLATE = 'https://{host}/';
+export const MAIL_TAB_PATTERN_TEMPLATE = 'https://{host}/*';
 // Счётчики непрочитанных (unread — во всех папках, кроме «Спама») и новых писем
 // (fresh — пришедших после последнего захода в почту). Адрес с ?silent — как у расширения Yandex Mail Watcher;
 // &multi — ответ по всем аккаунтам, в которые выполнен вход
-export const COUNTERS_URL = 'https://mail.yandex.ru/api/v2/bar/counters?silent&multi';
+export const COUNTERS_PATH = 'api/v2/bar/counters?silent&multi';
 // Lite-версия «Входящих»: отправитель и тема новых писем, запасной источник счётчика
-export const INBOX_URL = 'https://mail.yandex.ru/lite/inbox';
+export const INBOX_PATH = 'lite/inbox';
 
 // Интервалы автопроверки (минуты), доступные в меню
 export const INTERVALS = [1, 5, 15, 30];

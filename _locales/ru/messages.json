@@ -372,5 +372,26 @@
   "menuAccounts": {
     "message": "Аккаунты",
     "description": "Подменю: какие аккаунты учитывать"
+  },
+  "errorPermission": {
+    "message": "Нет доступа к $HOST$: выберите адрес почты в настройках расширения",
+    "description": "Ошибка: пользователь отозвал доступ к выбранному домену",
+    "placeholders": {
+      "host": {
+        "content": "$1"
+      }
+    }
+  },
+  "optionsMailHost": {
+    "message": "Адрес почты:",
+    "description": "Страница настроек; дальше — список доменов"
+  },
+  "optionsMailHostHint": {
+    "message": "Для любого адреса, кроме mail.yandex.ru, браузер спросит разрешение на доступ к нему.",
+    "description": "Пояснение на странице настроек"
+  },
+  "optionsMailHost360": {
+    "message": "Яндекс 360, в том числе почта на своём домене",
+    "description": "Подпись к mail.360.yandex.ru"
   }
 }

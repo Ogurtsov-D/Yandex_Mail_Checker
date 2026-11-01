@@ -31,6 +31,7 @@ const ERROR_MESSAGES = {
     timeout: 'errorTimeout',
     network: 'errorNetwork',
     parse: 'errorParse',
+    permission: 'errorPermission',
     internal: 'errorInternal'
 };
 
