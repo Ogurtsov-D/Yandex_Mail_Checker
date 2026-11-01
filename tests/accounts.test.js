@@ -171,3 +171,16 @@ test('аккаунт временно пропал из ответа — его 
         ['new-mail:22']
     );
 });
+
+test('fresh аккаунта обнулился и снова вырос между проверками — уведомление о письмах после обнуления', async () => {
+    await twoAccounts();
+    mock.counters(counters({ unread: 75, fresh: 0 }, { unread: 8, fresh: 3 }));
+    await checkMail();
+    // Зашли в почту второго аккаунта (fresh → 0), пришло письмо (fresh → 1): проверка видит 3 → 1
+    mock.counters(counters({ unread: 75, fresh: 0 }, { unread: 6, fresh: 1 }));
+    await checkMail();
+    assert.deepEqual(
+        mock.calls.notifications.map((n) => n.title),
+        ['3 новых письма', '1 новое письмо']
+    );
+});
