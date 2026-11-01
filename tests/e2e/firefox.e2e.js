@@ -56,6 +56,7 @@ setInterval(poll, 300);
 
 function createServer() {
     const server = {
+        counters: { unread: 0, fresh: 0 }, // null — API счётчиков нет (404)
         inbox: inboxPage({ count: 0 }),
         status: 200,
         redirect: null,
@@ -78,11 +79,20 @@ function createServer() {
             res.writeHead(200, { 'content-type': 'application/json' });
             return res.end(JSON.stringify(server.commands.shift() ?? null));
         }
-        if (url.pathname.startsWith('/lite/inbox')) {
+        const isCounters = url.pathname === '/api/v2/bar/counters';
+        if (isCounters || url.pathname.startsWith('/lite/inbox')) {
             server.requests++;
             if (server.redirect) {
                 res.writeHead(302, { location: server.redirect });
                 return res.end();
+            }
+            if (isCounters) {
+                if (server.status === 200 && !server.counters) {
+                    res.writeHead(404);
+                    return res.end('Not Found');
+                }
+                res.writeHead(server.status, { 'content-type': 'application/json' });
+                return res.end(JSON.stringify({ counters: server.counters }));
             }
             res.writeHead(server.status, { 'content-type': 'text/html; charset=utf-8' });
             return res.end(server.inbox);
@@ -101,9 +111,8 @@ function prepareExtension(base) {
     writeFileSync(
         configPath,
         readFileSync(configPath, 'utf8')
-            .replace("'https://mail.yandex.ru/'", `'${base}'`)
             .replace("'https://mail.yandex.ru/*'", "'http://127.0.0.1/*'")
-            .replace("'https://mail.yandex.ru/lite/inbox'", `'${base}lite/inbox'`)
+            .replaceAll("'https://mail.yandex.ru/", `'${base}`)
     );
     const manifest = JSON.parse(readFileSync(join(dir, 'manifest.json'), 'utf8'));
     manifest.host_permissions.push('http://127.0.0.1/*');
@@ -118,11 +127,11 @@ function prepareExtension(base) {
     return dir;
 }
 
-// inbox — «Входящие» к моменту установки: расширение проверяет почту сразу при установке,
-// поэтому начальное состояние задаётся до неё, иначе первая проверка увидит пустой ящик
-async function launch(locale, inbox) {
+// counters, inbox — состояние почты к моменту установки: расширение проверяет почту сразу при
+// установке, поэтому оно задаётся до неё, иначе первая проверка увидит пустой ящик
+async function launch(locale, counters, inbox) {
     const server = createServer();
-    server.inbox = inbox;
+    Object.assign(server, { counters, inbox });
     await new Promise((resolve) => server.http.listen(0, '127.0.0.1', resolve));
     const base = `http://127.0.0.1:${server.http.address().port}/`;
     const extDir = prepareExtension(base);
@@ -165,7 +174,7 @@ describe('Firefox, русский интерфейс', () => {
     const ivan = { id: '222', from: '&quot;Иван&quot; &amp; Ко', subject: 'Отчёт' };
 
     before(async () => {
-        ff = await launch('ru', inboxPage({ count: 1, messages: [anna] }));
+        ff = await launch('ru', { unread: 1, fresh: 0 }, inboxPage({ count: 1, messages: [anna] }));
     });
     after(() => ff?.cleanup());
 
@@ -177,6 +186,7 @@ describe('Firefox, русский интерфейс', () => {
     });
 
     test('новое письмо после действия во вкладке почты: basic-уведомление без priority', async () => {
+        ff.server.counters = { unread: 2, fresh: 1 };
         ff.server.inbox = inboxPage({ count: 2, messages: [ivan, anna] });
         const page = await ff.browser.newPage();
         await page.goto(`${ff.base}?uid=1#inbox`); // tabs.onUpdated → перепроверка
@@ -188,10 +198,12 @@ describe('Firefox, русский интерфейс', () => {
             { type: 'basic', title: '"Иван" & Ко', message: 'Отчёт', priority: false }
         );
         assert.equal(s.target, '#/message/222');
+        assert.match(s.title, /^Яндекс Почта: 2 непрочитанных письма, из них 1 новое\n/);
         await page.close();
     });
 
     test('несколько новых писем: список превращается в basic-уведомление построчно', async () => {
+        ff.server.counters = { unread: 4, fresh: 3 };
         ff.server.inbox = inboxPage({
             count: 4,
             messages: [{ id: '333', from: 'Служба доставки', subject: 'Заказ' }, { id: '444' }, ivan, anna]
@@ -248,7 +260,11 @@ describe('Firefox, русский интерфейс', () => {
 describe('Firefox, английский интерфейс', () => {
     let ff;
     before(async () => {
-        ff = await launch('en-US', inboxPage({ count: 1, messages: [{ id: '1', from: 'Anna', subject: 'Hi' }] }));
+        ff = await launch(
+            'en-US',
+            { unread: 1, fresh: 0 },
+            inboxPage({ count: 1, messages: [{ id: '1', from: 'Anna', subject: 'Hi' }] })
+        );
     });
     after(() => ff?.cleanup());
 

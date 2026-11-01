@@ -59,6 +59,42 @@
       }
     }
   },
+  "freshPart_one": {
+    "message": "из них $COUNT$ новое",
+    "description": "Подсказка: сколько из непрочитанных пришло после последнего захода в почту",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_few": {
+    "message": "из них $COUNT$ новых",
+    "description": "Подсказка: сколько из непрочитанных пришло после последнего захода в почту",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_many": {
+    "message": "из них $COUNT$ новых",
+    "description": "Подсказка: сколько из непрочитанных пришло после последнего захода в почту",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "freshPart_other": {
+    "message": "из них $COUNT$ новых",
+    "description": "Подсказка: сколько из непрочитанных пришло после последнего захода в почту (дробное)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
   "newMail_one": {
     "message": "$COUNT$ новое письмо",
     "description": "Заголовок уведомления",
