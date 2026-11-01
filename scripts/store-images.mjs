@@ -1,6 +1,7 @@
 // Картинки для магазинов расширений (Chrome Web Store, Microsoft Edge Add-ons, каталог Firefox):
 //   docs/store/<язык>/screenshot-1…4.png — снимки 1280×800;
-//   docs/store/<язык>/promo-440x280.png — маленькая промо-картинка Chrome Web Store.
+//   docs/store/<язык>/promo-440x280.png — маленькая промо-картинка Chrome Web Store;
+//   docs/store/logo-300x300.png — логотип для Microsoft Edge Add-ons (иконка расширения крупнее).
 // Снимки собираются из макетов docs/mockup*.html и настоящей страницы настроек из dist/chrome.
 //
 // Запуск (нужен Playwright, в проект он не входит):
@@ -77,6 +78,15 @@ const render = async (html, width, height, file) => {
     await page.close();
 };
 const icon = dataUrl(readFileSync(path('icons/icon128.png')));
+
+// Логотип для Edge: та же иконка расширения из icons/icon.svg, нарисованная в 300×300
+{
+    const svg = readFileSync(path('icons/icon.svg'), 'utf8').replace('<svg ', '<svg width="300" height="300" ');
+    const page = await browser.newPage({ viewport: { width: 300, height: 300 } });
+    await page.setContent(`<html><body style="margin:0;background:transparent">${svg}</body></html>`);
+    await page.locator('svg').screenshot({ path: path('docs/store/logo-300x300.png'), omitBackground: true });
+    await page.close();
+}
 
 for (const [lang, text] of Object.entries(TEXT)) {
     const out = path(`docs/store/${lang}/`);
