@@ -20,9 +20,16 @@ beforeEach(async () => {
 
 const mailTab = (id, url, lastAccessed = 1) => ({ id, windowId: id * 10, url, lastAccessed });
 
+// Будильник плановой проверки: период — интервал, первое срабатывание — с разбросом ±12,5%
+function assertCheckAlarm(minutes) {
+    const alarm = mock.alarms.checkMail;
+    assert.equal(alarm.periodInMinutes, minutes);
+    assert.ok(Math.abs(alarm.delayInMinutes - minutes) <= minutes * 0.125, `delay ${alarm.delayInMinutes}`);
+}
+
 test('установка: будильник по умолчанию 5 минут, меню, первая проверка', async () => {
     await on.installed({ reason: 'install' });
-    assert.deepEqual(mock.alarms.checkMail, { name: 'checkMail', delayInMinutes: 5, periodInMinutes: 5 });
+    assertCheckAlarm(5);
     assert.equal(mock.fetchCount, 1);
 
     const titles = mock.calls.menus.map((m) => m.title).filter(Boolean);
@@ -33,24 +40,83 @@ test('установка: будильник по умолчанию 5 мину�
         '5 минут',
         '15 минут',
         '30 минут',
-        'Уведомления о новых письмах'
+        'На значке',
+        'Все непрочитанные',
+        'Только новые',
+        'Уведомления',
+        'Показывать уведомления о новых письмах',
+        'Звук',
+        'Тихие часы: 23:00–08:00'
     ]);
     const checked = mock.calls.menus.filter((m) => m.checked).map((m) => m.id);
-    assert.deepEqual(checked, ['interval-5', 'notifications']);
+    assert.deepEqual(checked, ['interval-5', 'badge-unread', 'notifications', 'sound']);
     assert.ok(mock.calls.menus.every((m) => m.contexts.includes('action')));
+    // Не больше 6 пунктов верхнего уровня: остальные браузер не покажет
+    assert.ok(mock.calls.menus.filter((m) => !m.parentId).length <= 6);
 });
 
 test('меню: смена интервала пересоздаёт будильник', async () => {
     await on.menuClicked({ menuItemId: 'interval-15', checked: true });
     assert.equal(mock.store.local.checkInterval, 15);
-    assert.deepEqual(mock.alarms.checkMail, { name: 'checkMail', delayInMinutes: 15, periodInMinutes: 15 });
+    assertCheckAlarm(15);
 });
 
-test('меню: выключение и включение уведомлений', async () => {
+test('меню: уведомления, звук, тихие часы, режим значка', async () => {
     await on.menuClicked({ menuItemId: 'notifications', checked: false });
     assert.equal(mock.store.local.notificationsEnabled, false);
     await on.menuClicked({ menuItemId: 'notifications', checked: true });
     assert.equal(mock.store.local.notificationsEnabled, true);
+    await on.menuClicked({ menuItemId: 'sound', checked: false });
+    assert.equal(mock.store.local.soundEnabled, false);
+    await on.menuClicked({ menuItemId: 'quiet-hours', checked: true });
+    assert.equal(mock.store.local.quietHoursEnabled, true);
+    await on.menuClicked({ menuItemId: 'badge-fresh', checked: true });
+    assert.equal(mock.store.local.badgeMode, 'fresh');
+});
+
+test('изменились настройки — меню и иконка обновляются; прочие изменения хранилища не трогают меню', async () => {
+    mock.store.local = { ...mock.store.local, notificationsEnabled: false, quietFrom: '22:30', classicIcon: true };
+    await on.storageChanged({ notificationsEnabled: { newValue: false } }, 'local');
+    const quiet = mock.calls.menus.find((m) => m.id === 'quiet-hours');
+    assert.equal(quiet.title, 'Тихие часы: 22:30–08:00');
+    assert.equal(quiet.enabled, false, 'без уведомлений тихие часы и звук неактивны');
+    assert.deepEqual(mock.calls.icons.at(-1), { 16: '/icons/classic/icon16.png', 32: '/icons/classic/icon32.png' });
+
+    mock.calls.menus.length = 0;
+    await on.storageChanged({ unreadCount: { newValue: 3 } }, 'local');
+    await on.storageChanged({ retryCount: { newValue: 1 } }, 'session');
+    assert.equal(mock.calls.menus.length, 0);
+});
+
+test('режим «Только новые»: на значке fresh', async () => {
+    mock.store.local.badgeMode = 'fresh';
+    mock.counters({ unread: 7, fresh: 2 });
+    await on.menuClicked({ menuItemId: 'check-now' });
+    assert.equal(mock.calls.badge.text, '2');
+    assert.match(mock.calls.badge.title, /^Яндекс Почта: 7 непрочитанных писем, из них 2 новых/);
+});
+
+test('не за компьютером: плановая проверка пропускается, при возвращении — сразу проверка', async () => {
+    mock.idleState = 'locked';
+    await on.alarm({ name: 'checkMail' });
+    assert.equal(mock.fetchCount, 0);
+    assertCheckAlarm(5);
+
+    await on.idleStateChanged('idle');
+    assert.equal(mock.fetchCount, 0);
+    mock.idleState = 'active';
+    await on.idleStateChanged('active');
+    assert.equal(mock.fetchCount, 1);
+    // Повторное возвращение без пропущенных проверок — без лишнего запроса
+    await on.idleStateChanged('active');
+    assert.equal(mock.fetchCount, 1);
+});
+
+test('пауза выключена в настройках — проверяем и в простое', async () => {
+    mock.store.local.pauseWhenIdle = false;
+    mock.idleState = 'idle';
+    await on.alarm({ name: 'checkMail' });
+    assert.equal(mock.fetchCount, 1);
 });
 
 test('меню: «Проверить сейчас»', async () => {
@@ -58,12 +124,13 @@ test('меню: «Проверить сейчас»', async () => {
     assert.equal(mock.fetchCount, 1);
 });
 
-test('будильники запускают проверку', async () => {
+test('будильники запускают проверку, плановый — пересоздаётся с новым разбросом', async () => {
     on.alarm({ name: 'checkMail' });
     await flush();
     on.alarm({ name: 'retryCheck' });
     await flush();
     assert.equal(mock.fetchCount, 2);
+    assertCheckAlarm(5);
 });
 
 test('клик по иконке без открытой почты — новая вкладка', async () => {

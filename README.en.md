@@ -20,11 +20,13 @@ No need to keep your mailbox open: the extension checks your mail, shows the unr
 
 ## Features
 
-- 🔢 **Unread counter** on the toolbar icon: all folders except Spam, the same as Yandex Mail's own counter
+- 🔢 **Unread counter** on the toolbar icon: all folders except Spam, the same as Yandex Mail's own counter, or new messages only
 - 📬 **New mail notifications** with sender and subject; clicking one opens that message
 - 🖱️ **Clicking the icon** switches to an already open mail tab instead of opening a new one
 - ⚡ **Instant refresh**: read a message and the counter updates within seconds
-- ⏱️ **Check interval** of 1, 5, 15 or 30 minutes
+- 🔕 **Sound and quiet hours**: make notifications silent (in Chrome) or turn them off at night
+- ⏱️ **Check interval** of 1, 5, 15 or 30 minutes; mail is not checked while you are away from the computer
+- ⌨️ **Keyboard shortcut** Alt+Shift+Y opens your mail
 - ⚠️ **Clear errors**: "sign-in required", "no connection", "Yandex did not respond" — with hints on what to do
 - 🌐 **English and Russian interface**, chosen by your browser language
 - 🔒 **No third-party servers**: your data never leaves the browser
@@ -66,7 +68,8 @@ You need to be signed in to Yandex Mail at `mail.yandex.ru` in the same browser.
 | Action | Result |
 |--------|--------|
 | **Click** the icon | Opens your mail, or switches to the mail tab if it is already open |
-| **Right-click** the icon | Menu: "Check now", check interval, notifications on/off |
+| **Right-click** the icon | Menu: "Check now", check interval, what the badge shows, notifications, sound and quiet hours |
+| **Alt+Shift+Y** | Same as clicking the icon. To change the shortcut: in Chrome — `chrome://extensions/shortcuts`, in Firefox — `about:addons` → ⚙ → "Manage Extension Shortcuts" |
 | **Hover** over the icon | Tooltip: how many messages and when the last check was |
 | **Click a notification** | Opens that message (or your Inbox if there are several) |
 
@@ -100,7 +103,19 @@ Last successful check at 02:20 PM: 3 unread messages
 
 You get a notification when Yandex reports new messages. The sender and subject are taken from your Inbox; if a message went to another folder, the notification shows only the number of new messages. Messages that were already unread when you installed the extension are not reported. Once you open your mail, the new mail notification disappears by itself. If a mail tab is open, the message opens there; a tab where you are writing an email is never touched.
 
-To turn notifications off: right-click the icon → uncheck "New mail notifications".
+Right-click the icon → "Notifications":
+
+- **"Show new mail notifications"** — turn notifications off completely;
+- **"Sound"** — silent notifications (Chrome and Chromium-based browsers only; in Firefox the sound is controlled by your system settings);
+- **"Quiet hours"** — no notifications at night, from 23:00 to 08:00 by default. You can change the time in the extension settings: right-click the icon → "Options" in Chrome, "Settings…" in Firefox. Messages that arrive during quiet hours are still shown on the counter.
+
+### What the badge shows
+
+Right-click the icon → "Badge shows": **"All unread messages"** (default) or **"New messages only"** — messages received since your last visit to the mailbox. In the second mode the badge clears as soon as you open your mail, even if some messages stay unread.
+
+### While you are away
+
+After 5 minutes of inactivity or when the screen is locked, scheduled checks pause; when you come back, mail is checked right away. You can turn the pause off in the extension settings.
 
 ## Troubleshooting
 
@@ -130,7 +145,7 @@ A network problem or an issue on Yandex's side. The extension retries twice afte
 
 Check, in order:
 
-1. Right-click the icon → "New mail notifications" is checked.
+1. Right-click the icon → "Notifications": "Show new mail notifications" is checked, and quiet hours are off or not in effect right now.
 2. Your operating system allows notifications from the browser: Windows — Settings → System → Notifications; macOS — System Settings → Notifications.
 3. Do Not Disturb / Focus mode is off.
 
@@ -166,7 +181,7 @@ On every check the extension requests the mail counters (`https://mail.yandex.ru
 
 If the counters are unavailable, the extension counts unread messages using the simplified Inbox page.
 
-Checks run on schedule, when you click "Check now", and a few seconds after you act in the mail tab — but no more often than once every 15 seconds.
+Checks run on schedule, when you click "Check now", and a few seconds after you act in the mail tab — but no more often than once every 15 seconds. The time of scheduled checks varies slightly (up to ±12.5% of the interval), so requests don't follow a strict timer.
 
 ## Privacy
 
@@ -179,6 +194,7 @@ The extension contacts only `mail.yandex.ru` and sends nothing to the author or 
 | `alarms` | Check mail on schedule |
 | `notifications` | Show new mail notifications |
 | `contextMenus` | Right-click menu on the icon |
+| `idle` | Pause checks while you are away: the extension only learns whether the computer is active, idle or locked |
 
 ## Contributing
 

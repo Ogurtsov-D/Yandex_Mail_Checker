@@ -11,6 +11,12 @@ export const INBOX_URL = 'https://mail.yandex.ru/lite/inbox';
 export const INTERVALS = [1, 5, 15, 30];
 export const DEFAULT_INTERVAL = 5;
 
+// Разброс плановых проверок: ±12,5% интервала, чтобы запросы не шли строго по таймеру
+export const CHECK_JITTER = 0.125;
+
+// Сколько секунд без действий пользователя считать «не за компьютером»
+export const IDLE_THRESHOLD_SEC = 300;
+
 // Повторы при ошибках сети/сервера
 export const RETRY_INTERVAL_SEC = 30;
 export const MAX_RETRIES = 2;

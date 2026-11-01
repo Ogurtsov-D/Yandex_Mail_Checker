@@ -245,8 +245,8 @@
     "description": "Пункт меню"
   },
   "menuNotifications": {
-    "message": "Уведомления о новых письмах",
-    "description": "Пункт меню"
+    "message": "Уведомления",
+    "description": "Подменю уведомлений"
   },
   "minutes_one": {
     "message": "$COUNT$ минута",
@@ -283,5 +283,81 @@
         "content": "$1"
       }
     }
+  },
+  "menuBadge": {
+    "message": "На значке",
+    "description": "Подменю: что показывать на значке"
+  },
+  "menuBadgeUnread": {
+    "message": "Все непрочитанные",
+    "description": "Пункт меню"
+  },
+  "menuBadgeFresh": {
+    "message": "Только новые",
+    "description": "Пункт меню: только пришедшие после последнего захода в почту"
+  },
+  "menuShowNotifications": {
+    "message": "Показывать уведомления о новых письмах",
+    "description": "Пункт меню"
+  },
+  "menuSound": {
+    "message": "Звук",
+    "description": "Пункт меню: звук уведомлений"
+  },
+  "menuQuietHours": {
+    "message": "Тихие часы: $FROM$–$TO$",
+    "description": "Пункт меню; время в формате ЧЧ:ММ",
+    "placeholders": {
+      "from": {
+        "content": "$1"
+      },
+      "to": {
+        "content": "$2"
+      }
+    }
+  },
+  "menuOptions": {
+    "message": "Настройки…",
+    "description": "Пункт меню (только в Firefox)"
+  },
+  "optionsTitle": {
+    "message": "Настройки счётчика писем",
+    "description": "Заголовок страницы настроек"
+  },
+  "optionsQuietHours": {
+    "message": "Тихие часы: не показывать уведомления",
+    "description": "Страница настроек"
+  },
+  "optionsFrom": {
+    "message": "с",
+    "description": "Тихие часы: с … до …"
+  },
+  "optionsTo": {
+    "message": "до",
+    "description": "Тихие часы: с … до …"
+  },
+  "optionsPauseWhenIdle": {
+    "message": "Не проверять почту, пока вы не за компьютером",
+    "description": "Страница настроек"
+  },
+  "optionsPauseWhenIdleHint": {
+    "message": "Проверки приостанавливаются через 5 минут без действий или при заблокированном экране. Когда вы вернётесь, почта проверится сразу.",
+    "description": "Пояснение на странице настроек"
+  },
+  "optionsShortcut": {
+    "message": "Открыть почту с клавиатуры:",
+    "description": "Страница настроек; дальше — сочетание клавиш"
+  },
+  "optionsShortcutHint": {
+    "message": "Сочетание клавиш можно изменить в настройках расширений браузера.",
+    "description": "Пояснение на странице настроек"
+  },
+  "optionsShortcutNone": {
+    "message": "не назначено",
+    "description": "Сочетание клавиш не задано"
+  },
+  "optionsClassicIcon": {
+    "message": "Классическая иконка",
+    "description": "Страница настроек"
   }
 }

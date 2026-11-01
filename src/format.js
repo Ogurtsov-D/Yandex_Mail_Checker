@@ -40,11 +40,12 @@ export function errorText(state) {
     return state.errorStatus ? t(key, state.errorStatus) : t(key);
 }
 
-// Текст на бейдже по сохранённому состоянию
-export function badgeText(state) {
+// Текст на бейдже по сохранённому состоянию.
+// mode: unread — все непрочитанные, fresh — только новые (без данных о новых — непрочитанные)
+export function badgeText(state, mode = 'unread') {
     if (state.errorType === 'auth') return '?';
     if (state.errorType) return '!';
-    const count = state.unreadCount ?? 0;
+    const count = (mode === 'fresh' && state.freshCount != null ? state.freshCount : state.unreadCount) ?? 0;
     if (count <= 0) return '';
     return count > 99 ? '99+' : String(count);
 }

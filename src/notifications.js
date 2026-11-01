@@ -4,17 +4,18 @@ import { MAX_NOTIFICATION_ITEMS } from './config.js';
 import { newMailTitle } from './format.js';
 import { t } from './i18n.js';
 import { messageHash } from './parser.js';
-import { getSettings } from './settings.js';
+import { getSettings, isQuietTime } from './settings.js';
+import { iconPath } from './status.js';
 
 export const NOTIFICATION_ID = 'new-mail';
 
-const iconUrl = () => ext.runtime.getURL('icons/icon128.png');
-
 // target — hash письма, которое откроется по клику (null — просто открыть почту)
 async function show(options, target) {
-    if (!(await getSettings()).notificationsEnabled) return;
+    const settings = await getSettings();
+    if (!settings.notificationsEnabled || isQuietTime(settings)) return;
 
     await ext.storage.session.set({ notificationTarget: target ?? null });
+    options = { ...options, iconUrl: ext.runtime.getURL(iconPath(128, settings.classicIcon).slice(1)) };
 
     if (IS_FIREFOX) {
         // Firefox поддерживает только type: 'basic' и не знает priority
@@ -24,6 +25,9 @@ async function show(options, target) {
             rest.message = items.map((i) => `${i.title}: ${i.message}`).join('\n');
         }
         options = rest;
+    } else {
+        // Звук уведомления отключается только в Chrome: в Firefox его задаёт система
+        options.silent = !settings.soundEnabled;
     }
 
     await ext.notifications.create(NOTIFICATION_ID, options);
@@ -37,7 +41,6 @@ export async function notifyNewMessages(messages, total = messages.length) {
         await show(
             {
                 type: 'basic',
-                iconUrl: iconUrl(),
                 title: m.from || t('newMessage'),
                 message: m.subject || t('noSubject'),
                 priority: 1
@@ -50,7 +53,6 @@ export async function notifyNewMessages(messages, total = messages.length) {
     await show(
         {
             type: 'list',
-            iconUrl: iconUrl(),
             title: newMailTitle(total),
             message: '',
             items: messages.slice(0, MAX_NOTIFICATION_ITEMS).map((m) => ({
@@ -68,7 +70,6 @@ export async function notifyNewCount(count) {
     await show(
         {
             type: 'basic',
-            iconUrl: iconUrl(),
             title: newMailTitle(count),
             message: t('openMailToView'),
             priority: 1

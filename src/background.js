@@ -3,9 +3,11 @@
 // разбудит расширение и доставит событие, даже если service worker был выгружен.
 import { ext } from './api.js';
 import { checkMail, setLastCheckTime } from './checker.js';
+import { IDLE_THRESHOLD_SEC } from './config.js';
+import { handleIdleStateChanged, isAway, markMissedCheck } from './idle.js';
 import { createContextMenu, handleMenuClick } from './menu.js';
 import { getNotificationTarget, NOTIFICATION_ID } from './notifications.js';
-import { CHECK_ALARM, RETRY_ALARM, scheduleCheckAlarm } from './settings.js';
+import { CHECK_ALARM, RETRY_ALARM, scheduleCheckAlarm, SETTING_KEYS } from './settings.js';
 import { loadState, renderStatus } from './status.js';
 import { handleTabRemoved, handleTabUpdated, openMail } from './tabs.js';
 
@@ -14,7 +16,7 @@ async function restore() {
     await scheduleCheckAlarm();
     const state = await loadState();
     setLastCheckTime(state.lastCheck);
-    if (state.lastCheck) await renderStatus(state);
+    await renderStatus(state);
 }
 
 // Установка или обновление расширения
@@ -32,13 +34,26 @@ ext.runtime.onStartup.addListener(async () => {
     await checkMail();
 });
 
-ext.alarms.onAlarm.addListener((alarm) => {
-    if (alarm.name === CHECK_ALARM || alarm.name === RETRY_ALARM) checkMail();
+ext.alarms.onAlarm.addListener(async (alarm) => {
+    if (alarm.name === RETRY_ALARM) {
+        await checkMail();
+    } else if (alarm.name === CHECK_ALARM) {
+        await scheduleCheckAlarm({ reset: true }); // следующая проверка — с новым случайным разбросом
+        if (await isAway()) await markMissedCheck();
+        else await checkMail();
+    }
 });
 
 ext.contextMenus.onClicked.addListener(handleMenuClick);
 
-// Левый клик по иконке — открыть почту или переключиться на открытую вкладку
+// Изменились настройки (в меню или на странице настроек) — обновить меню и иконку
+ext.storage.onChanged.addListener(async (changes, area) => {
+    if (area !== 'local' || !SETTING_KEYS.some((key) => key in changes)) return;
+    await createContextMenu();
+    await renderStatus(await loadState());
+});
+
+// Левый клик по иконке или горячая клавиша (Alt+Shift+Y) — открыть почту или переключиться на открытую вкладку
 ext.action.onClicked.addListener(() => openMail());
 
 // Клик по уведомлению — открыть письмо (или почту, если писем несколько)
@@ -51,5 +66,11 @@ ext.notifications.onClicked.addListener(async (notificationId) => {
 
 ext.tabs.onUpdated.addListener(handleTabUpdated);
 ext.tabs.onRemoved.addListener(handleTabRemoved);
+
+// Вернулись к компьютеру — проверить почту, если плановая проверка была пропущена
+if (ext.idle) {
+    ext.idle.setDetectionInterval(IDLE_THRESHOLD_SEC);
+    ext.idle.onStateChanged.addListener(handleIdleStateChanged);
+}
 
 restore();

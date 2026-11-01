@@ -378,3 +378,43 @@ test('ошибка в коде расширения не выдаётся за �
     assert.equal(mock.calls.badge.title.split('\n')[0], 'Яндекс Почта: Внутренняя ошибка расширения');
     assert.equal(errors.mock.callCount(), 1);
 });
+
+describe('настройки уведомлений', () => {
+    async function newMessage() {
+        mock.counters({ unread: 1, fresh: 0 });
+        mock.respond(inboxPage({ count: 1, messages: [anna] }));
+        await checkMail();
+        mock.counters({ unread: 2, fresh: 1 });
+        mock.respond(inboxPage({ count: 2, messages: [ivan, anna] }));
+        await checkMail();
+    }
+
+    test('звук включён по умолчанию; выключен — уведомление без звука', async () => {
+        await newMessage();
+        assert.equal(mock.calls.notifications[0].silent, false);
+        mock.reset();
+        mock.store.local.soundEnabled = false;
+        await newMessage();
+        assert.equal(mock.calls.notifications[0].silent, true);
+    });
+
+    test('тихие часы: уведомления нет, но письмо запомнено — после тихих часов о нём не сообщим', async (t) => {
+        t.mock.timers.enable({ apis: ['Date'], now: new Date('2026-11-01T02:00:00').getTime() });
+        Object.assign(mock.store.local, { quietHoursEnabled: true, quietFrom: '23:00', quietTo: '08:00' });
+        await newMessage();
+        assert.equal(mock.calls.notifications.length, 0);
+        assert.ok(mock.store.local.knownMessageIds.includes('222'));
+        assert.equal(mock.calls.badge.text, '2');
+
+        t.mock.timers.setTime(new Date('2026-11-01T09:00:00').getTime());
+        await checkMail();
+        assert.equal(mock.calls.notifications.length, 0);
+    });
+
+    test('классическая иконка — и на панели, и в уведомлении', async () => {
+        mock.store.local.classicIcon = true;
+        await newMessage();
+        assert.equal(mock.calls.notifications[0].iconUrl, 'extension://test/icons/classic/icon128.png');
+        assert.deepEqual(mock.calls.icons.at(-1), { 16: '/icons/classic/icon16.png', 32: '/icons/classic/icon32.png' });
+    });
+});
