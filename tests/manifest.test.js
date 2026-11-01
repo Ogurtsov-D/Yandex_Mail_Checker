@@ -84,6 +84,7 @@ test('переводы: оба языка полные, все ключи из �
         const code = read(`src/${file}`);
         for (const [, key] of code.matchAll(/\bt\('([A-Za-z0-9_]+)'/g)) used.add(key);
         for (const [, key] of code.matchAll(/\bplural\('([A-Za-z0-9_]+)'/g)) used.add(`${key}_other`);
+        for (const [, key] of code.matchAll(/\bdata-i18n="([A-Za-z0-9_]+)"/g)) used.add(key);
     }
     for (const [, key] of read('src/format.js').matchAll(/: '(error[A-Za-z]+)'/g)) used.add(key);
     for (const [, key] of JSON.stringify(manifest).matchAll(/__MSG_([A-Za-z0-9_]+)__/g)) used.add(key);

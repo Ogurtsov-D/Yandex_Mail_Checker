@@ -191,8 +191,8 @@
     "description": "Menu item"
   },
   "menuNotifications": {
-    "message": "New mail notifications",
-    "description": "Menu item"
+    "message": "Notifications",
+    "description": "Notifications submenu"
   },
   "minutes_one": {
     "message": "$COUNT$ minute",
@@ -211,5 +211,81 @@
         "content": "$1"
       }
     }
+  },
+  "menuBadge": {
+    "message": "Badge shows",
+    "description": "Submenu: what the badge shows"
+  },
+  "menuBadgeUnread": {
+    "message": "All unread messages",
+    "description": "Menu item"
+  },
+  "menuBadgeFresh": {
+    "message": "New messages only",
+    "description": "Menu item: only messages received since the last visit to the mailbox"
+  },
+  "menuShowNotifications": {
+    "message": "Show new mail notifications",
+    "description": "Menu item"
+  },
+  "menuSound": {
+    "message": "Sound",
+    "description": "Menu item: notification sound"
+  },
+  "menuQuietHours": {
+    "message": "Quiet hours: $FROM$–$TO$",
+    "description": "Menu item; times as HH:MM",
+    "placeholders": {
+      "from": {
+        "content": "$1"
+      },
+      "to": {
+        "content": "$2"
+      }
+    }
+  },
+  "menuOptions": {
+    "message": "Settings…",
+    "description": "Menu item (Firefox only)"
+  },
+  "optionsTitle": {
+    "message": "Checker for Yandex Mail settings",
+    "description": "Settings page title"
+  },
+  "optionsQuietHours": {
+    "message": "Quiet hours: don't show notifications",
+    "description": "Settings page"
+  },
+  "optionsFrom": {
+    "message": "from",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsTo": {
+    "message": "to",
+    "description": "Quiet hours: from … to …"
+  },
+  "optionsPauseWhenIdle": {
+    "message": "Don't check mail while you are away from the computer",
+    "description": "Settings page"
+  },
+  "optionsPauseWhenIdleHint": {
+    "message": "Checks pause after 5 minutes of inactivity or when the screen is locked. When you come back, mail is checked right away.",
+    "description": "Settings page hint"
+  },
+  "optionsShortcut": {
+    "message": "Open mail with the keyboard:",
+    "description": "Settings page; followed by the shortcut"
+  },
+  "optionsShortcutHint": {
+    "message": "You can change the shortcut in your browser's extension settings.",
+    "description": "Settings page hint"
+  },
+  "optionsShortcutNone": {
+    "message": "not set",
+    "description": "No shortcut assigned"
+  },
+  "optionsClassicIcon": {
+    "message": "Classic icon",
+    "description": "Settings page"
   }
 }

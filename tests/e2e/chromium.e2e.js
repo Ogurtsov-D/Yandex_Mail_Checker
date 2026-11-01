@@ -246,6 +246,28 @@ describe('Chromium, русский интерфейс', () => {
         await mail.close();
     });
 
+    test('страница настроек: тексты, сохранение, горячая клавиша', async () => {
+        const page = await browser.context.newPage();
+        await page.goto(`chrome-extension://${browser.extensionId}/src/options.html`);
+        await page.waitForFunction(() => globalThis.document.getElementById('shortcut').textContent !== '');
+        assert.equal(await page.title(), 'Настройки счётчика писем');
+        assert.equal(await page.textContent('#shortcut'), 'Alt+Shift+Y');
+        assert.equal(await page.inputValue('#quietFrom'), '23:00');
+        assert.equal(await page.isChecked('#pauseWhenIdle'), true);
+
+        await page.check('#quietHoursEnabled');
+        await page.fill('#quietTo', '07:30');
+        await page.check('#classicIcon');
+        await sleep(500);
+        const saved = await page.evaluate(() =>
+            chrome.storage.local.get(['quietHoursEnabled', 'quietTo', 'classicIcon'])
+        );
+        assert.deepEqual(saved, { quietHoursEnabled: true, quietTo: '07:30', classicIcon: true });
+        await page.uncheck('#classicIcon');
+        await page.uncheck('#quietHoursEnabled');
+        await page.close();
+    });
+
     test('нет ошибок манифеста и выполнения, название на русском', async () => {
         const [info] = await extensionErrors(browser.context);
         assert.deepEqual(info, { name: 'Счётчик писем для Яндекс Почты', manifestErrors: [], runtimeErrors: [] });

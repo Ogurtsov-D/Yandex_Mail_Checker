@@ -44,6 +44,11 @@ test('бейдж', () => {
     assert.equal(badgeText({ unreadCount: 7, errorType: 'auth' }), '?');
     assert.equal(badgeText({ unreadCount: 7, errorType: 'network' }), '!');
     assert.equal(badgeText({}), '');
+    // Режим «Только новые»: fresh; без данных о новых (lite-версия) — непрочитанные
+    assert.equal(badgeText({ unreadCount: 7, freshCount: 2 }, 'fresh'), '2');
+    assert.equal(badgeText({ unreadCount: 7, freshCount: 0 }, 'fresh'), '');
+    assert.equal(badgeText({ unreadCount: 7, freshCount: null }, 'fresh'), '7');
+    assert.equal(badgeText({ unreadCount: 7, freshCount: 2, errorType: 'auth' }, 'fresh'), '?');
 });
 
 test('тексты ошибок по типу и HTTP-коду', () => {

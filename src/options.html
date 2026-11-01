@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title data-i18n="optionsTitle"></title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --muted: #5f6368;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --muted: #9aa0a6;
+        }
+      }
+      body {
+        font: 14px/1.5 system-ui, sans-serif;
+        margin: 16px 20px 24px;
+        min-width: 360px;
+        max-width: 560px;
+      }
+      h1 {
+        font-size: 18px;
+        margin: 0 0 12px;
+      }
+      section {
+        padding: 12px 0;
+        border-top: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+      }
+      section:first-of-type {
+        border-top: 0;
+      }
+      label {
+        display: flex;
+        gap: 8px;
+        align-items: baseline;
+      }
+      .row {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        margin: 8px 0 0 26px;
+      }
+      .hint {
+        color: var(--muted);
+        margin: 4px 0 0 26px;
+        font-size: 13px;
+      }
+      .minor {
+        margin-top: 20px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+      kbd {
+        font: inherit;
+        padding: 1px 6px;
+        border: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 data-i18n="optionsTitle"></h1>
+
+    <section>
+      <label><input type="checkbox" id="quietHoursEnabled" /> <span data-i18n="optionsQuietHours"></span></label>
+      <div class="row">
+        <span data-i18n="optionsFrom"></span> <input type="time" id="quietFrom" required />
+        <span data-i18n="optionsTo"></span> <input type="time" id="quietTo" required />
+      </div>
+    </section>
+
+    <section>
+      <label><input type="checkbox" id="pauseWhenIdle" /> <span data-i18n="optionsPauseWhenIdle"></span></label>
+      <p class="hint" data-i18n="optionsPauseWhenIdleHint"></p>
+    </section>
+
+    <section>
+      <div><span data-i18n="optionsShortcut"></span> <kbd id="shortcut"></kbd></div>
+      <p class="hint" data-i18n="optionsShortcutHint"></p>
+    </section>
+
+    <section class="minor">
+      <label><input type="checkbox" id="classicIcon" /> <span data-i18n="optionsClassicIcon"></span></label>
+    </section>
+
+    <script type="module" src="options.js"></script>
+  </body>
+</html>

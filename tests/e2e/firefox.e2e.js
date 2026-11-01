@@ -35,7 +35,8 @@ async function report() {
         target: (await browser.storage.session.get('notificationTarget')).notificationTarget ?? null,
         retry: Boolean(await browser.alarms.get('retryCheck')),
         tabs: (await browser.tabs.query({ url: 'http://127.0.0.1/*' })).map((t) => ({ id: t.id, url: t.url, active: t.active })),
-        name: browser.i18n.getMessage('extName')
+        name: browser.i18n.getMessage('extName'),
+        shortcut: (await browser.commands.getAll()).find((c) => c.name === '_execute_action')?.shortcut ?? null
     };
     await fetch(__BASE__ + '__state', { method: 'POST', body: JSON.stringify(state) });
 }
@@ -183,6 +184,7 @@ describe('Firefox, русский интерфейс', () => {
         assert.match(s.title, /^Яндекс Почта: 1 непрочитанное письмо\nПроверено в \d\d:\d\d$/);
         assert.equal(s.notifications.length, 0);
         assert.equal(s.name, 'Счётчик писем для Яндекс Почты');
+        assert.equal(s.shortcut, 'Alt+Shift+Y', 'горячая клавиша открытия почты');
     });
 
     test('новое письмо после действия во вкладке почты: basic-уведомление без priority', async () => {

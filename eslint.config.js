@@ -43,6 +43,11 @@ export default [
         rules
     },
     {
+        // Страница настроек работает в обычном окне, с DOM
+        files: ['src/options.js'],
+        languageOptions: { globals: { ...browserGlobals, document: 'readonly' } }
+    },
+    {
         files: ['tests/**/*.js', 'scripts/**/*.mjs', '*.js'],
         languageOptions: { ecmaVersion: 'latest', sourceType: 'module', globals: nodeGlobals },
         rules

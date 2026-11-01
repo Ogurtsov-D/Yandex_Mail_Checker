@@ -45,3 +45,21 @@ test('одно письмо — basic-уведомление без priority', a
         { type: 'basic', title: 'Анна', message: 'Привет', hasPriority: false }
     );
 });
+
+test('звук в Firefox не настраивается: без silent и без пункта «Звук»; есть пункт «Настройки…»', async () => {
+    const { createContextMenu, handleMenuClick } = await import('../src/menu.js');
+    mock.store.local.soundEnabled = false;
+    mock.respond(inboxPage({ count: 0 }));
+    await checkMail();
+    mock.respond(inboxPage({ count: 1, messages: [{ id: '1', from: 'Анна', subject: 'Привет' }] }));
+    await checkMail();
+    assert.ok(!('silent' in mock.calls.notifications[0]));
+
+    await createContextMenu();
+    const ids = mock.calls.menus.map((m) => m.id);
+    assert.ok(!ids.includes('sound'));
+    assert.ok(ids.includes('options'));
+    assert.ok(mock.calls.menus.filter((m) => !m.parentId).length <= 6);
+    await handleMenuClick({ menuItemId: 'options' });
+    assert.equal(mock.calls.openedOptions, 1);
+});

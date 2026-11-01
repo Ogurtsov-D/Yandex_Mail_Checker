@@ -32,6 +32,8 @@ export function installBrowserMock({ firefox = false, locale = 'ru' } = {}) {
         updatedTabs: [],
         focusedWindows: [],
         menus: [],
+        icons: [],
+        openedOptions: 0,
         badge: { text: undefined, title: undefined }
     };
     const alarms = {};
@@ -61,10 +63,13 @@ export function installBrowserMock({ firefox = false, locale = 'ru' } = {}) {
         runtime: {
             getURL: (path) => `extension://test/${path}`,
             onInstalled: event('installed'),
+            openOptionsPage: async () => {
+                calls.openedOptions++;
+            },
             onStartup: event('startup'),
             ...(firefox ? { getBrowserInfo: async () => ({ name: 'Firefox' }) } : {})
         },
-        storage: { local: area('local'), session: area('session') },
+        storage: { local: area('local'), session: area('session'), onChanged: event('storageChanged') },
         i18n: {
             getMessage: (key, substitutions) => getMessage(messages, key, substitutions),
             getUILanguage: () => locale
@@ -96,6 +101,9 @@ export function installBrowserMock({ firefox = false, locale = 'ru' } = {}) {
                 calls.badge.text = text;
             },
             setBadgeBackgroundColor: async () => {},
+            setIcon: async ({ path }) => {
+                calls.icons.push(path);
+            },
             setTitle: async ({ title }) => {
                 calls.badge.title = title;
             },
@@ -120,6 +128,15 @@ export function installBrowserMock({ firefox = false, locale = 'ru' } = {}) {
             },
             onUpdated: event('tabUpdated'),
             onRemoved: event('tabRemoved')
+        },
+        idle: {
+            // Состояние пользователя: active | idle | locked (задаётся через mock.idleState)
+            queryState: async () => mock.idleState,
+            setDetectionInterval: () => {},
+            onStateChanged: event('idleStateChanged')
+        },
+        commands: {
+            getAll: async () => [{ name: '_execute_action', shortcut: 'Alt+Shift+Y' }]
         },
         windows: {
             update: async (id) => {
@@ -168,6 +185,9 @@ export function installBrowserMock({ firefox = false, locale = 'ru' } = {}) {
             calls.createdTabs.length = 0;
             calls.updatedTabs.length = 0;
             calls.focusedWindows.length = 0;
+            calls.icons.length = 0;
+            calls.openedOptions = 0;
+            mock.idleState = 'active';
             calls.badge.text = undefined;
             calls.badge.title = undefined;
             tabs = [];

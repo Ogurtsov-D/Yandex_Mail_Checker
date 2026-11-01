@@ -53,7 +53,13 @@ test('menu and notifications in English', async () => {
         '5 minutes',
         '15 minutes',
         '30 minutes',
-        'New mail notifications'
+        'Badge shows',
+        'All unread messages',
+        'New messages only',
+        'Notifications',
+        'Show new mail notifications',
+        'Sound',
+        'Quiet hours: 23:00–08:00'
     ]);
 
     mock.respond(inboxPage({ count: 0 }));
