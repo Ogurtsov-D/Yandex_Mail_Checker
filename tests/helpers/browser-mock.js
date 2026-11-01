@@ -165,15 +165,17 @@ export function installBrowserMock({ firefox = false, locale = 'ru' } = {}) {
         respond(response) {
             mock.inboxResponse = response;
         },
-        // Ответ API счётчиков: { unread, fresh } — JSON с этими числами; null — 404 (API нет);
-        // строка, функция или Error — как в respond()
+        // Ответ API счётчиков: { unread, fresh } — один аккаунт ({ counters }); массив
+        // [{ uid, unread, fresh }] — несколько аккаунтов, как отвечает Яндекс с ?multi;
+        // null — 404 (API нет); строка, функция или Error — как в respond()
         counters(value) {
-            mock.countersResponse =
-                value && typeof value === 'object' && !(value instanceof Error)
-                    ? JSON.stringify({ counters: value })
-                    : value === null
-                      ? () => ({ type: 'basic', status: 404, ok: false })
-                      : value;
+            mock.countersResponse = Array.isArray(value)
+                ? JSON.stringify(value.map(({ uid, ...counters }) => ({ uid, data: { counters } })))
+                : value && typeof value === 'object' && !(value instanceof Error)
+                  ? JSON.stringify({ counters: value })
+                  : value === null
+                    ? () => ({ type: 'basic', status: 404, ok: false })
+                    : value;
         },
         // Сбросить состояние между тестами (обработчики событий сохраняются)
         reset() {

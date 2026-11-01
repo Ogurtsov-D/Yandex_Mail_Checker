@@ -2,8 +2,9 @@
 export const MAIL_URL = 'https://mail.yandex.ru/';
 export const MAIL_TAB_PATTERN = 'https://mail.yandex.ru/*';
 // Счётчики непрочитанных (unread — во всех папках, кроме «Спама») и новых писем
-// (fresh — пришедших после последнего захода в почту). Адрес с ?silent — как у расширения Yandex Mail Watcher
-export const COUNTERS_URL = 'https://mail.yandex.ru/api/v2/bar/counters?silent';
+// (fresh — пришедших после последнего захода в почту). Адрес с ?silent — как у расширения Yandex Mail Watcher;
+// &multi — ответ по всем аккаунтам, в которые выполнен вход
+export const COUNTERS_URL = 'https://mail.yandex.ru/api/v2/bar/counters?silent&multi';
 // Lite-версия «Входящих»: отправитель и тема новых писем, запасной источник счётчика
 export const INBOX_URL = 'https://mail.yandex.ru/lite/inbox';
 

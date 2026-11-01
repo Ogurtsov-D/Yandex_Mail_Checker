@@ -6,7 +6,7 @@ import { checkMail, setLastCheckTime } from './checker.js';
 import { IDLE_THRESHOLD_SEC } from './config.js';
 import { handleIdleStateChanged, isAway, markMissedCheck } from './idle.js';
 import { createContextMenu, handleMenuClick } from './menu.js';
-import { getNotificationTarget, NOTIFICATION_ID } from './notifications.js';
+import { getNotificationTarget, isMailNotification } from './notifications.js';
 import { CHECK_ALARM, RETRY_ALARM, scheduleCheckAlarm, SETTING_KEYS } from './settings.js';
 import { loadState, renderStatus } from './status.js';
 import { handleTabRemoved, handleTabUpdated, openMail } from './tabs.js';
@@ -48,7 +48,8 @@ ext.contextMenus.onClicked.addListener(handleMenuClick);
 
 // Изменились настройки (в меню или на странице настроек) — обновить меню и иконку
 ext.storage.onChanged.addListener(async (changes, area) => {
-    if (area !== 'local' || !SETTING_KEYS.some((key) => key in changes)) return;
+    // accountList меняется, когда вошли в другой аккаунт или вышли из него
+    if (area !== 'local' || ![...SETTING_KEYS, 'accountList'].some((key) => key in changes)) return;
     await createContextMenu();
     await renderStatus(await loadState());
 });
@@ -56,12 +57,12 @@ ext.storage.onChanged.addListener(async (changes, area) => {
 // Левый клик по иконке или горячая клавиша (Alt+Shift+Y) — открыть почту или переключиться на открытую вкладку
 ext.action.onClicked.addListener(() => openMail());
 
-// Клик по уведомлению — открыть письмо (или почту, если писем несколько)
+// Клик по уведомлению — открыть письмо (или почту, если писем несколько) в нужном аккаунте
 ext.notifications.onClicked.addListener(async (notificationId) => {
-    if (notificationId !== NOTIFICATION_ID) return;
-    const target = await getNotificationTarget();
-    await ext.notifications.clear(NOTIFICATION_ID);
-    await openMail(target);
+    if (!isMailNotification(notificationId)) return;
+    const { hash, uid } = await getNotificationTarget(notificationId);
+    await ext.notifications.clear(notificationId);
+    await openMail(hash, uid);
 });
 
 ext.tabs.onUpdated.addListener(handleTabUpdated);

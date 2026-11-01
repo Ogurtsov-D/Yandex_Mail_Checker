@@ -15,7 +15,8 @@ export const SETTING_KEYS = [
     'quietTo',
     'badgeMode',
     'pauseWhenIdle',
-    'classicIcon'
+    'classicIcon',
+    'disabledAccounts'
 ];
 
 const DEFAULT_QUIET_FROM = '23:00';
@@ -35,7 +36,9 @@ export async function getSettings() {
         // unread — все непрочитанные, fresh — только пришедшие после последнего захода в почту
         badgeMode: s.badgeMode === 'fresh' ? 'fresh' : 'unread',
         pauseWhenIdle: s.pauseWhenIdle !== false,
-        classicIcon: s.classicIcon === true
+        classicIcon: s.classicIcon === true,
+        // uid аккаунтов, которые не учитываются в счётчике и уведомлениях
+        disabledAccounts: Array.isArray(s.disabledAccounts) ? s.disabledAccounts.map(String) : []
     };
 }
 

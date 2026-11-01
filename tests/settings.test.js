@@ -18,7 +18,8 @@ test('настройки по умолчанию и защита от испор
         quietTo: '08:00',
         badgeMode: 'unread',
         pauseWhenIdle: true,
-        classicIcon: false
+        classicIcon: false,
+        disabledAccounts: []
     });
     Object.assign(mock.store.local, { checkInterval: 7, quietFrom: '25:00', quietTo: 'утро', badgeMode: 'all' });
     const s = await getSettings();

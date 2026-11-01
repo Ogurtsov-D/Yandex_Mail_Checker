@@ -5,7 +5,15 @@ import { badgeText, tooltipText } from './format.js';
 import { t } from './i18n.js';
 import { getSettings } from './settings.js';
 
-const STATE_KEYS = ['unreadCount', 'freshCount', 'errorType', 'errorStatus', 'lastCheck', 'lastSuccess'];
+const STATE_KEYS = [
+    'unreadCount',
+    'freshCount',
+    'accountSummary',
+    'errorType',
+    'errorStatus',
+    'lastCheck',
+    'lastSuccess'
+];
 
 export async function loadState() {
     return ext.storage.local.get(STATE_KEYS);

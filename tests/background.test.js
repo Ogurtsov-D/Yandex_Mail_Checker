@@ -15,7 +15,7 @@ beforeEach(async () => {
     mock.respond(inboxPage({ count: 0 }));
     // Обычная проверка — один запрос к API счётчиков (lite-версия нужна только для новых писем)
     mock.counters({ unread: 0, fresh: 0 });
-    mock.store.local.knownMessageIds = [];
+    mock.store.local.accounts = { '': { knownMessageIds: [], lastFresh: 0 } };
 });
 
 const mailTab = (id, url, lastAccessed = 1) => ({ id, windowId: id * 10, url, lastAccessed });
@@ -153,7 +153,7 @@ test('клик по иконке — переключение на самую н
 });
 
 test('клик по уведомлению об одном письме — письмо в открытой вкладке, ?uid= сохраняется', async () => {
-    mock.store.session.notificationTarget = '#/message/222';
+    mock.store.session.notificationTargets = { 'new-mail': { hash: '#/message/222', uid: null } };
     mock.setTabs([mailTab(5, 'https://mail.yandex.ru/?uid=42#inbox')]);
     await on.notificationClicked('new-mail');
     assert.deepEqual(mock.calls.updatedTabs, [
@@ -163,7 +163,7 @@ test('клик по уведомлению об одном письме — пи
 });
 
 test('клик по уведомлению: вкладку с черновиком и lite-версию не трогаем — новая вкладка', async () => {
-    mock.store.session.notificationTarget = '#/message/222';
+    mock.store.session.notificationTargets = { 'new-mail': { hash: '#/message/222', uid: null } };
     mock.setTabs([
         mailTab(6, 'https://mail.yandex.ru/?uid=42#compose', 9),
         mailTab(7, 'https://mail.yandex.ru/lite/inbox', 8)
@@ -174,7 +174,7 @@ test('клик по уведомлению: вкладку с черновико
 });
 
 test('клик по уведомлению о нескольких письмах — просто почта', async () => {
-    mock.store.session.notificationTarget = null;
+    mock.store.session.notificationTargets = { 'new-mail': { hash: null, uid: null } };
     await on.notificationClicked('new-mail');
     assert.deepEqual(mock.calls.createdTabs, ['https://mail.yandex.ru/']);
 });
