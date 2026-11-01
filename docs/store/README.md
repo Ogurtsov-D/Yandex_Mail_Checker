@@ -24,6 +24,8 @@
 | Цена | Бесплатно, все страны |
 | Лицензия | GPL-3.0-only |
 
+> Описание ниже вставляется в магазины как есть. Не добавляйте в него список адресов почты: Chrome Web Store считает перечисление доменов злоупотреблением ключевыми словами и отклоняет расширение.
+
 ## Подробное описание
 
 ### Русский
@@ -34,7 +36,7 @@
 • Уведомления о новых письмах; клик по уведомлению открывает почту. Счётчик новых писем в самой почте при этом не сбрасывается.
 • Клик по значку переключает на уже открытую вкладку почты.
 • Несколько аккаунтов: сумма на значке, строка на каждый аккаунт в подсказке, быстрый переход в нужный аккаунт по правому клику.
-• Почта на mail.yandex.ru, mail.yandex.com, .by, .kz, .com.tr и в Яндекс 360, в том числе на своём домене.
+• Яндекс Почта в разных странах и Яндекс 360, в том числе почта на своём домене: адрес почты выбирается в настройках.
 • Тихие часы, звук уведомлений, интервал проверки от 1 до 30 минут, пауза, пока вы не за компьютером.
 • Горячая клавиша Alt+Shift+Y открывает почту.
 • Пять вариантов значка, интерфейс на 19 языках.
@@ -53,7 +55,7 @@ Checker for Yandex Mail shows how many unread messages you have on its toolbar i
 • New mail notifications; click a notification to open your mailbox. The new mail count in Yandex Mail itself is not reset.
 • Clicking the icon switches to an already open mail tab.
 • Several accounts: the total on the icon, a line per account in the tooltip, and quick access to any account with a right-click.
-• Mail at mail.yandex.ru, mail.yandex.com, .by, .kz, .com.tr and Yandex 360, including mail on your own domain.
+• Yandex Mail in other countries and Yandex 360, including mail on your own domain: choose the mail address in the settings.
 • Quiet hours, notification sound, check interval from 1 to 30 minutes, pause while you are away from the computer.
 • Keyboard shortcut Alt+Shift+Y opens your mail.
 • Five icon styles, interface in 19 languages.
