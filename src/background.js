@@ -51,8 +51,9 @@ ext.storage.onChanged.addListener(async (changes, area) => {
     // accountList меняется, когда вошли в другой аккаунт или вышли из него
     if (area !== 'local' || ![...SETTING_KEYS, 'accountList'].some((key) => key in changes)) return;
     await createContextMenu();
-    // Сменили домен почты — сразу проверить почту на новом
-    if ('mailHost' in changes) await checkMail();
+    // Сменили домен почты — сразу проверить почту на новом; сменили имена или набор
+    // учитываемых аккаунтов — пересчитать значок, подсказку и список в меню
+    if (['mailHost', 'accountNames', 'disabledAccounts'].some((key) => key in changes)) await checkMail();
     else await renderStatus(await loadState());
 });
 

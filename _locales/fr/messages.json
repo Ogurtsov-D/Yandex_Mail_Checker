@@ -281,7 +281,7 @@
     }
   },
   "menuOptions": {
-    "message": "Paramètres…",
+    "message": "Tous les paramètres…",
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
@@ -333,10 +333,6 @@
       }
     }
   },
-  "menuAccounts": {
-    "message": "Comptes",
-    "description": "Submenu: which accounts to count"
-  },
   "errorPermission": {
     "message": "Pas d’accès à $HOST$ : choisissez l’adresse de messagerie dans les paramètres de l’extension",
     "description": "Error: access to the chosen domain was revoked",
@@ -357,5 +353,21 @@
   "optionsMailHost360": {
     "message": "Yandex 360, y compris la messagerie sur votre propre domaine",
     "description": "Label for mail.360.yandex.ru"
+  },
+  "menuSettings": {
+    "message": "Paramètres",
+    "description": "Settings submenu (with several accounts)"
+  },
+  "menuOpenAccount": {
+    "message": "Ouvrir un compte",
+    "description": "Submenu with the account list when it does not fit in the menu"
+  },
+  "optionsAccounts": {
+    "message": "Comptes",
+    "description": "Settings page: accounts section"
+  },
+  "optionsAccountsHint": {
+    "message": "Le nom apparaît dans le menu, l’info-bulle et les notifications. Décochez un compte pour ne pas le compter sur l’icône ni dans les notifications.",
+    "description": "Settings page hint"
   }
 }

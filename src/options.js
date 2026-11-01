@@ -1,6 +1,7 @@
 // Страница настроек: то, что неудобно задавать в меню иконки
 import { ext } from './api.js';
 import { DEFAULT_MAIL_HOST, MAIL_HOSTS } from './config.js';
+import { unreadText } from './format.js';
 import { hostOrigin } from './hosts.js';
 import { t } from './i18n.js';
 import { getSettings, saveSettings } from './settings.js';
@@ -48,6 +49,40 @@ select.addEventListener('change', async () => {
     // Доступ к прежнему домену больше не нужен — отдаём его обратно
     if (previous !== DEFAULT_MAIL_HOST) await ext.permissions.remove({ origins: [hostOrigin(previous)] });
 });
+
+// Несколько аккаунтов: имя (видно в меню, подсказке и уведомлениях) и учитывать ли аккаунт
+const { accountList = [] } = await ext.storage.local.get('accountList');
+if (accountList.length > 1) {
+    $('accounts').hidden = false;
+    for (const [index, { uid, unread }] of accountList.entries()) {
+        const row = document.createElement('label');
+        row.className = 'row';
+        const counted = document.createElement('input');
+        counted.type = 'checkbox';
+        counted.checked = !settings.disabledAccounts.includes(uid);
+        counted.addEventListener('change', () => {
+            const others = settings.disabledAccounts.filter((x) => x !== uid);
+            settings.disabledAccounts = counted.checked ? others : [...others, uid];
+            saveSettings({ disabledAccounts: settings.disabledAccounts });
+        });
+        const name = document.createElement('input');
+        name.type = 'text';
+        name.maxLength = 40;
+        name.placeholder = t('accountNumber', index + 1);
+        name.value = settings.accountNames[uid] ?? '';
+        name.addEventListener('change', () => {
+            const value = name.value.trim();
+            if (value) settings.accountNames[uid] = value;
+            else delete settings.accountNames[uid];
+            saveSettings({ accountNames: { ...settings.accountNames } });
+        });
+        const count = document.createElement('span');
+        count.className = 'hint';
+        count.textContent = unreadText(unread);
+        row.append(counted, name, count);
+        $('accountList').append(row);
+    }
+}
 
 // Горячая клавиша открытия почты: её можно переназначить в настройках браузера
 const commands = (await ext.commands?.getAll?.()) ?? [];

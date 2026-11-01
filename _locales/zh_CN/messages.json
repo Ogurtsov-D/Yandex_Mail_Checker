@@ -209,7 +209,7 @@
     }
   },
   "menuOptions": {
-    "message": "设置…",
+    "message": "所有设置…",
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
@@ -261,10 +261,6 @@
       }
     }
   },
-  "menuAccounts": {
-    "message": "账号",
-    "description": "Submenu: which accounts to count"
-  },
   "errorPermission": {
     "message": "无法访问 $HOST$：请在扩展程序设置中选择邮箱地址",
     "description": "Error: access to the chosen domain was revoked",
@@ -285,5 +281,21 @@
   "optionsMailHost360": {
     "message": "Yandex 360，包括使用自有域名的邮箱",
     "description": "Label for mail.360.yandex.ru"
+  },
+  "menuSettings": {
+    "message": "设置",
+    "description": "Settings submenu (with several accounts)"
+  },
+  "menuOpenAccount": {
+    "message": "打开账号",
+    "description": "Submenu with the account list when it does not fit in the menu"
+  },
+  "optionsAccounts": {
+    "message": "账号",
+    "description": "Settings page: accounts section"
+  },
+  "optionsAccountsHint": {
+    "message": "名称会显示在菜单、提示和通知中。取消勾选可在图标和通知中不计入该账号。",
+    "description": "Settings page hint"
   }
 }

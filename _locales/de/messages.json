@@ -245,7 +245,7 @@
     }
   },
   "menuOptions": {
-    "message": "Einstellungen…",
+    "message": "Alle Einstellungen…",
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
@@ -297,10 +297,6 @@
       }
     }
   },
-  "menuAccounts": {
-    "message": "Konten",
-    "description": "Submenu: which accounts to count"
-  },
   "errorPermission": {
     "message": "Kein Zugriff auf $HOST$: Wählen Sie die Mail-Adresse in den Einstellungen der Erweiterung",
     "description": "Error: access to the chosen domain was revoked",
@@ -321,5 +317,21 @@
   "optionsMailHost360": {
     "message": "Yandex 360, auch E-Mail mit eigener Domain",
     "description": "Label for mail.360.yandex.ru"
+  },
+  "menuSettings": {
+    "message": "Einstellungen",
+    "description": "Settings submenu (with several accounts)"
+  },
+  "menuOpenAccount": {
+    "message": "Konto öffnen",
+    "description": "Submenu with the account list when it does not fit in the menu"
+  },
+  "optionsAccounts": {
+    "message": "Konten",
+    "description": "Settings page: accounts section"
+  },
+  "optionsAccountsHint": {
+    "message": "Der Name erscheint im Menü, im Tooltip und in Benachrichtigungen. Entfernen Sie das Häkchen, um ein Konto am Symbol und in Benachrichtigungen nicht zu berücksichtigen.",
+    "description": "Settings page hint"
   }
 }

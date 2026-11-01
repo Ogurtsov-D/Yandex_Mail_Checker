@@ -5,7 +5,7 @@ import { hasHostAccess, mailUrls } from './hosts.js';
 import { t } from './i18n.js';
 import { debug } from './log.js';
 import { notificationId, notifyNewCount, notifyNewMessages } from './notifications.js';
-import { isLoginPage, parseAccountLogin, parseUnreadCount, parseUnreadMessages } from './parser.js';
+import { isLoginPage, parseUnreadCount, parseUnreadMessages } from './parser.js';
 import { getSettings, RETRY_ALARM } from './settings.js';
 import { renderChecking, renderStatus } from './status.js';
 
@@ -95,9 +95,10 @@ async function fetchCounters(urls) {
     return accounts.length > 0 ? accounts : null;
 }
 
-// Lite-версия «Входящих» (uid — аккаунт, когда их несколько)
-async function fetchInboxHtml(urls, uid = null) {
-    const response = await request(uid ? `${urls.inbox}?uid=${uid}` : urls.inbox);
+// Lite-версия «Входящих». Она всегда показывает аккаунт по умолчанию — ?uid= на неё не действует
+// (проверено владельцем), поэтому при нескольких аккаунтах подробности писем из неё не берутся
+async function fetchInboxHtml(urls) {
+    const response = await request(urls.inbox);
     // Другие не-2xx: редиректы при redirect: 'manual' приходят как opaqueredirect
     if (!response.ok) throw httpError(response.status);
     if (isLoginPage(response.text)) throw new MailCheckError('auth');
@@ -137,14 +138,13 @@ async function saveSuccess(unreadCount, freshCount, extra) {
     return state;
 }
 
-// Непрочитанные письма из lite-версии «Входящих» (новые сверху) и логин аккаунта.
+// Непрочитанные письма из lite-версии «Входящих» (новые сверху).
 // null — страницу получить или распознать не удалось: уведомление обойдётся без подробностей
-async function loadInbox(urls, uid) {
+async function loadInboxMessages(urls) {
     try {
-        const html = await fetchInboxHtml(urls, uid);
+        const html = await fetchInboxHtml(urls);
         const messages = parseUnreadMessages(html);
-        if (parseUnreadCount(html, messages) === null) return null;
-        return { messages, login: parseAccountLogin(html) };
+        return parseUnreadCount(html, messages) === null ? null : messages;
     } catch (error) {
         if (!(error instanceof MailCheckError)) console.error(error);
         console.warn('Inbox details unavailable:', error.message);
@@ -152,35 +152,35 @@ async function loadInbox(urls, uid) {
     }
 }
 
-// Один аккаунт по его счётчикам. prev — сохранённое состояние аккаунта:
-// { lastFresh, knownMessageIds, login }. account — { uid, label } для подписи
-// уведомлений, когда аккаунтов несколько, иначе null. Возвращает новое состояние аккаунта
-async function checkAccount({ uid, fresh }, prev, { urls, enabled, account }) {
+// Один аккаунт по его счётчикам. prev — сохранённое состояние аккаунта: { lastFresh, knownMessageIds }.
+// account — { uid, label }, когда аккаунтов несколько, иначе null. Возвращает новое состояние аккаунта
+async function checkAccount({ fresh }, prev, { urls, enabled, account }) {
     // Первая проверка аккаунта: только запоминаем fresh.
     // fresh уменьшился — пользователь заходил в почту (Яндекс обнуляет fresh) или прочитал
     // новое письмо где-то ещё. В первом случае все fresh писем пришли после обнуления
     const decreased = prev.lastFresh != null && fresh < prev.lastFresh;
     const added = !enabled || prev.lastFresh == null ? 0 : decreased ? fresh : fresh - prev.lastFresh;
-    const next = { lastFresh: fresh, knownMessageIds: prev.knownMessageIds, login: prev.login ?? null };
+    const next = { lastFresh: fresh, knownMessageIds: prev.knownMessageIds };
 
-    // Список известных писем нужен, чтобы отличить новые письма от старых непрочитанных.
-    // Его заполняем при первой проверке аккаунта (заодно узнаём логин для подписи),
-    // дальше — только когда пришли новые письма
-    if (added > 0 || prev.knownMessageIds === undefined) {
+    if (account) {
+        // Несколько аккаунтов: lite-версия показала бы письма аккаунта по умолчанию, а не этого —
+        // уведомляем без отправителя и темы, клик откроет нужный аккаунт
+        if (added > 0 && !decreased) await notifyNewCount(added, account);
+    } else if (added > 0 || prev.knownMessageIds === undefined) {
+        // Список известных писем нужен, чтобы отличить новые письма от старых непрочитанных.
+        // Его заполняем при первой проверке, дальше — только когда пришли новые письма
         const knownIds = new Set(prev.knownMessageIds ?? []);
-        const inbox = await loadInbox(urls, uid);
+        const messages = await loadInboxMessages(urls);
         // Не удалось — пустой список: иначе lite-версия запрашивалась бы при каждой проверке
-        next.knownMessageIds = inbox ? rememberIds(knownIds, inbox.messages) : [...knownIds];
-        if (inbox?.login) next.login = inbox.login;
+        next.knownMessageIds = messages ? rememberIds(knownIds, messages) : [...knownIds];
 
         if (added > 0) {
             // Новые сверху; письма могли прийти и в другие папки — тогда во «Входящих» их нет
-            const unseen = (inbox?.messages ?? []).filter((m) => !knownIds.has(m.id)).slice(0, added);
+            const unseen = (messages ?? []).filter((m) => !knownIds.has(m.id)).slice(0, added);
             // После уменьшения fresh уведомляем только о письмах, которых ещё не видели:
             // если fresh уменьшился из-за прочтения, новых писем нет
-            const label = account && { ...account, label: next.login ?? account.label };
-            if (unseen.length > 0) await notifyNewMessages(unseen, decreased ? unseen.length : added, label);
-            else if (!decreased) await notifyNewCount(added, label);
+            if (unseen.length > 0) await notifyNewMessages(unseen, decreased ? unseen.length : added);
+            else if (!decreased) await notifyNewCount(added);
         }
     }
 
@@ -191,11 +191,11 @@ async function checkAccount({ uid, fresh }, prev, { urls, enabled, account }) {
 }
 
 // Основной способ: счётчики Яндекса по всем аккаунтам, в которые выполнен вход.
-// На бейдже — сумма по включённым аккаунтам: unread (все папки, кроме «Спама») или fresh.
-// Рост fresh — пришли новые письма: их отправителя и тему берём из lite-версии
+// На бейдже — сумма по учитываемым аккаунтам: unread (все папки, кроме «Спама») или fresh.
+// Рост fresh — пришли новые письма; у единственного аккаунта отправитель и тема — из lite-версии
 async function checkByCounters(list, urls) {
     const { accounts: stored = {} } = await ext.storage.local.get('accounts');
-    const { disabledAccounts } = await getSettings();
+    const { disabledAccounts, accountNames } = await getSettings();
     const multiple = list.length > 1;
     // Аккаунты, которых нет в этом ответе (например, у них временно нет чисел), сохраняют
     // своё состояние: иначе, вернувшись, они считались бы новыми и письма за перерыв пропали бы
@@ -204,22 +204,17 @@ async function checkByCounters(list, urls) {
 
     for (const [index, counters] of list.entries()) {
         const key = counters.uid ?? '';
-        const prev = stored[key] ?? {};
         const enabled = !multiple || !disabledAccounts.includes(key);
-        const label = prev.login ?? t('accountNumber', index + 1);
+        // Подпись — имя, заданное на странице настроек, иначе «Аккаунт N»
+        const label = accountNames[key] || t('accountNumber', index + 1);
         const account = multiple ? { uid: key, label } : null;
-        accounts[key] = await checkAccount(counters, prev, { urls, enabled, account });
-        summary.push({
-            uid: key,
-            label: accounts[key].login ?? label,
-            unread: counters.unread,
-            fresh: counters.fresh,
-            enabled
-        });
+        accounts[key] = await checkAccount(counters, stored[key] ?? {}, { urls, enabled, account });
+        summary.push({ uid: key, label, unread: counters.unread, fresh: counters.fresh, enabled });
     }
 
-    // Список аккаунтов для меню записываем, только когда он изменился: по этому ключу меню пересоздаётся
-    const accountList = multiple ? summary.map(({ uid, label }) => ({ uid, label })) : [];
+    // Список аккаунтов с числами — для меню и страницы настроек. Записываем, только когда он
+    // изменился: по этому ключу меню пересоздаётся
+    const accountList = multiple ? summary : [];
     const { accountList: prevList = [] } = await ext.storage.local.get('accountList');
     if (JSON.stringify(prevList) !== JSON.stringify(accountList)) await ext.storage.local.set({ accountList });
 

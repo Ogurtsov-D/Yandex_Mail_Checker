@@ -282,7 +282,7 @@ describe('Chromium, русский интерфейс', () => {
         await page.close();
     });
 
-    test('два аккаунта: сумма на значке, строки в подсказке, уведомление с подписью аккаунта', async () => {
+    test('два аккаунта: сумма на значке, строки в подсказке, уведомление с подписью, имена в настройках', async () => {
         Object.assign(server, {
             status: 200,
             redirect: null,
@@ -300,11 +300,21 @@ describe('Chromium, русский интерфейс', () => {
             { uid: '11', unread: 2, fresh: 0 },
             { uid: '22', unread: 4, fresh: 1 }
         ];
-        server.inbox = inboxPage({ count: 1, messages: [{ id: '555', from: 'Бухгалтерия', subject: 'Отчёт' }] });
         await checkNow(browser.worker);
         s = await waitFor(browser.worker, (x) => x.badge === '6');
         const n = s.notifications.at(-1);
-        assert.deepEqual([n.title, n.contextMessage], ['Бухгалтерия', 'Аккаунт 2']);
+        assert.deepEqual([n.title, n.contextMessage], ['1 новое письмо', 'Аккаунт 2']);
+
+        // Имя аккаунта на странице настроек — сразу в подсказке
+        const page = await browser.context.newPage();
+        await page.goto(`chrome-extension://${browser.extensionId}/src/options.html`);
+        await page.waitForSelector('#accountList input[type=text]');
+        assert.equal(await page.isVisible('#accounts'), true);
+        await page.locator('#accountList input[type=text]').nth(1).fill('Работа');
+        await page.locator('#accountList input[type=text]').nth(1).press('Enter');
+        await page.locator('#accountList input[type=text]').nth(1).blur();
+        s = await waitFor(browser.worker, (x) => x.title.includes('\nРабота: 4 непрочитанных письма'));
+        await page.close();
         server.counters = { unread: 0, fresh: 0 };
     });
 

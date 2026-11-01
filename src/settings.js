@@ -18,6 +18,7 @@ export const SETTING_KEYS = [
     'pauseWhenIdle',
     'classicIcon',
     'disabledAccounts',
+    'accountNames',
     'mailHost'
 ];
 
@@ -41,6 +42,11 @@ export async function getSettings() {
         classicIcon: s.classicIcon === true,
         // uid аккаунтов, которые не учитываются в счётчике и уведомлениях
         disabledAccounts: Array.isArray(s.disabledAccounts) ? s.disabledAccounts.map(String) : [],
+        // Имена аккаунтов, заданные на странице настроек: { uid: имя }
+        accountNames:
+            s.accountNames && typeof s.accountNames === 'object' && !Array.isArray(s.accountNames)
+                ? s.accountNames
+                : {},
         // Домен почты: mail.yandex.ru, mail.yandex.com, Яндекс 360…
         mailHost: isMailHost(s.mailHost) ? s.mailHost : DEFAULT_MAIL_HOST
     };

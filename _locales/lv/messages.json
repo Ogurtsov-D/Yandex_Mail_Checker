@@ -281,7 +281,7 @@
     }
   },
   "menuOptions": {
-    "message": "Iestatījumi…",
+    "message": "Visi iestatījumi…",
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
@@ -333,10 +333,6 @@
       }
     }
   },
-  "menuAccounts": {
-    "message": "Konti",
-    "description": "Submenu: which accounts to count"
-  },
   "errorPermission": {
     "message": "Nav piekļuves $HOST$: paplašinājuma iestatījumos izvēlieties pasta adresi",
     "description": "Error: access to the chosen domain was revoked",
@@ -357,5 +353,21 @@
   "optionsMailHost360": {
     "message": "Yandex 360, tostarp pasts jūsu domēnā",
     "description": "Label for mail.360.yandex.ru"
+  },
+  "menuSettings": {
+    "message": "Iestatījumi",
+    "description": "Settings submenu (with several accounts)"
+  },
+  "menuOpenAccount": {
+    "message": "Atvērt kontu",
+    "description": "Submenu with the account list when it does not fit in the menu"
+  },
+  "optionsAccounts": {
+    "message": "Konti",
+    "description": "Settings page: accounts section"
+  },
+  "optionsAccountsHint": {
+    "message": "Nosaukums redzams izvēlnē, rīka padomā un paziņojumos. Noņemiet atzīmi, lai kontu neieskaitītu ikonā un paziņojumos.",
+    "description": "Settings page hint"
   }
 }

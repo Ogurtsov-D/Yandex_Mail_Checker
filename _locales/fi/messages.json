@@ -245,7 +245,7 @@
     }
   },
   "menuOptions": {
-    "message": "Asetukset…",
+    "message": "Kaikki asetukset…",
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
@@ -297,10 +297,6 @@
       }
     }
   },
-  "menuAccounts": {
-    "message": "Tilit",
-    "description": "Submenu: which accounts to count"
-  },
   "errorPermission": {
     "message": "Ei pääsyä osoitteeseen $HOST$: valitse postin osoite laajennuksen asetuksista",
     "description": "Error: access to the chosen domain was revoked",
@@ -321,5 +317,21 @@
   "optionsMailHost360": {
     "message": "Yandex 360, myös oman verkkotunnuksen posti",
     "description": "Label for mail.360.yandex.ru"
+  },
+  "menuSettings": {
+    "message": "Asetukset",
+    "description": "Settings submenu (with several accounts)"
+  },
+  "menuOpenAccount": {
+    "message": "Avaa tili",
+    "description": "Submenu with the account list when it does not fit in the menu"
+  },
+  "optionsAccounts": {
+    "message": "Tilit",
+    "description": "Settings page: accounts section"
+  },
+  "optionsAccountsHint": {
+    "message": "Nimi näkyy valikossa, työkaluvihjeessä ja ilmoituksissa. Poista valinta, jos et halua laskea tiliä kuvakkeeseen ja ilmoituksiin.",
+    "description": "Settings page hint"
   }
 }
