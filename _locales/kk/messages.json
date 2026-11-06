@@ -353,5 +353,53 @@
   "iconPurple": {
     "message": "Күлгін",
     "description": "Icon style"
+  },
+  "optionsSectionCheck": {
+    "message": "Поштаны тексеру"
+  },
+  "optionsSectionOpen": {
+    "message": "Поштаны ашу"
+  },
+  "optionsSectionIcon": {
+    "message": "Белгіше және санауыш"
+  },
+  "optionsOpenTab": {
+    "message": "Қойындыда"
+  },
+  "optionsOpenWindow": {
+    "message": "Бөлек терезеде"
+  },
+  "optionsOpenHint": {
+    "message": "Белгішені не хабарландыруды басқанда және пернетақтадан пошта осылай ашылады. Пошта ашық болса, кеңейтім соған ауысады."
+  },
+  "optionsBadgeColor": {
+    "message": "Санауыш түсі:"
+  },
+  "optionsBadgeBackground": {
+    "message": "Фон"
+  },
+  "optionsBadgeText": {
+    "message": "Сандар"
+  },
+  "optionsCustomColor": {
+    "message": "Өз түсіңіз"
+  },
+  "optionsResetColors": {
+    "message": "Әдепкі түстерді қайтару"
+  },
+  "optionsRate": {
+    "message": "Кеңейтімді бағалау"
+  },
+  "optionsReportBug": {
+    "message": "Қате туралы хабарлау"
+  },
+  "optionsVersion": {
+    "message": "Нұсқа $VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.5.0"
+      }
+    }
   }
 }

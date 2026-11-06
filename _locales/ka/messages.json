@@ -353,5 +353,53 @@
   "iconPurple": {
     "message": "იისფერი",
     "description": "Icon style"
+  },
+  "optionsSectionCheck": {
+    "message": "ფოსტის შემოწმება"
+  },
+  "optionsSectionOpen": {
+    "message": "ფოსტის გახსნა"
+  },
+  "optionsSectionIcon": {
+    "message": "ხატულა და მთვლელი"
+  },
+  "optionsOpenTab": {
+    "message": "ჩანართში"
+  },
+  "optionsOpenWindow": {
+    "message": "ცალკე ფანჯარაში"
+  },
+  "optionsOpenHint": {
+    "message": "ასე იხსნება ფოსტა ხატულაზე ან შეტყობინებაზე დაწკაპუნებით და კლავიატურიდან. თუ ფოსტა უკვე გახსნილია, გაფართოება მასზე გადაერთვება."
+  },
+  "optionsBadgeColor": {
+    "message": "მთვლელის ფერი:"
+  },
+  "optionsBadgeBackground": {
+    "message": "ფონი"
+  },
+  "optionsBadgeText": {
+    "message": "ციფრები"
+  },
+  "optionsCustomColor": {
+    "message": "საკუთარი ფერი"
+  },
+  "optionsResetColors": {
+    "message": "ნაგულისხმევი ფერების დაბრუნება"
+  },
+  "optionsRate": {
+    "message": "გაფართოების შეფასება"
+  },
+  "optionsReportBug": {
+    "message": "პრობლემის შეტყობინება"
+  },
+  "optionsVersion": {
+    "message": "ვერსია $VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.5.0"
+      }
+    }
   }
 }

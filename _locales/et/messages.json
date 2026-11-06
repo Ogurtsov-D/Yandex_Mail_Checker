@@ -353,5 +353,53 @@
   "iconPurple": {
     "message": "Lilla",
     "description": "Icon style"
+  },
+  "optionsSectionCheck": {
+    "message": "Posti kontrollimine"
+  },
+  "optionsSectionOpen": {
+    "message": "Postkasti avamine"
+  },
+  "optionsSectionIcon": {
+    "message": "Ikoon ja loendur"
+  },
+  "optionsOpenTab": {
+    "message": "Vahekaardil"
+  },
+  "optionsOpenWindow": {
+    "message": "Eraldi aknas"
+  },
+  "optionsOpenHint": {
+    "message": "Nii avaneb postkast, kui klõpsate ikoonil või teavitusel või kasutate kiirklahvi. Kui postkast on juba avatud, lülitub laiendus sellele."
+  },
+  "optionsBadgeColor": {
+    "message": "Loenduri värv:"
+  },
+  "optionsBadgeBackground": {
+    "message": "Taust"
+  },
+  "optionsBadgeText": {
+    "message": "Numbrid"
+  },
+  "optionsCustomColor": {
+    "message": "Oma värv"
+  },
+  "optionsResetColors": {
+    "message": "Taasta vaikevärvid"
+  },
+  "optionsRate": {
+    "message": "Hinda laiendust"
+  },
+  "optionsReportBug": {
+    "message": "Teata probleemist"
+  },
+  "optionsVersion": {
+    "message": "Versioon $VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.5.0"
+      }
+    }
   }
 }

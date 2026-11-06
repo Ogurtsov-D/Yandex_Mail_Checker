@@ -58,7 +58,24 @@ export const MIN_RECHECK_GAP_MS = 15000; // не чаще одного запр�
 // Сколько писем показывать в уведомлении
 export const MAX_NOTIFICATION_ITEMS = 3;
 
-export const BADGE_COLOR = '#d14836';
+// Цвета счётчика на значке: по умолчанию и готовые варианты на странице настроек
+export const DEFAULT_BADGE_COLOR = '#d14836';
+export const DEFAULT_BADGE_TEXT_COLOR = '#ffffff';
+export const BADGE_COLORS = ['#d14836', '#fc3f1d', '#1a73e8', '#188038', '#8430ce', '#3c4043'];
+
+// Где открывать почту, если она ещё не открыта: во вкладке или в отдельном окне
+export const OPEN_MODES = ['tab', 'window'];
+export const MAIL_WINDOW = { width: 1200, height: 850 };
+
+// Страницы расширения в магазинах — для ссылки «Оценить расширение»
+export const CHROME_WEB_STORE_ID = 'gkpnpejbpnldkkeoeapjdilknlmojoon';
+export const EDGE_ADDONS_ID = 'pncdgkochfhddiclomicdbbhfgoeamcm';
+export const REVIEW_URLS = {
+    chrome: `https://chromewebstore.google.com/detail/${CHROME_WEB_STORE_ID}/reviews`,
+    edge: `https://microsoftedge.microsoft.com/addons/detail/${EDGE_ADDONS_ID}`,
+    firefox: 'https://addons.mozilla.org/firefox/addon/yandex_mail_checker/reviews/'
+};
+export const ISSUES_URL = 'https://github.com/Ogurtsov-D/Yandex_Mail_Checker/issues/new/choose';
 
 // Подробные логи в консоли service worker (chrome://extensions → service worker)
 export const DEBUG = false;

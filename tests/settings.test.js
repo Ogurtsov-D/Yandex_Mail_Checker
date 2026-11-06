@@ -21,7 +21,10 @@ test('настройки по умолчанию и защита от испор
         iconStyle: 'classic',
         disabledAccounts: [],
         accountNames: {},
-        mailHost: 'mail.yandex.ru'
+        mailHost: 'mail.yandex.ru',
+        badgeColor: '#d14836',
+        badgeTextColor: '#ffffff',
+        openIn: 'tab'
     });
     Object.assign(mock.store.local, {
         checkInterval: 7,
@@ -29,13 +32,17 @@ test('настройки по умолчанию и защита от испор
         quietTo: 'утро',
         badgeMode: 'all',
         mailHost: 'evil.example',
-        iconStyle: '../../evil'
+        iconStyle: '../../evil',
+        badgeColor: 'red; background: url(x)',
+        badgeTextColor: '#fff',
+        openIn: 'popup'
     });
     const s = await getSettings();
     assert.deepEqual(
         [s.interval, s.quietFrom, s.quietTo, s.badgeMode, s.mailHost, s.iconStyle],
         [5, '23:00', '08:00', 'unread', 'mail.yandex.ru', 'classic']
     );
+    assert.deepEqual([s.badgeColor, s.badgeTextColor, s.openIn], ['#d14836', '#ffffff', 'tab']);
 });
 
 test('тихие часы: через полночь, в пределах дня, выключены', () => {

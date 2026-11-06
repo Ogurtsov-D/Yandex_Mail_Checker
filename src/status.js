@@ -1,6 +1,5 @@
 // Состояние последней проверки и его отображение на иконке (бейдж + подсказка)
 import { ext } from './api.js';
-import { BADGE_COLOR } from './config.js';
 import { badgeText, tooltipText } from './format.js';
 import { t } from './i18n.js';
 import { getSettings } from './settings.js';
@@ -28,12 +27,20 @@ async function applyIcon(style) {
     await ext.action.setIcon({ path: { 16: iconPath(16, style), 32: iconPath(32, style) } });
 }
 
+// Цвета счётчика из настроек. setBadgeTextColor есть в Chrome 110+ и Firefox 63+
+function applyBadgeColors({ badgeColor, badgeTextColor }) {
+    return Promise.all([
+        ext.action.setBadgeBackgroundColor({ color: badgeColor }),
+        ext.action.setBadgeTextColor?.({ color: badgeTextColor })
+    ]);
+}
+
 export async function renderStatus(state) {
-    const { badgeMode, iconStyle } = await getSettings();
+    const settings = await getSettings();
     await Promise.all([
-        applyIcon(iconStyle),
-        ext.action.setBadgeText({ text: badgeText(state, badgeMode) }),
-        ext.action.setBadgeBackgroundColor({ color: BADGE_COLOR }),
+        applyIcon(settings.iconStyle),
+        applyBadgeColors(settings),
+        ext.action.setBadgeText({ text: badgeText(state, settings.badgeMode) }),
         ext.action.setTitle({ title: tooltipText(state) })
     ]);
 }
@@ -41,8 +48,8 @@ export async function renderStatus(state) {
 // Индикатор ручной проверки
 export async function renderChecking() {
     await Promise.all([
+        applyBadgeColors(await getSettings()),
         ext.action.setBadgeText({ text: '↻' }),
-        ext.action.setBadgeBackgroundColor({ color: BADGE_COLOR }),
         ext.action.setTitle({ title: t('checking') })
     ]);
 }

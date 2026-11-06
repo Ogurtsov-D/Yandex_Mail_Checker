@@ -22,12 +22,12 @@ No need to keep your mailbox open: the extension checks your mail, shows the unr
 
 - 🔢 **Unread counter** on the toolbar icon: all folders except Spam, the same as Yandex Mail's own counter, or new messages only
 - 📬 **New mail notifications**; clicking one opens your mailbox
-- 🖱️ **Clicking the icon** switches to an already open mail tab instead of opening a new one
+- 🖱️ **Clicking the icon** switches to your already open mailbox instead of opening new tabs; if mail isn't open, it opens it in a tab or a separate window, as you choose
 - ⚡ **Instant refresh**: read a message and the counter updates within seconds
 - 🔕 **Sound and quiet hours**: make notifications silent (in Chrome) or turn them off at night
 - ⏱️ **Check interval** of 1, 5, 15 or 30 minutes; mail is not checked while you are away from the computer
 - ⌨️ **Keyboard shortcut** Alt+Shift+Y opens your mail
-- 🎨 **Choice of icon**: classic, minimal, blue, green or purple
+- 🎨 **Choice of icon**: classic, minimal, blue, green or purple, plus your own counter color
 - ⚠️ **Clear errors**: "sign-in required", "no connection", "Yandex did not respond" — with hints on what to do
 - 🌐 **Interface in 19 languages** — English, Russian, Ukrainian, Belarusian, Kazakh, Uzbek, Azerbaijani, Armenian, Georgian, Turkish, German, French, Romanian, Latvian, Estonian, Finnish, Hebrew and Chinese (Simplified and Traditional); chosen by your browser language. Found a translation mistake? [Let us know](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/issues/new/choose)
 - 🔒 **No third-party servers**: your data never leaves the browser
@@ -98,7 +98,7 @@ Right-click the icon → "Notifications":
 
 - **"Show new mail notifications"** — turn notifications off completely;
 - **"Sound"** — silent notifications (Chrome and Chromium-based browsers only; in Firefox the sound is controlled by your system settings);
-- **"Quiet hours"** — no notifications at night, from 23:00 to 08:00 by default. You can change the time in the extension settings: right-click the icon → "Options" in Chrome, "Settings…" in Firefox. Messages that arrive during quiet hours are still shown on the counter.
+- **"Quiet hours"** — no notifications at night, from 23:00 to 08:00 by default. You can change the time in the extension settings: right-click the icon → "Options" in Chrome, "All settings…" in Firefox. Messages that arrive during quiet hours are still shown on the counter.
 
 ### What the badge shows
 
@@ -106,7 +106,7 @@ Right-click the icon → "Badge shows": **"All unread messages"** (default) or *
 
 ### Mail address
 
-By default the extension works with `mail.yandex.ru`. If your mail is at `mail.yandex.com`, `mail.yandex.by`, `mail.yandex.kz`, `mail.yandex.com.tr` or in Yandex 360 (`mail.360.yandex.ru`, including mail on your own domain), choose the address in the extension settings (right-click the icon → "Options" in Chrome, "Settings…" in Firefox). The browser will ask for permission to access it.
+By default the extension works with `mail.yandex.ru`. If your mail is at `mail.yandex.com`, `mail.yandex.by`, `mail.yandex.kz`, `mail.yandex.com.tr` or in Yandex 360 (`mail.360.yandex.ru`, including mail on your own domain), choose the address in the extension settings (right-click the icon → "Options" in Chrome, "All settings…" in Firefox). The browser will ask for permission to access it.
 
 ### Several accounts
 
@@ -124,6 +124,15 @@ If you are signed in to several Yandex accounts, the extension counts mail in al
 - accounts are labelled with their main email address; on the settings page you can give them your own names and uncheck an account to leave it out of the badge and notifications.
 
 Clicking the icon does not pick an account: it switches to an open mail tab or, if there is none, opens mail in the account selected in Yandex. With one account everything works as before.
+
+### Settings page
+
+Right-click the icon → "Options" in Chrome, "All settings…" in Firefox. It has everything from the menu, plus:
+
+- **mail address** — see above;
+- **where to open mail** if it isn't open yet: in a tab or in a separate window without the address bar;
+- **icon style and counter color** — background and digits, preset or custom;
+- **quiet hours**, **pause while you are away**, **account names**.
 
 ### While you are away
 

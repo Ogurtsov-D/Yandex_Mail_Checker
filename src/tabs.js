@@ -2,8 +2,9 @@
 // и перепроверить счётчик после действий во вкладке почты
 import { ext } from './api.js';
 import { checkMail, getLastCheckTime } from './checker.js';
-import { MIN_RECHECK_GAP_MS, RECHECK_DELAY_MS } from './config.js';
+import { MAIL_WINDOW, MIN_RECHECK_GAP_MS, RECHECK_DELAY_MS } from './config.js';
 import { mailUrls } from './hosts.js';
+import { getSettings } from './settings.js';
 
 async function isMailUrl(url) {
     return typeof url === 'string' && url.startsWith((await mailUrls()).base);
@@ -30,6 +31,14 @@ async function focusTab(tab, url) {
 
 const tabUid = (url) => new URL(url).searchParams.get('uid');
 
+// Почта ещё не открыта: новая вкладка или отдельное окно — как выбрано в настройках.
+// Окно — без адресной строки (popup); вкладка почты в нём находится так же, как обычная
+async function openNew(url) {
+    const { openIn } = await getSettings();
+    if (openIn === 'window') await ext.windows.create({ url, type: 'popup', ...MAIL_WINDOW });
+    else await ext.tabs.create({ url });
+}
+
 // Открыть почту. hash — конкретное письмо ('#/message/123'); без него — просто почта.
 // uid — аккаунт, когда их несколько: подходит только вкладка этого аккаунта (?uid=…),
 // новая вкладка открывается сразу в нём. Без uid — любая вкладка почты, аккаунт выбирает Яндекс
@@ -43,7 +52,7 @@ export async function openMail(hash = null, uid = null) {
     if (!hash) {
         const tab = mostRecentTab(tabs);
         if (tab) await focusTab(tab);
-        else await ext.tabs.create({ url: newTabUrl });
+        else await openNew(newTabUrl);
         return;
     }
 
@@ -52,7 +61,7 @@ export async function openMail(hash = null, uid = null) {
     const usable = tabs.filter((t) => !isLiteUrl(t.url) && !isComposeUrl(t.url));
     const tab = mostRecentTab(usable);
     if (tab) await focusTab(tab, tab.url.split('#')[0] + hash);
-    else await ext.tabs.create({ url: newTabUrl });
+    else await openNew(newTabUrl);
 }
 
 // ---------- Перепроверка после действий во вкладке почты ----------

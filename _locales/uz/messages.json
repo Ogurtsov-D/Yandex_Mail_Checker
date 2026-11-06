@@ -353,5 +353,53 @@
   "iconPurple": {
     "message": "Binafsha",
     "description": "Icon style"
+  },
+  "optionsSectionCheck": {
+    "message": "Pochtani tekshirish"
+  },
+  "optionsSectionOpen": {
+    "message": "Pochtani ochish"
+  },
+  "optionsSectionIcon": {
+    "message": "Belgi va hisoblagich"
+  },
+  "optionsOpenTab": {
+    "message": "Varaqda"
+  },
+  "optionsOpenWindow": {
+    "message": "Alohida oynada"
+  },
+  "optionsOpenHint": {
+    "message": "Belgi yoki bildirishnoma bosilganda va klaviatura orqali pochta shunday ochiladi. Pochta allaqachon ochiq boʻlsa, kengaytma unga oʻtadi."
+  },
+  "optionsBadgeColor": {
+    "message": "Hisoblagich rangi:"
+  },
+  "optionsBadgeBackground": {
+    "message": "Fon"
+  },
+  "optionsBadgeText": {
+    "message": "Raqamlar"
+  },
+  "optionsCustomColor": {
+    "message": "Oʻz rangingiz"
+  },
+  "optionsResetColors": {
+    "message": "Standart ranglarni qaytarish"
+  },
+  "optionsRate": {
+    "message": "Kengaytmani baholash"
+  },
+  "optionsReportBug": {
+    "message": "Xato haqida xabar berish"
+  },
+  "optionsVersion": {
+    "message": "Versiya $VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.5.0"
+      }
+    }
   }
 }

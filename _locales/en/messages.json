@@ -353,5 +353,53 @@
   "iconPurple": {
     "message": "Purple",
     "description": "Icon style"
+  },
+  "optionsSectionCheck": {
+    "message": "Mail checks"
+  },
+  "optionsSectionOpen": {
+    "message": "Opening mail"
+  },
+  "optionsSectionIcon": {
+    "message": "Icon and counter"
+  },
+  "optionsOpenTab": {
+    "message": "In a tab"
+  },
+  "optionsOpenWindow": {
+    "message": "In a separate window"
+  },
+  "optionsOpenHint": {
+    "message": "This is how mail opens when you click the icon or a notification, or use the shortcut. If mail is already open, the extension switches to it."
+  },
+  "optionsBadgeColor": {
+    "message": "Counter color:"
+  },
+  "optionsBadgeBackground": {
+    "message": "Background"
+  },
+  "optionsBadgeText": {
+    "message": "Digits"
+  },
+  "optionsCustomColor": {
+    "message": "Custom color"
+  },
+  "optionsResetColors": {
+    "message": "Reset to default colors"
+  },
+  "optionsRate": {
+    "message": "Rate the extension"
+  },
+  "optionsReportBug": {
+    "message": "Report a problem"
+  },
+  "optionsVersion": {
+    "message": "Version $VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.5.0"
+      }
+    }
   }
 }

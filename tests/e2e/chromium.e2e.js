@@ -272,16 +272,30 @@ describe('Chromium, русский интерфейс', () => {
         assert.equal(await page.inputValue('#mailHost'), 'mail.yandex.ru');
         assert.equal(await page.locator('#mailHost option').count(), 6);
 
+        // Варианты выбора — карточки: пользователь нажимает на карточку, а не на скрытую радиокнопку
+        const card = (name, value) => page.locator(`label:has(input[name=${name}][value=${value}])`);
         await page.check('#quietHoursEnabled');
         await page.fill('#quietTo', '07:30');
-        await page.check('input[name=iconStyle][value=blue]');
+        await card('iconStyle', 'blue').click();
+        await card('openIn', 'window').click();
+        await page.click('#backgroundPalette .swatch[data-color="#1a73e8"]');
         await sleep(500);
         const saved = await page.evaluate(() =>
-            chrome.storage.local.get(['quietHoursEnabled', 'quietTo', 'iconStyle'])
+            chrome.storage.local.get(['quietHoursEnabled', 'quietTo', 'iconStyle', 'openIn', 'badgeColor'])
         );
-        assert.deepEqual(saved, { quietHoursEnabled: true, quietTo: '07:30', iconStyle: 'blue' });
+        assert.deepEqual(saved, {
+            quietHoursEnabled: true,
+            quietTo: '07:30',
+            iconStyle: 'blue',
+            openIn: 'window',
+            badgeColor: '#1a73e8'
+        });
         assert.equal(await page.locator('#iconStyles img').count(), 5);
-        await page.check('input[name=iconStyle][value=classic]');
+        assert.match(await page.getAttribute('#rate', 'href'), /^https:\/\/(chromewebstore|microsoftedge)/);
+        assert.match(await page.textContent('#version'), /^Версия \d/);
+        await card('iconStyle', 'classic').click();
+        await card('openIn', 'tab').click();
+        await page.click('#resetColors');
         await page.uncheck('#quietHoursEnabled');
         await page.close();
     });

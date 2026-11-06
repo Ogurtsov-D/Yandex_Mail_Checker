@@ -389,5 +389,53 @@
   "iconPurple": {
     "message": "סגול",
     "description": "Icon style"
+  },
+  "optionsSectionCheck": {
+    "message": "בדיקת הדואר"
+  },
+  "optionsSectionOpen": {
+    "message": "פתיחת הדואר"
+  },
+  "optionsSectionIcon": {
+    "message": "סמל ומונה"
+  },
+  "optionsOpenTab": {
+    "message": "בכרטיסייה"
+  },
+  "optionsOpenWindow": {
+    "message": "בחלון נפרד"
+  },
+  "optionsOpenHint": {
+    "message": "כך נפתח הדואר בלחיצה על הסמל או על התראה, או בקיצור המקשים. אם הדואר כבר פתוח, התוסף יעבור אליו."
+  },
+  "optionsBadgeColor": {
+    "message": "צבע המונה:"
+  },
+  "optionsBadgeBackground": {
+    "message": "רקע"
+  },
+  "optionsBadgeText": {
+    "message": "ספרות"
+  },
+  "optionsCustomColor": {
+    "message": "צבע מותאם"
+  },
+  "optionsResetColors": {
+    "message": "שחזור צבעי ברירת המחדל"
+  },
+  "optionsRate": {
+    "message": "דירוג התוסף"
+  },
+  "optionsReportBug": {
+    "message": "דיווח על בעיה"
+  },
+  "optionsVersion": {
+    "message": "גרסה $VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.5.0"
+      }
+    }
   }
 }

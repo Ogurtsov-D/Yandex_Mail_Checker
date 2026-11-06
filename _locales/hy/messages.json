@@ -353,5 +353,53 @@
   "iconPurple": {
     "message": "Մանուշակագույն",
     "description": "Icon style"
+  },
+  "optionsSectionCheck": {
+    "message": "Փոստի ստուգում"
+  },
+  "optionsSectionOpen": {
+    "message": "Փոստի բացում"
+  },
+  "optionsSectionIcon": {
+    "message": "Պատկերակ և հաշվիչ"
+  },
+  "optionsOpenTab": {
+    "message": "Ներդիրում"
+  },
+  "optionsOpenWindow": {
+    "message": "Առանձին պատուհանում"
+  },
+  "optionsOpenHint": {
+    "message": "Այսպես է բացվում փոստը պատկերակի կամ ծանուցման վրա սեղմելիս և ստեղնաշարից։ Եթե փոստն արդեն բաց է, ընդլայնումը կանցնի դրան։"
+  },
+  "optionsBadgeColor": {
+    "message": "Հաշվիչի գույնը՝"
+  },
+  "optionsBadgeBackground": {
+    "message": "Ֆոն"
+  },
+  "optionsBadgeText": {
+    "message": "Թվեր"
+  },
+  "optionsCustomColor": {
+    "message": "Ձեր գույնը"
+  },
+  "optionsResetColors": {
+    "message": "Վերադարձնել լռելյայն գույները"
+  },
+  "optionsRate": {
+    "message": "Գնահատել ընդլայնումը"
+  },
+  "optionsReportBug": {
+    "message": "Հաղորդել խնդրի մասին"
+  },
+  "optionsVersion": {
+    "message": "Տարբերակ $VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.5.0"
+      }
+    }
   }
 }

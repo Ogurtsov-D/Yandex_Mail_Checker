@@ -25,7 +25,7 @@ const TEXT = {
             ['Непрочитанные письма — на панели браузера', 'Во всех папках, кроме «Спама», — как в самой Яндекс Почте'],
             ['Всё под рукой — по правому клику', 'Проверить сейчас, интервал, что показывать на значке, уведомления'],
             ['Уведомления о новых письмах', 'Клик по уведомлению открывает почту'],
-            ['Тихие часы, адрес почты, вид значка', 'Яндекс 360 и другие домены, несколько аккаунтов, 19 языков']
+            ['Настройки под себя', 'Яндекс 360 и несколько аккаунтов, вкладка или окно, вид и цвет значка']
         ]
     },
     en: {
@@ -36,7 +36,7 @@ const TEXT = {
             ['Unread mail count on your toolbar', 'All folders except Spam — the same as Yandex Mail itself'],
             ['Everything a right-click away', 'Check now, check interval, what the badge shows, notifications'],
             ['New mail notifications', 'Click a notification to open your mailbox'],
-            ['Quiet hours, mail address, icon style', 'Yandex 360 and other domains, several accounts, 19 languages']
+            ['Make it yours', 'Yandex 360 and several accounts, tab or window, icon style and color']
         ]
     }
 };
@@ -124,10 +124,20 @@ for (const [lang, text] of Object.entries(TEXT)) {
     worker ??= await context.waitForEvent('serviceworker');
     await worker.evaluate(() => chrome.storage.local.set({ quietHoursEnabled: true }));
     const options = await context.newPage();
-    await options.setViewportSize({ width: 520, height: 560 });
+    await options.setViewportSize({ width: 680, height: 1600 });
     await options.goto(`chrome-extension://${new URL(worker.url()).host}/src/options.html`);
     await options.waitForTimeout(500);
-    shots.push(dataUrl(await options.screenshot({ fullPage: true })));
+    // Разделы «Открытие почты» и «Значок и счётчик» — главное, что настраивается на странице
+    const sections = options.locator('section');
+    const first = await sections.nth(1).boundingBox();
+    const last = await sections.nth(2).boundingBox();
+    const clip = {
+        x: first.x - 8,
+        y: first.y - 8,
+        width: first.width + 16,
+        height: last.y + last.height - first.y + 16
+    };
+    shots.push(dataUrl(await options.screenshot({ clip })));
     await context.close();
     rmSync(profile, { recursive: true, force: true });
 

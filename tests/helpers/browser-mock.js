@@ -31,10 +31,11 @@ export function installBrowserMock({ firefox = false, locale = 'ru' } = {}) {
         createdTabs: [],
         updatedTabs: [],
         focusedWindows: [],
+        createdWindows: [],
         menus: [],
         icons: [],
         openedOptions: 0,
-        badge: { text: undefined, title: undefined }
+        badge: { text: undefined, title: undefined, color: undefined, textColor: undefined }
     };
     const alarms = {};
     let tabs = [];
@@ -100,7 +101,12 @@ export function installBrowserMock({ firefox = false, locale = 'ru' } = {}) {
             setBadgeText: async ({ text }) => {
                 calls.badge.text = text;
             },
-            setBadgeBackgroundColor: async () => {},
+            setBadgeBackgroundColor: async ({ color }) => {
+                calls.badge.color = color;
+            },
+            setBadgeTextColor: async ({ color }) => {
+                calls.badge.textColor = color;
+            },
             setIcon: async ({ path }) => {
                 calls.icons.push(path);
             },
@@ -155,6 +161,9 @@ export function installBrowserMock({ firefox = false, locale = 'ru' } = {}) {
         windows: {
             update: async (id) => {
                 calls.focusedWindows.push(id);
+            },
+            create: async (props) => {
+                calls.createdWindows.push(props);
             }
         }
     };
@@ -219,6 +228,7 @@ export function installBrowserMock({ firefox = false, locale = 'ru' } = {}) {
             calls.createdTabs.length = 0;
             calls.updatedTabs.length = 0;
             calls.focusedWindows.length = 0;
+            calls.createdWindows.length = 0;
             calls.icons.length = 0;
             calls.openedOptions = 0;
             mock.idleState = 'active';
@@ -226,6 +236,8 @@ export function installBrowserMock({ firefox = false, locale = 'ru' } = {}) {
             mock.allowPermissionRequests = true;
             calls.badge.text = undefined;
             calls.badge.title = undefined;
+            calls.badge.color = undefined;
+            calls.badge.textColor = undefined;
             tabs = [];
             mock.fetchCount = 0;
             mock.requests.length = 0;

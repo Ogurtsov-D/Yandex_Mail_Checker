@@ -45,7 +45,9 @@ export default [
     {
         // Страница настроек работает в обычном окне, с DOM
         files: ['src/options.js'],
-        languageOptions: { globals: { ...browserGlobals, document: 'readonly' } }
+        languageOptions: {
+            globals: { ...browserGlobals, document: 'readonly', navigator: 'readonly', Option: 'readonly' }
+        }
     },
     {
         files: ['tests/**/*.js', 'scripts/**/*.mjs', '*.js'],

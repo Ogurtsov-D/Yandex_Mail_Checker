@@ -425,5 +425,53 @@
   "iconPurple": {
     "message": "Фіолетовий",
     "description": "Icon style"
+  },
+  "optionsSectionCheck": {
+    "message": "Перевірка пошти"
+  },
+  "optionsSectionOpen": {
+    "message": "Відкриття пошти"
+  },
+  "optionsSectionIcon": {
+    "message": "Значок і лічильник"
+  },
+  "optionsOpenTab": {
+    "message": "У вкладці"
+  },
+  "optionsOpenWindow": {
+    "message": "В окремому вікні"
+  },
+  "optionsOpenHint": {
+    "message": "Так пошта відкривається після кліку на значок або сповіщення та з клавіатури. Якщо пошту вже відкрито, розширення перемкнеться на неї."
+  },
+  "optionsBadgeColor": {
+    "message": "Колір лічильника:"
+  },
+  "optionsBadgeBackground": {
+    "message": "Тло"
+  },
+  "optionsBadgeText": {
+    "message": "Цифри"
+  },
+  "optionsCustomColor": {
+    "message": "Свій колір"
+  },
+  "optionsResetColors": {
+    "message": "Повернути типові кольори"
+  },
+  "optionsRate": {
+    "message": "Оцінити розширення"
+  },
+  "optionsReportBug": {
+    "message": "Повідомити про помилку"
+  },
+  "optionsVersion": {
+    "message": "Версія $VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.5.0"
+      }
+    }
   }
 }
