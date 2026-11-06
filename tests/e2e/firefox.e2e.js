@@ -1,4 +1,4 @@
-// Сквозная проверка в настоящем Firefox. Подробности и запуск — CONTRIBUTING.md (npm run e2e:firefox).
+// Сквозная проверка в настоящем Firefox. Подробности и запуск — docs/development.md (npm run e2e:firefox).
 //
 // Firefox не даёт автоматизации открывать страницы расширения, поэтому тестовая копия сборки
 // получает хук в фоновом скрипте: он отчитывается о состоянии (бейдж, подсказка, уведомления,
@@ -19,7 +19,7 @@ const FIREFOX = process.env.FIREFOX_BIN;
 const DIST = fileURLToPath(new URL('../../dist/firefox', import.meta.url));
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-if (!FIREFOX) throw new Error('Укажите путь к Firefox в переменной FIREFOX_BIN (см. CONTRIBUTING.md)');
+if (!FIREFOX) throw new Error('Укажите путь к Firefox в переменной FIREFOX_BIN (см. docs/development.md)');
 
 const HOOK = `
 globalThis.__notifications = [];

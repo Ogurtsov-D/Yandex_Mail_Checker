@@ -24,8 +24,10 @@ const body = section
     .trim();
 
 const install =
-    '\n\n---\n\n**Установка:** Firefox — из каталога дополнений Firefox (версия появляется там после проверки Mozilla); ' +
-    'Chrome и браузеры на его основе — архив `…-chrome.zip` ниже. Подробнее — в ' +
-    '[инструкции в README](https://github.com/Ogurtsov-D/Yandex_Mail_Checker#установка).';
+    '\n\n---\n\n**Установка:** [Chrome Web Store](https://chromewebstore.google.com/detail/gkpnpejbpnldkkeoeapjdilknlmojoon) · ' +
+    '[Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/pncdgkochfhddiclomicdbbhfgoeamcm) · ' +
+    '[каталог дополнений Firefox](https://addons.mozilla.org/firefox/addon/yandex_mail_checker/). ' +
+    'Новая версия появляется в магазинах после их проверки; установленное расширение обновится само. ' +
+    'Архивы ниже — для установки без магазина.';
 
 console.log(body + install);

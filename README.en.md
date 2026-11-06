@@ -2,10 +2,10 @@
 
 [Русский](README.md) · **English**
 
-[![Latest release](https://img.shields.io/github/v/release/Ogurtsov-D/Yandex_Mail_Checker?label=release)](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/releases/latest)
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/gkpnpejbpnldkkeoeapjdilknlmojoon?label=Chrome%20Web%20Store&logo=googlechrome&logoColor=white&color=4285F4)](https://chromewebstore.google.com/detail/gkpnpejbpnldkkeoeapjdilknlmojoon)
+[![Firefox Add-ons](https://img.shields.io/amo/v/yandex_mail_checker?label=Firefox%20Add-ons&logo=firefoxbrowser&logoColor=white&color=FF7139)](https://addons.mozilla.org/firefox/addon/yandex_mail_checker/)
+[![Edge Add-ons](https://img.shields.io/badge/dynamic/json?label=Edge%20Add-ons&query=%24.version&prefix=v&color=0078D7&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fpncdgkochfhddiclomicdbbhfgoeamcm)](https://microsoftedge.microsoft.com/addons/detail/pncdgkochfhddiclomicdbbhfgoeamcm)
 [![Checks](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/actions/workflows/ci.yml/badge.svg)](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/actions/workflows/ci.yml)
-![Chrome 121+](https://img.shields.io/badge/Chrome-121%2B-4285F4)
-![Firefox 142+](https://img.shields.io/badge/Firefox-142%2B-FF7139)
 [![License GPLv3](https://img.shields.io/badge/license-GPLv3-blue)](LICENSE)
 
 **A browser extension that shows the number of unread Yandex Mail messages on the toolbar and notifies you about new mail.**
@@ -34,34 +34,23 @@ No need to keep your mailbox open: the extension checks your mail, shows the unr
 
 ## Installation
 
-For Firefox, the extension is published in the [Firefox Add-ons catalog](https://addons.mozilla.org/firefox/addon/yandex-mail-checker@ogurtsov-d.github.io/). For Chrome and Chromium-based browsers, publishing in the Chrome Web Store and Microsoft Edge Add-ons is planned; for now you install it from a release archive. It takes about a minute.
+<p>
+  <a href="https://chromewebstore.google.com/detail/gkpnpejbpnldkkeoeapjdilknlmojoon"><img alt="Get it from the Chrome Web Store" src="https://img.shields.io/badge/Chrome_Web_Store-install-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white"></a>
+  <a href="https://addons.mozilla.org/firefox/addon/yandex_mail_checker/"><img alt="Get it from Firefox Add-ons" src="https://img.shields.io/badge/Firefox_Add--ons-install-FF7139?style=for-the-badge&logo=firefoxbrowser&logoColor=white"></a>
+  <a href="https://microsoftedge.microsoft.com/addons/detail/pncdgkochfhddiclomicdbbhfgoeamcm"><img alt="Get it from Microsoft Edge Add-ons" src="https://img.shields.io/badge/Edge_Add--ons-install-0078D7?style=for-the-badge"></a>
+</p>
 
-### Chrome, Yandex Browser, Edge, Brave, Opera, Vivaldi
+| Browser | Where to get it | Version |
+|---------|-----------------|---------|
+| Chrome, Yandex Browser, Opera, Brave, Vivaldi | [Chrome Web Store](https://chromewebstore.google.com/detail/gkpnpejbpnldkkeoeapjdilknlmojoon) | 121 or later |
+| Microsoft Edge | [Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/pncdgkochfhddiclomicdbbhfgoeamcm) | 121 or later |
+| Firefox | [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/yandex_mail_checker/) | 142 or later, except Android |
 
-1. Download `yandex-mail-checker-…-chrome.zip` from the [latest release](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/releases/latest).
-2. Unzip it into a permanent folder, e.g. `Documents/yandex-mail-checker`. **Do not delete it** — the browser loads the extension from that folder.
-3. Open the extensions page: `chrome://extensions` (`browser://extensions` in Yandex Browser, `edge://extensions` in Edge).
-4. Turn on **Developer mode** (a toggle in the top right or bottom left corner).
-5. Click **Load unpacked** and select the unzipped folder.
-6. Pin the icon to the toolbar (puzzle icon → 📌) and sign in to [Yandex Mail](https://mail.yandex.ru) if you haven't yet.
+After installing, pin the icon to the toolbar (puzzle icon → 📌) and sign in to [Yandex Mail](https://mail.yandex.ru) in the same browser if you haven't yet. The extension updates automatically.
 
-**Updating:** download the new archive, unzip it into the same folder replacing the files, and click ↻ on the extension card. Your settings are kept.
+By default the extension works with `mail.yandex.ru`; mail in other countries and Yandex 360 can be chosen in the settings — see ["Mail address"](#mail-address). Notifications work on Windows, macOS and Linux.
 
-### Firefox
-
-1. Open the extension page in the [Firefox Add-ons catalog](https://addons.mozilla.org/firefox/addon/yandex-mail-checker@ogurtsov-d.github.io/) and click **Add to Firefox**.
-2. Confirm the installation and sign in to [Yandex Mail](https://mail.yandex.ru) if you haven't yet.
-
-The extension **updates automatically**. If you have version 1.4 installed from an `.xpi` file from the releases page, you don't need to do anything: Firefox will switch to the catalog version by itself.
-
-### Requirements
-
-| Browser | Version |
-|---------|---------|
-| Chrome and Chromium-based browsers | 121 or later |
-| Firefox | 142 or later (Android is not supported) |
-
-You need to be signed in to Yandex Mail in the same browser. By default the extension works with `mail.yandex.ru`; mail on `mail.yandex.com`, `.by`, `.kz`, `.com.tr` and Yandex 360 (`mail.360.yandex.ru`, including mail on your own domain) can be chosen in the settings — see ["Mail address"](#mail-address). Notifications work on Windows, macOS and Linux.
+<sub>Without a store: archives for Chrome and Firefox are on the [releases page](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/releases/latest).</sub>
 
 ## How to use
 
@@ -145,14 +134,14 @@ After 5 minutes of inactivity or when the screen is locked, scheduled checks pau
 <details>
 <summary><b>The badge shows "?" although I am signed in</b></summary>
 
-The extension works with mail in the same browser profile, at the address chosen in the settings (`mail.yandex.ru` by default). Open `https://<mail address>/lite/inbox`, for example https://mail.yandex.ru/lite/inbox: if Yandex asks you to sign in, do so, then right-click the icon → "Check now". If your mail is at a different address, choose it in the settings.
+The extension works with mail in the same browser profile, at the address chosen in the settings (`mail.yandex.ru` by default). Open your mailbox: if Yandex asks you to sign in, do so, then right-click the icon → "Check now". If your mail is at a different address, choose it in the settings.
 
 </details>
 
 <details>
 <summary><b>The badge shows "!" and "Could not read the mail page"</b></summary>
 
-Open https://mail.yandex.ru/lite/inbox. If Yandex shows a CAPTCHA, solve it. If the page opens normally but the error persists, Yandex has probably changed the page layout: please [report a bug](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/issues/new/choose).
+Open your mailbox. If Yandex shows a CAPTCHA, solve it. If the mailbox opens normally but the error persists, Yandex has probably changed something: please [report a bug](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/issues/new/choose).
 
 </details>
 
@@ -174,16 +163,6 @@ Check, in order:
 
 </details>
 
-<details>
-<summary><b>How to see the extension log</b></summary>
-
-Chrome: `chrome://extensions` → extension card → **service worker** link → **Console** tab.
-Firefox: `about:debugging#/runtime/this-firefox` → **Inspect** next to the extension → **Console**.
-
-Remove any personal data before attaching the log to a bug report.
-
-</details>
-
 ## Limitations
 
 - Mail is checked at one address — the one chosen in the settings.
@@ -196,33 +175,15 @@ On every check the extension requests the mail counters (`https://mail.yandex.ru
 
 If the counters are unavailable, the extension falls back to the simplified Inbox page (`https://mail.yandex.ru/lite/inbox`): it counts unread messages and reports new ones with the sender and subject.
 
-If the counters are unavailable, the extension counts unread messages using the simplified Inbox page.
-
 Checks run on schedule, when you click "Check now", and a few seconds after you act in the mail tab — but no more often than once every 15 seconds. The time of scheduled checks varies slightly (up to ±12.5% of the interval), so requests don't follow a strict timer.
 
 ## Privacy
 
-The extension contacts only Yandex Mail at the chosen address (`mail.yandex.ru` by default) and sends nothing to the author or any third party. The unread count, recent message IDs and settings are stored in your browser. Details are in the [privacy policy](PRIVACY.en.md).
+The extension contacts only Yandex Mail at the chosen address (`mail.yandex.ru` by default) and sends nothing to the author or any third party. Message counts and settings are stored in your browser. Details, including why each permission is needed, are in the [privacy policy](PRIVACY.en.md).
 
-| Permission | Why it is needed |
-|------------|------------------|
-| `https://mail.yandex.ru/*` | Read the counters and the message list; find an open mail tab and notice changes in it |
-| `storage` | Keep settings and the result of the last check |
-| `alarms` | Check mail on schedule |
-| `notifications` | Show new mail notifications |
-| `contextMenus` | Right-click menu on the icon |
-| `https://mail.yandex.com/*`, `.by`, `.kz`, `.com.tr`, `https://mail.360.yandex.ru/*` | Optional: the browser asks for one only when you choose that mail address in the settings, and access to the previous address is given back when you switch |
-| `idle` | Pause checks while you are away: the extension only learns whether the computer is active, idle or locked |
+## Feedback
 
-## Contributing
-
-Bug reports and suggestions are welcome in [Issues](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/issues/new/choose) — in English or Russian. Report vulnerabilities only [privately](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/security/advisories/new); see [SECURITY.md](SECURITY.md). How the code is organized, how to run tests and how to release a new version is described in [CONTRIBUTING.md](CONTRIBUTING.md). Version history is in [CHANGELOG.md](CHANGELOG.md). These documents are in Russian.
-
-## Acknowledgements
-
-- Yandex — for the lightweight version of its mail service that this extension is built on.
-- The authors of the tools that development relies on: [ESLint](https://eslint.org/), [Prettier](https://prettier.io/) and Mozilla's [web-ext](https://github.com/mozilla/web-ext).
-- Everyone who reports bugs and suggests improvements — [contributors](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/graphs/contributors).
+Bug reports and suggestions are welcome in [Issues](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/issues/new/choose), in English or Russian. Report vulnerabilities only [privately](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/security/advisories/new). Version history is in [CHANGELOG.md](CHANGELOG.md) (in Russian).
 
 ## Relationship with Yandex
 

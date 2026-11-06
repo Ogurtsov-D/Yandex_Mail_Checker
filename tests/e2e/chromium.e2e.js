@@ -1,5 +1,5 @@
 // Сквозная проверка в настоящем Chromium: расширение из dist/chrome, ответы mail.yandex.ru
-// подменяются образцами страниц. Запуск: npm run e2e (подробности — CONTRIBUTING.md).
+// подменяются образцами страниц. Запуск: npm run e2e (подробности — docs/development.md).
 import assert from 'node:assert/strict';
 import { cpSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';

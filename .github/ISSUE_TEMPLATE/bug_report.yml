@@ -26,7 +26,7 @@ body:
     attributes:
       label: Версия расширения
       description: Видна на странице расширений браузера.
-      placeholder: 1.4.0
+      placeholder: 1.5.0
     validations:
       required: true
   - type: dropdown
@@ -37,6 +37,7 @@ body:
         - Chrome
         - Яндекс Браузер
         - Microsoft Edge
+        - Opera
         - Firefox
         - Другой (укажите в описании)
     validations:
@@ -50,5 +51,5 @@ body:
     id: logs
     attributes:
       label: Журнал расширения (необязательно)
-      description: Как его открыть — в разделе «Решение проблем» README. Удалите личные данные перед отправкой.
+      description: 'Chrome: chrome://extensions → карточка расширения → service worker → Console. Firefox: about:debugging#/runtime/this-firefox → «Исследовать» → «Консоль». Удалите личные данные перед отправкой.'
       render: text

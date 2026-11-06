@@ -2,10 +2,10 @@
 
 **Русский** · [English](README.en.md)
 
-[![Последний релиз](https://img.shields.io/github/v/release/Ogurtsov-D/Yandex_Mail_Checker?label=релиз)](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/releases/latest)
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/gkpnpejbpnldkkeoeapjdilknlmojoon?label=Chrome%20Web%20Store&logo=googlechrome&logoColor=white&color=4285F4)](https://chromewebstore.google.com/detail/gkpnpejbpnldkkeoeapjdilknlmojoon)
+[![Firefox Add-ons](https://img.shields.io/amo/v/yandex_mail_checker?label=Firefox%20Add-ons&logo=firefoxbrowser&logoColor=white&color=FF7139)](https://addons.mozilla.org/firefox/addon/yandex_mail_checker/)
+[![Edge Add-ons](https://img.shields.io/badge/dynamic/json?label=Edge%20Add-ons&query=%24.version&prefix=v&color=0078D7&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fpncdgkochfhddiclomicdbbhfgoeamcm)](https://microsoftedge.microsoft.com/addons/detail/pncdgkochfhddiclomicdbbhfgoeamcm)
 [![Проверки](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/actions/workflows/ci.yml/badge.svg)](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/actions/workflows/ci.yml)
-![Chrome 121+](https://img.shields.io/badge/Chrome-121%2B-4285F4)
-![Firefox 142+](https://img.shields.io/badge/Firefox-142%2B-FF7139)
 [![Лицензия GPLv3](https://img.shields.io/badge/лицензия-GPLv3-blue)](LICENSE)
 
 **Расширение для браузера: число непрочитанных писем Яндекс Почты на панели инструментов и уведомления о новых письмах.**
@@ -34,34 +34,23 @@
 
 ## Установка
 
-Для Firefox расширение публикуется в [каталоге дополнений Firefox](https://addons.mozilla.org/firefox/addon/yandex-mail-checker@ogurtsov-d.github.io/). Для Chrome и браузеров на его основе публикация в Chrome Web Store и Microsoft Edge Add-ons — в планах, пока расширение устанавливается из архива со страницы релизов. Это занимает около минуты.
+<p>
+  <a href="https://chromewebstore.google.com/detail/gkpnpejbpnldkkeoeapjdilknlmojoon"><img alt="Установить из Chrome Web Store" src="https://img.shields.io/badge/Chrome_Web_Store-установить-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white"></a>
+  <a href="https://addons.mozilla.org/firefox/addon/yandex_mail_checker/"><img alt="Установить из каталога дополнений Firefox" src="https://img.shields.io/badge/Firefox_Add--ons-установить-FF7139?style=for-the-badge&logo=firefoxbrowser&logoColor=white"></a>
+  <a href="https://microsoftedge.microsoft.com/addons/detail/pncdgkochfhddiclomicdbbhfgoeamcm"><img alt="Установить из Microsoft Edge Add-ons" src="https://img.shields.io/badge/Edge_Add--ons-установить-0078D7?style=for-the-badge"></a>
+</p>
 
-### Chrome, Яндекс Браузер, Edge, Brave, Opera, Vivaldi
+| Браузер | Откуда установить | Версия |
+|---------|-------------------|--------|
+| Chrome, Яндекс Браузер, Opera, Brave, Vivaldi | [Chrome Web Store](https://chromewebstore.google.com/detail/gkpnpejbpnldkkeoeapjdilknlmojoon) | 121 и новее |
+| Microsoft Edge | [Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/pncdgkochfhddiclomicdbbhfgoeamcm) | 121 и новее |
+| Firefox | [Каталог дополнений Firefox](https://addons.mozilla.org/firefox/addon/yandex_mail_checker/) | 142 и новее, кроме Android |
 
-1. Скачайте `yandex-mail-checker-…-chrome.zip` со страницы [последнего релиза](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/releases/latest).
-2. Распакуйте архив в постоянную папку, например `Документы/yandex-mail-checker`. **Не удаляйте её** — браузер загружает расширение из этой папки.
-3. Откройте страницу расширений: `chrome://extensions` (в Яндекс Браузере — `browser://extensions`, в Edge — `edge://extensions`).
-4. Включите **«Режим разработчика»** (переключатель справа вверху или слева внизу).
-5. Нажмите **«Загрузить распакованное расширение»** и выберите распакованную папку.
-6. Закрепите иконку на панели (значок пазла → 📌) и войдите в [Яндекс Почту](https://mail.yandex.ru), если ещё не вошли.
+После установки закрепите значок на панели (значок пазла → 📌) и войдите в [Яндекс Почту](https://mail.yandex.ru) в этом же браузере, если ещё не вошли. Расширение обновляется само.
 
-**Обновление:** скачайте новый архив, распакуйте его в ту же папку с заменой файлов и нажмите ↻ на карточке расширения. Настройки сохранятся.
+По умолчанию расширение работает с `mail.yandex.ru`; почту в других странах и в Яндекс 360 можно выбрать в настройках — см. [«Адрес почты»](#адрес-почты). Уведомления работают в Windows, macOS и Linux.
 
-### Firefox
-
-1. Откройте страницу расширения в [каталоге дополнений Firefox](https://addons.mozilla.org/firefox/addon/yandex-mail-checker@ogurtsov-d.github.io/) и нажмите **«Добавить в Firefox»**.
-2. Подтвердите установку и войдите в [Яндекс Почту](https://mail.yandex.ru), если ещё не вошли.
-
-Расширение **обновляется автоматически**. Если у вас стоит версия 1.4 из файла `.xpi` со страницы релизов, ничего делать не нужно: Firefox сам перейдёт на версию из каталога.
-
-### Требования
-
-| Браузер | Версия |
-|---------|--------|
-| Chrome и браузеры на его основе | 121 и новее |
-| Firefox | 142 и новее (для Android не поддерживается) |
-
-Нужен вход в Яндекс Почту в этом же браузере. По умолчанию расширение работает с `mail.yandex.ru`; почту на `mail.yandex.com`, `.by`, `.kz`, `.com.tr` и в Яндекс 360 (`mail.360.yandex.ru`, в том числе на своём домене) можно выбрать в настройках — см. [«Адрес почты»](#адрес-почты). Уведомления работают в Windows, macOS и Linux.
+<sub>Без магазина: архивы для Chrome и Firefox — на [странице релизов](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/releases/latest).</sub>
 
 ## Как пользоваться
 
@@ -145,14 +134,14 @@
 <details>
 <summary><b>Бейдж «?», хотя я вошёл в почту</b></summary>
 
-Расширение работает с почтой в том же профиле браузера, на адресе, выбранном в настройках (по умолчанию `mail.yandex.ru`). Откройте `https://<адрес почты>/lite/inbox`, например https://mail.yandex.ru/lite/inbox: если Яндекс просит войти — войдите, затем правый клик по иконке → «Проверить сейчас». Если ваша почта на другом адресе, выберите его в настройках.
+Расширение работает с почтой в том же профиле браузера, на адресе, выбранном в настройках (по умолчанию `mail.yandex.ru`). Откройте почту: если Яндекс просит войти — войдите, затем правый клик по иконке → «Проверить сейчас». Если ваша почта на другом адресе, выберите его в настройках.
 
 </details>
 
 <details>
 <summary><b>Бейдж «!» и «Не удалось прочитать страницу почты»</b></summary>
 
-Откройте https://mail.yandex.ru/lite/inbox. Если Яндекс показывает капчу — пройдите её. Если страница открывается нормально, а ошибка остаётся, вероятно, Яндекс изменил вёрстку: [сообщите об ошибке](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/issues/new/choose).
+Откройте почту. Если Яндекс показывает капчу — пройдите её. Если почта открывается нормально, а ошибка остаётся, вероятно, Яндекс что-то изменил: [сообщите об ошибке](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/issues/new/choose).
 
 </details>
 
@@ -174,16 +163,6 @@
 
 </details>
 
-<details>
-<summary><b>Как посмотреть журнал работы расширения</b></summary>
-
-Chrome: `chrome://extensions` → карточка расширения → ссылка **service worker** → вкладка **Console**.
-Firefox: `about:debugging#/runtime/this-firefox` → **Исследовать** у расширения → **Консоль**.
-
-Перед тем как прикладывать журнал к сообщению об ошибке, удалите из него личные данные.
-
-</details>
-
 ## Ограничения
 
 - Проверяется почта на одном адресе — выбранном в настройках.
@@ -196,33 +175,15 @@ Firefox: `about:debugging#/runtime/this-firefox` → **Исследовать** 
 
 Если счётчики недоступны, расширение работает по упрощённой версии «Входящих» (`https://mail.yandex.ru/lite/inbox`): считает непрочитанные письма и сообщает о новых с отправителем и темой.
 
-Если счётчики недоступны, расширение считает непрочитанные письма по упрощённой версии «Входящих».
-
 Проверка происходит по расписанию, по команде «Проверить сейчас» и через несколько секунд после действий во вкладке почты — не чаще раза в 15 секунд. Время плановых проверок немного меняется от раза к разу (до ±12,5% интервала), чтобы запросы не шли строго по таймеру.
 
 ## Конфиденциальность
 
-Расширение обращается только к почте Яндекса на выбранном адресе (по умолчанию `mail.yandex.ru`) и ничего не отправляет ни автору, ни третьим лицам. Число писем, номера последних писем и настройки хранятся в самом браузере. Подробности — в [политике конфиденциальности](PRIVACY.md).
+Расширение обращается только к почте Яндекса на выбранном адресе (по умолчанию `mail.yandex.ru`) и ничего не отправляет ни автору, ни третьим лицам. Число писем и настройки хранятся в самом браузере. Подробности и зачем нужно каждое разрешение — в [политике конфиденциальности](PRIVACY.md).
 
-| Разрешение | Зачем оно нужно |
-|------------|-----------------|
-| `https://mail.yandex.ru/*` | Читать счётчики и список писем; находить уже открытую вкладку почты и замечать в ней изменения |
-| `storage` | Хранить настройки и результат последней проверки |
-| `alarms` | Проверять почту по расписанию |
-| `notifications` | Показывать уведомления о новых письмах |
-| `contextMenus` | Меню по правому клику на иконке |
-| `https://mail.yandex.com/*`, `.by`, `.kz`, `.com.tr`, `https://mail.360.yandex.ru/*` | Необязательные: браузер спрашивает их, только когда вы выбираете этот адрес почты в настройках, и отзывает доступ к прежнему адресу при смене |
-| `idle` | Не проверять почту, пока вы не за компьютером: расширение узнаёт только, работает ли компьютер, простаивает или заблокирован |
+## Обратная связь
 
-## Участие в разработке
-
-Сообщения об ошибках и предложения — в [Issues](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/issues/new/choose). Уязвимости — только [закрытым сообщением](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/security/advisories/new), подробнее — в [SECURITY.md](SECURITY.md). Как устроен код, как запустить тесты и выпустить новую версию — в [CONTRIBUTING.md](CONTRIBUTING.md). История версий — в [CHANGELOG.md](CHANGELOG.md).
-
-## Благодарности
-
-- Яндексу — за лёгкую версию почты, на которой построено расширение.
-- Авторам инструментов, на которых держится разработка: [ESLint](https://eslint.org/), [Prettier](https://prettier.io/) и [web-ext](https://github.com/mozilla/web-ext) от Mozilla.
-- Всем, кто сообщает об ошибках и предлагает улучшения, — [участники проекта](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/graphs/contributors).
+Ошибки и предложения — в [Issues](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/issues/new/choose), уязвимости — только [закрытым сообщением](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/security/advisories/new). История версий — в [CHANGELOG.md](CHANGELOG.md).
 
 ## Отношения с Яндексом
 
