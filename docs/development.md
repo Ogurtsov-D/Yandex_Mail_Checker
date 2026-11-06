@@ -1,6 +1,6 @@
-# Участие в разработке
+# Разработка и выпуск
 
-Спасибо за интерес к проекту! Здесь описано, как устроен код, как его проверить и как выпустить новую версию.
+Как устроен код, как его проверить и как выпустить новую версию. Правила для изменений — в [CLAUDE.md](../CLAUDE.md), тексты и картинки для магазинов — в [store/README.md](store/README.md).
 
 ## Быстрый старт
 
@@ -37,7 +37,7 @@ npm test
 ├── manifest.json          # манифест для Chrome и Firefox (сборка делает отдельные версии)
 ├── src/
 │   ├── background.js      # точка входа: регистрация обработчиков событий
-│   ├── checker.js         # проверка почты: API счётчиков, lite-версия для новых писем, уведомления, повторы
+│   ├── checker.js         # проверка почты: API счётчиков, запасной путь через lite-версию, уведомления, повторы
 │   ├── parser.js          # разбор HTML lite-версии (чистые функции)
 │   ├── format.js          # тексты бейджа и подсказки, формат времени
 │   ├── i18n.js            # переводы: t() и plural()
@@ -45,6 +45,9 @@ npm test
 │   ├── tabs.js            # открытие почты и письма, перепроверка после действий во вкладке
 │   ├── menu.js            # контекстное меню на иконке
 │   ├── settings.js        # настройки и расписание проверки
+│   ├── options.html, options.js  # страница настроек
+│   ├── hosts.js           # адрес почты и доступ к нему
+│   ├── idle.js            # пауза, пока пользователь не за компьютером
 │   ├── status.js          # бейдж и подсказка на иконке
 │   ├── api.js             # chrome.* / browser.*
 │   ├── config.js          # адреса, интервалы, таймауты, флаг DEBUG
@@ -70,11 +73,12 @@ npm test
 │   ├── release-notes.mjs  # описание релиза из CHANGELOG.md
 │   └── store-images.mjs   # картинки для магазинов (docs/store/)
 ├── docs/
+│   ├── development.md     # этот файл
 │   ├── screenshot.png, screenshot-en.png  # картинки для README и README.en.md
 │   ├── mockup.html, mockup-en.html        # их исходники
 │   └── store/             # тексты и картинки для магазинов расширений
 ├── README.md, README.en.md                # описание на русском и английском
-└── .github/               # GitHub Actions, Dependabot, шаблоны Issues и PR
+└── .github/               # GitHub Actions, Dependabot, шаблоны Issues
 ```
 
 ## Как устроены тесты
@@ -109,13 +113,13 @@ NODE_PATH="$(npm root -g)" FIREFOX_BIN="$PWD/firefox/firefox" npm run e2e:firefo
 - **Chromium** (`tests/e2e/chromium.e2e.js`) — Playwright загружает `dist/chrome`, перехватывает запросы к `mail.yandex.ru` и читает бейдж, подсказку и уведомления из service worker.
 - **Firefox** (`tests/e2e/firefox.e2e.js`) — Firefox не даёт автоматизации открывать страницы расширения, поэтому тестовая копия `dist/firefox` получает хук в фоновом скрипте: он сообщает состояние локальному серверу и выполняет его команды, а адрес почты в копии заменён на этот сервер. Код расширения остаётся прежним.
 
-**Если Яндекс изменил вёрстку**, сохраните новую страницу в `tests/fixtures/` (инструкция и требования к удалению личных данных — в [tests/fixtures/README.md](tests/fixtures/README.md)), добавьте тест и поправьте `src/parser.js`.
+**Если Яндекс изменил вёрстку**, сохраните новую страницу в `tests/fixtures/` (инструкция и требования к удалению личных данных — в [tests/fixtures/README.md](../tests/fixtures/README.md)), добавьте тест и поправьте `src/parser.js`.
 
 ## Переводы
 
 Все тексты интерфейса — в `_locales/<язык>/messages.json`; в коде они берутся через `t('ключ')` и `plural('ключ', число)` из `src/i18n.js`. Язык выбирает браузер по языку своего интерфейса; если перевода на него нет — английский. Языки: ru, en (и en_GB), uk, be, kk, uz, az, hy (восточноармянский: браузеры не бывают на западноармянском), ka, tr, de, fr, ro, lv, et, fi, he, zh_CN, zh_TW.
 
-- Новый текст добавляйте **во все переводы** — иначе упадёт `manifest.test.js`. Тексты на русском и английском пишутся вручную; переводы на остальные языки ещё ждут проверки носителями языка — поправки принимаются через Issues и PR.
+- Новый текст добавляйте **во все переводы** — иначе упадёт `manifest.test.js`. Тексты на русском и английском пишутся вручную; переводы на остальные языки ещё ждут проверки носителями языка — поправки принимаются через Issues.
 - Региональный вариант (`en_GB`) может содержать только отличающиеся сообщения: остальные браузер берёт из основного языка.
 - Формы числа — отдельные ключи с суффиксами [правил Unicode](https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html): для русского `_one`, `_few`, `_many`, `_other` (1 письмо, 2 письма, 5 писем, 1,5 письма), для английского `_one`, `_other`. Какие формы нужны языку, проверяет тест по `Intl.PluralRules`: например, латышскому нужна `_zero`, ивриту — `_two`, китайскому — только `_other`.
 - Подстановки — через `placeholders` (`$COUNT$` → `$1`), как в [документации Chrome](https://developer.chrome.com/docs/extensions/reference/api/i18n).
@@ -139,14 +143,9 @@ NODE_PATH="$(npm root -g)" node scripts/render-icons.mjs
 
 Раз в месяц [Dependabot](https://docs.github.com/ru/code-security/dependabot) предлагает PR с новыми версиями действий GitHub Actions (`.github/dependabot.yml`). Если проверка в PR зелёная — вливайте. Версии линтеров (`eslint@10`, `prettier@3`, `web-ext@10`) указаны в `package.json` и обновляются вручную.
 
-## Правила для изменений
+## Снимки для README
 
-- Перед отправкой запустите `npm run check`.
-- Новое поведение — с тестом.
-- Изменения, заметные пользователю, — в раздел `## [Не выпущено]` в начале `CHANGELOG.md` (создайте его, если нет).
-- Если изменились тексты меню, бейджа или уведомлений, обновите `docs/mockup.html` и `docs/mockup-en.html` и пересоздайте `docs/screenshot.png` и `docs/screenshot-en.png`: откройте макет в Chrome → DevTools → Ctrl+Shift+P → «Capture full size screenshot».
-- Если меняется README, обновите и английскую версию `README.en.md`.
-- Расширение не должно обращаться никуда, кроме почты Яндекса на выбранном адресе (`MAIL_HOSTS` в `src/config.js`), и не должно выполнять действий в почте.
+Если изменились тексты меню, бейджа или уведомлений, обновите `docs/mockup.html` и `docs/mockup-en.html` и пересоздайте `docs/screenshot.png` и `docs/screenshot-en.png`: откройте макет в Chrome → DevTools → Ctrl+Shift+P → «Capture full size screenshot». Картинки для магазинов пересоздаёт `scripts/store-images.mjs`.
 
 ## Выпуск новой версии
 

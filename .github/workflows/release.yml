@@ -7,7 +7,7 @@
 # Firefox-версия отправляется в каталог Mozilla: Mozilla проверяет её и публикует сама
 # (от нескольких часов до нескольких дней), ждать этого релиз не должен. Для отправки нужны
 # секреты репозитория AMO_JWT_ISSUER и AMO_JWT_SECRET (ключи API addons.mozilla.org,
-# см. CONTRIBUTING.md). Если что-то не удалось, а релиз уже создан на GitHub,
+# см. docs/development.md). Если что-то не удалось, а релиз уже создан на GitHub,
 # он переводится в черновик, чтобы посетители не увидели неполный релиз.
 name: Release
 
@@ -46,7 +46,7 @@ jobs:
             exit 1
           fi
           if [ -z "$AMO_JWT_ISSUER" ] || [ -z "$AMO_JWT_SECRET" ]; then
-            echo "::error::Не заданы секреты AMO_JWT_ISSUER и AMO_JWT_SECRET — без них нельзя отправить версию в каталог Mozilla (см. CONTRIBUTING.md)"
+            echo "::error::Не заданы секреты AMO_JWT_ISSUER и AMO_JWT_SECRET — без них нельзя отправить версию в каталог Mozilla (см. docs/development.md)"
             exit 1
           fi
           echo "VERSION=$VERSION" >> "$GITHUB_ENV"
@@ -105,5 +105,5 @@ jobs:
         run: |
           if [ "$(gh release view "$GITHUB_REF_NAME" --json isDraft -q .isDraft 2> /dev/null)" = "false" ]; then
             gh release edit "$GITHUB_REF_NAME" --draft=true
-            echo "::warning::Релиз $GITHUB_REF_NAME переведён в черновик. Что делать дальше — CONTRIBUTING.md, раздел «Если отправка не удалась»."
+            echo "::warning::Релиз $GITHUB_REF_NAME переведён в черновик. Что делать дальше — docs/development.md, раздел «Если отправка не удалась»."
           fi
