@@ -46,11 +46,11 @@
 | Microsoft Edge | [Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/pncdgkochfhddiclomicdbbhfgoeamcm) | 121 и новее |
 | Firefox | [Каталог дополнений Firefox](https://addons.mozilla.org/firefox/addon/yandex_mail_checker/) | 142 и новее, кроме Android |
 
-После установки закрепите значок на панели (значок пазла → 📌) и войдите в [Яндекс Почту](https://mail.yandex.ru) в этом же браузере, если ещё не вошли. Расширение обновляется само.
+После установки закрепите значок на панели (значок пазла → 📌) и войдите в [Яндекс Почту](https://mail.yandex.ru) в этом же браузере, если ещё не вошли. Расширение из магазина обновляется само.
 
 По умолчанию расширение работает с `mail.yandex.ru`; почту в других странах и в Яндекс 360 можно выбрать в настройках — см. [«Адрес почты»](#адрес-почты). Уведомления работают в Windows, macOS и Linux.
 
-<sub>Без магазина: архивы для Chrome и Firefox — на [странице релизов](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/releases/latest).</sub>
+<sub>Без магазина: архивы для Chrome и Firefox — на [странице релизов](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/releases/latest); такая установка сама не обновляется.</sub>
 
 ## Как пользоваться
 
