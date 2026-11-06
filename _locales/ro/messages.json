@@ -389,5 +389,53 @@
   "iconPurple": {
     "message": "Mov",
     "description": "Icon style"
+  },
+  "optionsSectionCheck": {
+    "message": "Verificarea e-mailului"
+  },
+  "optionsSectionOpen": {
+    "message": "Deschiderea e-mailului"
+  },
+  "optionsSectionIcon": {
+    "message": "Pictogramă și contor"
+  },
+  "optionsOpenTab": {
+    "message": "Într-o filă"
+  },
+  "optionsOpenWindow": {
+    "message": "Într-o fereastră separată"
+  },
+  "optionsOpenHint": {
+    "message": "Așa se deschide e-mailul când faceți clic pe pictogramă sau pe o notificare ori folosiți comanda rapidă. Dacă e-mailul este deja deschis, extensia comută la el."
+  },
+  "optionsBadgeColor": {
+    "message": "Culoarea contorului:"
+  },
+  "optionsBadgeBackground": {
+    "message": "Fundal"
+  },
+  "optionsBadgeText": {
+    "message": "Cifre"
+  },
+  "optionsCustomColor": {
+    "message": "Culoare proprie"
+  },
+  "optionsResetColors": {
+    "message": "Revino la culorile implicite"
+  },
+  "optionsRate": {
+    "message": "Evaluați extensia"
+  },
+  "optionsReportBug": {
+    "message": "Raportați o problemă"
+  },
+  "optionsVersion": {
+    "message": "Versiunea $VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.5.0"
+      }
+    }
   }
 }

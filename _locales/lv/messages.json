@@ -389,5 +389,53 @@
   "iconPurple": {
     "message": "Violetā",
     "description": "Icon style"
+  },
+  "optionsSectionCheck": {
+    "message": "Pasta pārbaude"
+  },
+  "optionsSectionOpen": {
+    "message": "Pasta atvēršana"
+  },
+  "optionsSectionIcon": {
+    "message": "Ikona un skaitītājs"
+  },
+  "optionsOpenTab": {
+    "message": "Cilnē"
+  },
+  "optionsOpenWindow": {
+    "message": "Atsevišķā logā"
+  },
+  "optionsOpenHint": {
+    "message": "Tā pasts tiek atvērts, noklikšķinot uz ikonas vai paziņojuma vai izmantojot īsinājumtaustiņus. Ja pasts jau ir atvērts, paplašinājums pārslēgsies uz to."
+  },
+  "optionsBadgeColor": {
+    "message": "Skaitītāja krāsa:"
+  },
+  "optionsBadgeBackground": {
+    "message": "Fons"
+  },
+  "optionsBadgeText": {
+    "message": "Cipari"
+  },
+  "optionsCustomColor": {
+    "message": "Sava krāsa"
+  },
+  "optionsResetColors": {
+    "message": "Atjaunot noklusējuma krāsas"
+  },
+  "optionsRate": {
+    "message": "Novērtēt paplašinājumu"
+  },
+  "optionsReportBug": {
+    "message": "Ziņot par problēmu"
+  },
+  "optionsVersion": {
+    "message": "Versija $VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.5.0"
+      }
+    }
   }
 }

@@ -317,5 +317,53 @@
   "iconPurple": {
     "message": "紫色",
     "description": "Icon style"
+  },
+  "optionsSectionCheck": {
+    "message": "郵件檢查"
+  },
+  "optionsSectionOpen": {
+    "message": "開啟郵件"
+  },
+  "optionsSectionIcon": {
+    "message": "圖示和計數"
+  },
+  "optionsOpenTab": {
+    "message": "在分頁中"
+  },
+  "optionsOpenWindow": {
+    "message": "在獨立視窗中"
+  },
+  "optionsOpenHint": {
+    "message": "按一下圖示或通知、或使用快速鍵時，郵件會這樣開啟。如果郵件已開啟，擴充功能會切換到該處。"
+  },
+  "optionsBadgeColor": {
+    "message": "計數顏色："
+  },
+  "optionsBadgeBackground": {
+    "message": "背景"
+  },
+  "optionsBadgeText": {
+    "message": "數字"
+  },
+  "optionsCustomColor": {
+    "message": "自訂顏色"
+  },
+  "optionsResetColors": {
+    "message": "還原預設顏色"
+  },
+  "optionsRate": {
+    "message": "為擴充功能評分"
+  },
+  "optionsReportBug": {
+    "message": "回報問題"
+  },
+  "optionsVersion": {
+    "message": "版本 $VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.5.0"
+      }
+    }
   }
 }

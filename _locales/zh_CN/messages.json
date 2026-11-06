@@ -317,5 +317,53 @@
   "iconPurple": {
     "message": "紫色",
     "description": "Icon style"
+  },
+  "optionsSectionCheck": {
+    "message": "邮件检查"
+  },
+  "optionsSectionOpen": {
+    "message": "打开邮箱"
+  },
+  "optionsSectionIcon": {
+    "message": "图标和计数"
+  },
+  "optionsOpenTab": {
+    "message": "在标签页中"
+  },
+  "optionsOpenWindow": {
+    "message": "在单独窗口中"
+  },
+  "optionsOpenHint": {
+    "message": "点击图标或通知、或使用快捷键时，邮箱将这样打开。如果邮箱已打开，扩展会切换到它。"
+  },
+  "optionsBadgeColor": {
+    "message": "计数颜色："
+  },
+  "optionsBadgeBackground": {
+    "message": "背景"
+  },
+  "optionsBadgeText": {
+    "message": "数字"
+  },
+  "optionsCustomColor": {
+    "message": "自定义颜色"
+  },
+  "optionsResetColors": {
+    "message": "恢复默认颜色"
+  },
+  "optionsRate": {
+    "message": "为扩展评分"
+  },
+  "optionsReportBug": {
+    "message": "报告问题"
+  },
+  "optionsVersion": {
+    "message": "版本 $VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.5.0"
+      }
+    }
   }
 }

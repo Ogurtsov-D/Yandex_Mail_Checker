@@ -353,5 +353,53 @@
   "iconPurple": {
     "message": "Bənövşəyi",
     "description": "Icon style"
+  },
+  "optionsSectionCheck": {
+    "message": "Poçtun yoxlanması"
+  },
+  "optionsSectionOpen": {
+    "message": "Poçtun açılması"
+  },
+  "optionsSectionIcon": {
+    "message": "İkona və sayğac"
+  },
+  "optionsOpenTab": {
+    "message": "Vərəqdə"
+  },
+  "optionsOpenWindow": {
+    "message": "Ayrıca pəncərədə"
+  },
+  "optionsOpenHint": {
+    "message": "İkonaya və ya bildirişə kliklədikdə, eləcə də klaviatura ilə poçt belə açılır. Poçt artıq açıqdırsa, genişləndirmə ona keçəcək."
+  },
+  "optionsBadgeColor": {
+    "message": "Sayğacın rəngi:"
+  },
+  "optionsBadgeBackground": {
+    "message": "Fon"
+  },
+  "optionsBadgeText": {
+    "message": "Rəqəmlər"
+  },
+  "optionsCustomColor": {
+    "message": "Öz rənginiz"
+  },
+  "optionsResetColors": {
+    "message": "Standart rəngləri qaytar"
+  },
+  "optionsRate": {
+    "message": "Genişləndirməni qiymətləndir"
+  },
+  "optionsReportBug": {
+    "message": "Xəta barədə bildir"
+  },
+  "optionsVersion": {
+    "message": "Versiya $VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.5.0"
+      }
+    }
   }
 }

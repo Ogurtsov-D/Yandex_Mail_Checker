@@ -425,5 +425,53 @@
   "iconPurple": {
     "message": "Фіялетавы",
     "description": "Icon style"
+  },
+  "optionsSectionCheck": {
+    "message": "Праверка пошты"
+  },
+  "optionsSectionOpen": {
+    "message": "Адкрыццё пошты"
+  },
+  "optionsSectionIcon": {
+    "message": "Значок і лічыльнік"
+  },
+  "optionsOpenTab": {
+    "message": "Ва ўкладцы"
+  },
+  "optionsOpenWindow": {
+    "message": "У асобным акне"
+  },
+  "optionsOpenHint": {
+    "message": "Так пошта адкрываецца па кліку на значок або апавяшчэнне і з клавіятуры. Калі пошта ўжо адкрыта, пашырэнне пераключыцца на яе."
+  },
+  "optionsBadgeColor": {
+    "message": "Колер лічыльніка:"
+  },
+  "optionsBadgeBackground": {
+    "message": "Фон"
+  },
+  "optionsBadgeText": {
+    "message": "Лічбы"
+  },
+  "optionsCustomColor": {
+    "message": "Свой колер"
+  },
+  "optionsResetColors": {
+    "message": "Вярнуць колеры па змаўчанні"
+  },
+  "optionsRate": {
+    "message": "Ацаніць пашырэнне"
+  },
+  "optionsReportBug": {
+    "message": "Паведаміць пра памылку"
+  },
+  "optionsVersion": {
+    "message": "Версія $VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.5.0"
+      }
+    }
   }
 }

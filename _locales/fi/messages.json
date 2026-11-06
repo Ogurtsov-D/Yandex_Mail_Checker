@@ -353,5 +353,53 @@
   "iconPurple": {
     "message": "Violetti",
     "description": "Icon style"
+  },
+  "optionsSectionCheck": {
+    "message": "Postin tarkistus"
+  },
+  "optionsSectionOpen": {
+    "message": "Postin avaaminen"
+  },
+  "optionsSectionIcon": {
+    "message": "Kuvake ja laskuri"
+  },
+  "optionsOpenTab": {
+    "message": "Välilehdellä"
+  },
+  "optionsOpenWindow": {
+    "message": "Erillisessä ikkunassa"
+  },
+  "optionsOpenHint": {
+    "message": "Näin posti avautuu, kun napsautat kuvaketta tai ilmoitusta tai käytät pikanäppäintä. Jos posti on jo auki, laajennus siirtyy siihen."
+  },
+  "optionsBadgeColor": {
+    "message": "Laskurin väri:"
+  },
+  "optionsBadgeBackground": {
+    "message": "Tausta"
+  },
+  "optionsBadgeText": {
+    "message": "Numerot"
+  },
+  "optionsCustomColor": {
+    "message": "Oma väri"
+  },
+  "optionsResetColors": {
+    "message": "Palauta oletusvärit"
+  },
+  "optionsRate": {
+    "message": "Arvioi laajennus"
+  },
+  "optionsReportBug": {
+    "message": "Ilmoita ongelmasta"
+  },
+  "optionsVersion": {
+    "message": "Versio $VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.5.0"
+      }
+    }
   }
 }

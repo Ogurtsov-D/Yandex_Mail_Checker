@@ -353,5 +353,53 @@
   "iconPurple": {
     "message": "Mor",
     "description": "Icon style"
+  },
+  "optionsSectionCheck": {
+    "message": "Posta denetimi"
+  },
+  "optionsSectionOpen": {
+    "message": "Postayı açma"
+  },
+  "optionsSectionIcon": {
+    "message": "Simge ve sayaç"
+  },
+  "optionsOpenTab": {
+    "message": "Sekmede"
+  },
+  "optionsOpenWindow": {
+    "message": "Ayrı pencerede"
+  },
+  "optionsOpenHint": {
+    "message": "Simgeye veya bildirime tıkladığınızda ya da klavye kısayoluyla posta böyle açılır. Posta zaten açıksa uzantı ona geçer."
+  },
+  "optionsBadgeColor": {
+    "message": "Sayaç rengi:"
+  },
+  "optionsBadgeBackground": {
+    "message": "Arka plan"
+  },
+  "optionsBadgeText": {
+    "message": "Rakamlar"
+  },
+  "optionsCustomColor": {
+    "message": "Özel renk"
+  },
+  "optionsResetColors": {
+    "message": "Varsayılan renklere dön"
+  },
+  "optionsRate": {
+    "message": "Uzantıyı değerlendir"
+  },
+  "optionsReportBug": {
+    "message": "Sorun bildir"
+  },
+  "optionsVersion": {
+    "message": "Sürüm $VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.5.0"
+      }
+    }
   }
 }

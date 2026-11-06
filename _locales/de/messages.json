@@ -353,5 +353,53 @@
   "iconPurple": {
     "message": "Lila",
     "description": "Icon style"
+  },
+  "optionsSectionCheck": {
+    "message": "Mail-Prüfung"
+  },
+  "optionsSectionOpen": {
+    "message": "Postfach öffnen"
+  },
+  "optionsSectionIcon": {
+    "message": "Symbol und Zähler"
+  },
+  "optionsOpenTab": {
+    "message": "In einem Tab"
+  },
+  "optionsOpenWindow": {
+    "message": "In einem eigenen Fenster"
+  },
+  "optionsOpenHint": {
+    "message": "So öffnet sich das Postfach, wenn Sie auf das Symbol oder eine Benachrichtigung klicken oder das Tastenkürzel verwenden. Ist es schon offen, wechselt die Erweiterung dorthin."
+  },
+  "optionsBadgeColor": {
+    "message": "Farbe des Zählers:"
+  },
+  "optionsBadgeBackground": {
+    "message": "Hintergrund"
+  },
+  "optionsBadgeText": {
+    "message": "Ziffern"
+  },
+  "optionsCustomColor": {
+    "message": "Eigene Farbe"
+  },
+  "optionsResetColors": {
+    "message": "Standardfarben wiederherstellen"
+  },
+  "optionsRate": {
+    "message": "Erweiterung bewerten"
+  },
+  "optionsReportBug": {
+    "message": "Problem melden"
+  },
+  "optionsVersion": {
+    "message": "Version $VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.5.0"
+      }
+    }
   }
 }

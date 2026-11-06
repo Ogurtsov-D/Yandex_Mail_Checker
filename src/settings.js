@@ -2,11 +2,14 @@
 import { ext } from './api.js';
 import {
     CHECK_JITTER,
+    DEFAULT_BADGE_COLOR,
+    DEFAULT_BADGE_TEXT_COLOR,
     DEFAULT_ICON_STYLE,
     DEFAULT_INTERVAL,
     DEFAULT_MAIL_HOST,
     ICON_STYLES,
-    INTERVALS
+    INTERVALS,
+    OPEN_MODES
 } from './config.js';
 import { isMailHost } from './hosts.js';
 
@@ -26,12 +29,16 @@ export const SETTING_KEYS = [
     'iconStyle',
     'disabledAccounts',
     'accountNames',
-    'mailHost'
+    'mailHost',
+    'badgeColor',
+    'badgeTextColor',
+    'openIn'
 ];
 
 const DEFAULT_QUIET_FROM = '23:00';
 const DEFAULT_QUIET_TO = '08:00';
 
+const isColor = (value) => typeof value === 'string' && /^#[0-9a-f]{6}$/i.test(value);
 const isTime = (value) => typeof value === 'string' && /^([01]\d|2[0-3]):[0-5]\d$/.test(value);
 
 export async function getSettings() {
@@ -56,7 +63,12 @@ export async function getSettings() {
                 ? s.accountNames
                 : {},
         // Домен почты: mail.yandex.ru, mail.yandex.com, Яндекс 360…
-        mailHost: isMailHost(s.mailHost) ? s.mailHost : DEFAULT_MAIL_HOST
+        mailHost: isMailHost(s.mailHost) ? s.mailHost : DEFAULT_MAIL_HOST,
+        // Цвета счётчика на значке: фон и цифры (#rrggbb)
+        badgeColor: isColor(s.badgeColor) ? s.badgeColor : DEFAULT_BADGE_COLOR,
+        badgeTextColor: isColor(s.badgeTextColor) ? s.badgeTextColor : DEFAULT_BADGE_TEXT_COLOR,
+        // Где открывать почту, если она ещё не открыта: tab — во вкладке, window — в отдельном окне
+        openIn: OPEN_MODES.includes(s.openIn) ? s.openIn : 'tab'
     };
 }
 

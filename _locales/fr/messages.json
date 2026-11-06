@@ -389,5 +389,53 @@
   "iconPurple": {
     "message": "Violette",
     "description": "Icon style"
+  },
+  "optionsSectionCheck": {
+    "message": "Vérification du courrier"
+  },
+  "optionsSectionOpen": {
+    "message": "Ouverture de la messagerie"
+  },
+  "optionsSectionIcon": {
+    "message": "Icône et compteur"
+  },
+  "optionsOpenTab": {
+    "message": "Dans un onglet"
+  },
+  "optionsOpenWindow": {
+    "message": "Dans une fenêtre séparée"
+  },
+  "optionsOpenHint": {
+    "message": "C’est ainsi que la messagerie s’ouvre quand vous cliquez sur l’icône ou sur une notification, ou avec le raccourci clavier. Si elle est déjà ouverte, l’extension bascule dessus."
+  },
+  "optionsBadgeColor": {
+    "message": "Couleur du compteur :"
+  },
+  "optionsBadgeBackground": {
+    "message": "Fond"
+  },
+  "optionsBadgeText": {
+    "message": "Chiffres"
+  },
+  "optionsCustomColor": {
+    "message": "Couleur personnalisée"
+  },
+  "optionsResetColors": {
+    "message": "Rétablir les couleurs par défaut"
+  },
+  "optionsRate": {
+    "message": "Noter l’extension"
+  },
+  "optionsReportBug": {
+    "message": "Signaler un problème"
+  },
+  "optionsVersion": {
+    "message": "Version $VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.5.0"
+      }
+    }
   }
 }

@@ -425,5 +425,53 @@
   "iconPurple": {
     "message": "Фиолетовый",
     "description": "Вид значка"
+  },
+  "optionsSectionCheck": {
+    "message": "Проверка почты"
+  },
+  "optionsSectionOpen": {
+    "message": "Открытие почты"
+  },
+  "optionsSectionIcon": {
+    "message": "Значок и счётчик"
+  },
+  "optionsOpenTab": {
+    "message": "Во вкладке"
+  },
+  "optionsOpenWindow": {
+    "message": "В отдельном окне"
+  },
+  "optionsOpenHint": {
+    "message": "Так почта открывается по клику на значок или уведомление и с клавиатуры. Если почта уже открыта, расширение переключится на неё."
+  },
+  "optionsBadgeColor": {
+    "message": "Цвет счётчика:"
+  },
+  "optionsBadgeBackground": {
+    "message": "Фон"
+  },
+  "optionsBadgeText": {
+    "message": "Цифры"
+  },
+  "optionsCustomColor": {
+    "message": "Свой цвет"
+  },
+  "optionsResetColors": {
+    "message": "Вернуть цвета по умолчанию"
+  },
+  "optionsRate": {
+    "message": "Оценить расширение"
+  },
+  "optionsReportBug": {
+    "message": "Сообщить об ошибке"
+  },
+  "optionsVersion": {
+    "message": "Версия $VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.5.0"
+      }
+    }
   }
 }

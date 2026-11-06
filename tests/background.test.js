@@ -139,6 +139,36 @@ test('клик по иконке без открытой почты — нова
     assert.deepEqual(mock.calls.createdTabs, ['https://mail.yandex.ru/']);
 });
 
+test('«в отдельном окне»: почты нет — открывается окно без адресной строки, вкладка не создаётся', async () => {
+    mock.store.local.openIn = 'window';
+    on.actionClicked();
+    await flush();
+    assert.deepEqual(mock.calls.createdTabs, []);
+    assert.equal(mock.calls.createdWindows.length, 1);
+    assert.equal(mock.calls.createdWindows[0].url, 'https://mail.yandex.ru/');
+    assert.equal(mock.calls.createdWindows[0].type, 'popup');
+});
+
+test('«в отдельном окне»: почта уже открыта — переключение на неё, новое окно не открывается', async () => {
+    mock.store.local.openIn = 'window';
+    mock.setTabs([mailTab(4, 'https://mail.yandex.ru/#inbox')]);
+    on.actionClicked();
+    await flush();
+    assert.deepEqual(mock.calls.createdWindows, []);
+    assert.deepEqual(mock.calls.updatedTabs, [{ id: 4, active: true }]);
+});
+
+test('цвета счётчика из настроек — на бейдже', async () => {
+    mock.store.local.badgeColor = '#1a73e8';
+    mock.store.local.badgeTextColor = '#000000';
+    mock.counters({ unread: 3, fresh: 0 });
+    await on.alarm({ name: 'retryCheck' });
+    await flush();
+    assert.equal(mock.calls.badge.text, '3');
+    assert.equal(mock.calls.badge.color, '#1a73e8');
+    assert.equal(mock.calls.badge.textColor, '#000000');
+});
+
 test('клик по иконке — переключение на самую недавнюю вкладку почты без перезагрузки', async () => {
     mock.setTabs([
         mailTab(1, 'https://mail.yandex.ru/?uid=1#inbox', 100),
