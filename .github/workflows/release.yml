@@ -1,14 +1,14 @@
 # Релиз по тегу v<версия> (например, v1.5.0): проверки, сборка архивов для Chrome
-# и Firefox, отправка Firefox-версии в каталог addons.mozilla.org и публикация на странице Releases.
+# и Firefox, отправка в магазины расширений и публикация на странице Releases.
 #
 # Тег можно отправить командой git push или создать при публикации релиза на GitHub —
 # в обоих случаях срабатывает событие push тега, поэтому отдельный триггер release не нужен.
 #
-# Firefox-версия отправляется в каталог Mozilla: Mozilla проверяет её и публикует сама
-# (от нескольких часов до нескольких дней), ждать этого релиз не должен. Для отправки нужны
-# секреты репозитория AMO_JWT_ISSUER и AMO_JWT_SECRET (ключи API addons.mozilla.org,
-# см. docs/development.md). Если что-то не удалось, а релиз уже создан на GitHub,
-# он переводится в черновик, чтобы посетители не увидели неполный релиз.
+# Firefox-версия отправляется в каталог Mozilla, Chrome-версия — в Chrome Web Store и Edge Add-ons.
+# Магазины проверяют версию и публикуют сами (от нескольких часов до нескольких дней), ждать этого
+# релиз не должен. Ключи — в секретах репозитория (см. docs/development.md). Без ключей Mozilla
+# релиз не публикуется; если что-то не удалось, а релиз уже создан на GitHub, он переводится
+# в черновик. Сбой отправки в Chrome Web Store или Edge релиз не останавливает — только предупреждение.
 name: Release
 
 on:
@@ -99,6 +99,24 @@ jobs:
               --title "Версия $VERSION" \
               --notes-file release-notes.md
           fi
+
+      # Chrome Web Store и Edge Add-ons: сбой не скрывает релиз — версию можно загрузить вручную.
+      # Архив для Chrome подходит и для Edge. Магазины проверяют версию сами, ждать этого не нужно.
+      - name: Отправка в Chrome Web Store
+        continue-on-error: true
+        env:
+          CHROME_SERVICE_ACCOUNT_KEY: ${{ secrets.CHROME_SERVICE_ACCOUNT_KEY }}
+          CHROME_PUBLISHER_ID: ${{ secrets.CHROME_PUBLISHER_ID }}
+          CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
+        run: node scripts/publish-stores.mjs chrome "dist/yandex-mail-checker-$VERSION-chrome.zip"
+
+      - name: Отправка в Microsoft Edge Add-ons
+        continue-on-error: true
+        env:
+          EDGE_PRODUCT_ID: ${{ secrets.EDGE_PRODUCT_ID }}
+          EDGE_CLIENT_ID: ${{ secrets.EDGE_CLIENT_ID }}
+          EDGE_API_KEY: ${{ secrets.EDGE_API_KEY }}
+        run: node scripts/publish-stores.mjs edge "dist/yandex-mail-checker-$VERSION-chrome.zip"
 
       - name: Неудача — скрыть неполный релиз
         if: failure()

@@ -70,6 +70,7 @@ npm test
 │   ├── firefox-update-manifest.mjs  # updates.json: переход версий 1.4 на каталог Mozilla
 │   ├── amo-metadata.json  # данные для страницы в каталоге Mozilla
 │   ├── render-icons.mjs   # PNG-иконки из icons/icon.svg
+│   ├── publish-stores.mjs # отправка в Chrome Web Store и Edge Add-ons
 │   ├── release-notes.mjs  # описание релиза из CHANGELOG.md
 │   └── store-images.mjs   # картинки для магазинов (docs/store/)
 ├── docs/
@@ -156,7 +157,7 @@ NODE_PATH="$(npm root -g)" node scripts/render-icons.mjs
     - в терминале: `git tag v1.5.0 && git push origin v1.5.0`;
     - на GitHub: **Releases → Draft a new release → Choose a tag → `v1.5.0` (Create new tag) → Publish release**.
 
-GitHub Actions проверит, что тег совпадает с версией в `manifest.json`, прогонит тесты, соберёт архивы для Chrome и Firefox, отправит Firefox-версию в каталог Mozilla и приложит архивы к релизу. Описание берётся из `CHANGELOG.md`, если вы не написали своё.
+GitHub Actions проверит, что тег совпадает с версией в `manifest.json`, прогонит тесты, соберёт архивы для Chrome и Firefox, отправит их в каталог Mozilla, Chrome Web Store и Edge Add-ons и приложит архивы к релизу. Описание берётся из `CHANGELOG.md`, если вы не написали своё.
 
 Если что-то не удалось, релиз не появится, а созданный вручную будет переведён в черновик (см. «Если отправка не удалась»).
 
@@ -188,3 +189,26 @@ GitHub Actions проверит, что тег совпадает с верси�
 - **Каталог не принял данные страницы** (например, категорию или лицензию из `scripts/amo-metadata.json`) — загрузите версию вручную: в кабинете разработчика **Upload New Version → On this site**, файл `yandex-mail-checker-<версия>-firefox.zip` из `npm run build`. Затем **Re-run all jobs**: процесс увидит, что версия уже отправлена, и опубликует релиз.
 - **Повторный запуск** после успешной отправки — не ошибка: Mozilla не принимает одну версию дважды, процесс это учитывает и продолжает.
 - **Mozilla отклонила версию** — исправьте причину и выпустите следующую версию (например, `1.5.1`).
+
+## Chrome Web Store и Edge Add-ons
+
+Релиз отправляет архив `…-chrome.zip` в оба магазина (`scripts/publish-stores.mjs`): загружает его и отправляет версию на проверку, после неё магазин публикует её сам. Описания, скриншоты и картинки через API не меняются — их правят в кабинетах магазинов, тексты — в [store/README.md](store/README.md).
+
+Секреты репозитория (**Settings → Secrets and variables → Actions**):
+
+| Секрет | Откуда |
+|--------|--------|
+| `CHROME_SERVICE_ACCOUNT_KEY` | JSON-ключ служебного аккаунта Google Cloud с включённым Chrome Web Store API; адрес аккаунта добавлен в [кабинете Chrome Web Store](https://chrome.google.com/webstore/devconsole) → **Account** |
+| `CHROME_PUBLISHER_ID` | Кабинет Chrome Web Store → **Publisher → Settings** |
+| `CHROME_EXTENSION_ID` | `gkpnpejbpnldkkeoeapjdilknlmojoon` |
+| `EDGE_PRODUCT_ID` | [Partner Center](https://partner.microsoft.com/dashboard/microsoftedge/overview) → расширение → **Extension identity** |
+| `EDGE_CLIENT_ID`, `EDGE_API_KEY` | Partner Center → **Microsoft Edge → Publish API**. У ключа есть срок действия (**Expiry**): после него создайте новый и замените секрет |
+
+Сбой отправки в эти магазины релиз не останавливает: в журнале запуска будет предупреждение с причиной. Частые случаи:
+
+- **Не заданы секреты** — версия не отправлена; добавьте секреты и загрузите архив вручную.
+- **Версия уже загружена или в магазине идёт проверка прошлой версии** (Edge: `InProgressSubmission`) — дождитесь проверки и загрузите архив вручную или выпустите следующую версию.
+- **Ошибка ключа** (HTTP 401/403) — создайте новый ключ, обновите секрет и загрузите архив вручную.
+
+Вручную: Chrome Web Store — **Package → Upload new package**, затем **Submit for review**; Edge — **Extensions → расширение → Update**, затем **Publish**.
+
