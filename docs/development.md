@@ -46,6 +46,9 @@ npm test
 │   ├── menu.js            # контекстное меню на иконке
 │   ├── settings.js        # настройки и расписание проверки
 │   ├── options.html, options.js  # страница настроек
+│   ├── welcome.html, welcome.js  # страница приветствия (один раз, при установке)
+│   ├── status-view.js     # блок «состояние почты» для этих страниц
+│   ├── page.css           # общий вид страниц расширения
 │   ├── hosts.js           # адрес почты и доступ к нему
 │   ├── idle.js            # пауза, пока пользователь не за компьютером
 │   ├── status.js          # бейдж и подсказка на иконке
@@ -69,7 +72,8 @@ npm test
 │   ├── build.mjs          # сборка архивов
 │   ├── firefox-update-manifest.mjs  # updates.json: переход версий 1.4 на каталог Mozilla
 │   ├── amo-metadata.json  # данные для страницы в каталоге Mozilla
-│   ├── render-icons.mjs   # PNG-иконки из icons/icon.svg
+│   ├── render-icons.mjs   # PNG-значки и иконка расширения
+│   ├── owl-icon.mjs       # иконка расширения: филин-почтальон на конверте
 │   ├── publish-stores.mjs # отправка в Chrome Web Store и Edge Add-ons
 │   ├── release-notes.mjs  # описание релиза из CHANGELOG.md
 │   └── store-images.mjs   # картинки для магазинов (docs/store/)
@@ -110,6 +114,16 @@ tar -xJf firefox.tar.xz
 NODE_PATH="$(npm root -g)" FIREFOX_BIN="$PWD/firefox/firefox" npm run e2e:firefox
 ```
 
+Тот же набор проверок для Chromium можно прогнать в **Edge** и **Opera** — укажите путь к браузеру в `CHROMIUM_BIN`:
+
+```bash
+# пакеты для Linux: packages.microsoft.com/repos/edge, get.opera.com/pub/opera/desktop
+CHROMIUM_BIN=/opt/microsoft/msedge/msedge NODE_PATH="$(npm root -g)" npm run e2e
+CHROMIUM_BIN=/usr/lib/x86_64-linux-gnu/opera-stable/opera NODE_PATH="$(npm root -g)" npm run e2e
+```
+
+Opera без графической среды требует пакет `gsettings-desktop-schemas`. Google Chrome (с версии 137) не загружает расширения из командной строки, поэтому его заменяет Chromium того же движка.
+
 Как устроено:
 
 - **Chromium** (`tests/e2e/chromium.e2e.js`) — Playwright загружает `dist/chrome`, перехватывает запросы к `mail.yandex.ru` и читает бейдж, подсказку и уведомления из service worker.
@@ -132,7 +146,7 @@ NODE_PATH="$(npm root -g)" FIREFOX_BIN="$PWD/firefox/firefox" npm run e2e:firefo
 Иконки рисует код: `scripts/render-icons.mjs` строит их из двух геометрических фигур — прямоугольника со скруглёнными углами (конверт) и треугольника (клапан). Сторонних изображений в расширении нет; все файлы в `icons/` получаются из скрипта, и их можно пересоздать и сравнить.
 
 - `icons/<вид>/` — значок на панели и в уведомлениях (16, 32, 128 px) для каждого вида: `classic` (по умолчанию), `minimal`, `blue`, `green`, `purple`. Вид выбирается на странице настроек; список — `ICON_STYLES` в `src/config.js`, цвета — `PALETTES` в скрипте.
-- `icons/icon48.png`, `icons/icon128.png` — иконка расширения на странице расширений и в магазинах: классический конверт с кружком-счётчиком.
+- `icons/icon.svg`, `icons/icon48.png`, `icons/icon128.png` — иконка расширения на странице расширений и в магазинах: филин-почтальон в фуражке на конверте со счётчиком (`scripts/owl-icon.mjs`). В `icon128.png` рисунок 96×96 с полями 16 px — требование Chrome Web Store. Логотип Edge и иконку Opera пересоздаёт `scripts/store-images.mjs`.
 
 После правки скрипта пересоберите PNG (нужен Playwright, в проект он не входит):
 

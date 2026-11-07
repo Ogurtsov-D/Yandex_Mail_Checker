@@ -15,6 +15,8 @@ import { isMailHost } from './hosts.js';
 
 export const CHECK_ALARM = 'checkMail';
 export const RETRY_ALARM = 'retryCheck';
+// Раз в минуту обновляет «Проверено N минут назад» в подсказке — без запросов к почте
+export const TOOLTIP_ALARM = 'refreshTooltip';
 
 // Ключи настроек в storage.local
 export const SETTING_KEYS = [
@@ -106,4 +108,9 @@ export async function scheduleCheckAlarm({ reset = false } = {}) {
 export async function setCheckInterval(minutes) {
     await saveSettings({ checkInterval: minutes });
     await scheduleCheckAlarm({ reset: true });
+}
+
+// Будильник обновления подсказки (создаётся один раз, при перезапуске service worker не сбрасывается)
+export async function scheduleTooltipAlarm() {
+    if (!(await ext.alarms.get(TOOLTIP_ALARM))) await ext.alarms.create(TOOLTIP_ALARM, { periodInMinutes: 1 });
 }

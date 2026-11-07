@@ -32,7 +32,7 @@ test('два аккаунта: на значке сумма, в подсказк
     assert.equal(mock.calls.badge.text, '80');
     assert.match(
         mock.calls.badge.title,
-        /^Яндекс Почта: 80 непрочитанных писем\nАккаунт 1: 75 непрочитанных писем\nАккаунт 2: 5 непрочитанных писем\nПроверено в \d\d:\d\d$/
+        /^Яндекс Почта: 80 непрочитанных писем\nАккаунт 1: 75 непрочитанных писем\nАккаунт 2: 5 непрочитанных писем\nПроверено только что$/
     );
     assert.ok(!mock.requests.some((u) => u.includes('/lite/')), mock.requests.join());
     assert.equal(mock.calls.notifications.length, 0);

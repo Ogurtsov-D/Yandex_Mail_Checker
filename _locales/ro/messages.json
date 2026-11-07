@@ -4,7 +4,7 @@
     "description": "Language code of this translation (plural rules and date formats)"
   },
   "extName": {
-    "message": "Contor de mesaje pentru Yandex Mail",
+    "message": "Owl — notificări pentru Yandex Mail",
     "description": "Extension name"
   },
   "extDescription": {
@@ -285,7 +285,7 @@
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
-    "message": "Setările contorului de mesaje",
+    "message": "Setări Owl",
     "description": "Settings page title"
   },
   "optionsQuietHours": {
@@ -437,5 +437,53 @@
         "example": "1.5.0"
       }
     }
+  },
+  "justNow": {
+    "message": "chiar acum"
+  },
+  "brandName": {
+    "message": "Owl"
+  },
+  "welcomeTitle": {
+    "message": "Owl a fost instalat"
+  },
+  "welcomeLead": {
+    "message": "Afișează pe pictogramă numărul de mesaje necitite din Yandex Mail și vă anunță despre cele noi. Mai sunt trei pași scurți."
+  },
+  "welcomePinTitle": {
+    "message": "Fixați pictograma în bara de instrumente"
+  },
+  "welcomePinHint": {
+    "message": "Faceți clic pe pictograma puzzle din dreapta barei de adrese și fixați „$NAME$” cu butonul cu pioneză. Astfel contorul va fi mereu la vedere.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Owl"
+      }
+    }
+  },
+  "welcomePinDone": {
+    "message": "Pictograma este fixată"
+  },
+  "welcomeSignInTitle": {
+    "message": "Conectați-vă la Yandex Mail"
+  },
+  "welcomeSignInHint": {
+    "message": "Extensia funcționează cu căsuța de e-mail la care sunteți conectat în acest browser. Nu are nevoie de parola dvs."
+  },
+  "welcomeOpenMail": {
+    "message": "Deschide e-mailul"
+  },
+  "welcomeSetupTitle": {
+    "message": "Alegeți cum primiți mesajele"
+  },
+  "welcomeAllSettings": {
+    "message": "Toate setările →"
+  },
+  "welcomePrivacy": {
+    "message": "Extensia comunică doar cu Yandex Mail și nu trimite nimic dezvoltatorului."
+  },
+  "statusNotChecked": {
+    "message": "E-mailul nu a fost încă verificat"
   }
 }

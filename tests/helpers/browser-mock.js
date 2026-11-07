@@ -68,6 +68,8 @@ export function installBrowserMock({ firefox = false, locale = 'ru' } = {}) {
                 calls.openedOptions++;
             },
             onStartup: event('startup'),
+            onMessage: event('message'),
+            id: 'test',
             ...(firefox ? { getBrowserInfo: async () => ({ name: 'Firefox' }) } : {})
         },
         storage: { local: area('local'), session: area('session'), onChanged: event('storageChanged') },

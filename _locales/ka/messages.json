@@ -4,7 +4,7 @@
     "description": "Language code of this translation (plural rules and date formats)"
   },
   "extName": {
-    "message": "წერილების მთვლელი Yandex Mail-ისთვის",
+    "message": "Owl — Yandex Mail-ის შეტყობინებები",
     "description": "Extension name"
   },
   "extDescription": {
@@ -249,7 +249,7 @@
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
-    "message": "წერილების მთვლელის პარამეტრები",
+    "message": "Owl-ის პარამეტრები",
     "description": "Settings page title"
   },
   "optionsQuietHours": {
@@ -401,5 +401,53 @@
         "example": "1.5.0"
       }
     }
+  },
+  "justNow": {
+    "message": "ახლახან"
+  },
+  "brandName": {
+    "message": "Owl"
+  },
+  "welcomeTitle": {
+    "message": "Owl დაინსტალირდა"
+  },
+  "welcomeLead": {
+    "message": "ის ხატულაზე აჩვენებს Yandex Mail-ის წაუკითხავი წერილების რაოდენობას და გატყობინებთ ახალზე. დარჩა სამი მოკლე ნაბიჯი."
+  },
+  "welcomePinTitle": {
+    "message": "მიამაგრეთ ხატულა ხელსაწყოთა ზოლზე"
+  },
+  "welcomePinHint": {
+    "message": "დააწკაპუნეთ თავსატეხის ხატულაზე მისამართის ზოლის მარჯვნივ და მიამაგრეთ „$NAME$“ ქინძისთავის ღილაკით. ასე წერილების მთვლელი ყოველთვის თვალწინ იქნება.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Owl"
+      }
+    }
+  },
+  "welcomePinDone": {
+    "message": "ხატულა მიმაგრებულია"
+  },
+  "welcomeSignInTitle": {
+    "message": "შედით Yandex Mail-ში"
+  },
+  "welcomeSignInHint": {
+    "message": "გაფართოება მუშაობს ფოსტასთან, რომელშიც ამ ბრაუზერში ხართ შესული. პაროლი არ სჭირდება."
+  },
+  "welcomeOpenMail": {
+    "message": "ფოსტის გახსნა"
+  },
+  "welcomeSetupTitle": {
+    "message": "აირჩიეთ, როგორ მიიღოთ წერილები"
+  },
+  "welcomeAllSettings": {
+    "message": "ყველა პარამეტრი →"
+  },
+  "welcomePrivacy": {
+    "message": "გაფართოება მხოლოდ Yandex Mail-ს უკავშირდება და დეველოპერს არაფერს უგზავნის."
+  },
+  "statusNotChecked": {
+    "message": "ფოსტა ჯერ არ შემოწმებულა"
   }
 }

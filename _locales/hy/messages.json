@@ -4,7 +4,7 @@
     "description": "Language code of this translation (plural rules and date formats)"
   },
   "extName": {
-    "message": "Նամակների հաշվիչ Yandex Mail-ի համար",
+    "message": "Owl — Yandex Mail-ի ծանուցումներ",
     "description": "Extension name"
   },
   "extDescription": {
@@ -249,7 +249,7 @@
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
-    "message": "Նամակների հաշվիչի կարգավորումներ",
+    "message": "Owl-ի կարգավորումներ",
     "description": "Settings page title"
   },
   "optionsQuietHours": {
@@ -401,5 +401,53 @@
         "example": "1.5.0"
       }
     }
+  },
+  "justNow": {
+    "message": "հենց նոր"
+  },
+  "brandName": {
+    "message": "Owl"
+  },
+  "welcomeTitle": {
+    "message": "Owl-ը տեղադրված է"
+  },
+  "welcomeLead": {
+    "message": "Այն պատկերակի վրա ցույց է տալիս Yandex Mail-ի չկարդացած նամակների թիվը և տեղեկացնում է նորերի մասին։ Մնացել է երեք կարճ քայլ։"
+  },
+  "welcomePinTitle": {
+    "message": "Ամրացրեք պատկերակը գործիքագոտում"
+  },
+  "welcomePinHint": {
+    "message": "Սեղմեք հասցեի տողից աջ գտնվող փազլի պատկերակը և ամրացրեք «$NAME$»-ը քորոցի կոճակով։ Այդպես նամակների հաշվիչը միշտ տեսանելի կլինի։",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Owl"
+      }
+    }
+  },
+  "welcomePinDone": {
+    "message": "Պատկերակն ամրացված է"
+  },
+  "welcomeSignInTitle": {
+    "message": "Մուտք գործեք Yandex Mail"
+  },
+  "welcomeSignInHint": {
+    "message": "Ընդլայնումն աշխատում է այն փոստի հետ, որով մուտք եք գործել այս դիտարկիչում։ Գաղտնաբառ պետք չէ։"
+  },
+  "welcomeOpenMail": {
+    "message": "Բացել փոստը"
+  },
+  "welcomeSetupTitle": {
+    "message": "Ընտրեք, թե ինչպես ստանալ նամակները"
+  },
+  "welcomeAllSettings": {
+    "message": "Բոլոր կարգավորումները →"
+  },
+  "welcomePrivacy": {
+    "message": "Ընդլայնումը դիմում է միայն Yandex Mail-ին և ոչինչ չի ուղարկում մշակողին։"
+  },
+  "statusNotChecked": {
+    "message": "Փոստը դեռ չի ստուգվել"
   }
 }

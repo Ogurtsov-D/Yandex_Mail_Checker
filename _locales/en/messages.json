@@ -4,11 +4,11 @@
     "description": "Language code of this translation (plural rules and date formats)"
   },
   "extName": {
-    "message": "Checker for Yandex Mail",
+    "message": "Owl — Notifier for Yandex Mail",
     "description": "Extension name"
   },
   "extDescription": {
-    "message": "Shows the number of unread Yandex Mail messages on the toolbar icon and notifies you about new mail",
+    "message": "Unread counter for Yandex Mail on the toolbar icon and new mail notifications. Free, multiple accounts, no developer servers.",
     "description": "Extension description"
   },
   "serviceName": {
@@ -249,7 +249,7 @@
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
-    "message": "Checker for Yandex Mail settings",
+    "message": "Owl settings",
     "description": "Settings page title"
   },
   "optionsQuietHours": {
@@ -401,5 +401,53 @@
         "example": "1.5.0"
       }
     }
+  },
+  "justNow": {
+    "message": "just now"
+  },
+  "brandName": {
+    "message": "Owl"
+  },
+  "welcomeTitle": {
+    "message": "Owl is installed"
+  },
+  "welcomeLead": {
+    "message": "It shows the number of unread Yandex Mail messages on its icon and tells you about new mail. Three quick steps left."
+  },
+  "welcomePinTitle": {
+    "message": "Pin the icon to the toolbar"
+  },
+  "welcomePinHint": {
+    "message": "Click the puzzle icon to the right of the address bar and pin “$NAME$” with the pin button. This keeps your unread count in sight.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Owl"
+      }
+    }
+  },
+  "welcomePinDone": {
+    "message": "The icon is pinned"
+  },
+  "welcomeSignInTitle": {
+    "message": "Sign in to Yandex Mail"
+  },
+  "welcomeSignInHint": {
+    "message": "The extension works with the mailbox you are signed in to in this browser. It never needs your password."
+  },
+  "welcomeOpenMail": {
+    "message": "Open mail"
+  },
+  "welcomeSetupTitle": {
+    "message": "Choose how to get your mail"
+  },
+  "welcomeAllSettings": {
+    "message": "All settings →"
+  },
+  "welcomePrivacy": {
+    "message": "The extension only talks to Yandex Mail and sends nothing to the developer."
+  },
+  "statusNotChecked": {
+    "message": "Mail has not been checked yet"
   }
 }

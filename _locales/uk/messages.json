@@ -4,7 +4,7 @@
     "description": "Language code of this translation (plural rules and date formats)"
   },
   "extName": {
-    "message": "Лічильник листів для Яндекс Пошти",
+    "message": "Owl — сповіщення Яндекс Пошти",
     "description": "Extension name"
   },
   "extDescription": {
@@ -321,7 +321,7 @@
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
-    "message": "Налаштування лічильника листів",
+    "message": "Налаштування Owl",
     "description": "Settings page title"
   },
   "optionsQuietHours": {
@@ -473,5 +473,53 @@
         "example": "1.5.0"
       }
     }
+  },
+  "justNow": {
+    "message": "щойно"
+  },
+  "brandName": {
+    "message": "Owl"
+  },
+  "welcomeTitle": {
+    "message": "Owl встановлено"
+  },
+  "welcomeLead": {
+    "message": "Він показує кількість непрочитаних листів Яндекс Пошти на значку й повідомляє про нові. Залишилося три короткі кроки."
+  },
+  "welcomePinTitle": {
+    "message": "Закріпіть значок на панелі"
+  },
+  "welcomePinHint": {
+    "message": "Натисніть значок пазла праворуч від адресного рядка й закріпіть «$NAME$» кнопкою зі шпилькою. Так лічильник листів завжди буде на виду.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Owl"
+      }
+    }
+  },
+  "welcomePinDone": {
+    "message": "Значок закріплено"
+  },
+  "welcomeSignInTitle": {
+    "message": "Увійдіть у Яндекс Пошту"
+  },
+  "welcomeSignInHint": {
+    "message": "Розширення працює з поштою, у яку ви ввійшли в цьому браузері. Пароль йому не потрібен."
+  },
+  "welcomeOpenMail": {
+    "message": "Відкрити пошту"
+  },
+  "welcomeSetupTitle": {
+    "message": "Виберіть, як отримувати листи"
+  },
+  "welcomeAllSettings": {
+    "message": "Усі налаштування →"
+  },
+  "welcomePrivacy": {
+    "message": "Розширення звертається лише до Яндекс Пошти й нічого не надсилає розробникові."
+  },
+  "statusNotChecked": {
+    "message": "Пошту ще не перевірено"
   }
 }

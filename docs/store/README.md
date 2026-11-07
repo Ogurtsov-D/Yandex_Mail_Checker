@@ -10,8 +10,11 @@
 |------|-----------|
 | `ru/screenshot-1…4.png`, `en/screenshot-1…4.png` — 1280×800 | Снимки экрана во всех трёх магазинах |
 | `ru/promo-440x280.png`, `en/promo-440x280.png` | Маленькая промо-картинка Chrome Web Store (Small promo tile) и Edge (Small promotional tile) |
+| `ru/promo-1400x560.png`, `en/promo-1400x560.png` | Большая промо-картинка: Chrome Web Store (Marquee promo tile), Edge (Large promotional tile) |
+| `ru/promo-300x188.png`, `en/promo-300x188.png` | Промо-картинка каталога Opera (Promotional image) |
 | `../../icons/icon128.png` | Иконка магазина (128×128): Chrome Web Store, каталог Firefox |
 | `logo-300x300.png` | Логотип для Microsoft Edge Add-ons (Store logo) |
+| `opera-64.png` | Иконка для каталога Opera (64×64) |
 
 ## Общие сведения
 
@@ -30,7 +33,7 @@
 
 ### Русский
 
-Счётчик писем для Яндекс Почты показывает на значке в панели браузера, сколько у вас непрочитанных писем, и сообщает о новых письмах. Держать почту открытой не нужно.
+Филин показывает на значке в панели браузера, сколько у вас непрочитанных писем, и сообщает о новых письмах. Держать почту открытой не нужно.
 
 Всё бесплатно: без подписок, платных функций и рекламы.
 
@@ -58,7 +61,7 @@
 
 ### English
 
-Checker for Yandex Mail shows how many unread messages you have on its toolbar icon and notifies you about new mail. No need to keep your mailbox open.
+Owl shows how many unread messages you have on its toolbar icon and notifies you about new mail. No need to keep your mailbox open.
 
 Everything is free: no subscriptions, no paid features, no ads.
 

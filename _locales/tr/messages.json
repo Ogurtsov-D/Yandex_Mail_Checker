@@ -4,7 +4,7 @@
     "description": "Language code of this translation (plural rules and date formats)"
   },
   "extName": {
-    "message": "Yandex Mail için Posta Sayacı",
+    "message": "Owl — Yandex Mail bildirimleri",
     "description": "Extension name"
   },
   "extDescription": {
@@ -249,7 +249,7 @@
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
-    "message": "Posta Sayacı ayarları",
+    "message": "Owl ayarları",
     "description": "Settings page title"
   },
   "optionsQuietHours": {
@@ -401,5 +401,53 @@
         "example": "1.5.0"
       }
     }
+  },
+  "justNow": {
+    "message": "az önce"
+  },
+  "brandName": {
+    "message": "Owl"
+  },
+  "welcomeTitle": {
+    "message": "Owl yüklendi"
+  },
+  "welcomeLead": {
+    "message": "Yandex Mail’deki okunmamış ileti sayısını simgede gösterir ve yeni postaları bildirir. Üç kısa adım kaldı."
+  },
+  "welcomePinTitle": {
+    "message": "Simgeyi araç çubuğuna sabitleyin"
+  },
+  "welcomePinHint": {
+    "message": "Adres çubuğunun sağındaki yapboz simgesine tıklayın ve “$NAME$” uzantısını raptiye düğmesiyle sabitleyin. Böylece ileti sayacı her zaman gözünüzün önünde olur.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Owl"
+      }
+    }
+  },
+  "welcomePinDone": {
+    "message": "Simge sabitlendi"
+  },
+  "welcomeSignInTitle": {
+    "message": "Yandex Mail’e giriş yapın"
+  },
+  "welcomeSignInHint": {
+    "message": "Uzantı, bu tarayıcıda giriş yaptığınız posta kutusuyla çalışır. Parolanıza ihtiyaç duymaz."
+  },
+  "welcomeOpenMail": {
+    "message": "Postayı aç"
+  },
+  "welcomeSetupTitle": {
+    "message": "Postaları nasıl alacağınızı seçin"
+  },
+  "welcomeAllSettings": {
+    "message": "Tüm ayarlar →"
+  },
+  "welcomePrivacy": {
+    "message": "Uzantı yalnızca Yandex Mail ile iletişim kurar ve geliştiriciye hiçbir şey göndermez."
+  },
+  "statusNotChecked": {
+    "message": "Posta henüz kontrol edilmedi"
   }
 }

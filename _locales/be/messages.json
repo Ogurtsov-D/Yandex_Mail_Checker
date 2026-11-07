@@ -4,7 +4,7 @@
     "description": "Language code of this translation (plural rules and date formats)"
   },
   "extName": {
-    "message": "Лічыльнік лістоў для Яндэкс Пошты",
+    "message": "Owl — апавяшчэнні Яндэкс Пошты",
     "description": "Extension name"
   },
   "extDescription": {
@@ -321,7 +321,7 @@
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
-    "message": "Налады лічыльніка лістоў",
+    "message": "Налады Owl",
     "description": "Settings page title"
   },
   "optionsQuietHours": {
@@ -473,5 +473,53 @@
         "example": "1.5.0"
       }
     }
+  },
+  "justNow": {
+    "message": "толькі што"
+  },
+  "brandName": {
+    "message": "Owl"
+  },
+  "welcomeTitle": {
+    "message": "Owl усталяваны"
+  },
+  "welcomeLead": {
+    "message": "Ён паказвае колькасць непрачытаных лістоў Яндэкс Пошты на значку і паведамляе пра новыя. Засталося тры кароткія крокі."
+  },
+  "welcomePinTitle": {
+    "message": "Замацуйце значок на панэлі"
+  },
+  "welcomePinHint": {
+    "message": "Націсніце значок пазла справа ад адраснага радка і замацуйце «$NAME$» кнопкай са шпількай. Так лічыльнік лістоў заўсёды будзе на віду.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Owl"
+      }
+    }
+  },
+  "welcomePinDone": {
+    "message": "Значок замацаваны"
+  },
+  "welcomeSignInTitle": {
+    "message": "Увайдзіце ў Яндэкс Пошту"
+  },
+  "welcomeSignInHint": {
+    "message": "Пашырэнне працуе з поштай, у якую вы ўвайшлі ў гэтым браўзеры. Пароль яму не патрэбны."
+  },
+  "welcomeOpenMail": {
+    "message": "Адкрыць пошту"
+  },
+  "welcomeSetupTitle": {
+    "message": "Выберыце, як атрымліваць лісты"
+  },
+  "welcomeAllSettings": {
+    "message": "Усе налады →"
+  },
+  "welcomePrivacy": {
+    "message": "Пашырэнне звяртаецца толькі да Яндэкс Пошты і нічога не адпраўляе распрацоўшчыку."
+  },
+  "statusNotChecked": {
+    "message": "Пошта яшчэ не правяралася"
   }
 }

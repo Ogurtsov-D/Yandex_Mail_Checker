@@ -4,7 +4,7 @@
     "description": "Language code of this translation (plural rules and date formats)"
   },
   "extName": {
-    "message": "Yandex 邮箱邮件计数器",
+    "message": "Owl — Yandex 邮箱通知",
     "description": "Extension name"
   },
   "extDescription": {
@@ -213,7 +213,7 @@
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
-    "message": "邮件计数器设置",
+    "message": "Owl 设置",
     "description": "Settings page title"
   },
   "optionsQuietHours": {
@@ -365,5 +365,53 @@
         "example": "1.5.0"
       }
     }
+  },
+  "justNow": {
+    "message": "刚刚"
+  },
+  "brandName": {
+    "message": "Owl"
+  },
+  "welcomeTitle": {
+    "message": "Owl 已安装"
+  },
+  "welcomeLead": {
+    "message": "它会在图标上显示 Yandex 邮箱的未读邮件数，并在收到新邮件时通知您。只剩三个简单步骤。"
+  },
+  "welcomePinTitle": {
+    "message": "将图标固定到工具栏"
+  },
+  "welcomePinHint": {
+    "message": "点击地址栏右侧的拼图图标，然后用图钉按钮固定“$NAME$”。这样未读数就会一直显示。",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Owl"
+      }
+    }
+  },
+  "welcomePinDone": {
+    "message": "图标已固定"
+  },
+  "welcomeSignInTitle": {
+    "message": "登录 Yandex 邮箱"
+  },
+  "welcomeSignInHint": {
+    "message": "扩展使用您在此浏览器中已登录的邮箱，不需要您的密码。"
+  },
+  "welcomeOpenMail": {
+    "message": "打开邮箱"
+  },
+  "welcomeSetupTitle": {
+    "message": "选择接收邮件的方式"
+  },
+  "welcomeAllSettings": {
+    "message": "所有设置 →"
+  },
+  "welcomePrivacy": {
+    "message": "扩展只与 Yandex 邮箱通信，不会向开发者发送任何内容。"
+  },
+  "statusNotChecked": {
+    "message": "尚未检查邮件"
   }
 }

@@ -2,27 +2,38 @@
 // Все обработчики событий регистрируются синхронно на верхнем уровне: так браузер
 // разбудит расширение и доставит событие, даже если service worker был выгружен.
 import { ext } from './api.js';
-import { checkMail, setLastCheckTime } from './checker.js';
+import { checkMail, isCheckInProgress, setLastCheckTime } from './checker.js';
 import { IDLE_THRESHOLD_SEC } from './config.js';
 import { handleIdleStateChanged, isAway, markMissedCheck } from './idle.js';
 import { createContextMenu, handleMenuClick } from './menu.js';
 import { getNotificationTarget, isMailNotification } from './notifications.js';
-import { CHECK_ALARM, RETRY_ALARM, scheduleCheckAlarm, SETTING_KEYS } from './settings.js';
+import {
+    CHECK_ALARM,
+    RETRY_ALARM,
+    scheduleCheckAlarm,
+    scheduleTooltipAlarm,
+    SETTING_KEYS,
+    TOOLTIP_ALARM
+} from './settings.js';
 import { loadState, renderStatus } from './status.js';
 import { handleTabRemoved, handleTabUpdated, openMail } from './tabs.js';
 
 // Восстановить бейдж и подсказку после перезапуска service worker
 async function restore() {
     await scheduleCheckAlarm();
+    await scheduleTooltipAlarm();
     const state = await loadState();
     setLastCheckTime(state.lastCheck);
     await renderStatus(state);
 }
 
-// Установка или обновление расширения
-ext.runtime.onInstalled.addListener(async () => {
+// Установка или обновление расширения. При первой установке — страница приветствия
+// (при обновлениях не показываем ничего)
+ext.runtime.onInstalled.addListener(async (details) => {
+    if (details?.reason === 'install') await ext.tabs.create({ url: ext.runtime.getURL('src/welcome.html') });
     await ext.alarms.clearAll(); // расписание с нуля: в новой версии оно могло измениться
     await scheduleCheckAlarm({ reset: true });
+    await scheduleTooltipAlarm();
     await createContextMenu();
     await checkMail();
 });
@@ -35,7 +46,10 @@ ext.runtime.onStartup.addListener(async () => {
 });
 
 ext.alarms.onAlarm.addListener(async (alarm) => {
-    if (alarm.name === RETRY_ALARM) {
+    if (alarm.name === TOOLTIP_ALARM) {
+        // «Проверено N минут назад» — пересчитать по сохранённому состоянию
+        if (!isCheckInProgress()) await renderStatus(await loadState());
+    } else if (alarm.name === RETRY_ALARM) {
         await checkMail();
     } else if (alarm.name === CHECK_ALARM) {
         await scheduleCheckAlarm({ reset: true }); // следующая проверка — с новым случайным разбросом
@@ -45,6 +59,24 @@ ext.alarms.onAlarm.addListener(async (alarm) => {
 });
 
 ext.contextMenus.onClicked.addListener(handleMenuClick);
+
+// Команды со страниц расширения (настройки, приветствие): проверить почту, открыть почту.
+// Ответ — после выполнения, чтобы страница могла обновить состояние
+ext.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (sender.id !== ext.runtime.id) return false;
+    const action =
+        message?.type === 'checkNow'
+            ? () => checkMail({ manual: true })
+            : message?.type === 'openMail'
+              ? () => openMail()
+              : null;
+    if (!action) return false;
+    action().then(
+        () => sendResponse(true),
+        () => sendResponse(false)
+    );
+    return true;
+});
 
 // Изменились настройки (в меню или на странице настроек) — обновить меню и иконку
 ext.storage.onChanged.addListener(async (changes, area) => {

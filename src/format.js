@@ -9,9 +9,15 @@ export function unreadText(n) {
     return n === 0 ? t('noUnread') : plural('unread', n);
 }
 
-// «в 14:32» сегодня, «вчера в 14:32», иначе «28.10 в 14:32» (по-английски — «at 02:32 PM», «Oct 28 at …»)
+// Меньше минуты назад — «только что», меньше часа — «5 минут назад» (Intl.RelativeTimeFormat, на любом языке);
+// раньше — «в 14:32» сегодня, «вчера в 14:32», иначе «28.10 в 14:32» (по-английски — «at 02:32 PM», «Oct 28 at …»)
 export function formatCheckTime(timestamp, now = Date.now()) {
     const lang = locale();
+    const ago = now - timestamp;
+    if (ago >= 0 && ago < 60_000) return t('justNow');
+    if (ago >= 0 && ago < 3_600_000) {
+        return new Intl.RelativeTimeFormat(lang, { numeric: 'auto' }).format(-Math.floor(ago / 60_000), 'minute');
+    }
     const date = new Date(timestamp);
     const time = new Intl.DateTimeFormat(lang, { hour: '2-digit', minute: '2-digit' }).format(date);
 

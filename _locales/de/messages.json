@@ -4,7 +4,7 @@
     "description": "Language code of this translation (plural rules and date formats)"
   },
   "extName": {
-    "message": "Mail-Zähler für Yandex Mail",
+    "message": "Owl — Benachrichtigungen für Yandex Mail",
     "description": "Extension name"
   },
   "extDescription": {
@@ -249,7 +249,7 @@
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
-    "message": "Einstellungen des Mail-Zählers",
+    "message": "Owl-Einstellungen",
     "description": "Settings page title"
   },
   "optionsQuietHours": {
@@ -401,5 +401,53 @@
         "example": "1.5.0"
       }
     }
+  },
+  "justNow": {
+    "message": "gerade eben"
+  },
+  "brandName": {
+    "message": "Owl"
+  },
+  "welcomeTitle": {
+    "message": "Owl ist installiert"
+  },
+  "welcomeLead": {
+    "message": "Owl zeigt die Zahl ungelesener E-Mails in Yandex Mail am Symbol an und meldet neue Nachrichten. Noch drei kurze Schritte."
+  },
+  "welcomePinTitle": {
+    "message": "Symbol an die Symbolleiste anheften"
+  },
+  "welcomePinHint": {
+    "message": "Klicken Sie rechts neben der Adressleiste auf das Puzzle-Symbol und heften Sie „$NAME$“ mit der Stecknadel an. So haben Sie den Zähler immer im Blick.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Owl"
+      }
+    }
+  },
+  "welcomePinDone": {
+    "message": "Das Symbol ist angeheftet"
+  },
+  "welcomeSignInTitle": {
+    "message": "Bei Yandex Mail anmelden"
+  },
+  "welcomeSignInHint": {
+    "message": "Die Erweiterung arbeitet mit dem Postfach, bei dem Sie in diesem Browser angemeldet sind. Ihr Passwort braucht sie nicht."
+  },
+  "welcomeOpenMail": {
+    "message": "Postfach öffnen"
+  },
+  "welcomeSetupTitle": {
+    "message": "Wählen Sie, wie Sie Ihre E-Mails erhalten"
+  },
+  "welcomeAllSettings": {
+    "message": "Alle Einstellungen →"
+  },
+  "welcomePrivacy": {
+    "message": "Die Erweiterung verbindet sich nur mit Yandex Mail und sendet nichts an den Entwickler."
+  },
+  "statusNotChecked": {
+    "message": "Noch nicht geprüft"
   }
 }

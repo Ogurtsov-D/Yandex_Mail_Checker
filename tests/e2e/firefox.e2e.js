@@ -180,9 +180,9 @@ describe('Firefox, русский интерфейс', () => {
 
     test('первая проверка: счётчик, подсказка, название; без уведомлений о старых письмах', async () => {
         const s = await ff.waitFor((x) => x.badge === '1');
-        assert.match(s.title, /^Яндекс Почта: 1 непрочитанное письмо\nПроверено в \d\d:\d\d$/);
+        assert.match(s.title, /^Яндекс Почта: 1 непрочитанное письмо\nПроверено только что$/);
         assert.equal(s.notifications.length, 0);
-        assert.equal(s.name, 'Счётчик писем для Яндекс Почты');
+        assert.equal(s.name, 'Филин — информер Яндекс Почты');
         assert.equal(s.shortcut, 'Alt+Shift+Y', 'горячая клавиша открытия почты');
     });
 
@@ -275,7 +275,7 @@ describe('Firefox, английский интерфейс', () => {
 
     test('название и подсказка на английском', async () => {
         const s = await ff.waitFor((x) => x.badge === '1');
-        assert.match(s.title, /^Yandex Mail: 1 unread message\nChecked at \d\d:\d\d [AP]M$/);
-        assert.equal(s.name, 'Checker for Yandex Mail');
+        assert.match(s.title, /^Yandex Mail: 1 unread message\nChecked just now$/);
+        assert.equal(s.name, 'Owl — Notifier for Yandex Mail');
     });
 });

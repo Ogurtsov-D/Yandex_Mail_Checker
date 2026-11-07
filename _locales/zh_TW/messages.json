@@ -4,7 +4,7 @@
     "description": "Language code of this translation (plural rules and date formats)"
   },
   "extName": {
-    "message": "Yandex 郵件計數器",
+    "message": "Owl — Yandex 郵件通知",
     "description": "Extension name"
   },
   "extDescription": {
@@ -213,7 +213,7 @@
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
-    "message": "郵件計數器設定",
+    "message": "Owl 設定",
     "description": "Settings page title"
   },
   "optionsQuietHours": {
@@ -365,5 +365,53 @@
         "example": "1.5.0"
       }
     }
+  },
+  "justNow": {
+    "message": "剛剛"
+  },
+  "brandName": {
+    "message": "Owl"
+  },
+  "welcomeTitle": {
+    "message": "Owl 已安裝"
+  },
+  "welcomeLead": {
+    "message": "它會在圖示上顯示 Yandex 郵件的未讀郵件數，並在收到新郵件時通知您。只剩三個簡單步驟。"
+  },
+  "welcomePinTitle": {
+    "message": "將圖示釘選到工具列"
+  },
+  "welcomePinHint": {
+    "message": "按一下網址列右側的拼圖圖示，再用圖釘按鈕釘選「$NAME$」。這樣未讀數就會一直顯示。",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Owl"
+      }
+    }
+  },
+  "welcomePinDone": {
+    "message": "圖示已釘選"
+  },
+  "welcomeSignInTitle": {
+    "message": "登入 Yandex 郵件"
+  },
+  "welcomeSignInHint": {
+    "message": "擴充功能會使用您在此瀏覽器中已登入的郵件，不需要您的密碼。"
+  },
+  "welcomeOpenMail": {
+    "message": "開啟郵件"
+  },
+  "welcomeSetupTitle": {
+    "message": "選擇接收郵件的方式"
+  },
+  "welcomeAllSettings": {
+    "message": "所有設定 →"
+  },
+  "welcomePrivacy": {
+    "message": "擴充功能只與 Yandex 郵件通訊，不會傳送任何內容給開發者。"
+  },
+  "statusNotChecked": {
+    "message": "尚未檢查郵件"
   }
 }

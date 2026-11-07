@@ -4,7 +4,7 @@
     "description": "Language code of this translation (plural rules and date formats)"
   },
   "extName": {
-    "message": "מונה הודעות ל-Yandex Mail",
+    "message": "Owl — התראות Yandex Mail",
     "description": "Extension name"
   },
   "extDescription": {
@@ -285,7 +285,7 @@
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
-    "message": "הגדרות מונה ההודעות",
+    "message": "הגדרות Owl",
     "description": "Settings page title"
   },
   "optionsQuietHours": {
@@ -437,5 +437,53 @@
         "example": "1.5.0"
       }
     }
+  },
+  "justNow": {
+    "message": "הרגע"
+  },
+  "brandName": {
+    "message": "Owl"
+  },
+  "welcomeTitle": {
+    "message": "Owl הותקן"
+  },
+  "welcomeLead": {
+    "message": "התוסף מציג על הסמל את מספר ההודעות שלא נקראו ב-Yandex Mail ומודיע על הודעות חדשות. נשארו שלושה צעדים קצרים."
+  },
+  "welcomePinTitle": {
+    "message": "הצמידו את הסמל לסרגל הכלים"
+  },
+  "welcomePinHint": {
+    "message": "לחצו על סמל הפאזל ליד שורת הכתובת והצמידו את „$NAME$” בלחצן הנעיצה. כך המונה תמיד יהיה לנגד עיניכם.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Owl"
+      }
+    }
+  },
+  "welcomePinDone": {
+    "message": "הסמל הוצמד"
+  },
+  "welcomeSignInTitle": {
+    "message": "היכנסו ל-Yandex Mail"
+  },
+  "welcomeSignInHint": {
+    "message": "התוסף עובד עם תיבת הדואר שאליה נכנסתם בדפדפן הזה. הוא לא צריך את הסיסמה שלכם."
+  },
+  "welcomeOpenMail": {
+    "message": "פתיחת הדואר"
+  },
+  "welcomeSetupTitle": {
+    "message": "בחרו איך לקבל הודעות"
+  },
+  "welcomeAllSettings": {
+    "message": "כל ההגדרות ←"
+  },
+  "welcomePrivacy": {
+    "message": "התוסף פונה רק ל-Yandex Mail ולא שולח דבר למפתח."
+  },
+  "statusNotChecked": {
+    "message": "הדואר עדיין לא נבדק"
   }
 }

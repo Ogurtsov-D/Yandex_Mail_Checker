@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title data-i18n="welcomeTitle"></title>
+    <link rel="stylesheet" href="page.css" />
+    <style>
+      main {
+        max-width: 680px;
+      }
+      .hero {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin: 8px 4px 20px;
+      }
+      .hero img {
+        width: 112px;
+        height: 112px;
+        flex: none;
+      }
+      .hero h1 {
+        font-size: 26px;
+        margin: 0 0 6px;
+      }
+      .hero p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .step {
+        display: grid;
+        grid-template-columns: 32px 1fr;
+        gap: 4px 14px;
+      }
+      .step-num {
+        grid-row: span 3;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+      .step.done .step-num {
+        background: #188038;
+        color: #fff;
+      }
+      .step h2 {
+        margin: 4px 0 2px;
+      }
+      .step .hint {
+        margin: 0 0 8px;
+      }
+      .host {
+        margin: 0 0 12px;
+      }
+      .done-note {
+        color: #188038;
+        font-weight: 600;
+      }
+      .pin-demo {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 10px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .pin-demo svg {
+        color: var(--text);
+      }
+      .settings-link {
+        display: inline-block;
+        margin-top: 12px;
+        color: var(--accent);
+        text-decoration: none;
+        font-size: 13px;
+      }
+      .privacy {
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+        margin: 16px 0 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header class="hero">
+        <img src="../icons/icon.svg" alt="" />
+        <div>
+          <h1 data-i18n="welcomeTitle"></h1>
+          <p data-i18n="welcomeLead"></p>
+        </div>
+      </header>
+
+      <section class="step" id="stepPin">
+        <span class="step-num">1</span>
+        <h2 data-i18n="welcomePinTitle"></h2>
+        <p class="hint" id="pinHint"></p>
+        <div>
+          <span class="pin-demo" id="pinDemo" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M20.5 11H19V7a2 2 0 0 0-2-2h-4V3.5a2.5 2.5 0 0 0-5 0V5H4a2 2 0 0 0-2 2v3.8h1.5a2.7 2.7 0 0 1 0 5.4H2V20a2 2 0 0 0 2 2h3.8v-1.5a2.7 2.7 0 0 1 5.4 0V22H17a2 2 0 0 0 2-2v-4h1.5a2.5 2.5 0 0 0 0-5z"
+              />
+            </svg>
+            →
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M16 3H8v2l1 1v5l-3 3v2h5v5l1 1 1-1v-5h5v-2l-3-3V6l1-1z" />
+            </svg>
+          </span>
+          <span class="done-note" id="pinDone" hidden data-i18n="welcomePinDone"></span>
+        </div>
+      </section>
+
+      <section class="step" id="stepMail">
+        <span class="step-num">2</span>
+        <h2 data-i18n="welcomeSignInTitle"></h2>
+        <p class="hint" data-i18n="welcomeSignInHint"></p>
+        <div>
+          <div class="field host">
+            <label class="label" for="mailHost" data-i18n="optionsMailHost"></label>
+            <select id="mailHost"></select>
+          </div>
+          <div id="status"></div>
+        </div>
+      </section>
+
+      <section class="step" id="stepSetup">
+        <span class="step-num">3</span>
+        <h2 data-i18n="welcomeSetupTitle"></h2>
+        <div>
+          <label class="check"><input type="checkbox" id="notificationsEnabled" /> <span data-i18n="menuShowNotifications"></span></label>
+          <div class="field">
+            <span class="label" data-i18n="menuBadge"></span>
+            <div class="choices" role="radiogroup" id="badgeModes"></div>
+          </div>
+          <div class="field">
+            <span class="label" data-i18n="optionsSectionOpen"></span>
+            <div class="choices" role="radiogroup" id="openModes"></div>
+          </div>
+          <a href="#" class="settings-link" id="allSettings" data-i18n="welcomeAllSettings"></a>
+        </div>
+      </section>
+
+      <p class="privacy">🔒 <span data-i18n="welcomePrivacy"></span></p>
+    </main>
+
+    <script type="module" src="welcome.js"></script>
+  </body>
+</html>

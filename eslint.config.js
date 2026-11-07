@@ -44,9 +44,15 @@ export default [
     },
     {
         // Страница настроек работает в обычном окне, с DOM
-        files: ['src/options.js'],
+        files: ['src/options.js', 'src/welcome.js', 'src/status-view.js', 'src/host-select.js'],
         languageOptions: {
-            globals: { ...browserGlobals, document: 'readonly', navigator: 'readonly', Option: 'readonly' }
+            globals: {
+                ...browserGlobals,
+                document: 'readonly',
+                navigator: 'readonly',
+                Option: 'readonly',
+                setInterval: 'readonly'
+            }
         }
     },
     {

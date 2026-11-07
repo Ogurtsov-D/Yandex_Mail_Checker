@@ -66,7 +66,8 @@ async function launch(lang, server) {
     const profile = mkdtempSync(join(tmpdir(), 'ymc-profile-'));
     const context = await chromium.launchPersistentContext(profile, {
         headless: true,
-        channel: 'chromium',
+        // CHROMIUM_BIN — другой браузер на Chromium (Edge, Opera): путь к его исполняемому файлу
+        ...(process.env.CHROMIUM_BIN ? { executablePath: process.env.CHROMIUM_BIN } : { channel: 'chromium' }),
         args: [`--disable-extensions-except=${extDir}`, `--load-extension=${extDir}`, `--lang=${lang}`]
     });
     await context.route('https://mail.yandex.ru/**', server.handle);
@@ -148,7 +149,7 @@ describe('Chromium, русский интерфейс', () => {
 
     test('первая проверка: счётчик и подсказка, без уведомлений о старых письмах', async () => {
         const s = await waitFor(browser.worker, (x) => x.badge === '1');
-        assert.match(s.title, /^Яндекс Почта: 1 непрочитанное письмо\nПроверено в \d\d:\d\d$/);
+        assert.match(s.title, /^Яндекс Почта: 1 непрочитанное письмо\nПроверено только что$/);
         assert.equal(s.notifications.length, 0);
         assert.ok(server.requests >= 1, 'запрос к «Яндексу» не дошёл до подменённого сервера');
     });
@@ -176,7 +177,7 @@ describe('Chromium, русский интерфейс', () => {
         const s = await waitFor(browser.worker, (x) => x.badge === '!');
         assert.match(
             s.title,
-            /^Яндекс Почта: Ошибка сервера Яндекса \(503\)\nПоследняя успешная проверка в \d\d:\d\d: 2 непрочитанных письма$/
+            /^Яндекс Почта: Ошибка сервера Яндекса \(503\)\nПоследняя успешная проверка только что: 2 непрочитанных письма$/
         );
         assert.equal(s.retry, true);
     });
@@ -188,7 +189,7 @@ describe('Chromium, русский интерфейс', () => {
         // При любой ошибке подсказка показывает и последний успешный результат
         assert.match(
             s.title,
-            /^Яндекс Почта: Требуется вход в почту\nПоследняя успешная проверка в \d\d:\d\d: 2 непрочитанных письма$/
+            /^Яндекс Почта: Требуется вход в почту\nПоследняя успешная проверка только что: 2 непрочитанных письма$/
         );
         assert.equal(s.retry, false, 'при необходимости входа быстрый повтор не нужен');
     });
@@ -261,11 +262,26 @@ describe('Chromium, русский интерфейс', () => {
         await mail.close();
     });
 
+    test('при установке открывается страница приветствия; в ней шаги и состояние почты', async () => {
+        const welcome = browser.context.pages().find((p) => p.url().endsWith('/src/welcome.html'));
+        assert.ok(welcome, 'вкладка приветствия открыта');
+        await welcome.reload();
+        await welcome.waitForFunction(() => globalThis.document.querySelector('.status-text')?.textContent);
+        assert.equal(await welcome.title(), 'Филин установлен');
+        assert.match(await welcome.textContent('#pinHint'), /«Филин»/);
+        // Текст — результат последней проверки (в этом наборе её состояние задают предыдущие тесты)
+        assert.ok((await welcome.textContent('.status-text')).length > 0);
+        assert.equal(await welcome.isChecked('input[name=openIn][value=tab]'), true);
+        assert.equal(await welcome.locator('#mailHost option').count(), 6);
+        assert.equal(await welcome.inputValue('#mailHost'), 'mail.yandex.ru');
+    });
+
     test('страница настроек: тексты, сохранение, горячая клавиша', async () => {
         const page = await browser.context.newPage();
         await page.goto(`chrome-extension://${browser.extensionId}/src/options.html`);
         await page.waitForFunction(() => globalThis.document.getElementById('shortcut').textContent !== '');
-        assert.equal(await page.title(), 'Настройки счётчика писем');
+        assert.equal(await page.title(), 'Настройки Филина');
+        assert.ok((await page.textContent('#status .status-text')).length > 0, 'блок состояния');
         assert.equal(await page.textContent('#shortcut'), 'Alt+Shift+Y');
         assert.equal(await page.inputValue('#quietFrom'), '23:00');
         assert.equal(await page.isChecked('#pauseWhenIdle'), true);
@@ -338,7 +354,7 @@ describe('Chromium, русский интерфейс', () => {
 
     test('нет ошибок манифеста и выполнения, название на русском', async () => {
         const [info] = await extensionErrors(browser.context);
-        assert.deepEqual(info, { name: 'Счётчик писем для Яндекс Почты', manifestErrors: [], runtimeErrors: [] });
+        assert.deepEqual(info, { name: 'Филин — информер Яндекс Почты', manifestErrors: [], runtimeErrors: [] });
     });
 });
 
@@ -371,21 +387,21 @@ describe('Chromium, английский интерфейс', () => {
         });
         await checkNow(browser.worker);
         const s = await waitFor(browser.worker, (x) => x.badge === '2');
-        assert.match(s.title, /^Yandex Mail: 2 unread messages\nChecked at \d\d:\d\d [AP]M$/);
+        assert.match(s.title, /^Yandex Mail: 2 unread messages\nChecked just now$/);
         assert.equal(s.notifications[0].type, 'list');
         assert.equal(s.notifications[0].title, '2 new messages');
         assert.deepEqual(s.notifications[0].items[1], { title: 'Sender', message: '(no subject)' });
 
         const [info] = await extensionErrors(browser.context);
-        assert.deepEqual(info, { name: 'Checker for Yandex Mail', manifestErrors: [], runtimeErrors: [] });
+        assert.deepEqual(info, { name: 'Owl — Notifier for Yandex Mail', manifestErrors: [], runtimeErrors: [] });
     });
 });
 
 // Остальные переводы: браузер принимает их папки и показывает интерфейс на языке браузера
 for (const [lang, name, tooltip] of [
-    ['uk', 'Лічильник листів для Яндекс Пошти', /^Яндекс Пошта: непрочитаних листів немає\nПеревірено о \d\d:\d\d$/],
-    ['kk', 'Яндекс Поштаға арналған хат санағышы', /^Яндекс Пошта: оқылмаған хат жоқ\nТексерілді: сағат \d\d:\d\d$/],
-    ['he', 'מונה הודעות ל-Yandex Mail', /^Yandex Mail: אין הודעות שלא נקראו\nנבדק בשעה \d\d:\d\d$/]
+    ['uk', 'Owl — сповіщення Яндекс Пошти', /^Яндекс Пошта: непрочитаних листів немає\nПеревірено щойно$/],
+    ['kk', 'Owl — Яндекс Пошта хабарландырулары', /^Яндекс Пошта: оқылмаған хат жоқ\nТексерілді: жаңа ғана$/],
+    ['he', 'Owl — התראות Yandex Mail', /^Yandex Mail: אין הודעות שלא נקראו\nנבדק הרגע$/]
 ]) {
     describe(`Chromium, язык ${lang}`, () => {
         const server = createServer();

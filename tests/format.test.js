@@ -32,6 +32,10 @@ test('склонение по правилам русского языка', () 
 
 test('время проверки: сегодня, вчера, раньше', () => {
     const now = new Date(2026, 9, 31, 15, 0).getTime();
+    assert.equal(formatCheckTime(now - 30_000, now), 'только что');
+    assert.equal(formatCheckTime(now - 60_000, now), '1 минуту назад');
+    assert.equal(formatCheckTime(new Date(2026, 9, 31, 14, 1).getTime(), now), '59 минут назад');
+    assert.equal(formatCheckTime(new Date(2026, 9, 31, 14, 0).getTime(), now), 'в 14:00');
     assert.equal(formatCheckTime(new Date(2026, 9, 31, 9, 5).getTime(), now), 'в 09:05');
     assert.equal(formatCheckTime(new Date(2026, 9, 30, 23, 59).getTime(), now), 'вчера в 23:59');
     assert.equal(formatCheckTime(new Date(2026, 9, 28, 14, 32).getTime(), now), '28.10 в 14:32');
@@ -64,11 +68,11 @@ test('подсказка: успех, ошибка с последним рез�
 
     assert.equal(
         tooltipText({ unreadCount: 3, lastSuccess: at }, now),
-        'Яндекс Почта: 3 непрочитанных письма\nПроверено в 14:32'
+        'Яндекс Почта: 3 непрочитанных письма\nПроверено 28 минут назад'
     );
     assert.equal(
         tooltipText({ errorType: 'network', lastSuccess: at, unreadCount: 3 }, now),
-        'Яндекс Почта: Нет подключения\nПоследняя успешная проверка в 14:32: 3 непрочитанных письма'
+        'Яндекс Почта: Нет подключения\nПоследняя успешная проверка 28 минут назад: 3 непрочитанных письма'
     );
     assert.deepEqual(
         [1, 2, 5, 21].map(

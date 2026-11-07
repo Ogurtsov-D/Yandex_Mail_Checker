@@ -4,7 +4,7 @@
     "description": "Language code of this translation (plural rules and date formats)"
   },
   "extName": {
-    "message": "Yandex Poçt üçün məktub sayğacı",
+    "message": "Owl — Yandex Poçt bildirişləri",
     "description": "Extension name"
   },
   "extDescription": {
@@ -249,7 +249,7 @@
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
-    "message": "Məktub sayğacının ayarları",
+    "message": "Owl ayarları",
     "description": "Settings page title"
   },
   "optionsQuietHours": {
@@ -401,5 +401,53 @@
         "example": "1.5.0"
       }
     }
+  },
+  "justNow": {
+    "message": "indicə"
+  },
+  "brandName": {
+    "message": "Owl"
+  },
+  "welcomeTitle": {
+    "message": "Owl quraşdırıldı"
+  },
+  "welcomeLead": {
+    "message": "O, Yandex Poçtdakı oxunmamış məktubların sayını ikonada göstərir və yeni məktublar barədə xəbər verir. Üç qısa addım qaldı."
+  },
+  "welcomePinTitle": {
+    "message": "İkonanı panelə bərkidin"
+  },
+  "welcomePinHint": {
+    "message": "Ünvan sətrinin sağındakı tapmaca ikonasına klikləyin və «$NAME$» genişləndirməsini sancaq düyməsi ilə bərkidin. Belə ki, məktub sayğacı həmişə gözünüzün önündə olacaq.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Owl"
+      }
+    }
+  },
+  "welcomePinDone": {
+    "message": "İkona bərkidildi"
+  },
+  "welcomeSignInTitle": {
+    "message": "Yandex Poçta daxil olun"
+  },
+  "welcomeSignInHint": {
+    "message": "Genişləndirmə bu brauzerdə daxil olduğunuz poçtla işləyir. Parol lazım deyil."
+  },
+  "welcomeOpenMail": {
+    "message": "Poçtu aç"
+  },
+  "welcomeSetupTitle": {
+    "message": "Məktubları necə almaq istədiyinizi seçin"
+  },
+  "welcomeAllSettings": {
+    "message": "Bütün ayarlar →"
+  },
+  "welcomePrivacy": {
+    "message": "Genişləndirmə yalnız Yandex Poçta müraciət edir və tərtibatçıya heç nə göndərmir."
+  },
+  "statusNotChecked": {
+    "message": "Poçt hələ yoxlanılmayıb"
   }
 }
