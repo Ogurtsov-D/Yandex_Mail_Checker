@@ -35,9 +35,9 @@ No need to keep your mailbox open: the extension checks your mail, shows the unr
 ## Installation
 
 <p>
-  <a href="https://chromewebstore.google.com/detail/gkpnpejbpnldkkeoeapjdilknlmojoon"><img alt="Get it from the Chrome Web Store" src="https://img.shields.io/badge/Chrome_Web_Store-install-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white"></a>
-  <a href="https://addons.mozilla.org/firefox/addon/yandex_mail_checker/"><img alt="Get it from Firefox Add-ons" src="https://img.shields.io/badge/Firefox_Add--ons-install-FF7139?style=for-the-badge&logo=firefoxbrowser&logoColor=white"></a>
-  <a href="https://microsoftedge.microsoft.com/addons/detail/pncdgkochfhddiclomicdbbhfgoeamcm"><img alt="Get it from Microsoft Edge Add-ons" src="https://img.shields.io/badge/Edge_Add--ons-install-0078D7?style=for-the-badge"></a>
+  <a href="https://chromewebstore.google.com/detail/gkpnpejbpnldkkeoeapjdilknlmojoon"><img alt="Available in the Chrome Web Store" src="docs/badges/chrome-web-store.png" height="58"></a>
+  <a href="https://addons.mozilla.org/firefox/addon/yandex_mail_checker/"><img alt="Download Firefox add-on" src="docs/badges/firefox-add-on.png" height="58"></a>
+  <a href="https://microsoftedge.microsoft.com/addons/detail/pncdgkochfhddiclomicdbbhfgoeamcm"><img alt="Get it from Microsoft Edge" src="docs/badges/edge-add-ons.png" height="58"></a>
 </p>
 
 | Browser | Where to get it | Version |

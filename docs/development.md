@@ -75,6 +75,7 @@ npm test
 │   └── store-images.mjs   # картинки для магазинов (docs/store/)
 ├── docs/
 │   ├── development.md     # этот файл
+│   ├── badges/            # значки магазинов для README: Chrome Web Store и Edge — официальные, Firefox — свой, с логотипом из официального значка Mozilla
 │   ├── screenshot.png, screenshot-en.png  # картинки для README и README.en.md
 │   ├── mockup.html, mockup-en.html        # их исходники
 │   └── store/             # тексты и картинки для магазинов расширений
