@@ -114,6 +114,16 @@ tar -xJf firefox.tar.xz
 NODE_PATH="$(npm root -g)" FIREFOX_BIN="$PWD/firefox/firefox" npm run e2e:firefox
 ```
 
+Тот же набор проверок для Chromium можно прогнать в **Edge** и **Opera** — укажите путь к браузеру в `CHROMIUM_BIN`:
+
+```bash
+# пакеты для Linux: packages.microsoft.com/repos/edge, get.opera.com/pub/opera/desktop
+CHROMIUM_BIN=/opt/microsoft/msedge/msedge NODE_PATH="$(npm root -g)" npm run e2e
+CHROMIUM_BIN=/usr/lib/x86_64-linux-gnu/opera-stable/opera NODE_PATH="$(npm root -g)" npm run e2e
+```
+
+Opera без графической среды требует пакет `gsettings-desktop-schemas`. Google Chrome (с версии 137) не загружает расширения из командной строки, поэтому его заменяет Chromium того же движка.
+
 Как устроено:
 
 - **Chromium** (`tests/e2e/chromium.e2e.js`) — Playwright загружает `dist/chrome`, перехватывает запросы к `mail.yandex.ru` и читает бейдж, подсказку и уведомления из service worker.

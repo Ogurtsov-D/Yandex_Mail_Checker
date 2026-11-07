@@ -66,7 +66,8 @@ async function launch(lang, server) {
     const profile = mkdtempSync(join(tmpdir(), 'ymc-profile-'));
     const context = await chromium.launchPersistentContext(profile, {
         headless: true,
-        channel: 'chromium',
+        // CHROMIUM_BIN — другой браузер на Chromium (Edge, Opera): путь к его исполняемому файлу
+        ...(process.env.CHROMIUM_BIN ? { executablePath: process.env.CHROMIUM_BIN } : { channel: 'chromium' }),
         args: [`--disable-extensions-except=${extDir}`, `--load-extension=${extDir}`, `--lang=${lang}`]
     });
     await context.route('https://mail.yandex.ru/**', server.handle);
