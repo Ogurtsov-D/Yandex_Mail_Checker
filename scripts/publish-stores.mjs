@@ -93,8 +93,8 @@ async function edgeOperation(url, headers, what, { fetch, sleep }) {
         const operation = await readJson(await fetch(url, { headers }), what);
         if (operation.status === 'Succeeded') return operation;
         if (operation.status === 'Failed') {
-            const details = (operation.errors ?? []).map((e) => e.message).join('; ');
-            throw new Error(`${what}: ${operation.errorCode ?? ''} ${operation.message ?? ''} ${details}`.trim());
+            // Полный ответ Edge: в message часто только общая фраза, причина — в errors
+            throw new Error(`${what}: ${JSON.stringify(operation)}`);
         }
     }
     throw new Error(`${what}: нет ответа за ${(POLL_ATTEMPTS * POLL_DELAY_MS) / 1000} с`);
