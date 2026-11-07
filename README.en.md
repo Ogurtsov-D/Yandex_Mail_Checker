@@ -76,7 +76,7 @@ The tooltip looks like this:
 
 ```
 Yandex Mail: 3 unread messages, 1 new
-Checked at 02:32 PM
+Checked 2 minutes ago
 ```
 
 "New" means messages that arrived after your last visit to the mailbox. Once you open your mail, this part of the tooltip disappears.
@@ -85,7 +85,7 @@ On errors it shows both the reason and the last successful result:
 
 ```
 Yandex Mail: No connection
-Last successful check at 02:20 PM: 3 unread messages
+Last successful check 12 minutes ago: 3 unread messages
 ```
 
 ### Notifications
@@ -117,7 +117,7 @@ If you are signed in to several Yandex accounts, the extension counts mail in al
   Yandex Mail: 80 unread messages, 1 new
   ivan@yandex.ru: 75 unread messages, 1 new
   work@yandex.ru: 5 unread messages
-  Checked at 02:32 PM
+  Checked 2 minutes ago
   ```
 - right-clicking the icon lists the accounts with their message counts; click an account to open its mailbox. The other menu items move to the "Settings" submenu;
 - a notification is labelled with the account the messages arrived in, and clicking it opens that account;

@@ -148,7 +148,7 @@ describe('Chromium, русский интерфейс', () => {
 
     test('первая проверка: счётчик и подсказка, без уведомлений о старых письмах', async () => {
         const s = await waitFor(browser.worker, (x) => x.badge === '1');
-        assert.match(s.title, /^Яндекс Почта: 1 непрочитанное письмо\nПроверено в \d\d:\d\d$/);
+        assert.match(s.title, /^Яндекс Почта: 1 непрочитанное письмо\nПроверено только что$/);
         assert.equal(s.notifications.length, 0);
         assert.ok(server.requests >= 1, 'запрос к «Яндексу» не дошёл до подменённого сервера');
     });
@@ -176,7 +176,7 @@ describe('Chromium, русский интерфейс', () => {
         const s = await waitFor(browser.worker, (x) => x.badge === '!');
         assert.match(
             s.title,
-            /^Яндекс Почта: Ошибка сервера Яндекса \(503\)\nПоследняя успешная проверка в \d\d:\d\d: 2 непрочитанных письма$/
+            /^Яндекс Почта: Ошибка сервера Яндекса \(503\)\nПоследняя успешная проверка только что: 2 непрочитанных письма$/
         );
         assert.equal(s.retry, true);
     });
@@ -188,7 +188,7 @@ describe('Chromium, русский интерфейс', () => {
         // При любой ошибке подсказка показывает и последний успешный результат
         assert.match(
             s.title,
-            /^Яндекс Почта: Требуется вход в почту\nПоследняя успешная проверка в \d\d:\d\d: 2 непрочитанных письма$/
+            /^Яндекс Почта: Требуется вход в почту\nПоследняя успешная проверка только что: 2 непрочитанных письма$/
         );
         assert.equal(s.retry, false, 'при необходимости входа быстрый повтор не нужен');
     });
@@ -371,7 +371,7 @@ describe('Chromium, английский интерфейс', () => {
         });
         await checkNow(browser.worker);
         const s = await waitFor(browser.worker, (x) => x.badge === '2');
-        assert.match(s.title, /^Yandex Mail: 2 unread messages\nChecked at \d\d:\d\d [AP]M$/);
+        assert.match(s.title, /^Yandex Mail: 2 unread messages\nChecked just now$/);
         assert.equal(s.notifications[0].type, 'list');
         assert.equal(s.notifications[0].title, '2 new messages');
         assert.deepEqual(s.notifications[0].items[1], { title: 'Sender', message: '(no subject)' });
@@ -383,9 +383,9 @@ describe('Chromium, английский интерфейс', () => {
 
 // Остальные переводы: браузер принимает их папки и показывает интерфейс на языке браузера
 for (const [lang, name, tooltip] of [
-    ['uk', 'Лічильник листів для Яндекс Пошти', /^Яндекс Пошта: непрочитаних листів немає\nПеревірено о \d\d:\d\d$/],
-    ['kk', 'Яндекс Поштаға арналған хат санағышы', /^Яндекс Пошта: оқылмаған хат жоқ\nТексерілді: сағат \d\d:\d\d$/],
-    ['he', 'מונה הודעות ל-Yandex Mail', /^Yandex Mail: אין הודעות שלא נקראו\nנבדק בשעה \d\d:\d\d$/]
+    ['uk', 'Лічильник листів для Яндекс Пошти', /^Яндекс Пошта: непрочитаних листів немає\nПеревірено щойно$/],
+    ['kk', 'Яндекс Поштаға арналған хат санағышы', /^Яндекс Пошта: оқылмаған хат жоқ\nТексерілді: жаңа ғана$/],
+    ['he', 'מונה הודעות ל-Yandex Mail', /^Yandex Mail: אין הודעות שלא נקראו\nנבדק הרגע$/]
 ]) {
     describe(`Chromium, язык ${lang}`, () => {
         const server = createServer();

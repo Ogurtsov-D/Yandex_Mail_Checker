@@ -22,7 +22,9 @@ test('English plural forms', () => {
 
 test('check time in English', () => {
     const now = new Date(2026, 9, 31, 15, 0).getTime();
-    assert.equal(formatCheckTime(new Date(2026, 9, 31, 14, 32).getTime(), now), 'at 02:32 PM');
+    assert.equal(formatCheckTime(new Date(2026, 9, 31, 13, 32).getTime(), now), 'at 01:32 PM');
+    assert.equal(formatCheckTime(new Date(2026, 9, 31, 14, 32).getTime(), now), '28 minutes ago');
+    assert.equal(formatCheckTime(now - 20_000, now), 'just now');
     assert.equal(formatCheckTime(new Date(2026, 9, 30, 9, 5).getTime(), now), 'yesterday at 09:05 AM');
     assert.equal(formatCheckTime(new Date(2026, 9, 28, 14, 32).getTime(), now), 'Oct 28 at 02:32 PM');
 });
@@ -32,15 +34,15 @@ test('tooltip in English', () => {
     const at = new Date(2026, 9, 31, 14, 32).getTime();
     assert.equal(
         tooltipText({ unreadCount: 3, lastSuccess: at }, now),
-        'Yandex Mail: 3 unread messages\nChecked at 02:32 PM'
+        'Yandex Mail: 3 unread messages\nChecked 28 minutes ago'
     );
     assert.equal(
         tooltipText({ unreadCount: 3, freshCount: 1, lastSuccess: at }, now),
-        'Yandex Mail: 3 unread messages, 1 new\nChecked at 02:32 PM'
+        'Yandex Mail: 3 unread messages, 1 new\nChecked 28 minutes ago'
     );
     assert.equal(
         tooltipText({ errorType: 'server', errorStatus: 502, lastSuccess: at, unreadCount: 1 }, now),
-        'Yandex Mail: Yandex server error (502)\nLast successful check at 02:32 PM: 1 unread message'
+        'Yandex Mail: Yandex server error (502)\nLast successful check 28 minutes ago: 1 unread message'
     );
 });
 

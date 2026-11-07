@@ -55,6 +55,18 @@ test('установка: будильник по умолчанию 5 мину�
     assert.ok(mock.calls.menus.filter((m) => !m.parentId).length <= 6);
 });
 
+test('подсказка «Проверено N минут назад» обновляется раз в минуту без запросов к почте', async () => {
+    await on.installed();
+    assert.equal(mock.alarms.refreshTooltip.periodInMinutes, 1);
+    mock.store.local.lastSuccess = Date.now() - 5 * 60_000;
+    mock.store.local.unreadCount = 2;
+    const requests = mock.fetchCount;
+    await on.alarm({ name: 'refreshTooltip' });
+    await flush();
+    assert.equal(mock.fetchCount, requests);
+    assert.match(mock.calls.badge.title, /\nПроверено 5 минут назад$/);
+});
+
 test('меню: смена интервала пересоздаёт будильник', async () => {
     await on.menuClicked({ menuItemId: 'interval-15', checked: true });
     assert.equal(mock.store.local.checkInterval, 15);

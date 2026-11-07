@@ -27,7 +27,7 @@ describe('счётчики Яндекса (основной способ)', () =
         assert.equal(mock.calls.badge.text, '4');
         assert.match(
             mock.calls.badge.title,
-            /^Яндекс Почта: 4 непрочитанных письма, из них 2 новых\nПроверено в \d\d:\d\d$/
+            /^Яндекс Почта: 4 непрочитанных письма, из них 2 новых\nПроверено только что$/
         );
         assert.deepEqual(mock.requests, [COUNTERS]);
         assert.equal(mock.calls.notifications.length, 0);
@@ -163,7 +163,7 @@ describe('API счётчиков недоступно: всё из lite-верс
         mock.respond(inboxPage({ count: 2, messages: [anna, ivan] }));
         await checkMail();
         assert.equal(mock.calls.badge.text, '2');
-        assert.match(mock.calls.badge.title, /^Яндекс Почта: 2 непрочитанных письма\nПроверено в \d\d:\d\d$/);
+        assert.match(mock.calls.badge.title, /^Яндекс Почта: 2 непрочитанных письма\nПроверено только что$/);
         assert.equal(mock.calls.notifications.length, 0);
     });
 
@@ -276,7 +276,7 @@ test('при ошибке в подсказке остаётся последн�
     await checkMail();
     assert.match(
         mock.calls.badge.title,
-        /^Яндекс Почта: Нет подключения\nПоследняя успешная проверка в \d\d:\d\d: 4 непрочитанных письма$/
+        /^Яндекс Почта: Нет подключения\nПоследняя успешная проверка только что: 4 непрочитанных письма$/
     );
 });
 

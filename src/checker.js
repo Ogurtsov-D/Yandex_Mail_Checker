@@ -37,6 +37,11 @@ export function getLastCheckTime() {
     return lastCheckTime;
 }
 
+// Идёт ли сейчас проверка (тогда подсказку не перерисовываем: на иконке может быть «↻»)
+export function isCheckInProgress() {
+    return isChecking;
+}
+
 export function setLastCheckTime(timestamp) {
     lastCheckTime = timestamp ?? null;
 }
