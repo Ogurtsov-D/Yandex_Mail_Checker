@@ -4,7 +4,7 @@
     "description": "Language code of this translation (plural rules and date formats)"
   },
   "extName": {
-    "message": "Yandex Pochta uchun xatlar hisoblagichi",
+    "message": "Owl — Yandex Pochta bildirishnomalari",
     "description": "Extension name"
   },
   "extDescription": {
@@ -249,7 +249,7 @@
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
-    "message": "Xatlar hisoblagichi sozlamalari",
+    "message": "Owl sozlamalari",
     "description": "Settings page title"
   },
   "optionsQuietHours": {
@@ -404,5 +404,50 @@
   },
   "justNow": {
     "message": "hozirgina"
+  },
+  "brandName": {
+    "message": "Owl"
+  },
+  "welcomeTitle": {
+    "message": "Owl oʻrnatildi"
+  },
+  "welcomeLead": {
+    "message": "U Yandex Pochtadagi oʻqilmagan xatlar sonini belgida koʻrsatadi va yangi xatlar haqida xabar beradi. Uchta qisqa qadam qoldi."
+  },
+  "welcomePinTitle": {
+    "message": "Belgini panelga mahkamlang"
+  },
+  "welcomePinHint": {
+    "message": "Manzil satrining oʻng tomonidagi jumboq belgisini bosing va «$NAME$»ni toʻgʻnagʻich tugmasi bilan mahkamlang. Shunda xatlar hisoblagichi doim koʻz oldingizda boʻladi.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Owl"
+      }
+    }
+  },
+  "welcomePinDone": {
+    "message": "Belgi mahkamlandi"
+  },
+  "welcomeSignInTitle": {
+    "message": "Yandex Pochtaga kiring"
+  },
+  "welcomeSignInHint": {
+    "message": "Kengaytma shu brauzerda kirgan pochtangiz bilan ishlaydi. Parol kerak emas."
+  },
+  "welcomeOpenMail": {
+    "message": "Pochtani ochish"
+  },
+  "welcomeSetupTitle": {
+    "message": "Xatlarni qanday olishni tanlang"
+  },
+  "welcomeAllSettings": {
+    "message": "Barcha sozlamalar →"
+  },
+  "welcomePrivacy": {
+    "message": "Kengaytma faqat Yandex Pochtaga murojaat qiladi va dasturchiga hech narsa yubormaydi."
+  },
+  "statusNotChecked": {
+    "message": "Pochta hali tekshirilmagan"
   }
 }

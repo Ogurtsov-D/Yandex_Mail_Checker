@@ -27,8 +27,10 @@ async function restore() {
     await renderStatus(state);
 }
 
-// Установка или обновление расширения
-ext.runtime.onInstalled.addListener(async () => {
+// Установка или обновление расширения. При первой установке — страница приветствия
+// (при обновлениях не показываем ничего)
+ext.runtime.onInstalled.addListener(async (details) => {
+    if (details?.reason === 'install') await ext.tabs.create({ url: ext.runtime.getURL('src/welcome.html') });
     await ext.alarms.clearAll(); // расписание с нуля: в новой версии оно могло измениться
     await scheduleCheckAlarm({ reset: true });
     await scheduleTooltipAlarm();
@@ -57,6 +59,24 @@ ext.alarms.onAlarm.addListener(async (alarm) => {
 });
 
 ext.contextMenus.onClicked.addListener(handleMenuClick);
+
+// Команды со страниц расширения (настройки, приветствие): проверить почту, открыть почту.
+// Ответ — после выполнения, чтобы страница могла обновить состояние
+ext.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (sender.id !== ext.runtime.id) return false;
+    const action =
+        message?.type === 'checkNow'
+            ? () => checkMail({ manual: true })
+            : message?.type === 'openMail'
+              ? () => openMail()
+              : null;
+    if (!action) return false;
+    action().then(
+        () => sendResponse(true),
+        () => sendResponse(false)
+    );
+    return true;
+});
 
 // Изменились настройки (в меню или на странице настроек) — обновить меню и иконку
 ext.storage.onChanged.addListener(async (changes, area) => {

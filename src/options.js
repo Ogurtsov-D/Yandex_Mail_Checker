@@ -16,6 +16,7 @@ import { plural, t } from './i18n.js';
 import { reviewUrl } from './links.js';
 import { getSettings, saveSettings, setCheckInterval } from './settings.js';
 import { iconPath } from './status.js';
+import { mountStatus } from './status-view.js';
 
 document.documentElement.lang = t('locale');
 document.documentElement.dir = t('@@bidi_dir') || 'ltr';
@@ -25,6 +26,9 @@ for (const element of document.querySelectorAll('[data-i18n]')) {
 
 const $ = (id) => document.getElementById(id);
 const settings = await getSettings();
+
+// Что сейчас с почтой: результат последней проверки, «Проверить сейчас», «Открыть почту»
+mountStatus($('status'));
 
 // Галочки: сразу сохраняются; звук и тихие часы неактивны, когда уведомления выключены
 const CHECKBOXES = ['notificationsEnabled', 'soundEnabled', 'quietHoursEnabled', 'pauseWhenIdle'];

@@ -67,6 +67,29 @@ test('подсказка «Проверено N минут назад» обно
     assert.match(mock.calls.badge.title, /\nПроверено 5 минут назад$/);
 });
 
+test('первая установка — страница приветствия; обновление — без неё', async () => {
+    await on.installed({ reason: 'install' });
+    assert.ok(mock.calls.createdTabs.includes('extension://test/src/welcome.html'));
+    mock.calls.createdTabs.length = 0;
+    await on.installed({ reason: 'update' });
+    assert.ok(!mock.calls.createdTabs.includes('extension://test/src/welcome.html'));
+});
+
+test('страницы расширения: «Проверить сейчас» и «Открыть почту»; чужие сообщения игнорируются', async () => {
+    const send = (message, id = 'test') =>
+        new Promise((resolve) => {
+            const async = on.message(message, { id }, resolve);
+            if (!async) resolve('ignored');
+        });
+    const before = mock.fetchCount;
+    assert.equal(await send({ type: 'checkNow' }), true);
+    assert.ok(mock.fetchCount > before);
+    assert.equal(await send({ type: 'openMail' }), true);
+    assert.deepEqual(mock.calls.createdTabs, ['https://mail.yandex.ru/']);
+    assert.equal(await send({ type: 'checkNow' }, 'other-extension'), 'ignored');
+    assert.equal(await send({ type: 'unknown' }), 'ignored');
+});
+
 test('меню: смена интервала пересоздаёт будильник', async () => {
     await on.menuClicked({ menuItemId: 'interval-15', checked: true });
     assert.equal(mock.store.local.checkInterval, 15);

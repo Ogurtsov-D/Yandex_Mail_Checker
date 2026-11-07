@@ -4,7 +4,7 @@
     "description": "Language code of this translation (plural rules and date formats)"
   },
   "extName": {
-    "message": "Яндекс Поштаға арналған хат санағышы",
+    "message": "Owl — Яндекс Пошта хабарландырулары",
     "description": "Extension name"
   },
   "extDescription": {
@@ -249,7 +249,7 @@
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
-    "message": "Хат санағышының баптаулары",
+    "message": "Owl баптаулары",
     "description": "Settings page title"
   },
   "optionsQuietHours": {
@@ -404,5 +404,50 @@
   },
   "justNow": {
     "message": "жаңа ғана"
+  },
+  "brandName": {
+    "message": "Owl"
+  },
+  "welcomeTitle": {
+    "message": "Owl орнатылды"
+  },
+  "welcomeLead": {
+    "message": "Ол Яндекс Поштадағы оқылмаған хаттар санын белгішеде көрсетіп, жаңа хаттар туралы хабарлайды. Үш қысқа қадам қалды."
+  },
+  "welcomePinTitle": {
+    "message": "Белгішені тақтаға бекітіңіз"
+  },
+  "welcomePinHint": {
+    "message": "Мекенжай жолының оң жағындағы пазл белгішесін басып, «$NAME$» кеңейтімін түйреуіш түймесімен бекітіңіз. Сонда хат санауышы әрдайым көз алдыңызда болады.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Owl"
+      }
+    }
+  },
+  "welcomePinDone": {
+    "message": "Белгіше бекітілді"
+  },
+  "welcomeSignInTitle": {
+    "message": "Яндекс Поштаға кіріңіз"
+  },
+  "welcomeSignInHint": {
+    "message": "Кеңейтім осы браузерде кірген поштаңызбен жұмыс істейді. Құпиясөз қажет емес."
+  },
+  "welcomeOpenMail": {
+    "message": "Поштаны ашу"
+  },
+  "welcomeSetupTitle": {
+    "message": "Хаттарды қалай алатыныңызды таңдаңыз"
+  },
+  "welcomeAllSettings": {
+    "message": "Барлық баптаулар →"
+  },
+  "welcomePrivacy": {
+    "message": "Кеңейтім тек Яндекс Поштаға жүгінеді және әзірлеушіге ештеңе жібермейді."
+  },
+  "statusNotChecked": {
+    "message": "Пошта әлі тексерілмеген"
   }
 }

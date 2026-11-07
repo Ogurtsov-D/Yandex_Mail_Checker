@@ -6,14 +6,16 @@
 //   icons/<вид>/icon.svg, icon16.png, icon32.png, icon128.png — значок на панели и в уведомлениях
 //     для каждого вида из ICON_STYLES (вид выбирается на странице настроек);
 //   icons/icon.svg, icon48.png, icon128.png — иконка расширения на странице расширений и в магазинах:
-//     вид по умолчанию с кружком-счётчиком (на панели число рисует сам браузер, здесь — для узнаваемости).
+//     филин-почтальон на конверте со счётчиком (scripts/owl-icon.mjs). В icon128 рисунок 96×96
+//     с прозрачными полями по 16 px — так требует Chrome Web Store.
 //
 // Растеризация — через Chromium из Playwright (в зависимости проекта не входит):
 //   NODE_PATH="$(npm root -g)" node scripts/render-icons.mjs
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
-import { DEFAULT_ICON_STYLE, ICON_STYLES } from '../src/config.js';
+import { ICON_STYLES } from '../src/config.js';
+import { owlIconSvg } from './owl-icon.mjs';
 
 // Поле 32×32, конверт 32×24 по центру — те же пропорции, что у иконки первой версии
 const BODY = '<rect x="0" y="4" width="32" height="24" rx="3" fill="{body}"/>';
@@ -39,40 +41,39 @@ export function envelope(style) {
     return fill(BODY, palette) + fill(palette.line ? FLAP_LINE : FLAP, palette);
 }
 
-// Кружок-счётчик с цифрой 3: цифра — линия, а не текст, чтобы не зависеть от шрифтов
-const COUNTER =
-    '<circle cx="24.6" cy="23.6" r="7" fill="#D14836" stroke="#FFFFFF" stroke-width="1.5"/>' +
-    '<path d="M22.4 20.4 H26.5 L24.3 23 A2.35 2.35 0 1 1 22.2 26.7" fill="none" stroke="#FFFFFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>';
-
-export function storeIcon() {
-    // Конверт чуть меньше, чтобы кружок поместился в поле
-    return `<g transform="translate(0 1.5) scale(0.82)">${envelope(DEFAULT_ICON_STYLE)}</g>${COUNTER}`;
-}
-
 const svg = (inner) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">${inner}</svg>\n`;
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
     const { chromium } = createRequire(import.meta.url)('playwright');
     const root = new URL('../icons/', import.meta.url);
-    const jobs = [
-        ...ICON_STYLES.map((style) => ({ dir: `${style}/`, inner: envelope(style), sizes: [16, 32, 128] })),
-        { dir: '', inner: storeIcon(), sizes: [48, 128] }
-    ];
+    const jobs = ICON_STYLES.map((style) => ({ dir: `${style}/`, inner: envelope(style), sizes: [16, 32, 128] }));
 
     const browser = await chromium.launch();
     const page = await browser.newPage();
+    const shot = async (markup, size, file) => {
+        await page.setViewportSize({ width: size, height: size });
+        await page.setContent(`<html><body style="margin:0;background:transparent">${markup}</body></html>`);
+        await page.screenshot({ path: fileURLToPath(new URL(file, root)), omitBackground: true });
+        console.log(`icons/${file}`);
+    };
     for (const { dir, inner, sizes } of jobs) {
         mkdirSync(new URL(dir, root), { recursive: true });
         writeFileSync(new URL(`${dir}icon.svg`, root), svg(inner));
         for (const size of sizes) {
-            await page.setViewportSize({ width: size, height: size });
-            const sized = svg(inner).replace('<svg ', `<svg width="${size}" height="${size}" `);
-            await page.setContent(`<html><body style="margin:0;background:transparent">${sized}</body></html>`);
-            await page
-                .locator('svg')
-                .screenshot({ path: fileURLToPath(new URL(`${dir}icon${size}.png`, root)), omitBackground: true });
-            console.log(`icons/${dir}icon${size}.png`);
+            await shot(svg(inner).replace('<svg ', `<svg width="${size}" height="${size}" `), size, `${dir}icon${size}.png`);
         }
+    }
+
+    // Иконка расширения: [размер, размер рисунка внутри]
+    const owl = owlIconSvg();
+    writeFileSync(new URL('icon.svg', root), owl);
+    for (const [size, art] of [
+        [48, 48],
+        [128, 96]
+    ]) {
+        const pad = (size - art) / 2;
+        const sized = owl.replace('<svg ', `<svg width="${art}" height="${art}" style="position:absolute;left:${pad}px;top:${pad}px" `);
+        await shot(sized, size, `icon${size}.png`);
     }
     await browser.close();
 }

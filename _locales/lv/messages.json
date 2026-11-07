@@ -4,7 +4,7 @@
     "description": "Language code of this translation (plural rules and date formats)"
   },
   "extName": {
-    "message": "Vēstuļu skaitītājs Yandex Mail",
+    "message": "Owl — Yandex Mail paziņojumi",
     "description": "Extension name"
   },
   "extDescription": {
@@ -285,7 +285,7 @@
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
-    "message": "Vēstuļu skaitītāja iestatījumi",
+    "message": "Owl iestatījumi",
     "description": "Settings page title"
   },
   "optionsQuietHours": {
@@ -440,5 +440,50 @@
   },
   "justNow": {
     "message": "tikko"
+  },
+  "brandName": {
+    "message": "Owl"
+  },
+  "welcomeTitle": {
+    "message": "Owl ir instalēts"
+  },
+  "welcomeLead": {
+    "message": "Tas ikonā rāda nelasīto Yandex Mail vēstuļu skaitu un paziņo par jaunām. Atlikuši trīs īsi soļi."
+  },
+  "welcomePinTitle": {
+    "message": "Piespraudiet ikonu rīkjoslai"
+  },
+  "welcomePinHint": {
+    "message": "Noklikšķiniet uz puzles ikonas pa labi no adreses joslas un piespraudiet “$NAME$” ar spraudītes pogu. Tā skaitītājs vienmēr būs redzams.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Owl"
+      }
+    }
+  },
+  "welcomePinDone": {
+    "message": "Ikona ir piesprausta"
+  },
+  "welcomeSignInTitle": {
+    "message": "Piesakieties Yandex Mail"
+  },
+  "welcomeSignInHint": {
+    "message": "Paplašinājums strādā ar pastu, kurā esat pieteicies šajā pārlūkā. Parole tam nav vajadzīga."
+  },
+  "welcomeOpenMail": {
+    "message": "Atvērt pastu"
+  },
+  "welcomeSetupTitle": {
+    "message": "Izvēlieties, kā saņemt vēstules"
+  },
+  "welcomeAllSettings": {
+    "message": "Visi iestatījumi →"
+  },
+  "welcomePrivacy": {
+    "message": "Paplašinājums sazinās tikai ar Yandex Mail un neko nesūta izstrādātājam."
+  },
+  "statusNotChecked": {
+    "message": "Pasts vēl nav pārbaudīts"
   }
 }

@@ -4,7 +4,7 @@
     "description": "Language code of this translation (plural rules and date formats)"
   },
   "extName": {
-    "message": "Kirjaloendur Yandex Mailile",
+    "message": "Owl — Yandex Maili teavitused",
     "description": "Extension name"
   },
   "extDescription": {
@@ -249,7 +249,7 @@
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
-    "message": "Kirjaloenduri seaded",
+    "message": "Owl seaded",
     "description": "Settings page title"
   },
   "optionsQuietHours": {
@@ -404,5 +404,50 @@
   },
   "justNow": {
     "message": "just praegu"
+  },
+  "brandName": {
+    "message": "Owl"
+  },
+  "welcomeTitle": {
+    "message": "Owl on paigaldatud"
+  },
+  "welcomeLead": {
+    "message": "See näitab ikoonil Yandex Maili lugemata kirjade arvu ja teatab uutest kirjadest. Jäänud on kolm lühikest sammu."
+  },
+  "welcomePinTitle": {
+    "message": "Kinnitage ikoon tööriistaribale"
+  },
+  "welcomePinHint": {
+    "message": "Klõpsake aadressiribast paremal pusleikoonil ja kinnitage „$NAME$“ nõelanupuga. Nii on loendur alati näha.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Owl"
+      }
+    }
+  },
+  "welcomePinDone": {
+    "message": "Ikoon on kinnitatud"
+  },
+  "welcomeSignInTitle": {
+    "message": "Logige sisse Yandex Maili"
+  },
+  "welcomeSignInHint": {
+    "message": "Laiendus töötab postkastiga, kuhu olete selles brauseris sisse loginud. Parooli see ei vaja."
+  },
+  "welcomeOpenMail": {
+    "message": "Ava postkast"
+  },
+  "welcomeSetupTitle": {
+    "message": "Valige, kuidas kirju saada"
+  },
+  "welcomeAllSettings": {
+    "message": "Kõik seaded →"
+  },
+  "welcomePrivacy": {
+    "message": "Laiendus suhtleb ainult Yandex Mailiga ega saada arendajale midagi."
+  },
+  "statusNotChecked": {
+    "message": "Postkasti pole veel kontrollitud"
   }
 }

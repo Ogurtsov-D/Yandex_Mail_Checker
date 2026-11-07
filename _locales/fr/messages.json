@@ -4,7 +4,7 @@
     "description": "Language code of this translation (plural rules and date formats)"
   },
   "extName": {
-    "message": "Compteur de messages pour Yandex Mail",
+    "message": "Owl — notifications pour Yandex Mail",
     "description": "Extension name"
   },
   "extDescription": {
@@ -285,7 +285,7 @@
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
-    "message": "Paramètres du compteur de messages",
+    "message": "Paramètres d’Owl",
     "description": "Settings page title"
   },
   "optionsQuietHours": {
@@ -440,5 +440,50 @@
   },
   "justNow": {
     "message": "à l’instant"
+  },
+  "brandName": {
+    "message": "Owl"
+  },
+  "welcomeTitle": {
+    "message": "Owl est installé"
+  },
+  "welcomeLead": {
+    "message": "Il affiche le nombre de messages non lus de Yandex Mail sur son icône et vous prévient des nouveaux. Plus que trois étapes rapides."
+  },
+  "welcomePinTitle": {
+    "message": "Épinglez l’icône dans la barre d’outils"
+  },
+  "welcomePinHint": {
+    "message": "Cliquez sur l’icône en forme de puzzle à droite de la barre d’adresse et épinglez « $NAME$ » avec le bouton punaise. Le compteur restera toujours visible.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Owl"
+      }
+    }
+  },
+  "welcomePinDone": {
+    "message": "L’icône est épinglée"
+  },
+  "welcomeSignInTitle": {
+    "message": "Connectez-vous à Yandex Mail"
+  },
+  "welcomeSignInHint": {
+    "message": "L’extension utilise la messagerie à laquelle vous êtes connecté dans ce navigateur. Elle n’a pas besoin de votre mot de passe."
+  },
+  "welcomeOpenMail": {
+    "message": "Ouvrir la messagerie"
+  },
+  "welcomeSetupTitle": {
+    "message": "Choisissez comment recevoir vos messages"
+  },
+  "welcomeAllSettings": {
+    "message": "Tous les paramètres →"
+  },
+  "welcomePrivacy": {
+    "message": "L’extension ne contacte que Yandex Mail et n’envoie rien au développeur."
+  },
+  "statusNotChecked": {
+    "message": "La messagerie n’a pas encore été vérifiée"
   }
 }

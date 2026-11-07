@@ -4,7 +4,7 @@
     "description": "Language code of this translation (plural rules and date formats)"
   },
   "extName": {
-    "message": "Viestilaskuri Yandex Mailille",
+    "message": "Owl — Yandex Mail -ilmoitukset",
     "description": "Extension name"
   },
   "extDescription": {
@@ -249,7 +249,7 @@
     "description": "Menu item (Firefox only)"
   },
   "optionsTitle": {
-    "message": "Viestilaskurin asetukset",
+    "message": "Owl-asetukset",
     "description": "Settings page title"
   },
   "optionsQuietHours": {
@@ -404,5 +404,50 @@
   },
   "justNow": {
     "message": "juuri nyt"
+  },
+  "brandName": {
+    "message": "Owl"
+  },
+  "welcomeTitle": {
+    "message": "Owl on asennettu"
+  },
+  "welcomeLead": {
+    "message": "Se näyttää kuvakkeessa lukemattomien Yandex Mail -viestien määrän ja ilmoittaa uusista. Jäljellä on kolme lyhyttä vaihetta."
+  },
+  "welcomePinTitle": {
+    "message": "Kiinnitä kuvake työkalupalkkiin"
+  },
+  "welcomePinHint": {
+    "message": "Napsauta osoitepalkin oikealla puolella olevaa palapelikuvaketta ja kiinnitä ”$NAME$” nastapainikkeella. Näin laskuri on aina näkyvissä.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Owl"
+      }
+    }
+  },
+  "welcomePinDone": {
+    "message": "Kuvake on kiinnitetty"
+  },
+  "welcomeSignInTitle": {
+    "message": "Kirjaudu Yandex Mailiin"
+  },
+  "welcomeSignInHint": {
+    "message": "Laajennus toimii sen postilaatikon kanssa, johon olet kirjautunut tässä selaimessa. Se ei tarvitse salasanaasi."
+  },
+  "welcomeOpenMail": {
+    "message": "Avaa posti"
+  },
+  "welcomeSetupTitle": {
+    "message": "Valitse, miten saat viestit"
+  },
+  "welcomeAllSettings": {
+    "message": "Kaikki asetukset →"
+  },
+  "welcomePrivacy": {
+    "message": "Laajennus on yhteydessä vain Yandex Mailiin eikä lähetä mitään kehittäjälle."
+  },
+  "statusNotChecked": {
+    "message": "Postia ei ole vielä tarkistettu"
   }
 }

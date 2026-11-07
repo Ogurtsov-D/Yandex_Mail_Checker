@@ -1,4 +1,4 @@
-# Checker for Yandex Mail
+# Owl — Notifier for Yandex Mail
 
 [Русский](README.md) · **English**
 
@@ -46,7 +46,7 @@ No need to keep your mailbox open: the extension checks your mail, shows the unr
 | Microsoft Edge | [Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/pncdgkochfhddiclomicdbbhfgoeamcm) | 121 or later |
 | Firefox | [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/yandex_mail_checker/) | 142 or later, except Android |
 
-After installing, pin the icon to the toolbar (puzzle icon → 📌) and sign in to [Yandex Mail](https://mail.yandex.ru) in the same browser if you haven't yet. The extension from a store updates automatically.
+After installing, a welcome page opens: pin the icon to the toolbar (puzzle icon → 📌) and sign in to [Yandex Mail](https://mail.yandex.ru) in the same browser if you haven't yet. The extension from a store updates automatically.
 
 By default the extension works with `mail.yandex.ru`; mail in other countries and Yandex 360 can be chosen in the settings — see ["Mail address"](#mail-address). Notifications work on Windows, macOS and Linux.
 
@@ -127,7 +127,7 @@ Clicking the icon does not pick an account: it switches to an open mail tab or, 
 
 ### Settings page
 
-Right-click the icon → "Options" in Chrome, "All settings…" in Firefox. It has everything from the menu, plus:
+Right-click the icon → "Options" in Chrome, "All settings…" in Firefox. At the top is the mail status: the result of the last check with "Check now" and "Open mail" buttons. Below is everything from the menu, plus:
 
 - **mail address** — see above;
 - **where to open mail** if it isn't open yet: in a tab or in a separate window without the address bar;

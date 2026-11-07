@@ -1,8 +1,8 @@
 # Privacy Policy
 
-*[Русская версия](PRIVACY.md).* *Effective November 1, 2026, for the "Checker for Yandex Mail" browser extension (formerly Yandex Mail Checker), version 1.5.0 and later.*
+*[Русская версия](PRIVACY.md).* *Effective November 1, 2026, for the "Owl — Notifier for Yandex Mail" browser extension (formerly Checker for Yandex Mail and Yandex Mail Checker), version 1.5.0 and later.*
 
-"Checker for Yandex Mail" is an open-source browser extension. It does not collect user data and does not share it with the author or any third party.
+"Owl" is an open-source browser extension. It does not collect user data and does not share it with the author or any third party.
 
 ## What the extension accesses
 
