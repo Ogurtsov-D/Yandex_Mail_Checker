@@ -60,7 +60,11 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
         mkdirSync(new URL(dir, root), { recursive: true });
         writeFileSync(new URL(`${dir}icon.svg`, root), svg(inner));
         for (const size of sizes) {
-            await shot(svg(inner).replace('<svg ', `<svg width="${size}" height="${size}" `), size, `${dir}icon${size}.png`);
+            await shot(
+                svg(inner).replace('<svg ', `<svg width="${size}" height="${size}" `),
+                size,
+                `${dir}icon${size}.png`
+            );
         }
     }
 
@@ -72,7 +76,10 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
         [128, 96]
     ]) {
         const pad = (size - art) / 2;
-        const sized = owl.replace('<svg ', `<svg width="${art}" height="${art}" style="position:absolute;left:${pad}px;top:${pad}px" `);
+        const sized = owl.replace(
+            '<svg ',
+            `<svg width="${art}" height="${art}" style="position:absolute;left:${pad}px;top:${pad}px" `
+        );
         await shot(sized, size, `icon${size}.png`);
     }
     await browser.close();
