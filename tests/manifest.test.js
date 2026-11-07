@@ -122,6 +122,8 @@ test('переводы: все языки полные, формы числа п
         const regional = locale.includes('_') && locales.includes(locale.split('_')[0]);
         if (regional) {
             for (const key of Object.keys(messages)) assert.ok(key in en, `${locale}: лишний ключ ${key}`);
+            // Edge Add-ons требует название и описание для каждого языка из пакета
+            for (const key of ['extName', 'extDescription']) assert.ok(messages[key], `${locale}: нет ${key}`);
         } else {
             assert.deepEqual(base(messages), base(en), `${locale}: набор сообщений отличается от en`);
             // Все формы числа, которые различает язык (Intl.PluralRules по коду из сообщения locale)

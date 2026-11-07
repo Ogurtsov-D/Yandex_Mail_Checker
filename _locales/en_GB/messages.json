@@ -2,5 +2,11 @@
   "locale": {
     "message": "en-GB",
     "description": "Language code of this translation (plural rules and date formats)"
+  },
+  "extName": {
+    "message": "Owl — Notifier for Yandex Mail"
+  },
+  "extDescription": {
+    "message": "Unread counter for Yandex Mail on the toolbar icon and new mail notifications. Free, multiple accounts, no developer servers."
   }
 }
