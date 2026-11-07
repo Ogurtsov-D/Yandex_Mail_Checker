@@ -13,13 +13,16 @@ const C = {
     iris: '#FF9A1F',
     pupil: '#2B1A10',
     counter: '#D14836',
-    cap: '#22426A',
-    capTop: '#2C5583',
-    capShade: '#162F4E',
-    navyLine: '#0F2238',
-    visor: '#161B22',
-    gold: '#F2B531',
-    goldDark: '#B9821A'
+    // Фуражка жёлтая (чуть золотистее конверта), околыш оранжевый, козырёк в цвет перьев — без синего
+    // и без ремешка с пуговицами, чтобы не напоминать полицейскую
+    cap: '#F2B229',
+    capTop: '#FFCC4D',
+    capShade: '#C88A10',
+    capLight: '#FFE6A0',
+    capLine: '#5A3410',
+    visor: '#4A2716',
+    cockade: '#FFFFFF',
+    cockadeLine: '#C88A10'
 };
 
 const f2 = (n) => n.toFixed(2);
@@ -118,8 +121,8 @@ function atSign(cx, cy, s, color) {
     );
 }
 
-// Фуражка почтальона: широкая тулья с приподнятым передом, околыш, ремешок с пуговицами,
-// блестящий козырёк, кокарда «@»
+// Фуражка почтальона: широкая жёлтая тулья с приподнятым передом, оранжевый околыш,
+// коричневый козырёк с бликом, кокарда «@»
 function cap(cx = 64) {
     const bl = cx - 19;
     const br = cx + 19;
@@ -140,8 +143,6 @@ function cap(cx = 64) {
         `C${corner + sgn * 3} ${f2(bandTop - 1.4)} ${cx + sgn * 27} 12.4 ${f2(cx + sgn * 27.6)} 10.2 Z`;
     const arc = (y) => `Q${cx} ${f2(y + sag)} ${br} ${f2(y)}`;
     const band = `M${bl} ${bandTop} ${arc(bandTop)} L${br} ${bandBot} Q${cx} ${f2(bandBot + sag)} ${bl} ${bandBot} Z`;
-    const strapTop = bandBot - 1.7;
-    const strap = `M${bl} ${f2(strapTop)} ${arc(strapTop)} L${br} ${bandBot} Q${cx} ${f2(bandBot + sag)} ${bl} ${bandBot} Z`;
     const visor =
         `M${f2(bl - 0.6)} ${f2(bandBot - 0.4)} Q${cx} ${f2(bandBot + sag - 0.4)} ${f2(br + 0.6)} ${f2(bandBot - 0.4)} ` +
         `C${br} ${f2(bandBot + 3.2)} ${cx + 10} ${f2(bandBot + 6.4)} ${cx} ${f2(bandBot + 6.4)} ` +
@@ -150,19 +151,15 @@ function cap(cx = 64) {
     return (
         `<path d="${crown}" fill="${C.cap}"/>` +
         `<path d="${topEdge}" fill="${C.capTop}"/>` +
-        `<path d="M${f2(cx - 26.8)} 10 C${cx - 25} 8.9 ${cx - 14} 6.7 ${cx} 6.2 C${cx + 14} 6.7 ${cx + 25} 8.9 ${f2(cx + 26.8)} 10" fill="none" stroke="${C.navyLine}" stroke-width="0.6" opacity="0.7"/>` +
-        `<path d="M${cx - 16} 4.9 C${cx - 9} 3.6 ${cx + 9} 3.6 ${cx + 16} 4.9" fill="none" stroke="#4A78AE" stroke-width="1" stroke-linecap="round" opacity="0.9"/>` +
+        `<path d="M${f2(cx - 26.8)} 10 C${cx - 25} 8.9 ${cx - 14} 6.7 ${cx} 6.2 C${cx + 14} 6.7 ${cx + 25} 8.9 ${f2(cx + 26.8)} 10" fill="none" stroke="${C.capLine}" stroke-width="0.6" opacity="0.7"/>` +
+        `<path d="M${cx - 16} 4.9 C${cx - 9} 3.6 ${cx + 9} 3.6 ${cx + 16} 4.9" fill="none" stroke="${C.capLight}" stroke-width="1" stroke-linecap="round" opacity="0.9"/>` +
         `<path d="${shade(-1, bl)}" fill="${C.capShade}"/><path d="${shade(1, br)}" fill="${C.capShade}"/>` +
         `<path d="${band}" fill="${C.flap}"/>` +
-        `<path d="M${bl} ${bandTop} ${arc(bandTop)}" fill="none" stroke="${C.navyLine}" stroke-width="0.8"/>` +
-        `<path d="${strap}" fill="${C.visor}"/>` +
-        `<path d="M${bl + 2} ${f2(strapTop + 0.45)} Q${cx} ${f2(strapTop + sag + 0.45)} ${br - 2} ${f2(strapTop + 0.45)}" fill="none" stroke="#3A4250" stroke-width="0.4"/>` +
+        `<path d="M${bl} ${bandTop} ${arc(bandTop)}" fill="none" stroke="${C.capLine}" stroke-width="0.8"/>` +
         `<path d="${visor}" fill="${C.visor}"/>` +
         `<path d="M${cx - 11} ${f2(vy + 3.3)} Q${cx} ${f2(vy + 5)} ${cx + 11} ${f2(vy + 3.3)}" fill="none" stroke="#fff" stroke-width="0.9" stroke-linecap="round" opacity="0.35"/>` +
-        `<circle cx="${f2(bl + 1.6)}" cy="${f2(bandBot - 0.4)}" r="1.45" fill="${C.gold}" stroke="${C.goldDark}" stroke-width="0.45"/>` +
-        `<circle cx="${f2(br - 1.6)}" cy="${f2(bandBot - 0.4)}" r="1.45" fill="${C.gold}" stroke="${C.goldDark}" stroke-width="0.45"/>` +
-        `<circle cx="${cx}" cy="11.6" r="4.3" fill="${C.gold}" stroke="${C.goldDark}" stroke-width="0.6"/>` +
-        atSign(cx, 11.6, 0.97, C.navyLine)
+        `<circle cx="${cx}" cy="11.6" r="4.3" fill="${C.cockade}" stroke="${C.cockadeLine}" stroke-width="0.6"/>` +
+        atSign(cx, 11.6, 0.97, C.capLine)
     );
 }
 

@@ -44,7 +44,7 @@ export default [
     },
     {
         // Страница настроек работает в обычном окне, с DOM
-        files: ['src/options.js', 'src/welcome.js', 'src/status-view.js'],
+        files: ['src/options.js', 'src/welcome.js', 'src/status-view.js', 'src/host-select.js'],
         languageOptions: {
             globals: {
                 ...browserGlobals,

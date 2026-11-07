@@ -46,7 +46,7 @@ No need to keep your mailbox open: the extension checks your mail, shows the unr
 | Microsoft Edge | [Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/pncdgkochfhddiclomicdbbhfgoeamcm) | 121 or later |
 | Firefox | [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/yandex_mail_checker/) | 142 or later, except Android |
 
-After installing, a welcome page opens: pin the icon to the toolbar (puzzle icon → 📌) and sign in to [Yandex Mail](https://mail.yandex.ru) in the same browser if you haven't yet. The extension from a store updates automatically.
+After installing, a welcome page opens: pin the icon to the toolbar (puzzle icon → 📌), choose your mail address if it isn't `mail.yandex.ru`, and sign in to [Yandex Mail](https://mail.yandex.ru) in the same browser if you haven't yet. The extension from a store updates automatically.
 
 By default the extension works with `mail.yandex.ru`; mail in other countries and Yandex 360 can be chosen in the settings — see ["Mail address"](#mail-address). Notifications work on Windows, macOS and Linux.
 

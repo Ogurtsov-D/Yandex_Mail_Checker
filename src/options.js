@@ -4,14 +4,12 @@ import {
     BADGE_COLORS,
     DEFAULT_BADGE_COLOR,
     DEFAULT_BADGE_TEXT_COLOR,
-    DEFAULT_MAIL_HOST,
     ICON_STYLES,
     INTERVALS,
-    ISSUES_URL,
-    MAIL_HOSTS
+    ISSUES_URL
 } from './config.js';
 import { unreadText } from './format.js';
-import { hostOrigin } from './hosts.js';
+import { mountHostSelect } from './host-select.js';
 import { plural, t } from './i18n.js';
 import { reviewUrl } from './links.js';
 import { getSettings, saveSettings, setCheckInterval } from './settings.js';
@@ -65,26 +63,8 @@ for (const minutes of INTERVALS) {
 $('interval').value = settings.interval;
 $('interval').addEventListener('change', () => setCheckInterval(Number($('interval').value)));
 
-// Адрес почты. Доступ к доменам, кроме mail.yandex.ru, браузер выдаёт по запросу —
-// запрос должен прозвучать сразу в ответ на действие пользователя, поэтому он в обработчике change
-const select = $('mailHost');
-for (const host of MAIL_HOSTS) {
-    select.append(new Option(host === 'mail.360.yandex.ru' ? `${host} — ${t('optionsMailHost360')}` : host, host));
-}
-select.value = settings.mailHost;
-select.addEventListener('change', async () => {
-    const previous = settings.mailHost;
-    const host = select.value;
-    const granted = host === DEFAULT_MAIL_HOST || (await ext.permissions.request({ origins: [hostOrigin(host)] }));
-    if (!granted) {
-        select.value = previous;
-        return;
-    }
-    settings.mailHost = host;
-    await saveSettings({ mailHost: host });
-    // Доступ к прежнему домену больше не нужен — отдаём его обратно
-    if (previous !== DEFAULT_MAIL_HOST) await ext.permissions.remove({ origins: [hostOrigin(previous)] });
-});
+// Адрес почты (src/host-select.js)
+await mountHostSelect($('mailHost'));
 
 // Карточка выбора: радиокнопка внутри label, содержимое — узлы content
 function choice(name, value, checked, content, onChange) {

@@ -3,6 +3,7 @@
 import { ext } from './api.js';
 import { t } from './i18n.js';
 import { getSettings, saveSettings } from './settings.js';
+import { mountHostSelect } from './host-select.js';
 import { mountStatus } from './status-view.js';
 
 document.documentElement.lang = t('locale');
@@ -28,7 +29,9 @@ async function updatePin() {
 updatePin();
 setInterval(updatePin, 1500);
 
-// Шаг 2. Вход в почту: состояние последней проверки; шаг выполнен, когда проверка прошла успешно
+// Шаг 2. Вход в почту: адрес почты (mail.yandex.ru, .com, Яндекс 360…) и состояние последней проверки;
+// шаг выполнен, когда проверка прошла успешно. Смена адреса сразу запускает проверку (background.js)
+await mountHostSelect($('mailHost'));
 await mountStatus($('status'), (state, status) => {
     $('stepMail').classList.toggle('done', status.kind === 'ok');
 });

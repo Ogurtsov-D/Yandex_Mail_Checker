@@ -271,6 +271,8 @@ describe('Chromium, русский интерфейс', () => {
         // Текст — результат последней проверки (в этом наборе её состояние задают предыдущие тесты)
         assert.ok((await welcome.textContent('.status-text')).length > 0);
         assert.equal(await welcome.isChecked('input[name=openIn][value=tab]'), true);
+        assert.equal(await welcome.locator('#mailHost option').count(), 6);
+        assert.equal(await welcome.inputValue('#mailHost'), 'mail.yandex.ru');
     });
 
     test('страница настроек: тексты, сохранение, горячая клавиша', async () => {
