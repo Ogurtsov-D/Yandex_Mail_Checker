@@ -126,3 +126,19 @@ This extension is an independent project and is not affiliated with Yandex.
 ## Заметки для проверяющих (поле Notes / Test instructions)
 
 > To test, sign in to Yandex Mail at https://mail.yandex.ru in the same browser profile (a free account works). The badge shows the unread count; right-click the icon for the menu. The extension makes requests only to the Yandex Mail address chosen in the settings. Source code: https://github.com/Ogurtsov-D/Yandex_Mail_Checker
+
+## Если нашли копию
+
+Изображение филина и название защищены условиями [NOTICE.md](../../NOTICE.md). Если в магазине появилось чужое расширение с филином или названием «Филин» / «Owl», подайте жалобу о нарушении авторских прав:
+
+| Где | Как |
+|-----|-----|
+| Chrome Web Store | [Форма о нарушении авторских прав и товарных знаков](https://support.google.com/chrome_webstore/answer/7508032) |
+| Каталог Firefox | [Форма Mozilla о нарушении авторских прав](https://www.mozilla.org/about/legal/report-abuse/) (не «Пожаловаться на дополнение» — та форма для нарушений правил) |
+| Edge Add-ons | [Форма Microsoft о нарушении прав](https://www.microsoft.com/concern/dmca) |
+| Каталог Opera | Отдельной формы нет — кнопка жалобы на странице дополнения или поддержка Opera |
+| GitHub | [Уведомление DMCA](https://docs.github.com/en/site-policy/content-removal-policies/guide-to-submitting-a-dmca-takedown-notice) — только если копия выдаёт себя за оригинал или публикует сборки с филином; обычные форки разрешены |
+
+Что приложить: ссылку на копию, ссылки на [NOTICE.md](../../NOTICE.md) и на первый коммит с филином в этом репозитории (`e7973ee`, 7 ноября 2026), даты публикации версии 1.6.0 в магазинах, снимки экрана оригинала и копии.
+
+Подавайте жалобы только через сайты магазинов. Письма «о нарушении авторских прав» со ссылками, которые просят войти в аккаунт Google, — частый способ украсть аккаунт разработчика.

@@ -73,7 +73,7 @@ npm test
 │   ├── firefox-update-manifest.mjs  # updates.json: переход версий 1.4 на каталог Mozilla
 │   ├── amo-metadata.json  # данные для страницы в каталоге Mozilla
 │   ├── render-icons.mjs   # PNG-значки и иконка расширения
-│   ├── owl-icon.mjs       # иконка расширения: филин-почтальон на конверте
+│   ├── owl-icon.mjs       # иконка расширения: филин-почтальон на конверте (не GPL, см. NOTICE.md)
 │   ├── publish-stores.mjs # отправка в Chrome Web Store и Edge Add-ons
 │   ├── release-notes.mjs  # описание релиза из CHANGELOG.md
 │   └── store-images.mjs   # картинки для магазинов (docs/store/)
@@ -147,6 +147,8 @@ Opera без графической среды требует пакет `gsetti
 
 - `icons/<вид>/` — значок на панели и в уведомлениях (16, 32, 128 px) для каждого вида: `classic` (по умолчанию), `minimal`, `blue`, `green`, `purple`. Вид выбирается на странице настроек; список — `ICON_STYLES` в `src/config.js`, цвета — `PALETTES` в скрипте.
 - `icons/icon.svg`, `icons/icon48.png`, `icons/icon128.png` — иконка расширения на странице расширений и в магазинах: филин-почтальон в фуражке на конверте со счётчиком (`scripts/owl-icon.mjs`). В `icon128.png` рисунок 96×96 с полями 16 px — требование Chrome Web Store. Логотип Edge и иконку Opera пересоздаёт `scripts/store-images.mjs`.
+
+Рисунок филина (`scripts/owl-icon.mjs` и всё, что из него получается) не входит в GPL: все права защищены, условия — в [NOTICE.md](../NOTICE.md). Правки рисунка вносит только автор, предложения изменений к этим файлам не принимаются. `NOTICE.md` входит в каждую сборку расширения.
 
 После правки скрипта пересоберите PNG (нужен Playwright, в проект он не входит):
 

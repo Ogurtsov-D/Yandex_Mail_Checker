@@ -6,7 +6,7 @@
 [![Firefox Add-ons](https://img.shields.io/amo/v/yandex_mail_checker?label=Firefox%20Add-ons&logo=firefoxbrowser&logoColor=white&color=FF7139)](https://addons.mozilla.org/firefox/addon/yandex_mail_checker/)
 [![Edge Add-ons](https://img.shields.io/badge/dynamic/json?label=Edge%20Add-ons&query=%24.version&prefix=v&color=0078D7&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fpncdgkochfhddiclomicdbbhfgoeamcm)](https://microsoftedge.microsoft.com/addons/detail/pncdgkochfhddiclomicdbbhfgoeamcm)
 [![Checks](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/actions/workflows/ci.yml/badge.svg)](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/actions/workflows/ci.yml)
-[![License GPLv3](https://img.shields.io/badge/license-GPLv3-blue)](LICENSE)
+[![License: GPLv3 + NOTICE](https://img.shields.io/badge/license-GPLv3%20%2B%20NOTICE-blue)](NOTICE.md#copyright-name-and-owl-artwork)
 
 **A browser extension that shows the number of unread Yandex Mail messages on the toolbar and notifies you about new mail.**
 
@@ -204,4 +204,6 @@ If you represent Yandex and have questions about this project, please write in [
 
 ## License
 
-© 2026 [Ogurtsov-D](https://github.com/Ogurtsov-D). Distributed under the [GNU GPL v3](LICENSE): you may use, modify and redistribute it under the same terms. Provided "as is", without any warranty.
+© 2026 Ogurtsov ([Ogurtsov-D](https://github.com/Ogurtsov-D)). The code is distributed under the [GNU GPL v3](LICENSE): you may use, modify and redistribute it under the same terms. Provided "as is", without any warranty.
+
+The name "Филин" / "Owl" and the owl artwork are not covered by the GPL: the artwork is original, all rights reserved. A fork must use a different name and its own icon. Details and what is allowed without permission are in [NOTICE.md](NOTICE.md#copyright-name-and-owl-artwork).

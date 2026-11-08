@@ -4,15 +4,16 @@
 // Без зависимостей: zip формируется средствами Node.js.
 import { cpSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { deflateRawSync } from 'node:zlib';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const dist = join(root, 'dist');
 const manifest = JSON.parse(readFileSync(join(root, 'manifest.json'), 'utf8'));
 
-// Что входит в расширение (тесты, документация и служебные файлы — нет)
-const INCLUDE = ['src', 'icons', '_locales', 'LICENSE'];
+// Что входит в расширение (тесты, документация и служебные файлы — нет). NOTICE.md — условия
+// лицензии и права на изображение филина, должны быть в каждой сборке
+export const INCLUDE = ['src', 'icons', '_locales', 'LICENSE', 'NOTICE.md'];
 
 const targets = {
     chrome: (m) => {
@@ -110,21 +111,23 @@ function listFiles(dir) {
 
 // ---------- Сборка ----------
 
-rmSync(dist, { recursive: true, force: true });
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+    rmSync(dist, { recursive: true, force: true });
 
-for (const [target, adapt] of Object.entries(targets)) {
-    const outDir = join(dist, target);
-    mkdirSync(outDir, { recursive: true });
+    for (const [target, adapt] of Object.entries(targets)) {
+        const outDir = join(dist, target);
+        mkdirSync(outDir, { recursive: true });
 
-    for (const item of INCLUDE) cpSync(join(root, item), join(outDir, item), { recursive: true });
-    const targetManifest = adapt(structuredClone(manifest));
-    writeFileSync(join(outDir, 'manifest.json'), JSON.stringify(targetManifest, null, 2) + '\n');
+        for (const item of INCLUDE) cpSync(join(root, item), join(outDir, item), { recursive: true });
+        const targetManifest = adapt(structuredClone(manifest));
+        writeFileSync(join(outDir, 'manifest.json'), JSON.stringify(targetManifest, null, 2) + '\n');
 
-    const files = listFiles(outDir).map((path) => ({
-        name: relative(outDir, path).split(sep).join('/'),
-        data: readFileSync(path)
-    }));
-    const zipName = `yandex-mail-checker-${manifest.version}-${target}.zip`;
-    writeFileSync(join(dist, zipName), createZip(files));
-    console.log(`dist/${zipName} (${files.length} файлов)`);
+        const files = listFiles(outDir).map((path) => ({
+            name: relative(outDir, path).split(sep).join('/'),
+            data: readFileSync(path)
+        }));
+        const zipName = `yandex-mail-checker-${manifest.version}-${target}.zip`;
+        writeFileSync(join(dist, zipName), createZip(files));
+        console.log(`dist/${zipName} (${files.length} файлов)`);
+    }
 }
