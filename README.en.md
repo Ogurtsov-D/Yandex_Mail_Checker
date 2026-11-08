@@ -6,7 +6,7 @@
 [![Firefox Add-ons](https://img.shields.io/amo/v/yandex_mail_checker?label=Firefox%20Add-ons&logo=firefoxbrowser&logoColor=white&color=FF7139)](https://addons.mozilla.org/firefox/addon/yandex_mail_checker/)
 [![Edge Add-ons](https://img.shields.io/badge/dynamic/json?label=Edge%20Add-ons&query=%24.version&prefix=v&color=0078D7&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fpncdgkochfhddiclomicdbbhfgoeamcm)](https://microsoftedge.microsoft.com/addons/detail/pncdgkochfhddiclomicdbbhfgoeamcm)
 [![Checks](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/actions/workflows/ci.yml/badge.svg)](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/actions/workflows/ci.yml)
-[![License GPLv3](https://img.shields.io/badge/license-GPLv3-blue)](LICENSE)
+[![License: GPLv3 + NOTICE](https://img.shields.io/badge/license-GPLv3%20%2B%20NOTICE-blue)](NOTICE.md#copyright-name-and-owl-artwork)
 
 **A browser extension that shows the number of unread Yandex Mail messages on the toolbar and notifies you about new mail.**
 

@@ -6,7 +6,7 @@
 [![Firefox Add-ons](https://img.shields.io/amo/v/yandex_mail_checker?label=Firefox%20Add-ons&logo=firefoxbrowser&logoColor=white&color=FF7139)](https://addons.mozilla.org/firefox/addon/yandex_mail_checker/)
 [![Edge Add-ons](https://img.shields.io/badge/dynamic/json?label=Edge%20Add-ons&query=%24.version&prefix=v&color=0078D7&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fpncdgkochfhddiclomicdbbhfgoeamcm)](https://microsoftedge.microsoft.com/addons/detail/pncdgkochfhddiclomicdbbhfgoeamcm)
 [![Проверки](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/actions/workflows/ci.yml/badge.svg)](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/actions/workflows/ci.yml)
-[![Лицензия GPLv3](https://img.shields.io/badge/лицензия-GPLv3-blue)](LICENSE)
+[![Лицензия: GPLv3 + NOTICE](https://img.shields.io/badge/лицензия-GPLv3%20%2B%20NOTICE-blue)](NOTICE.md)
 
 **Расширение для браузера: число непрочитанных писем Яндекс Почты на панели инструментов и уведомления о новых письмах.**
 
