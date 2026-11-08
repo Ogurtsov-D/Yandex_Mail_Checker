@@ -172,3 +172,14 @@ test('переводы: все языки полные, формы числа п
     }
     assert.ok(existsSync(new URL(`_locales/${manifest.default_locale}/messages.json`, root)));
 });
+
+test('в сборку входят лицензия и NOTICE.md, а рисунок филина несёт копирайт', async () => {
+    const { INCLUDE } = await import('../scripts/build.mjs');
+    for (const file of ['LICENSE', 'NOTICE.md']) {
+        assert.ok(INCLUDE.includes(file), `${file} не попадает в сборку`);
+        assert.ok(existsSync(new URL(file, root)), `нет файла ${file}`);
+    }
+    const { owlIconSvg } = await import('../scripts/owl-icon.mjs');
+    assert.match(owlIconSvg(), /<metadata>© 2026 Ogurtsov/);
+    assert.equal(read('icons/icon.svg'), owlIconSvg(), 'icons/icon.svg не совпадает с scripts/owl-icon.mjs');
+});

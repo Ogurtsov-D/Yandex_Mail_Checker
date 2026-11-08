@@ -1,6 +1,8 @@
 // Иконка расширения для магазинов и страницы расширений: филин-почтальон в фуражке сидит на конверте
 // со счётчиком писем. Рисуется кодом из простых фигур, как и значок на панели (scripts/render-icons.mjs).
 // Поле 128×128. Значок на панели и в уведомлениях остаётся конвертом.
+//
+// © 2026 Ogurtsov. Все права защищены: рисунок и этот файл не входят в GPL — условия в NOTICE.md.
 
 const C = {
     feather: '#6B3E26',
@@ -172,9 +174,14 @@ const HALO =
     '<feFlood flood-color="#ffffff" flood-opacity="0.4"/><feComposite in2="b" operator="in"/></filter>' +
     '<clipPath id="above-envelope"><rect x="0" y="0" width="128" height="66.5"/></clipPath>';
 
+// Автор и условия — внутри самого рисунка
+const COPYRIGHT =
+    '<metadata>© 2026 Ogurtsov (https://github.com/Ogurtsov-D). All rights reserved. ' +
+    'Not covered by the GPL, see NOTICE.md: https://github.com/Ogurtsov-D/Yandex_Mail_Checker</metadata>';
+
 export function owlIconSvg() {
     return (
-        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><defs>${HALO}</defs>` +
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">${COPYRIGHT}<defs>${HALO}</defs>` +
         envelope(8, 66, 112, 58) +
         `<g clip-path="url(#above-envelope)"><g filter="url(#halo)">${owl()}${cap()}</g></g>` +
         owl() +

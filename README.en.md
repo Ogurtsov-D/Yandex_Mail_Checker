@@ -204,4 +204,6 @@ If you represent Yandex and have questions about this project, please write in [
 
 ## License
 
-© 2026 [Ogurtsov-D](https://github.com/Ogurtsov-D). Distributed under the [GNU GPL v3](LICENSE): you may use, modify and redistribute it under the same terms. Provided "as is", without any warranty.
+© 2026 Ogurtsov ([Ogurtsov-D](https://github.com/Ogurtsov-D)). The code is distributed under the [GNU GPL v3](LICENSE): you may use, modify and redistribute it under the same terms. Provided "as is", without any warranty.
+
+The name "Филин" / "Owl" and the owl artwork are not covered by the GPL: the artwork is original, all rights reserved. A fork must use a different name and its own icon. Details and what is allowed without permission are in [NOTICE.md](NOTICE.md#copyright-name-and-owl-artwork).
