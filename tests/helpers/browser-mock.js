@@ -82,6 +82,7 @@ export function installBrowserMock({ firefox = false, locale = 'ru' } = {}) {
                 alarms[name] = { name, ...info };
             },
             get: async (name) => alarms[name],
+            clear: async (name) => delete alarms[name],
             clearAll: async () => {
                 for (const key of Object.keys(alarms)) delete alarms[key];
                 return true;

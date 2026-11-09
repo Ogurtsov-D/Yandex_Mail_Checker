@@ -6,7 +6,7 @@
     --bg: #f6f7f9;
     --card: #fff;
     --line: #e3e5e8;
-    --accent: #1a73e8;
+    --accent: #1967d2; /* контраст текста не ниже 4,5:1 и на фоне страницы, и на --accent-soft */
     --accent-soft: #e8f0fe;
 }
 @media (prefers-color-scheme: dark) {
@@ -206,7 +206,8 @@ select {
     cursor: pointer;
     background: none;
 }
-.swatch[aria-pressed='true'] {
+.swatch[aria-pressed='true'],
+.swatch.custom.selected {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
 }

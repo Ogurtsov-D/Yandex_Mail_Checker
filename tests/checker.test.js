@@ -13,6 +13,9 @@ const ivan = { id: '222', from: 'Иван', subject: 'Отчёт' };
 
 beforeEach(() => mock.reset());
 
+// Уже была успешная проверка: ошибки показываются сразу (до первой успешной — быстрые повторы, см. ниже)
+const checkedBefore = () => (mock.store.local.lastSuccess = Date.now() - 10 * 60_000);
+
 // Куда ведёт клик по уведомлению (аккаунт один — уведомление new-mail)
 const target = () => mock.store.session.notificationTargets?.['new-mail']?.hash ?? null;
 
@@ -124,6 +127,7 @@ describe('счётчики Яндекса (основной способ)', () =
     });
 
     test('ошибка сервера API: «!» и повтор, без обращения к lite-версии', async () => {
+        checkedBefore();
         mock.counters(() => ({ type: 'basic', status: 502, ok: false }));
         mock.respond(inboxPage({ count: 1 }));
         await checkMail();
@@ -245,6 +249,7 @@ describe('API счётчиков недоступно: всё из lite-верс
 
 // Ответы ниже приходят на любой запрос — и к API счётчиков, и к lite-версии
 test('ошибка сервера: «!» и повтор', async () => {
+    checkedBefore();
     mock.respond(() => ({ type: 'basic', status: 503, ok: false }));
     await checkMail();
     assert.equal(mock.calls.badge.text, '!');
@@ -253,6 +258,7 @@ test('ошибка сервера: «!» и повтор', async () => {
 });
 
 test('нет сети: ровно 2 быстрых повтора, затем ждём плановую проверку', async () => {
+    checkedBefore();
     mock.respond(new TypeError('Failed to fetch'));
     let retries = 0;
     for (let i = 0; i < 5; i++) {
@@ -261,7 +267,7 @@ test('нет сети: ровно 2 быстрых повтора, затем ж
         if (mock.alarms.retryCheck) retries++;
     }
     assert.equal(retries, 2);
-    assert.equal(mock.calls.badge.title, 'Яндекс Почта: Нет подключения');
+    assert.equal(mock.calls.badge.title.split('\n')[0], 'Яндекс Почта: Нет подключения');
 
     // Успешная проверка сбрасывает счётчик повторов
     mock.respond(inboxPage({ count: 0 }));
@@ -281,6 +287,7 @@ test('при ошибке в подсказке остаётся последн�
 });
 
 test('зависший запрос прерывается по таймауту, следующая проверка не блокируется', async (t) => {
+    checkedBefore();
     t.mock.timers.enable({ apis: ['setTimeout'] });
     mock.respond(
         (url, { signal }) =>
@@ -294,7 +301,7 @@ test('зависший запрос прерывается по таймауту
     await flush();
     t.mock.timers.tick(20000);
     await pending;
-    assert.equal(mock.calls.badge.title, 'Яндекс Почта: Яндекс не ответил вовремя');
+    assert.equal(mock.calls.badge.title.split('\n')[0], 'Яндекс Почта: Яндекс не ответил вовремя');
     t.mock.timers.reset();
 
     mock.respond(inboxPage({ count: 5 }));
@@ -313,6 +320,7 @@ test('ручная проверка показывает «↻»', async () => {
 });
 
 test('ошибка в коде расширения не выдаётся за «нет сети»', async () => {
+    checkedBefore();
     const errors = nodeMock.method(console, 'error', () => {});
     const original = mock.api.storage.local.get;
     let thrown = false;
@@ -363,5 +371,56 @@ describe('настройки уведомлений', () => {
         await newMessage();
         assert.equal(mock.calls.notifications[0].iconUrl, 'extension://test/icons/green/icon128.png');
         assert.deepEqual(mock.calls.icons.at(-1), { 16: '/icons/green/icon16.png', 32: '/icons/green/icon32.png' });
+    });
+});
+
+describe('первая проверка после установки', () => {
+    test('503, затем «не выполнен вход»: без ошибки на значке, повтор через 5 секунд, потом «?»', async (t) => {
+        t.mock.timers.enable({ apis: ['setTimeout'] });
+        mock.respond(() => ({ type: 'basic', status: 503, ok: false }));
+        await checkMail();
+        assert.equal(mock.calls.badge.text, '');
+        assert.equal(mock.calls.badge.title, 'Яндекс Почта: Проверка почты…');
+        assert.equal(mock.store.local.retrying, true);
+        assert.equal(mock.store.local.errorType, null);
+        assert.ok(mock.alarms.retryCheck, 'запасной будильник');
+
+        mock.respond(() => ({ type: 'basic', status: 401, ok: false }));
+        t.mock.timers.tick(5000);
+        await flush();
+        assert.equal(mock.calls.badge.text, '?');
+        assert.equal(mock.store.local.retrying, false);
+        assert.equal(mock.store.local.errorType, 'auth');
+    });
+
+    test('ошибка сервера раз за разом: повторы через 5, 15 и 30 секунд, затем «!»', async (t) => {
+        t.mock.timers.enable({ apis: ['setTimeout'] });
+        mock.respond(() => ({ type: 'basic', status: 503, ok: false }));
+        await checkMail();
+        t.mock.timers.tick(5000);
+        await flush();
+        assert.equal(mock.store.local.retrying, true);
+        t.mock.timers.tick(15000);
+        await flush();
+        // Третий повтор — будильником через 30 секунд, таймера нет
+        assert.equal(mock.alarms.retryCheck.delayInMinutes, 0.5);
+        assert.equal(mock.calls.badge.text, '');
+        await checkMail();
+        assert.equal(mock.calls.badge.text, '!');
+        assert.match(mock.calls.badge.title, /Ошибка сервера Яндекса \(503\)/);
+        assert.equal(mock.store.local.retrying, false);
+        assert.equal(mock.requests.length, 4);
+    });
+
+    test('успех после повтора убирает «Проверка почты…» и запасной будильник', async (t) => {
+        t.mock.timers.enable({ apis: ['setTimeout'] });
+        mock.respond(new TypeError('Failed to fetch'));
+        await checkMail();
+        mock.counters({ unread: 3, fresh: 0 });
+        t.mock.timers.tick(5000);
+        await flush();
+        assert.equal(mock.calls.badge.text, '3');
+        assert.equal(mock.store.local.retrying, false);
+        assert.equal(mock.alarms.retryCheck, undefined);
     });
 });

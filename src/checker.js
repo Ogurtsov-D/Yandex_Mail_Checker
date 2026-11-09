@@ -4,6 +4,7 @@ import {
     ACCOUNT_EMAILS_RETRY_MS,
     ACCOUNT_EMAILS_TTL_MS,
     FETCH_TIMEOUT_MS,
+    FIRST_CHECK_RETRY_SEC,
     MAX_KNOWN_IDS,
     MAX_RETRIES,
     RETRY_INTERVAL_SEC
@@ -143,11 +144,13 @@ async function saveSuccess(unreadCount, freshCount, extra) {
         errorStatus: null,
         lastCheck: now,
         lastSuccess: now,
+        retrying: false,
         accountSummary: null,
         ...extra.state
     };
     await ext.storage.local.set({ ...state, accounts: extra.accounts });
     await setRetryCount(0);
+    await ext.alarms.clear(RETRY_ALARM);
     return state;
 }
 
@@ -300,26 +303,39 @@ async function checkByInboxPage(html) {
     return saveSuccess(count, null, { accounts: { '': { knownMessageIds: rememberIds(knownIds, messages) } } });
 }
 
+// Повтор через sec секунд. Будильник в Chrome — не раньше чем через 30 секунд, поэтому короткие
+// повторы — таймером (фоновый скрипт после проверки живёт ещё 30 секунд), а будильник — запасной
+function scheduleRetry(sec) {
+    if (sec < RETRY_INTERVAL_SEC) setTimeout(() => checkMail(), sec * 1000);
+    return ext.alarms.create(RETRY_ALARM, { delayInMinutes: Math.max(sec, RETRY_INTERVAL_SEC) / 60 });
+}
+
 async function handleFailure(error) {
     const type = error.type ?? 'network';
     console.warn('Mail check failed:', error.message);
+    const { lastSuccess, unreadCount } = await ext.storage.local.get(['lastSuccess', 'unreadCount']);
 
+    // retrying — идёт быстрый повтор первой проверки: страницы и значок показывают «Проверяем почту…»
+    let retrying = false;
     if (NO_RETRY_ERRORS.has(type)) {
         await setRetryCount(0);
     } else {
         const retryCount = (await getRetryCount()) + 1;
         await setRetryCount(retryCount);
-        if (retryCount <= MAX_RETRIES) {
-            await ext.alarms.create(RETRY_ALARM, { delayInMinutes: RETRY_INTERVAL_SEC / 60 });
+        const delays = lastSuccess ? Array(MAX_RETRIES).fill(RETRY_INTERVAL_SEC) : FIRST_CHECK_RETRY_SEC;
+        if (retryCount <= delays.length) {
+            await scheduleRetry(delays[retryCount - 1]);
+            retrying = !lastSuccess;
         }
-        // После MAX_RETRIES ждём следующую плановую проверку
+        // Повторы кончились — ждём следующую плановую проверку
     }
 
     // Храним тип ошибки, а не текст: подсказка покажет его на текущем языке браузера
-    const update = { errorType: type, errorStatus: error.status ?? null, lastCheck: Date.now() };
+    const update = retrying
+        ? { errorType: null, errorStatus: null, retrying, lastCheck: Date.now() }
+        : { errorType: type, errorStatus: error.status ?? null, retrying, lastCheck: Date.now() };
     await ext.storage.local.set(update);
     // unreadCount при ошибке не меняется — это последний успешный результат, он показывается в подсказке
-    const { lastSuccess, unreadCount } = await ext.storage.local.get(['lastSuccess', 'unreadCount']);
     return { ...update, lastSuccess, unreadCount };
 }
 

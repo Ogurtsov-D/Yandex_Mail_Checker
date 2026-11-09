@@ -183,3 +183,10 @@ test('в сборку входят лицензия и NOTICE.md, а рисун�
     assert.match(owlIconSvg(), /<metadata>© 2026 Ogurtsov/);
     assert.equal(read('icons/icon.svg'), owlIconSvg(), 'icons/icon.svg не совпадает с scripts/owl-icon.mjs');
 });
+
+test('homepage_url — только в сборке для Firefox: в Chrome и Edge меню значка ведёт в магазин', async () => {
+    const { targets } = await import('../scripts/build.mjs');
+    assert.ok(manifest.homepage_url);
+    assert.equal(targets.chrome(structuredClone(manifest)).homepage_url, undefined);
+    assert.equal(targets.firefox(structuredClone(manifest)).homepage_url, manifest.homepage_url);
+});

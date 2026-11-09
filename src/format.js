@@ -74,6 +74,8 @@ export function tooltipText(state, now = Date.now()) {
         return lines.join('\n');
     }
 
+    if (state.retrying) return `${service}: ${t('checking')}`;
+
     if (state.lastSuccess) {
         // Несколько аккаунтов — итог и строка на каждый учитываемый аккаунт
         const accounts = (state.accountSummary ?? []).filter((a) => a.enabled);

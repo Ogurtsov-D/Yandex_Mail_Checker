@@ -1,7 +1,7 @@
 // Сквозная проверка в настоящем Chromium: расширение из dist/chrome, ответы mail.yandex.ru
 // подменяются образцами страниц. Запуск: npm run e2e (подробности — docs/development.md).
 import assert from 'node:assert/strict';
-import { cpSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -9,7 +9,10 @@ import { after, before, describe, test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { inboxPage } from '../helpers/pages.js';
 
-const { chromium } = createRequire(import.meta.url)('playwright');
+const require = createRequire(import.meta.url);
+const { chromium } = require('playwright');
+// axe-core — проверка доступности страниц расширения (ставится глобально, как и Playwright)
+const AXE = readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
 const DIST = fileURLToPath(new URL('../../dist/chrome', import.meta.url));
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -25,13 +28,14 @@ function prepareExtension() {
 
 // Поддельный mail.yandex.ru: API счётчиков и /lite/inbox отдают текущее состояние, остальные
 // адреса — пустую страницу почты. counters: { unread, fresh } или null (API нет — 404).
-// status и redirect действуют на оба адреса
+// status, redirect и offline (запрос обрывается, как без сети) действуют на оба адреса
 function createServer() {
     const server = {
         counters: { unread: 0, fresh: 0 },
         inbox: inboxPage({ count: 0 }),
         status: 200,
         redirect: null,
+        offline: false,
         requests: 0
     };
     server.handle = async (route) => {
@@ -41,6 +45,7 @@ function createServer() {
             return route.fulfill({ status: 200, contentType: 'text/html', body: '<title>Почта</title>' });
         }
         server.requests++;
+        if (server.offline) return route.abort('internetdisconnected');
         if (server.redirect) {
             return route.fulfill({ status: 302, headers: { location: server.redirect } });
         }
@@ -352,9 +357,117 @@ describe('Chromium, русский интерфейс', () => {
         server.counters = { unread: 0, fresh: 0 };
     });
 
+    test('доступность страниц настроек и приветствия: нет нарушений WCAG 2.1 AA (axe), светлая и тёмная тема', async () => {
+        // На странице настроек видны все блоки: два аккаунта (предыдущий тест), ошибка в состоянии
+        for (const colorScheme of ['light', 'dark']) {
+            for (const name of ['options', 'welcome']) {
+                const page = await browser.context.newPage();
+                await page.emulateMedia({ colorScheme });
+                await page.goto(`chrome-extension://${browser.extensionId}/src/${name}.html`);
+                await page.waitForSelector('.status-text:not(:empty)');
+                // Политика безопасности страниц расширения не пускает встроенные скрипты — axe через evaluate
+                await page.evaluate(AXE);
+                const violations = await page.evaluate(async () => {
+                    const result = await globalThis.axe.run(globalThis.document, {
+                        runOnly: ['wcag2a', 'wcag2aa', 'wcag21aa', 'best-practice']
+                    });
+                    return result.violations.map(
+                        (v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).join(', ')}`
+                    );
+                });
+                await page.close();
+                assert.deepEqual(violations, [], `${name}, ${colorScheme}`);
+            }
+        }
+    });
+
     test('нет ошибок манифеста и выполнения, название на русском', async () => {
         const [info] = await extensionErrors(browser.context);
         assert.deepEqual(info, { name: 'Филин — информер Яндекс Почты', manifestErrors: [], runtimeErrors: [] });
+    });
+});
+
+// Первая проверка после установки: пока не было ни одного успеха, ошибки сервера и сети не показываются,
+// а повторяются через 5, 15 и 30 секунд. Состояние «как после установки» — очищенное хранилище
+describe('Chromium, первая проверка после установки', () => {
+    const server = createServer();
+    let browser;
+    let welcome;
+
+    before(async () => {
+        browser = await launch('ru', server);
+        welcome = await browser.context.newPage();
+        await welcome.goto(`chrome-extension://${browser.extensionId}/src/welcome.html`);
+    });
+    after(() => browser?.cleanup());
+
+    // Сбросить состояние до «только что установлено» и запустить проверку
+    async function freshInstall(serverState) {
+        Object.assign(server, { status: 200, redirect: null, offline: false, counters: { unread: 0, fresh: 0 } });
+        Object.assign(server, serverState);
+        await browser.worker.evaluate(async () => {
+            await chrome.alarms.clear('retryCheck');
+            await chrome.storage.local.clear();
+            await chrome.storage.session.clear();
+        });
+        await welcome.reload();
+        await welcome.waitForSelector('.status-text');
+        await checkNow(browser.worker);
+    }
+    const welcomeStatus = () =>
+        welcome.evaluate(() => ({
+            text: globalThis.document.querySelector('.status-text').textContent,
+            kind: globalThis.document.getElementById('status').dataset.kind,
+            done: globalThis.document.getElementById('stepMail').classList.contains('done')
+        }));
+    async function waitWelcome(predicate, timeout = 15000) {
+        const deadline = Date.now() + timeout;
+        let last;
+        while (Date.now() < deadline) {
+            last = await welcomeStatus();
+            if (predicate(last)) return last;
+            await sleep(200);
+        }
+        assert.fail(`Страница приветствия: не дождались состояния, последнее: ${JSON.stringify(last)}`);
+    }
+
+    test('503, затем «не выполнен вход»: «Проверка почты…», через 5 секунд — «Требуется вход в почту»', async () => {
+        await freshInstall({ status: 503 });
+        const checking = await waitWelcome((x) => x.text === 'Проверка почты…');
+        assert.equal(checking.kind, 'none');
+        const s = await status(browser.worker);
+        assert.equal(s.badge, '', 'ошибки на значке нет');
+        assert.equal(s.title, 'Яндекс Почта: Проверка почты…');
+
+        Object.assign(server, { status: 200, redirect: 'https://passport.yandex.ru/auth' });
+        const auth = await waitWelcome((x) => x.text === 'Требуется вход в почту');
+        assert.deepEqual([auth.kind, auth.done], ['error', false]);
+        assert.equal((await status(browser.worker)).badge, '?');
+
+        // Пользователь вошёл и нажал «Проверить сейчас» — шаг отмечен выполненным
+        Object.assign(server, { redirect: null, counters: { unread: 2, fresh: 0 } });
+        await welcome.click('#status button:has-text("Проверить сейчас")');
+        const ok = await waitWelcome((x) => x.kind === 'ok');
+        assert.match(ok.text, /^2 непрочитанных письма · Проверено только что$/);
+        assert.equal(ok.done, true);
+    });
+
+    test('нет сети: «Проверка почты…», сеть появилась — счётчик без ошибки', async () => {
+        await freshInstall({ offline: true });
+        await waitWelcome((x) => x.text === 'Проверка почты…');
+        Object.assign(server, { offline: false, counters: { unread: 5, fresh: 0 } });
+        const ok = await waitWelcome((x) => x.kind === 'ok');
+        assert.match(ok.text, /^5 непрочитанных писем/);
+        assert.equal((await status(browser.worker)).badge, '5');
+    });
+
+    test('ошибка сервера раз за разом: после трёх повторов (≈50 секунд) — ошибка', async () => {
+        await freshInstall({ status: 503 });
+        await waitWelcome((x) => x.text === 'Проверка почты…');
+        const s = await waitFor(browser.worker, (x) => x.badge === '!', 70000);
+        assert.equal(s.title, 'Яндекс Почта: Ошибка сервера Яндекса (503)');
+        const page = await waitWelcome((x) => x.kind === 'error');
+        assert.equal(page.text, 'Ошибка сервера Яндекса (503)');
     });
 });
 
