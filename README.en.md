@@ -1,4 +1,4 @@
-# Owl — Notifier for Yandex Mail
+# <img src="icons/icon.svg" width="48" height="48" alt="" align="top"> Owl — Notifier for Yandex Mail
 
 [Русский](README.md) · **English**
 
@@ -98,7 +98,7 @@ Right-click the icon → "Notifications":
 
 - **"Show new mail notifications"** — turn notifications off completely;
 - **"Sound"** — silent notifications (Chrome and Chromium-based browsers only; in Firefox the sound is controlled by your system settings);
-- **"Quiet hours"** — no notifications at night, from 23:00 to 08:00 by default. You can change the time in the extension settings: right-click the icon → "Options" in Chrome, "All settings…" in Firefox. Messages that arrive during quiet hours are still shown on the counter.
+- **"Quiet hours"** — no notifications at night, from 23:00 to 08:00 by default. You can change the time on the [settings page](#settings-page). Messages that arrive during quiet hours are still shown on the counter.
 
 ### What the badge shows
 
@@ -106,7 +106,7 @@ Right-click the icon → "Badge shows": **"All unread messages"** (default) or *
 
 ### Mail address
 
-By default the extension works with `mail.yandex.ru`. If your mail is at `mail.yandex.com`, `mail.yandex.by`, `mail.yandex.kz`, `mail.yandex.com.tr` or in Yandex 360 (`mail.360.yandex.ru`, including mail on your own domain), choose the address in the extension settings (right-click the icon → "Options" in Chrome, "All settings…" in Firefox). The browser will ask for permission to access it.
+By default the extension works with `mail.yandex.ru`. If your mail is at `mail.yandex.com`, `mail.yandex.by`, `mail.yandex.kz`, `mail.yandex.com.tr` or in Yandex 360 (`mail.360.yandex.ru`, including mail on your own domain), choose the address on the [settings page](#settings-page). The browser will ask for permission to access it.
 
 ### Several accounts
 
@@ -127,16 +127,18 @@ Clicking the icon does not pick an account: it switches to an open mail tab or, 
 
 ### Settings page
 
-Right-click the icon → "Options" in Chrome, "All settings…" in Firefox. At the top is the mail status: the result of the last check with "Check now" and "Open mail" buttons. Below is everything from the menu, plus:
+To open it, right-click the extension icon and choose "Options" in Chrome or "All settings…" in Firefox. At the top is the mail status: the result of the last check with "Check now" and "Open mail" buttons. Below is everything from the menu, plus:
 
 - **mail address** — see above;
 - **where to open mail** if it isn't open yet: in a tab or in a separate window without the address bar;
 - **icon style and counter color** — background and digits, preset or custom;
 - **quiet hours**, **pause while you are away**, **account names**.
 
+<img src="docs/store/en/screenshot-4.png" width="640" alt="Settings page: where to open mail, icon style and counter color">
+
 ### While you are away
 
-After 5 minutes of inactivity or when the screen is locked, scheduled checks pause; when you come back, mail is checked right away. You can turn the pause off in the extension settings.
+After 5 minutes of inactivity or when the screen is locked, scheduled checks pause; when you come back, mail is checked right away. You can turn the pause off on the [settings page](#settings-page).
 
 ## Troubleshooting
 
@@ -157,7 +159,7 @@ Open your mailbox. If Yandex shows a CAPTCHA, solve it. If the mailbox opens nor
 <details>
 <summary><b>The badge shows "!" and "No connection" / "Yandex did not respond in time"</b></summary>
 
-A network problem or an issue on Yandex's side. The extension retries twice after 30 seconds and then continues on its regular schedule. You don't need to do anything.
+A network problem or an issue on Yandex's side. The extension retries twice after 30 seconds and then continues on its regular schedule. Right after installation the retries are more frequent — after 5, 15 and 30 seconds — and you see "Checking mail…" instead of an error meanwhile. You don't need to do anything.
 
 </details>
 
@@ -193,6 +195,8 @@ The extension contacts only Yandex Mail at the chosen address (`mail.yandex.ru` 
 ## Feedback
 
 Bug reports and suggestions are welcome in [Issues](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/issues/new/choose), in English or Russian. Report vulnerabilities only [privately](https://github.com/Ogurtsov-D/Yandex_Mail_Checker/security/advisories/new). Version history is in [CHANGELOG.md](CHANGELOG.md) (in Russian).
+
+Want to help with code or translations? Building and testing are described in [docs/development.md](docs/development.md) (in Russian).
 
 ## Relationship with Yandex
 

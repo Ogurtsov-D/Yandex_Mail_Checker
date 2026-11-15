@@ -11,7 +11,8 @@ const STATE_KEYS = [
     'errorType',
     'errorStatus',
     'lastCheck',
-    'lastSuccess'
+    'lastSuccess',
+    'retrying'
 ];
 
 export async function loadState() {

@@ -128,10 +128,11 @@ function prepareExtension(base) {
 }
 
 // counters, inbox — состояние почты к моменту установки: расширение проверяет почту сразу при
-// установке, поэтому оно задаётся до неё, иначе первая проверка увидит пустой ящик
-async function launch(locale, counters, inbox) {
+// установке, поэтому оно задаётся до неё, иначе первая проверка увидит пустой ящик.
+// extra — другие поля сервера к моменту установки (например, status: 503)
+async function launch(locale, counters, inbox, extra = {}) {
     const server = createServer();
-    Object.assign(server, { counters, inbox });
+    Object.assign(server, { counters, inbox, ...extra });
     await new Promise((resolve) => server.http.listen(0, '127.0.0.1', resolve));
     const base = `http://127.0.0.1:${server.http.address().port}/`;
     const extDir = prepareExtension(base);
@@ -277,5 +278,21 @@ describe('Firefox, английский интерфейс', () => {
         const s = await ff.waitFor((x) => x.badge === '1');
         assert.match(s.title, /^Yandex Mail: 1 unread message\nChecked just now$/);
         assert.equal(s.name, 'Owl — Notifier for Yandex Mail');
+    });
+});
+
+describe('Firefox, первая проверка после установки', () => {
+    let ff;
+    before(async () => {
+        ff = await launch('ru', { unread: 0, fresh: 0 }, inboxPage({ count: 0 }), { status: 503 });
+    });
+    after(() => ff?.cleanup());
+
+    test('503 при установке: «Проверка почты…» без ошибки на значке, затем «?», когда Яндекс просит войти', async () => {
+        const s = await ff.waitFor((x) => x.title === 'Яндекс Почта: Проверка почты…');
+        assert.equal(s.badge, '');
+        Object.assign(ff.server, { status: 200, redirect: 'https://passport.yandex.ru/auth' });
+        const auth = await ff.waitFor((x) => x.badge === '?');
+        assert.match(auth.title, /^Яндекс Почта: Требуется вход в почту$/);
     });
 });

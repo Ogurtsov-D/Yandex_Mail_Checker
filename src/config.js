@@ -44,6 +44,9 @@ export const IDLE_THRESHOLD_SEC = 300;
 // Повторы при ошибках сети/сервера
 export const RETRY_INTERVAL_SEC = 30;
 export const MAX_RETRIES = 2;
+// До первой успешной проверки (сразу после установки) повторы чаще, а ошибка не показывается,
+// пока они не кончатся: первый ответ Яндекса новому профилю браузера бывает ошибкой (503)
+export const FIRST_CHECK_RETRY_SEC = [5, 15, 30];
 
 // Таймаут запроса к Яндексу
 export const FETCH_TIMEOUT_MS = 20000;

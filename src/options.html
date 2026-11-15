@@ -88,14 +88,14 @@
         <label class="check" id="soundRow"><input type="checkbox" id="soundEnabled" /> <span data-i18n="menuSound"></span></label>
         <label class="check"><input type="checkbox" id="quietHoursEnabled" /> <span data-i18n="optionsQuietHours"></span></label>
         <div class="sub" id="quietTimes">
-          <span data-i18n="optionsFrom"></span> <input type="time" id="quietFrom" required />
-          <span data-i18n="optionsTo"></span> <input type="time" id="quietTo" required />
+          <label><span data-i18n="optionsFrom"></span> <input type="time" id="quietFrom" required /></label>
+          <label><span data-i18n="optionsTo"></span> <input type="time" id="quietTo" required /></label>
         </div>
       </section>
 
       <section id="accounts" hidden>
         <h2 data-i18n="optionsAccounts"></h2>
-        <p class="hint" data-i18n="optionsAccountsHint"></p>
+        <p class="hint" id="accountsHint" data-i18n="optionsAccountsHint"></p>
         <div id="accountList"></div>
       </section>
 

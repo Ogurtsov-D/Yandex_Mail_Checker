@@ -124,11 +124,17 @@ function updatePreview() {
     $('previewBadge').style.color = settings.badgeTextColor;
     for (const swatch of document.querySelectorAll('.swatch')) {
         const key = swatch.dataset.key;
-        // Свой цвет отмечен, когда выбранного цвета нет среди готовых
-        const pressed = swatch.dataset.color
-            ? settings[key] === swatch.dataset.color
-            : !swatch.parentElement.querySelector(`[data-color="${settings[key]}"]`);
-        swatch.setAttribute('aria-pressed', String(pressed));
+        if (swatch.dataset.color) {
+            swatch.setAttribute('aria-pressed', String(settings[key] === swatch.dataset.color));
+        } else {
+            // Свой цвет отмечен, когда выбранного цвета нет среди готовых. Это label с полем выбора цвета:
+            // aria-pressed у него недопустим, поэтому — класс для вида и подпись поля для экранного диктора
+            const selected = !swatch.parentElement.querySelector(`[data-color="${settings[key]}"]`);
+            swatch.classList.toggle('selected', selected);
+            swatch
+                .querySelector('input')
+                .setAttribute('aria-label', t('optionsCustomColor') + (selected ? ` (${settings[key]})` : ''));
+        }
     }
     $('badgeColorCustom').value = settings.badgeColor;
     $('badgeTextColorCustom').value = settings.badgeTextColor;
@@ -177,9 +183,12 @@ if (accountList.length > 1) {
     for (const [index, { uid, unread }] of accountList.entries()) {
         const row = document.createElement('label');
         row.className = 'sub';
+        // Подпись аккаунта для экранного диктора: в строке два поля, и общая подпись строки им не подходит
+        const accountLabel = accountEmails[uid] ?? t('accountNumber', index + 1);
         const counted = document.createElement('input');
         counted.type = 'checkbox';
         counted.checked = !settings.disabledAccounts.includes(uid);
+        counted.setAttribute('aria-label', accountLabel);
         counted.addEventListener('change', () => {
             const others = settings.disabledAccounts.filter((x) => x !== uid);
             settings.disabledAccounts = counted.checked ? others : [...others, uid];
@@ -188,7 +197,9 @@ if (accountList.length > 1) {
         const name = document.createElement('input');
         name.type = 'text';
         name.maxLength = 40;
-        name.placeholder = accountEmails[uid] ?? t('accountNumber', index + 1);
+        name.placeholder = accountLabel;
+        name.setAttribute('aria-label', accountLabel);
+        for (const input of [counted, name]) input.setAttribute('aria-describedby', 'accountsHint');
         name.value = settings.accountNames[uid] ?? '';
         name.addEventListener('change', () => {
             const value = name.value.trim();

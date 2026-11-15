@@ -40,10 +40,10 @@
 
 ## Рабочий процесс
 
-- Изменения — через ветку и PR в `main`; вливать после зелёного CI. Описание PR — кратко, тезисами.
+- Изменения — через ветку и PR в `main`; вливать после зелёного CI способом **Squash and merge** (GitHub подписывает такой коммит — отметка Verified). Описание PR — кратко, тезисами.
 - Версия меняется одновременно в `manifest.json`, `package.json` и `CHANGELOG.md` (это проверяет `tests/manifest.test.js`). Каждую версию выпускают один раз: Mozilla не подписывает её повторно.
 - Релиз создаёт владелец на странице Releases (тег `v<версия>`); остальное делает `.github/workflows/release.yml`.
-- Расширение опубликовано: [Chrome Web Store](https://chromewebstore.google.com/detail/gkpnpejbpnldkkeoeapjdilknlmojoon), [Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/pncdgkochfhddiclomicdbbhfgoeamcm), [каталог Mozilla](https://addons.mozilla.org/firefox/addon/yandex_mail_checker/); Opera ставит его из Chrome Web Store.
+- Расширение опубликовано: [Chrome Web Store](https://chromewebstore.google.com/detail/gkpnpejbpnldkkeoeapjdilknlmojoon), [Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/pncdgkochfhddiclomicdbbhfgoeamcm), [каталог Mozilla](https://addons.mozilla.org/firefox/addon/yandex_mail_checker/); Opera ставит его из Chrome Web Store; в каталоге Opera расширение на первой проверке, API у каталога нет — после одобрения новые версии загружаются туда вручную (docs/development.md, «Выпуск новой версии»).
 
 ## Что ещё не проверено на настоящей почте
 

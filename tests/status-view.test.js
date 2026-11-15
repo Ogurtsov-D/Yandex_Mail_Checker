@@ -20,3 +20,7 @@ test('состояние: успех, ошибка входа, другая ош
     assert.equal(describeStatus({ errorType: 'network', lastSuccess: now }, now).auth, false);
     assert.deepEqual(describeStatus({}, now), { kind: 'none', text: 'Почта ещё не проверялась' });
 });
+
+test('быстрый повтор первой проверки — «Проверка почты…», а не ошибка', () => {
+    assert.deepEqual(describeStatus({ retrying: true, errorType: null }), { kind: 'none', text: 'Проверка почты…' });
+});

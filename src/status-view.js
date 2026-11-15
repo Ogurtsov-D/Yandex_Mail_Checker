@@ -7,6 +7,7 @@ import { loadState } from './status.js';
 
 // { kind: 'ok' | 'error' | 'none', text } по сохранённому результату последней проверки
 export function describeStatus(state, now = Date.now()) {
+    if (state.retrying) return { kind: 'none', text: t('checking') };
     if (state.errorType) return { kind: 'error', auth: state.errorType === 'auth', text: errorText(state) };
     if (state.lastSuccess) {
         return {
@@ -63,7 +64,10 @@ export function mountStatus(container, onChange) {
     }
 
     ext.storage.onChanged.addListener((changes, area) => {
-        if (area === 'local' && ['lastCheck', 'lastSuccess', 'errorType', 'unreadCount'].some((k) => k in changes))
+        if (
+            area === 'local' &&
+            ['lastCheck', 'lastSuccess', 'errorType', 'unreadCount', 'retrying'].some((k) => k in changes)
+        )
             render();
     });
     setInterval(render, 30_000);

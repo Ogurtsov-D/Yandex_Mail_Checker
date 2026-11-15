@@ -15,9 +15,13 @@ const manifest = JSON.parse(readFileSync(join(root, 'manifest.json'), 'utf8'));
 // лицензии и права на изображение филина, должны быть в каждой сборке
 export const INCLUDE = ['src', 'icons', '_locales', 'LICENSE', 'NOTICE.md'];
 
-const targets = {
+export const targets = {
     chrome: (m) => {
         delete m.browser_specific_settings;
+        // Первый пункт меню значка (название расширения) ведёт на homepage_url, а без него — на страницу
+        // расширения в магазине: обычному пользователю она полезнее репозитория. В Firefox такого пункта нет,
+        // а homepage_url — ссылка «Домашняя страница» в дополнениях и в карточке каталога Mozilla
+        delete m.homepage_url;
         // Настройки — во вкладке: окно настроек в Edge не подстраивается под страницу и показывает прокрутку
         m.options_ui.open_in_tab = true;
         m.background = { service_worker: m.background.service_worker, type: m.background.type };
