@@ -17,6 +17,8 @@ npm test
 - **Chrome:** `chrome://extensions` → «Режим разработчика» → «Загрузить распакованное расширение» → корневая папка репозитория.
 - **Firefox:** `about:debugging#/runtime/this-firefox` → «Загрузить временное дополнение…» → `manifest.json` в корне репозитория.
 
+Манифест в корне — общий для обоих браузеров, поэтому Chrome покажет на карточке расширения предупреждения о ключах Firefox (`browser_specific_settings`, `background.scripts`); работе это не мешает. Расширение в том виде, в каком оно попадает в магазины, — после `npm run build` в папках `dist/chrome` и `dist/firefox`: их загружают так же.
+
 После изменений нажмите ↻ на карточке расширения (в Firefox — «Перезагрузить»). Подробный журнал включается флагом `DEBUG = true` в `src/config.js`.
 
 ## Команды
@@ -27,7 +29,7 @@ npm test
 | `npm run lint` | ESLint и проверка форматирования Prettier |
 | `npm run format` | Отформатировать код Prettier |
 | `npm run build` | Собрать `dist/chrome/`, `dist/firefox/` и zip-архивы для релиза |
-| `npm run lint:firefox` | Собрать и проверить версию для Firefox официальным линтером Mozilla (`web-ext lint --self-hosted`) |
+| `npm run lint:firefox` | Собрать и проверить версию для Firefox официальным линтером Mozilla (`web-ext lint`) — по тем же правилам, что каталог дополнений |
 | `npm run check` | Всё сразу — то же, что проверяет GitHub Actions |
 | `npm run e2e`, `npm run e2e:firefox` | Сквозная проверка в настоящем Chromium и Firefox (см. ниже) |
 
@@ -48,6 +50,8 @@ npm test
 │   ├── options.html, options.js  # страница настроек
 │   ├── welcome.html, welcome.js  # страница приветствия (один раз, при установке)
 │   ├── status-view.js     # блок «состояние почты» для этих страниц
+│   ├── host-select.js     # выбор адреса почты для этих страниц
+│   ├── links.js           # ссылка «Оценить расширение» на магазин, из которого оно установлено
 │   ├── page.css           # общий вид страниц расширения
 │   ├── hosts.js           # адрес почты и доступ к нему
 │   ├── idle.js            # пауза, пока пользователь не за компьютером
@@ -58,11 +62,11 @@ npm test
 ├── _locales/
 │   ├── ru/messages.json   # русский интерфейс — основной, с него начинается любой новый текст
 │   ├── en/messages.json   # английский (используется, если языка браузера нет среди переводов)
-│   ├── en_GB/messages.json  # британский английский: только 24-часовое время, остальное — из en
+│   ├── en_GB/messages.json  # британский английский: название, описание и 24-часовое время, остальное — из en
 │   └── uk/, be/, kk/, …   # остальные переводы
 ├── icons/
-│   ├── icon.svg           # исходник иконки
-│   └── icon*.png          # 16, 32, 48, 128 px — собираются из icon.svg
+│   ├── classic/, minimal/, blue/, green/, purple/  # значок на панели: конверт каждого вида (svg и png 16, 32, 128)
+│   └── icon.svg, icon48.png, icon128.png  # иконка расширения: филин-почтальон (не GPL, см. NOTICE.md)
 ├── tests/
 │   ├── *.test.js          # автотесты
 │   ├── e2e/               # сквозные проверки в настоящих браузерах
@@ -76,7 +80,7 @@ npm test
 │   ├── owl-icon.mjs       # иконка расширения: филин-почтальон на конверте (не GPL, см. NOTICE.md)
 │   ├── publish-stores.mjs # отправка в Chrome Web Store и Edge Add-ons
 │   ├── release-notes.mjs  # описание релиза из CHANGELOG.md
-│   └── store-images.mjs   # картинки для магазинов (docs/store/)
+│   └── store-images.mjs   # картинки для магазинов (docs/store/) и для README
 ├── docs/
 │   ├── development.md     # этот файл
 │   ├── badges/            # значки магазинов для README: Chrome Web Store и Edge — официальные, Firefox — свой, с логотипом из официального значка Mozilla
@@ -84,15 +88,19 @@ npm test
 │   ├── mockup.html, mockup-en.html        # их исходники
 │   └── store/             # тексты и картинки для магазинов расширений
 ├── README.md, README.en.md                # описание на русском и английском
+├── PRIVACY.md, PRIVACY.en.md              # политика конфиденциальности
+├── LICENSE, NOTICE.md                     # лицензия кода (GPLv3) и условия для названия и изображения филина
 └── .github/               # GitHub Actions, Dependabot, шаблоны Issues
 ```
 
 ## Как устроены тесты
 
 - `parser.test.js` — разбор страниц, чистые функции.
-- `format.test.js`, `format-en.test.js` — тексты интерфейса на русском и английском; полноту остальных переводов проверяет `manifest.test.js`.
-- `checker.test.js`, `background.test.js`, `firefox.test.js` — логика расширения на имитации API браузера (`tests/helpers/browser-mock.js`): хранилище, будильники, уведомления, вкладки и ответы Яндекса подменяются, таймеры управляются через `mock.timers`.
-- `manifest.test.js` — версии совпадают, файлы на месте, иконки нужных размеров, переводы полные: каждый ключ из кода есть в обоих языках.
+- `format.test.js`, `format-en.test.js`, `status-view.test.js` — тексты интерфейса на русском и английском; полноту остальных переводов проверяет `manifest.test.js`.
+- `checker.test.js`, `accounts.test.js`, `background.test.js`, `firefox.test.js` — логика расширения на имитации API браузера (`tests/helpers/browser-mock.js`): хранилище, будильники, уведомления, вкладки и ответы Яндекса подменяются, таймеры управляются через `mock.timers`.
+- `settings.test.js`, `hosts.test.js`, `links.test.js` — настройки, адрес почты и доступ к нему, ссылка на магазин.
+- `publish-stores.test.js` — отправка в Chrome Web Store и Edge Add-ons на подменённых ответах магазинов.
+- `manifest.test.js` — версии совпадают, файлы на месте, иконки нужных размеров, переводы полные (каждый ключ из кода есть во всех языках), сборка содержит лицензию и `NOTICE.md`.
 
 ## Сквозная проверка в браузерах
 
@@ -163,13 +171,17 @@ NODE_PATH="$(npm root -g)" node scripts/render-icons.mjs
 
 ## Снимки для README
 
-Если изменились тексты меню, бейджа или уведомлений, обновите `docs/mockup.html` и `docs/mockup-en.html` и пересоздайте `docs/screenshot.png` и `docs/screenshot-en.png`: откройте макет в Chrome → DevTools → Ctrl+Shift+P → «Capture full size screenshot». Картинки для магазинов пересоздаёт `scripts/store-images.mjs`.
+Если изменились тексты меню, бейджа или уведомлений, обновите `docs/mockup.html` и `docs/mockup-en.html` и пересоздайте картинки. Скрипт делает сразу всё — `docs/screenshot.png`, `docs/screenshot-en.png` и картинки для магазинов в `docs/store/` (нужен Playwright, в проект он не входит):
+
+```bash
+npm run build && NODE_PATH="$(npm root -g)" node scripts/store-images.mjs
+```
 
 ## Выпуск новой версии
 
 1. Обновите версию в `manifest.json` и `package.json` (одинаковую, например `1.5.0`). Каждая версия выпускается один раз: Mozilla не примет её повторно.
 2. Переименуйте `## [Не выпущено]` в `CHANGELOG.md` в `## [1.5.0] — ГГГГ-ММ-ДД`.
-3. Влейте изменения в `main` и дождитесь зелёной проверки. Перед релизом с заметными изменениями запустите сквозные проверки: `npm run e2e` и `npm run e2e:firefox`.
+3. Дождитесь зелёной проверки и влейте PR в `main` кнопкой **Squash and merge**: GitHub соберёт коммиты PR в один и подпишет его (отметка Verified). Перед релизом с заметными изменениями запустите сквозные проверки: `npm run e2e` и `npm run e2e:firefox`.
 4. Создайте тег — любым способом:
     - в терминале: `git tag v1.5.0 && git push origin v1.5.0`;
     - на GitHub: **Releases → Draft a new release → Choose a tag → `v1.5.0` (Create new tag) → Publish release**.
@@ -177,6 +189,8 @@ NODE_PATH="$(npm root -g)" node scripts/render-icons.mjs
 GitHub Actions проверит, что тег совпадает с версией в `manifest.json`, прогонит тесты, соберёт архивы для Chrome и Firefox, отправит их в каталог Mozilla, Chrome Web Store и Edge Add-ons и приложит архивы к релизу. Описание берётся из `CHANGELOG.md`, если вы не написали своё.
 
 Если что-то не удалось, релиз не появится, а созданный вручную будет переведён в черновик (см. «Если отправка не удалась»).
+
+**Каталог Opera.** У [каталога дополнений Opera](https://addons.opera.com/developer/) нет API для отправки версий, поэтому релиз туда ничего не отправляет. Пока расширение в каталоге на первой проверке; когда Opera его одобрит, каждую новую версию нужно загружать вручную: в кабинете разработчика откройте расширение и добавьте новую версию — архив `yandex-mail-checker-<версия>-chrome.zip` из релиза. Без этого пользователи из каталога Opera останутся на старой версии.
 
 ## Каталог дополнений Firefox
 

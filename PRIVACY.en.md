@@ -20,7 +20,7 @@ All data is stored **only in your browser** (`storage.local` and `storage.sessio
 | Number of unread and new messages, time and result of the last check | Show the badge and tooltip, notice new mail |
 | The number of new messages in each account at the previous check; if the counters are unavailable, IDs of up to 100 recent unread messages | Avoid notifying about the same messages twice |
 | Account numbers (uid), their main email addresses, message counts and the names you gave to accounts, if you are signed in to several accounts | Show the accounts in the tooltip, menu and notifications; remember which accounts to leave out |
-| Settings: mail address, check interval, notifications, sound, quiet hours, what the badge shows, pause while away, icon style | Remember your choices |
+| Settings: mail address, check interval, notifications, sound, quiet hours, what the badge shows, pause while away, icon style and counter color, where to open mail (a tab or a window) | Remember your choices |
 | ID of the message from the last notification (until the browser is closed) | Open that message when you click the notification |
 
 The sender and subject of messages are read only if the counters are unavailable — to show a notification — and are not stored.

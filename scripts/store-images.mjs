@@ -4,7 +4,8 @@
 //   docs/store/<язык>/promo-1400x560.png — большая промо-картинка (Chrome Web Store: Marquee, Edge: Large promotional tile);
 //   docs/store/<язык>/promo-300x188.png — промо-картинка каталога Opera;
 //   docs/store/logo-300x300.png — логотип для Microsoft Edge Add-ons (иконка расширения крупнее);
-//   docs/store/opera-64.png — иконка для каталога Opera.
+//   docs/store/opera-64.png — иконка для каталога Opera;
+//   docs/screenshot.png, docs/screenshot-en.png — картинки для README и README.en.md (макет целиком).
 // Снимки собираются из макетов docs/mockup*.html и настоящей страницы настроек из dist/chrome.
 //
 // Запуск (нужен Playwright, в проект он не входит):
@@ -22,6 +23,7 @@ const path = (p) => fileURLToPath(new URL(p, root));
 const TEXT = {
     ru: {
         mockup: 'docs/mockup.html',
+        readme: 'docs/screenshot.png',
         name: 'Филин',
         slogan: 'Информер Яндекс Почты: непрочитанные письма на панели браузера',
         tagline: 'Информер Яндекс Почты',
@@ -40,6 +42,7 @@ const TEXT = {
     },
     en: {
         mockup: 'docs/mockup-en.html',
+        readme: 'docs/screenshot-en.png',
         name: 'Owl',
         slogan: 'Notifier for Yandex Mail: unread mail on your toolbar',
         tagline: 'Notifier for Yandex Mail',
@@ -141,9 +144,16 @@ for (const [lang, text] of Object.entries(TEXT)) {
     const out = path(`docs/store/${lang}/`);
     mkdirSync(out, { recursive: true });
 
-    // Три колонки макета: счётчик и подсказка, меню, уведомления (без подписей над ними)
+    // Картинка для README: макет целиком, с подписями над колонками (ширина макета 1200 + поля по 28)
+    const readme = await browser.newPage({ viewport: { width: 1256, height: 100 }, deviceScaleFactor: 2 });
+    await readme.goto(`file://${path(text.mockup)}`);
+    await readme.screenshot({ path: path(text.readme), fullPage: true });
+    await readme.close();
+
     const mock = await browser.newPage({ viewport: { width: 1200, height: 700 }, deviceScaleFactor: 2 });
     await mock.goto(`file://${path(text.mockup)}`);
+
+    // Три колонки макета: счётчик и подсказка, меню, уведомления (без подписей над ними)
     await mock.addStyleTag({ content: '.cap { display: none !important; }' });
     const columns = await mock.locator('.col').all();
     const shots = [];
